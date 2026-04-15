@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Government & Organizational Travel — Lolo Travels™</title>
+<meta name="robots" content="noindex,nofollow"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Jost',sans-serif;background:#fff;color:#0A0A14;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+a{color:inherit;text-decoration:none;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scPulse{0%,100%{opacity:.45;transform:scaleY(1);}50%{opacity:1;transform:scaleY(1.18);}}
+@keyframes hFade{0%{opacity:0;transform:scale(1);}6%{opacity:1;}30%{opacity:1;transform:scale(1.04);}36%{opacity:0;transform:scale(1.05);}100%{opacity:0;}}
+@keyframes orbFloat{0%,100%{transform:translateY(0) rotateY(0deg);}50%{transform:translateY(-16px) rotateY(6deg);}}
+@keyframes ringA{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+@keyframes ringB{from{transform:rotate(0deg);}to{transform:rotate(-360deg);}}
+@keyframes orbGlow{0%,100%{box-shadow:0 0 40px rgba(201,168,76,.06);}50%{box-shadow:0 0 80px rgba(201,168,76,.12);}}
+/* Elevated orb */
+.orb-wrap{position:absolute;top:15%;right:9%;z-index:4;width:200px;height:200px;opacity:0;animation:fadeUp 1.2s ease 1.6s forwards;}
+.orb-float{width:100%;height:100%;animation:orbFloat 10s ease-in-out infinite;}
+.orb-sphere{width:100%;height:100%;border-radius:50%;background:radial-gradient(ellipse at 32% 32%,rgba(201,168,76,.1) 0%,rgba(201,168,76,.03) 45%,transparent 70%);border:1px solid rgba(201,168,76,.12);position:relative;}
+.orb-ring1{position:absolute;inset:-22px;border-radius:50%;border:1px solid rgba(201,168,76,.1);animation:ringA 10s linear infinite;}
+.orb-ring2{position:absolute;inset:-44px;border-radius:50%;border:1px solid rgba(201,168,76,.06);animation:ringB 16s linear infinite;}
+.orb-ring3{position:absolute;inset:-68px;border-radius:50%;border:1px solid rgba(201,168,76,.03);animation:ringA 24s linear infinite;}
+.orb-core{position:absolute;top:50%;left:50%;width:6px;height:6px;margin:-3px;background:rgba(201,168,76,.4);border-radius:50%;}
+
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .85s ease,transform .85s ease;}
+.reveal.vis{opacity:1;transform:none;}
+.r1{transition-delay:.08s;}.r2{transition-delay:.16s;}.r3{transition-delay:.24s;}
+
+/* ── FLAG BAR ── */
+.flag-bar{height:4px;display:flex;}
+.fb-r{flex:1;background:#B22234;}.fb-w{flex:.06;background:#fff;}.fb-b{flex:1;background:#3C3B6E;}.fb-w2{flex:.06;background:#fff;}.fb-r2{flex:1;background:#B22234;}
+
+/* ── NAV ── */
+.gov-nav{position:fixed;top:4px;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:24px 60px;transition:background .4s,padding .3s;}
+.gov-nav.scrolled{background:rgba(255,255,255,.97);backdrop-filter:blur(20px);padding:16px 60px;box-shadow:0 1px 0 rgba(10,22,40,.08);}
+.gov-nav-logo{display:flex;align-items:center;gap:11px;}
+.gov-nav-wordmark{font-family:'Jost',sans-serif;font-size:.82rem;letter-spacing:.18em;text-transform:uppercase;color:#fff;transition:color .3s;}
+.gov-nav.scrolled .gov-nav-wordmark{color:#0A1628;}
+.gov-nav-right{display:flex;align-items:center;gap:28px;}
+.gov-nav-link{font-family:'Jost',sans-serif;font-weight:200;font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.65);transition:color .3s;cursor:pointer;}
+.gov-nav.scrolled .gov-nav-link{color:rgba(10,22,40,.55);}
+.gov-nav-link:hover{color:#C9A84C;}
+.gov-nav-cta{font-family:'Jost',sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;background:#C9A84C;color:#0A1628;padding:9px 22px;border:none;cursor:pointer;transition:background .25s;}
+.gov-nav-cta:hover{background:#e2c97e;}
+
+/* ── HERO ── */
+.hero{position:relative;height:100vh;min-height:680px;overflow:hidden;background:#050A14;}
+.h-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;animation:hFade 21s ease-in-out infinite;will-change:opacity,transform;}
+.h-slide:nth-child(1){background-image:url('https://images.unsplash.com/photo-1501446529957-6226b5a62b2c?w=1800&q=85');animation-delay:0s;}
+.h-slide:nth-child(2){background-image:url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1800&q=85');animation-delay:7s;}
+.h-slide:nth-child(3){background-image:url('https://images.unsplash.com/photo-1501466044931-62695aada8e9?w=1800&q=85');animation-delay:14s;}
+.h-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(135deg,rgba(5,10,20,.88) 0%,rgba(5,10,20,.45) 50%,rgba(5,10,20,.65) 100%);}
+
+/* Gold custom cursor */
+*{cursor:none;}
+.gov-cursor{position:fixed;width:10px;height:10px;background:#C9A84C;border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform .15s,width .2s,height .2s;mix-blend-mode:normal;}
+.gov-cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(201,168,76,.4);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:all .4s cubic-bezier(0.16,1,0.3,1);}
+.gov-cursor.expand{width:18px;height:18px;}
+.gov-cursor-ring.expand{width:52px;height:52px;border-color:rgba(201,168,76,.6);}
+
+
+
+
+
+
+/* Hero content */
+.h-content{position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;justify-content:flex-end;padding:0 72px 80px;}
+.h-eyebrow{font-weight:200;font-size:10px;letter-spacing:.55em;text-transform:uppercase;color:rgba(201,168,76,.8);margin-bottom:20px;display:flex;align-items:center;gap:14px;opacity:0;animation:fadeUp .8s ease .5s forwards;}
+.h-eyebrow::before{content:'';width:22px;height:1px;background:rgba(201,168,76,.6);}
+.h-title{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(44px,6vw,78px);line-height:.97;letter-spacing:-.02em;color:#fff;margin-bottom:18px;opacity:0;animation:fadeUp .9s ease .8s forwards;}
+.h-title em{font-style:italic;color:#f5dc96;}
+.h-desc{font-weight:200;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.42);margin-bottom:44px;opacity:0;animation:fadeUp .8s ease 1.1s forwards;}
+.h-desc span{color:rgba(201,168,76,.6);}
+.h-btns{display:flex;gap:14px;opacity:0;animation:fadeUp .8s ease 1.4s forwards;flex-wrap:wrap;}
+.btn-gold{font-family:'Jost',sans-serif;font-weight:500;font-size:12px;letter-spacing:.18em;text-transform:uppercase;background:#C9A84C;color:#0A1628;padding:15px 36px;border:none;cursor:pointer;transition:all .25s;}
+.btn-gold:hover{background:#e2c97e;}
+.btn-outline{font-family:'Jost',sans-serif;font-weight:300;font-size:12px;letter-spacing:.18em;text-transform:uppercase;background:transparent;color:rgba(255,255,255,.82);padding:14px 36px;border:1.5px solid rgba(255,255,255,.28);cursor:pointer;transition:all .25s;}
+.btn-outline:hover{border-color:rgba(201,168,76,.6);color:rgba(201,168,76,.9);}
+.scroll-cue{position:absolute;right:52px;bottom:40px;z-index:5;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp 1s ease 2s forwards;}
+.sc-line{width:1px;height:52px;background:linear-gradient(to bottom,rgba(201,168,76,.7),transparent);animation:scPulse 2.2s ease-in-out infinite;}
+.sc-text{font-weight:200;font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:rgba(201,168,76,.4);}
+
+/* ── CREDENTIAL STRIP ── */
+.cred-strip{background:#0A1628;display:flex;border-bottom:1px solid rgba(201,168,76,.15);}
+.cred-item{flex:1;padding:22px 22px;display:flex;align-items:center;gap:12px;border-right:1px solid rgba(255,255,255,.06);}
+.cred-item:last-child{border-right:none;}
+.cred-dot{width:5px;height:5px;border-radius:50%;background:#C9A84C;flex-shrink:0;box-shadow:0 0 8px rgba(201,168,76,.5);}
+.cred-val{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:300;color:#C9A84C;line-height:1;}
+.cred-label{font-family:'Jost',sans-serif;font-weight:200;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5);line-height:1.4;}
+
+/* ── INTRO / EAGLE WATERMARK ── */
+.intro-section{position:relative;padding:96px 72px;background:#fff;overflow:hidden;border-bottom:1px solid #EAEAEE;}
+.eagle-watermark{position:absolute;top:50%;right:-40px;transform:translateY(-50%);width:55%;opacity:.035;filter:grayscale(100%);pointer-events:none;z-index:0;}
+.intro-inner{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;max-width:1160px;margin:0 auto;}
+.sec-tag{font-family:'Jost',sans-serif;font-weight:500;font-size:10px;letter-spacing:.42em;text-transform:uppercase;color:#0A1628;margin-bottom:16px;display:flex;align-items:center;gap:12px;}
+.sec-tag::before{content:'';width:16px;height:1px;background:#0A1628;}
+.intro-quote{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(22px,3vw,32px);color:#0A1628;line-height:1.4;margin-bottom:16px;}
+.intro-quote em{color:#B22234;}
+.intro-body{font-family:'Jost',sans-serif;font-weight:200;font-size:14px;color:#606070;line-height:1.92;}
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#E4E4EC;}
+.stat-item{background:#fff;padding:28px 24px;}
+.stat-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:#0A1628;line-height:1;margin-bottom:6px;}
+.stat-label{font-family:'Jost',sans-serif;font-weight:200;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#808090;}
+
+/* ── SECTION COMMONS ── */
+.section{padding:80px 72px;border-bottom:1px solid #EAEAEE;}
+.sec-white{background:#fff;}
+.sec-light{background:#F7F7FA;}
+.sec-navy{background:#0A1628;}
+.sec-navy .sec-tag{color:rgba(201,168,76,.7);}
+.sec-navy .sec-tag::before{background:rgba(201,168,76,.5);}
+.sec-h2{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:38px;line-height:1.08;color:#0A1628;margin-bottom:12px;}
+.sec-h2 strong{font-weight:600;color:#0A1628;}
+.sec-h2 em{font-style:italic;color:#3C3B6E;}
+.sec-navy .sec-h2{color:#fff;}
+.sec-navy .sec-h2 strong{color:#C9A84C;}
+.sec-body{font-family:'Jost',sans-serif;font-weight:200;font-size:14px;color:#606070;line-height:1.9;max-width:560px;margin-bottom:48px;}
+
+/* ── CAPABILITIES ── */
+.cap-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#E4E4EC;}
+.cap-card{background:#fff;padding:40px 34px;position:relative;overflow:hidden;transition:background .3s;}
+.cap-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#3C3B6E,#B22234);transform:scaleX(0);transform-origin:left;transition:transform .4s ease;}
+.cap-card:hover{background:#F7F7FA;}
+.cap-card:hover::after{transform:scaleX(1);}
+.cap-num{font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:300;color:rgba(60,59,110,.1);line-height:1;margin-bottom:14px;}
+.cap-name{font-family:'Jost',sans-serif;font-size:13px;font-weight:500;color:#0A0A14;margin-bottom:7px;}
+.cap-desc{font-family:'Jost',sans-serif;font-size:12px;font-weight:200;color:#808090;line-height:1.88;}
+
+/* ── DC PHOTO BREAK ── */
+.photo-break{position:relative;height:440px;overflow:hidden;}
+.photo-break img{width:100%;height:100%;object-fit:cover;object-position:center 25%;display:block;transform:scale(1.05);transition:transform 9s ease;}
+.photo-break:hover img{transform:scale(1);}
+.pb-overlay{position:absolute;inset:0;background:linear-gradient(to right,rgba(5,10,20,.85) 0%,rgba(5,10,20,.32) 55%,rgba(5,10,20,.62) 100%);}
+.pb-content{position:absolute;inset:0;display:flex;align-items:center;padding:0 72px;}
+.pb-quote{font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;font-size:clamp(26px,3.8vw,44px);color:#fff;line-height:1.28;max-width:620px;}
+.pb-quote em{color:#f5dc96;}
+
+/* ── DIFFERENTIATORS ── */
+.diff-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#E4E4EC;}
+.diff-item{background:#fff;padding:40px 36px;display:flex;gap:20px;transition:background .3s;}
+.diff-item:hover{background:#F7F7FA;}
+.diff-num{font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:300;color:rgba(178,34,52,.07);line-height:.9;flex-shrink:0;width:50px;}
+.diff-title{font-family:'Jost',sans-serif;font-size:14px;font-weight:500;color:#0A0A14;margin-bottom:7px;}
+.diff-desc{font-family:'Jost',sans-serif;font-size:12px;font-weight:200;color:#808090;line-height:1.88;}
+
+/* ── CREDENTIALS — navy background ── */
+.cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(201,168,76,.1);}
+.cert-item{background:rgba(255,255,255,.04);padding:28px 32px;transition:background .25s;}
+.cert-item:hover{background:rgba(255,255,255,.08);}
+.cert-label{font-family:'Jost',sans-serif;font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,168,76,.65);margin-bottom:6px;}
+.cert-val{font-family:'Jost',sans-serif;font-size:13px;font-weight:300;color:rgba(255,255,255,.88);margin-bottom:8px;line-height:1.4;}
+/* Navy-style active badge — gold not green */
+.badge-active{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:500;color:#C9A84C;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);padding:3px 10px;}
+.badge-dot{width:4px;height:4px;border-radius:50%;background:#C9A84C;}
+.badge-expand{font-size:10px;font-weight:200;color:rgba(255,255,255,.3);font-style:italic;}
+
+/* ── NAICS ── */
+.naics-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#E4E4EC;margin-top:28px;}
+.naics-item{background:#fff;padding:16px 22px;display:flex;gap:14px;}
+.naics-code{font-family:'Jost',sans-serif;font-size:12px;font-weight:600;color:#3C3B6E;min-width:52px;flex-shrink:0;letter-spacing:.04em;padding-top:1px;}
+.naics-desc{font-family:'Jost',sans-serif;font-size:12px;font-weight:200;color:#505060;line-height:1.58;}
+
+/* ── FORM — cream, clearly readable ── */
+.form-section{background:#F0EBE0;padding:80px 72px;}
+.form-inner{max-width:680px;}
+.form-step{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:#3C3B6E;font-weight:500;margin-bottom:22px;display:flex;align-items:center;gap:12px;}
+.form-step::before{content:'';width:14px;height:1px;background:#3C3B6E;}
+.form-divider{height:1px;background:rgba(10,22,40,.12);margin:6px 0 26px;}
+.fg{display:flex;flex-direction:column;gap:7px;margin-bottom:20px;}
+/* LABELS — clearly visible dark color */
+.fl{font-family:'Jost',sans-serif;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:rgba(10,22,40,.65);font-weight:500;}
+/* INPUTS — dark text, clear border */
+.fi{font-family:'Jost',sans-serif;font-size:15px;font-weight:400;color:#0A0A14;background:rgba(255,255,255,.7);border:none;border-bottom:2px solid rgba(10,22,40,.25);padding:12px 0;outline:none;width:100%;transition:border-color .25s;}
+.fi:focus{border-color:#0A1628;background:rgba(255,255,255,.9);}
+.fi::placeholder{color:rgba(10,22,40,.32);font-weight:200;}
+.fsel{font-family:'Jost',sans-serif;font-size:15px;font-weight:400;color:#0A0A14;background:rgba(255,255,255,.7);border:none;border-bottom:2px solid rgba(10,22,40,.25);padding:12px 0;outline:none;width:100%;-webkit-appearance:none;cursor:pointer;transition:border-color .25s;}
+.fsel:focus{border-color:#0A1628;outline:none;}
+.fta{font-family:'Jost',sans-serif;font-size:15px;font-weight:300;color:#0A0A14;background:rgba(255,255,255,.7);border:none;border-bottom:2px solid rgba(10,22,40,.25);padding:12px 0;outline:none;width:100%;resize:none;min-height:72px;transition:border-color .25s;}
+.fta:focus{border-color:#0A1628;}
+.fta::placeholder{color:rgba(10,22,40,.32);font-weight:200;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+/* SUBMIT — navy, not gold or green */
+.fsub{width:100%;padding:16px;font-family:'Jost',sans-serif;font-size:12px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;background:#0A1628;color:#fff;border:none;cursor:pointer;transition:background .25s;margin-top:10px;}
+.fsub:hover{background:#162240;}
+.form-note{font-family:'Jost',sans-serif;font-size:12px;font-weight:200;color:rgba(10,22,40,.48);margin-top:14px;line-height:1.78;}
+.form-success{display:none;margin-top:20px;padding:24px;background:rgba(10,22,40,.06);border-left:3px solid #C9A84C;font-family:'Jost',sans-serif;font-weight:200;font-size:13px;color:rgba(10,22,40,.75);line-height:1.85;}
+
+/* ── FOOTER — branded navy ── */
+.gov-footer{background:#0A1628;padding:28px 72px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;border-top:1px solid rgba(201,168,76,.2);}
+.gf-logo{display:flex;align-items:center;gap:10px;}
+.gf-wordmark{font-family:'Jost',sans-serif;font-size:10px;color:rgba(255,255,255,.45);letter-spacing:.18em;text-transform:uppercase;}
+.gf-copy{font-family:'Jost',sans-serif;font-size:11px;color:rgba(255,255,255,.28);letter-spacing:.05em;}
+.gf-back{font-family:'Jost',sans-serif;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:rgba(201,168,76,.5);cursor:pointer;transition:color .2s;}
+.gf-back:hover{color:#C9A84C;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .gov-nav,.gov-nav.scrolled{padding:16px 24px;}
+  .h-content,.pb-content,.intro-section,.section,.form-section,.gov-footer{padding-left:24px;padding-right:24px;}
+  .intro-inner{grid-template-columns:1fr;gap:36px;}
+  .cap-grid{grid-template-columns:1fr;}
+  .diff-grid,.cert-grid,.naics-grid,.stat-grid{grid-template-columns:1fr;}
+  .form-row{grid-template-columns:1fr;}
+  .eagle-watermark{width:90%;right:-20px;opacity:.025;}
+  .photo-break{height:280px;}
+  .orb-wrap{display:none;}
+  .eagle-hero{display:none;}
+}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+</style>
+</head>
+<body>
+<div class="gov-cursor" id="govCur"></div>
+<div class="gov-cursor-ring" id="govCurRing"></div>
+
+<div class="flag-bar"><div class="fb-r"></div><div class="fb-w"></div><div class="fb-b"></div><div class="fb-w2"></div><div class="fb-r2"></div></div>
+
+<!-- NAV -->
+<nav class="gov-nav" id="govNav">
+  <div class="gov-nav-logo">
+    <svg width="34" height="34" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18.5" fill="#0A1628" stroke="#C9A84C" stroke-width="1.8"/><text x="20" y="26" text-anchor="middle" font-family="Georgia,serif" font-size="14" font-weight="600" fill="#C9A84C" letter-spacing="1.5">LL</text></svg>
+    <span class="gov-nav-wordmark">Lolo Travels™</span>
+  </div>
+  <div class="gov-nav-right">
+    <span class="gov-nav-link" onclick="document.getElementById('gov-caps').scrollIntoView({behavior:'smooth'})">Capabilities</span>
+    <span class="gov-nav-link" onclick="document.getElementById('gov-creds').scrollIntoView({behavior:'smooth'})">Credentials</span>
+    <button class="gov-nav-cta" onclick="document.getElementById('gov-form').scrollIntoView({behavior:'smooth'})">Submit a Request</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="h-slide"></div>
+  <div class="h-slide"></div>
+  <div class="h-slide"></div>
+  <div class="h-overlay"></div>
+
+
+
+
+
+
+
+  <!-- Elevated Orb — upper right, gold rings -->
+  <div class="orb-wrap">
+    <div class="orb-float">
+      <div class="orb-sphere">
+        <div class="orb-ring1"></div>
+        <div class="orb-ring2"></div>
+        <div class="orb-ring3"></div>
+        <div class="orb-core"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="h-content">
+    <div class="h-eyebrow">Government & Organizational Travel Services</div>
+    <h1 class="h-title">Built for Those<br>Who Serve <em>America.</em></h1>
+    <p class="h-desc">Travel, Protection <span>&</span> Logistics — Managed End to End</p>
+    <div class="h-btns">
+      <button class="btn-gold" onclick="document.getElementById('gov-form').scrollIntoView({behavior:'smooth'})">Submit a Travel Request</button>
+      <button class="btn-outline" onclick="document.getElementById('gov-caps').scrollIntoView({behavior:'smooth'})">View Capabilities</button>
+    </div>
+  </div>
+  <div class="scroll-cue"><div class="sc-line"></div><div class="sc-text">Explore</div></div>
+</section>
+
+<!-- CREDENTIAL STRIP -->
+<div class="cred-strip">
+  <div class="cred-item"><span class="cred-dot"></span><div><div class="cred-val">SAM.gov</div><div class="cred-label">Active Registered Entity</div></div></div>
+  <div class="cred-item"><span class="cred-dot"></span><div><div class="cred-val">WOSB</div><div class="cred-label">Woman-Owned Business</div></div></div>
+  <div class="cred-item"><span class="cred-dot"></span><div><div class="cred-val">Licensed</div><div class="cred-label">Insurance Agent</div></div></div>
+  <div class="cred-item"><span class="cred-dot"></span><div><div class="cred-val">USA</div><div class="cred-label">Based in America · Global</div></div></div>
+  <div class="cred-item"><span class="cred-dot"></span><div><div class="cred-val">24h</div><div class="cred-label">Response Guaranteed</div></div></div>
+</div>
+
+<!-- INTRO + EAGLE WATERMARK -->
+<section class="intro-section">
+  <img class="eagle-watermark" src="https://images.unsplash.com/photo-1611689342806-0863700ce1e4?w=900&q=70" alt="" aria-hidden="true"/>
+  <div class="intro-inner">
+    <div>
+      <div class="sec-tag reveal">The Lolo Standard</div>
+      <p class="intro-quote reveal r1">"Every mission deserves travel that is <em>built to match it.</em>"</p>
+      <p class="intro-body reveal r2">We support federal agencies, contractors, and mission-critical teams with structured travel coordination — protection-first, compliance-ready, and managed entirely by us. Not a booking platform. A dedicated partner.</p>
+    </div>
+    <div class="stat-grid reveal r2">
+      <div class="stat-item"><div class="stat-num">SAM</div><div class="stat-label">Active Registration</div></div>
+      <div class="stat-item"><div class="stat-num">WOSB</div><div class="stat-label">Verified Woman-Owned</div></div>
+      <div class="stat-item"><div class="stat-num">24h</div><div class="stat-label">Response Guaranteed</div></div>
+      <div class="stat-item"><div class="stat-num">6</div><div class="stat-label">Core Capabilities</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CAPABILITIES -->
+<section class="section sec-light" id="gov-caps">
+  <div style="max-width:1160px;margin:0 auto;">
+    <div class="sec-tag reveal">Core Capabilities</div>
+    <h2 class="sec-h2 reveal r1">Travel, Protection & Logistics<br><strong>for Government Operations</strong></h2>
+    <p class="sec-body reveal r2">Structured, protection-first travel coordination for federal agencies, contractors, and project-based teams — with accountability, compliance, and precision at every stage.</p>
+    <div class="cap-grid">
+      <div class="cap-card reveal r1"><div class="cap-num">01</div><div class="cap-name">Travel Planning & Booking</div><p class="cap-desc">End-to-end itinerary management for agency personnel and contractors — domestic and international with preferred access and consolidated fares.</p></div>
+      <div class="cap-card reveal r2"><div class="cap-num">02</div><div class="cap-name">Protection-First Operations</div><p class="cap-desc">Integrated travel protection built into every plan from day one. In-house licensed insurance agent — not a third-party referral.</p></div>
+      <div class="cap-card reveal r3"><div class="cap-num">03</div><div class="cap-name">Accommodations & Logistics</div><p class="cap-desc">Preferred-rate hotel sourcing, ground transportation, and VIP airport coordination across all major destinations worldwide.</p></div>
+      <div class="cap-card reveal r1"><div class="cap-num">04</div><div class="cap-name">Contractor Travel Coordination</div><p class="cap-desc">Structured coordination for project-based deployments with documentation, compliance reporting, and accountability at every stage.</p></div>
+      <div class="cap-card reveal r2"><div class="cap-num">05</div><div class="cap-name">Real-Time Support</div><p class="cap-desc">Dedicated point of contact and active itinerary management throughout each deployment, mission trip, or corporate travel cycle.</p></div>
+      <div class="cap-card reveal r3"><div class="cap-num">06</div><div class="cap-name">Technology Integration</div><p class="cap-desc">Proprietary tools and the Lolo World App — connectivity, real-time communication, and in-field support anywhere in the world.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WASHINGTON DC PHOTO BREAK -->
+<div class="photo-break">
+  <img src="https://images.unsplash.com/photo-1501466044931-62695aada8e9?w=1800&q=85" alt="Washington DC"/>
+  <div class="pb-overlay"></div>
+  <div class="pb-content">
+    <p class="pb-quote">"Precision, protection,<br>and a partner who<br><em>never loses sight of the mission.</em>"</p>
+  </div>
+</div>
+
+<!-- DIFFERENTIATORS -->
+<section class="section sec-white">
+  <div style="max-width:1160px;margin:0 auto;">
+    <div class="sec-tag reveal">Why Lolo Travels</div>
+    <h2 class="sec-h2 reveal r1">Built for Complexity.<br><em>Designed for Confidence.</em></h2>
+    <div class="diff-grid">
+      <div class="diff-item reveal r1"><div class="diff-num">01</div><div><div class="diff-title">Protection Built In, Not Bolted On</div><p class="diff-desc">As a licensed insurance agent, we build coverage into every travel plan from day one — risk-assessed, documented, and fully covered before departure.</p></div></div>
+      <div class="diff-item reveal r2"><div class="diff-num">02</div><div><div class="diff-title">Compliance-Ready Processes</div><p class="diff-desc">Documented workflows, clear accountability structures, and reporting designed for government and contractor procurement standards.</p></div></div>
+      <div class="diff-item reveal r1"><div class="diff-num">03</div><div><div class="diff-title">SAM.gov Active Registration</div><p class="diff-desc">An active registered entity eligible for government contracting, subcontracting, and prime/sub partnership opportunities nationwide.</p></div></div>
+      <div class="diff-item reveal r2"><div class="diff-num">04</div><div><div class="diff-title">Global Supplier Network</div><p class="diff-desc">Established relationships with air, hotel, and ground suppliers across every major government travel corridor — domestic and international.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CREDENTIALS — navy ── -->
+<section class="section sec-navy" id="gov-creds">
+  <div style="max-width:1160px;margin:0 auto;">
+    <div class="sec-tag reveal">Credentials</div>
+    <h2 class="sec-h2 reveal r1">Registrations &<br><strong>Entity Information</strong></h2>
+    <div class="cert-grid">
+      <div class="cert-item reveal r1"><div class="cert-label">SAM.gov Status</div><div class="cert-val">Active Registered Entity</div><div class="badge-active"><span class="badge-dot"></span>Active</div></div>
+      <div class="cert-item reveal r2"><div class="cert-label">Business Classification</div><div class="cert-val">Woman-Owned Small Business (WOSB)</div><div class="badge-active"><span class="badge-dot"></span>Verified</div></div>
+      <div class="cert-item reveal r3"><div class="cert-label">Insurance License</div><div class="cert-val">Licensed Insurance Agent</div><div class="badge-active"><span class="badge-dot"></span>Active</div></div>
+      <div class="cert-item reveal r1"><div class="cert-label">Operations</div><div class="cert-val">Based in the United States</div><div class="badge-active"><span class="badge-dot"></span>Global Operations</div></div>
+      <div class="cert-item reveal r2"><div class="cert-label">Business Type</div><div class="cert-val">Independent Travel Management Firm</div><div class="badge-active"><span class="badge-dot"></span>Established</div></div>
+      <div class="cert-item reveal r3"><div class="cert-label">UEI Number</div><div class="cert-val">TKCPDKVVWYG9</div><div class="badge-active"><span class="badge-dot"></span>SAM.gov Verified</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- NAICS -->
+<section class="section sec-light">
+  <div style="max-width:1160px;margin:0 auto;">
+    <div class="sec-tag reveal">NAICS Codes</div>
+    <h2 class="sec-h2 reveal r1" style="font-size:28px;">Applicable<br><strong>Travel Industry Codes</strong></h2>
+    <p style="font-family:'Jost',sans-serif;font-size:13px;font-weight:200;color:#606070;line-height:1.8;max-width:500px;" class="reveal r2">All codes are travel-sector specific and verified for government procurement use. Contact us to confirm applicable codes for your solicitation.</p>
+    <div class="naics-grid">
+      <div class="naics-item reveal r1"><div class="naics-code">561510</div><div class="naics-desc">Travel Agencies — full-service travel arrangement and trip planning</div></div>
+      <div class="naics-item reveal r2"><div class="naics-code">561520</div><div class="naics-desc">Tour Operators — curated tour packages and group travel coordination</div></div>
+      <div class="naics-item reveal r1"><div class="naics-code">561599</div><div class="naics-desc">All Other Travel Arrangement and Reservation Services</div></div>
+      <div class="naics-item reveal r2"><div class="naics-code">561591</div><div class="naics-desc">Convention, Meeting & Event Travel Coordination Services</div></div>
+      <div class="naics-item reveal r1"><div class="naics-code">524210</div><div class="naics-desc">Insurance Agencies — travel protection and integrated risk coverage</div></div>
+      <div class="naics-item reveal r2"><div class="naics-code">488999</div><div class="naics-desc">Other Support Activities for Transportation and Logistics Management</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FORM -->
+<section class="form-section" id="gov-form">
+  <div class="form-inner">
+    <div class="sec-tag reveal" style="color:#3C3B6E;">Contact</div>
+    <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-size:40px;line-height:1.08;color:#0A0A14;margin-bottom:10px;" class="reveal r1">Submit a <strong style="font-weight:400;">Travel Request</strong></h2>
+    <p style="font-family:'Jost',sans-serif;font-size:14px;font-weight:300;color:rgba(10,22,40,.65);line-height:1.85;margin-bottom:48px;" class="reveal r2">For agency travel, contractor coordination, or partnership inquiries — we respond within 24 hours.</p>
+
+    <form name="government-inquiry" netlify netlify-honeypot="bot-field" onsubmit="submitGovForm(event,this)">
+      <input type="hidden" name="form-name" value="government-inquiry"/>
+      <p style="display:none;"><input name="bot-field"/></p>
+
+      <div class="form-step">01 — Organization & Contact</div>
+      <div class="form-row">
+        <div class="fg"><div class="fl">Full Name</div><input class="fi" name="name" placeholder="Your full name" type="text" required/></div>
+        <div class="fg"><div class="fl">Title / Role</div><input class="fi" name="title" placeholder="Your title or role" type="text"/></div>
+      </div>
+      <div class="form-row">
+        <div class="fg"><div class="fl">Organization</div><input class="fi" name="organization" placeholder="Agency or company name" type="text" required/></div>
+        <div class="fg"><div class="fl">Email Address</div><input class="fi" name="email" placeholder="your@organization.gov" type="email" required/></div>
+      </div>
+      <div class="fg"><div class="fl">Phone Number</div><input class="fi" name="phone" placeholder="+1 (000) 000-0000" type="tel"/></div>
+
+      <div class="form-divider"></div>
+      <div class="form-step">02 — Travel Requirements</div>
+      <div class="form-row">
+        <div class="fg"><div class="fl">Destination(s)</div><input class="fi" name="destinations" placeholder="Travel destination(s)" type="text"/></div>
+        <div class="fg"><div class="fl">Travel Dates</div><input class="fi" name="dates" placeholder="Approximate dates" type="text"/></div>
+      </div>
+      <div class="form-row">
+        <div class="fg"><div class="fl">Number of Travelers</div><input class="fi" name="travelers" placeholder="e.g. 4" type="number" min="1"/></div>
+        <div class="fg"><div class="fl">Travel Type</div>
+          <select class="fsel" name="travel_type">
+            <option value="">Select type</option>
+            <option>Agency / Government Personnel</option>
+            <option>Contractor Travel</option>
+            <option>Project-Based Deployment</option>
+            <option>Conference / Event Travel</option>
+            <option>Trade Partnership Inquiry</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-divider"></div>
+      <div class="form-step">03 — Additional Information</div>
+      <div class="fg"><div class="fl">Requirements & Considerations</div><textarea class="fta" name="requirements" placeholder="Describe your travel requirements, compliance needs, or relevant details..."></textarea></div>
+      <div class="fg"><div class="fl">Preferred Contact Method & Timing</div><textarea class="fta" name="contact_preference" placeholder="e.g. Email preferred, available Mon–Fri, 9am–5pm ET" style="min-height:54px;"></textarea></div>
+
+      <button type="submit" class="fsub">Submit Travel Request</button>
+      <p class="form-note">All government and organizational inquiries receive a dedicated response within 24 hours.</p>
+      <div class="form-success" id="govFormSuccess">✦ &nbsp; Your request has been received. A representative will respond within 24 hours.</div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="gov-footer">
+  <div class="gf-logo">
+    <svg width="32" height="32" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18.5" fill="#0A1628" stroke="#C9A84C" stroke-width="1.8"/><text x="20" y="26" text-anchor="middle" font-family="Georgia,serif" font-size="14" font-weight="600" fill="#C9A84C" letter-spacing="1.5">LL</text></svg>
+    <span class="gf-wordmark">Lolo Travels™</span>
+  </div>
+  <div class="gf-copy">© <span id="govYr"></span> Lolo Travels LLC · SAM.gov Registered · WOSB · Licensed Insurance Agent · USA · Global Operations</div>
+  <a href="/" class="gf-back">← Return to Main Site</a>
+</footer>
+
+<script>
+/* Gold cursor */
+const govCur = document.getElementById('govCur');
+const govRing = document.getElementById('govCurRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e=>{
+  mx=e.clientX; my=e.clientY;
+  govCur.style.left=mx+'px'; govCur.style.top=my+'px';
+});
+(function animRing(){
+  rx+=(mx-rx)*.1; ry+=(my-ry)*.1;
+  govRing.style.left=rx+'px'; govRing.style.top=ry+'px';
+  requestAnimationFrame(animRing);
+})();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{govCur.classList.add('expand');govRing.classList.add('expand');});
+  el.addEventListener('mouseleave',()=>{govCur.classList.remove('expand');govRing.classList.remove('expand');});
+});
+
+document.getElementById('govYr').textContent = new Date().getFullYear();
+
+/* Scroll-aware nav */
+window.addEventListener('scroll', () => {
+  document.getElementById('govNav').classList.toggle('scrolled', window.scrollY > 60);
+}, {passive:true});
+
+/* Scroll reveals */
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}});
+}, {threshold:0.1, rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+/* Form submit */
+function submitGovForm(e, form) {
+  e.preventDefault();
+  const btn = form.querySelector('.fsub');
+  btn.textContent = 'Submitting...';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.style.display = 'none';
+    document.getElementById('govFormSuccess').style.display = 'block';
+  }, 900);
+}
+</script>
+</body>
+</html>
