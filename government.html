@@ -65,10 +65,7 @@ a{color:inherit;text-decoration:none;}
 .gov-cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(201,168,76,.4);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:all .4s cubic-bezier(0.16,1,0.3,1);}
 .gov-cursor.expand{width:18px;height:18px;}
 .gov-cursor-ring.expand{width:52px;height:52px;border-color:rgba(201,168,76,.6);}
-/* Eagle — only shows if image loads, no box if broken */
-.eagle-hero{position:absolute;right:0;top:50%;transform:translateY(-50%);z-index:3;width:48%;height:70%;opacity:0;animation:fadeUp 1.2s ease 1s forwards;overflow:hidden;background:transparent;border:none;outline:none;}
-.eagle-hero img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(0) invert(1);opacity:.11;}
-.eagle-drift{width:100%;height:100%;animation:eagleDrift 14s ease-in-out infinite;}
+
 
 
 
@@ -246,12 +243,7 @@ a{color:inherit;text-decoration:none;}
   <div class="h-slide"></div>
   <div class="h-overlay"></div>
 
-  <!-- Eagle — real photo silhouette, ghosted -->
-  <div class="eagle-hero">
-    <div class="eagle-drift">
-      <img src="https://images.unsplash.com/photo-1570749557116-c3b5f94a5f12?w=900&q=80" alt="" aria-hidden="true" onerror="this.parentElement.parentElement.style.display='none'"/>
-    </div>
-  </div>
+
 
 
 
