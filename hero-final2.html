@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Lolo Travels™ — You Deserve Every Bit of It.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Gilda+Display&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --navy:#0A1628;--navy-deep:#060E1A;
+  --gold:#C9A84C;--gold-lt:#E2C97E;
+  --font-d:'Cormorant Garamond',serif;
+  --font-h:'Gilda Display',serif;
+  --font-b:'Jost',sans-serif;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;overflow-x:hidden;background:var(--navy-deep);cursor:none;}
+body{font-family:var(--font-b);}
+#cur{position:fixed;width:7px;height:7px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:transform .12s;}
+#cur-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(201,168,76,.4);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:width .3s,height .3s,opacity .3s,transform .4s var(--ease);}
+body.hov #cur{transform:translate(-50%,-50%) scale(2);background:var(--gold-lt);}
+body.hov #cur-ring{width:52px;height:52px;opacity:.2;}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:28px 64px;transition:background .5s,padding .4s;}
+nav.s{background:rgba(6,14,26,.96);backdrop-filter:blur(24px);padding:16px 64px;box-shadow:0 1px 0 rgba(201,168,76,.07);}
+.n-logo{display:flex;align-items:center;gap:13px;}
+.n-mark{width:40px;height:40px;border-radius:50%;background:var(--navy);border:1.5px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:var(--font-d);font-size:14px;font-weight:500;color:var(--gold);transition:transform .4s var(--ease);}
+.n-mark:hover{transform:rotate(8deg) scale(1.08);}
+.n-word{font-family:var(--font-h);font-size:.86rem;color:white;letter-spacing:.2em;text-transform:uppercase;}
+.n-links{display:flex;align-items:center;gap:40px;list-style:none;}
+.n-links a{font-size:.63rem;font-weight:200;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.62);text-decoration:none;transition:color .3s;position:relative;}
+.n-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .35s var(--ease);}
+.n-links a:hover{color:white;}
+.n-links a:hover::after{transform:scaleX(1);}
+.n-cta{border:1px solid rgba(201,168,76,.5)!important;color:var(--gold)!important;padding:10px 24px;}
+.n-cta:hover{background:var(--gold)!important;color:var(--navy)!important;}
+.n-cta::after{display:none!important;}
+#hero{position:relative;height:100vh;min-height:680px;overflow:hidden;background:var(--navy-deep);}
+.v-layer{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 2.2s ease;will-change:opacity;}
+.v-layer.on{opacity:1;}
+.v-layer.on.kb0{animation:kbZoom 16s ease-out forwards;}
+.v-layer.on.kb1{animation:kbRight 16s ease-out forwards;}
+.v-layer.on.kb2{animation:kbLeft 16s ease-out forwards;}
+.v-layer.on.kb3{animation:kbUp 16s ease-out forwards;}
+@keyframes kbZoom{from{transform:scale(1.08);}to{transform:scale(1);}}
+@keyframes kbRight{from{transform:scale(1.06) translateX(-2%);}to{transform:scale(1) translateX(0);}}
+@keyframes kbLeft{from{transform:scale(1.06) translateX(2%);}to{transform:scale(1) translateX(0);}}
+@keyframes kbUp{from{transform:scale(1.06) translateY(1.5%);}to{transform:scale(1) translateY(0);}}
+.v-overlay{position:absolute;inset:0;z-index:2;background:linear-gradient(to bottom,rgba(6,14,26,.1) 0%,rgba(6,14,26,.08) 35%,rgba(6,14,26,.72) 85%,rgba(6,14,26,.92) 100%);}
+.vignette{position:absolute;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at 50% 45%,transparent 38%,rgba(6,14,26,.5) 100%);}
+.grain{position:absolute;inset:0;z-index:4;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)' opacity='0.025'/%3E%3C/svg%3E");opacity:.45;}
+.text-moment{position:absolute;top:50%;left:50%;transform:translate(-50%,-46%) scale(.96);z-index:10;text-align:center;width:100%;padding:0 60px;opacity:0;transition:opacity .9s var(--ease),transform .9s var(--ease);pointer-events:none;}
+.text-moment.on{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto;}
+.tm-location{font-family:var(--font-b);font-weight:200;font-size:.54rem;letter-spacing:.55em;text-transform:uppercase;color:rgba(255,255,255,.48);margin-bottom:24px;display:flex;align-items:center;justify-content:center;gap:18px;}
+.tm-location::before,.tm-location::after{content:'';display:block;width:28px;height:1px;background:rgba(201,168,76,.4);}
+.tm-location .g{color:var(--gold);}
+.tm-headline{font-family:var(--font-d);font-weight:300;font-size:clamp(3.5rem,7.5vw,9rem);line-height:.92;color:white;letter-spacing:-.015em;}
+.tm-headline em{font-style:italic;color:var(--gold-lt);}
+.tm-desc{font-family:var(--font-b);font-weight:200;font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.38);margin-top:26px;}
+.tm-cta{display:flex;gap:16px;justify-content:center;margin-top:44px;}
+.btn-g{font-family:var(--font-b);font-weight:300;font-size:.63rem;letter-spacing:.22em;text-transform:uppercase;background:var(--gold);color:var(--navy);padding:15px 40px;display:inline-block;text-decoration:none;transition:background .3s,transform .2s;}
+.btn-g:hover{background:var(--gold-lt);transform:translateY(-2px);}
+.btn-o{font-family:var(--font-b);font-weight:200;font-size:.63rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.65);padding:15px 40px;border:1px solid rgba(255,255,255,.2);display:inline-block;text-decoration:none;transition:border-color .3s,color .3s;}
+.btn-o:hover{border-color:rgba(201,168,76,.5);color:var(--gold);}
+.prog-line{position:absolute;left:44px;top:18%;bottom:18%;width:1px;background:rgba(255,255,255,.06);z-index:10;}
+.prog-fill{position:absolute;top:0;left:0;right:0;height:25%;background:linear-gradient(to bottom,var(--gold),rgba(201,168,76,.2));transition:top .6s var(--ease);}
+.loc-ticker{position:absolute;bottom:44px;left:64px;z-index:10;display:flex;align-items:center;gap:14px;opacity:0;animation:fadeUp .8s var(--ease) 1.2s forwards;}
+.lt-bar{width:1px;height:24px;background:rgba(201,168,76,.3);}
+.lt-region{font-size:.5rem;font-weight:200;letter-spacing:.4em;text-transform:uppercase;color:rgba(255,255,255,.28);}
+.lt-name{font-family:var(--font-d);font-style:italic;font-size:.92rem;font-weight:300;color:rgba(255,255,255,.48);}
+.hero-dots{position:absolute;right:44px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:10px;z-index:10;}
+.hdot{width:2px;height:18px;background:rgba(255,255,255,.14);transition:height .4s var(--ease),background .4s;cursor:pointer;}
+.hdot.on{height:36px;background:var(--gold);}
+.scroll-hint{position:absolute;bottom:40px;right:60px;z-index:10;display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeUp .8s var(--ease) 1.6s forwards;}
+.sh-line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(201,168,76,.6),transparent);animation:pulse 2.2s ease-in-out infinite;}
+.sh-text{font-size:.46rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.25);writing-mode:vertical-rl;}
+#after{background:var(--navy-deep);min-height:60vh;display:flex;align-items:center;justify-content:center;padding:120px 64px;border-top:1px solid rgba(201,168,76,.06);}
+.after-inner{max-width:780px;text-align:center;}
+.after-label{font-size:.52rem;font-weight:200;letter-spacing:.5em;text-transform:uppercase;color:var(--gold);margin-bottom:28px;display:flex;align-items:center;justify-content:center;gap:16px;}
+.after-label::before,.after-label::after{content:'';display:block;width:28px;height:1px;background:var(--gold);opacity:.45;}
+.after-h{font-family:var(--font-d);font-weight:300;font-size:clamp(2.2rem,4vw,4.2rem);line-height:1.1;color:white;margin-bottom:28px;}
+.after-h em{font-style:italic;color:var(--gold-lt);}
+.after-p{font-size:.86rem;font-weight:200;line-height:2;color:rgba(255,255,255,.48);max-width:540px;margin:0 auto;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
+@keyframes pulse{0%,100%{opacity:.28;}50%{opacity:.85;}}
+@media(max-width:768px){
+  nav{padding:20px 24px;}nav.s{padding:14px 24px;}.n-links{display:none;}
+  .text-moment{padding:0 28px;}.tm-headline{font-size:clamp(2.6rem,10vw,5rem);}
+  .loc-ticker{left:24px;bottom:36px;}.hero-dots{right:20px;}.prog-line{display:none;}
+  #after{padding:80px 24px;}
+}
+</style>
+</head>
+<body>
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<nav id="nav">
+  <div class="n-logo">
+    <div class="n-mark">LL</div>
+    <span class="n-word">Lolo Travels™</span>
+  </div>
+  <ul class="n-links">
+    <li><a href="#">Destinations</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Our Story</a></li>
+    <li><a href="#">Protection</a></li>
+    <li><a href="#" class="n-cta">Plan Your Travel</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+
+  <!--
+    All Coverr CDN — confirmed direct embed URLs
+    Scene 1: Caribbean beach to ocean — turquoise, open, calming
+    Scene 2: Aerial turquoise water Pileh Lagoon Krabi Thailand — breathtaking
+    Scene 3: Aerial tropical beach palm trees turquoise water
+    Scene 4: Drone shot sun shining over ocean — golden warm finale
+  -->
+
+  <video class="v-layer on kb0" id="vl0" autoplay muted loop playsinline preload="auto">
+    <source src="https://cdn.coverr.co/videos/coverr-beach-to-the-ocean-170/360p.mp4" type="video/mp4"/>
+  </video>
+  <video class="v-layer kb1" id="vl1" muted loop playsinline preload="none">
+    <source src="https://cdn.coverr.co/videos/coverr-aerial-drone-pov-fly-over-tropical-turquoise-water-pileh-lagoon-krabi-thailand-6144/360p.mp4" type="video/mp4"/>
+  </video>
+  <video class="v-layer kb2" id="vl2" muted loop playsinline preload="none">
+    <source src="https://cdn.coverr.co/videos/coverr-aerial-shot-of-a-tropical-beach-with-palm-trees-and-turquoise-water-3748/360p.mp4" type="video/mp4"/>
+  </video>
+  <video class="v-layer kb3" id="vl3" muted loop playsinline preload="none">
+    <source src="https://cdn.coverr.co/videos/coverr-drone-shot-of-the-sun-shining-over-the-ocean-3459/360p.mp4" type="video/mp4"/>
+  </video>
+
+  <div class="v-overlay"></div>
+  <div class="vignette"></div>
+  <div class="grain"></div>
+
+  <div class="text-moment on" id="tm0">
+    <p class="tm-location"><span class="g">Caribbean</span></p>
+    <h1 class="tm-headline">The World<br><em>Is Yours.</em></h1>
+    <p class="tm-desc">Boutique Travel Management &nbsp;·&nbsp; Managed End to End</p>
+  </div>
+
+  <div class="text-moment" id="tm1">
+    <p class="tm-location"><span class="g">Amalfi Coast</span> &nbsp;·&nbsp; Italy</p>
+    <h1 class="tm-headline"><em>Warm light.</em><br>The sea below.<br>You, here.</h1>
+    <p class="tm-desc">Fully Managed &nbsp;·&nbsp; Fully Protected</p>
+  </div>
+
+  <div class="text-moment" id="tm2">
+    <p class="tm-location"><span class="g">Stellenbosch</span> &nbsp;·&nbsp; South Africa</p>
+    <h1 class="tm-headline">Golden vines.<br><em>The first sip.</em><br>Time stops.</h1>
+    <p class="tm-desc">Cultural Intelligence &nbsp;·&nbsp; Global Access</p>
+  </div>
+
+  <div class="text-moment" id="tm3">
+    <p class="tm-location"><span class="g">Lolo Travels™</span></p>
+    <h1 class="tm-headline">You deserve<br><em>every bit</em><br>of it.</h1>
+    <div class="tm-cta">
+      <a href="#after" class="btn-g">Plan Your Travel</a>
+      <a href="#after" class="btn-o">Explore Experiences</a>
+    </div>
+  </div>
+
+  <div class="prog-line"><div class="prog-fill" id="pFill"></div></div>
+
+  <div class="loc-ticker">
+    <span class="lt-region" id="ltR">Caribbean</span>
+    <div class="lt-bar"></div>
+    <span class="lt-name" id="ltN">Turquoise Coast</span>
+  </div>
+
+  <div class="hero-dots">
+    <div class="hdot on" id="d0"></div>
+    <div class="hdot" id="d1"></div>
+    <div class="hdot" id="d2"></div>
+    <div class="hdot" id="d3"></div>
+  </div>
+
+  <div class="scroll-hint">
+    <div class="sh-line"></div>
+    <span class="sh-text">Scroll</span>
+  </div>
+
+</section>
+
+<section id="after">
+  <div class="after-inner">
+    <p class="after-label">The Lolo Difference</p>
+    <h2 class="after-h">Someone who actually<br>knows where you're <em>going.</em></h2>
+    <p class="after-p">There's a version of travel that goes deeper — where the meal takes you somewhere words can't, where the neighborhood isn't in any guidebook, where the connection you feel is real. That version exists. You just need someone who can get you there.</p>
+  </div>
+</section>
+
+<script>
+const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+(function raf(){rx+=(mx-rx)*.14;ry+=(my-ry)*.14;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(raf);})();
+document.querySelectorAll('a,.hdot').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('hov'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('hov'));
+});
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('s',scrollY>50),{passive:true});
+
+const vids=[...document.querySelectorAll('.v-layer')];
+const texts=[...document.querySelectorAll('.text-moment')];
+const dots=[...document.querySelectorAll('.hdot')];
+const kb=['kb0','kb1','kb2','kb3'];
+const locs=[
+  {r:'Caribbean',n:'Turquoise Coast'},
+  {r:'Amalfi Coast',n:'Italy'},
+  {r:'Stellenbosch',n:'Western Cape'},
+  {r:'Lolo Travels™',n:'The World Is Yours'}
+];
+const progTops=['0%','25%','50%','75%'];
+let cur_v=0,timer;
+
+function goTo(n){
+  const prev=cur_v;cur_v=n;
+  vids[prev].classList.remove('on',kb[prev]);
+  vids[cur_v].classList.add('on');
+  vids[cur_v].classList.remove(kb[cur_v]);
+  vids[cur_v].offsetHeight;
+  vids[cur_v].classList.add(kb[cur_v]);
+  vids[cur_v].play().catch(()=>{});
+  const next=(cur_v+1)%vids.length;
+  const src=vids[next].querySelector('source');
+  if(src&&!vids[next].src){vids[next].src=src.src;vids[next].load();}
+  texts[prev].classList.remove('on');
+  texts[cur_v].classList.add('on');
+  dots[prev].classList.remove('on');
+  dots[cur_v].classList.add('on');
+  document.getElementById('pFill').style.top=progTops[cur_v];
+  document.getElementById('ltR').textContent=locs[cur_v].r;
+  document.getElementById('ltN').textContent=locs[cur_v].n;
+}
+
+timer=setInterval(()=>goTo((cur_v+1)%vids.length),8000);
+dots.forEach((d,i)=>{
+  d.addEventListener('click',()=>{clearInterval(timer);goTo(i);timer=setInterval(()=>goTo((cur_v+1)%vids.length),8000);});
+});
+</script>
+</body>
+</html>
