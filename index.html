@@ -1,767 +1,1820 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Lolo Travels™ — The World Is Yours.</title>
-<meta name="description" content="Boutique travel management. Cultural intelligence. Protection built in. Managed end to end.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<meta name="description" content="Lolo Travels™ — A fully managed travel experience. Protection, logistics, and access — designed around you."/>
+<meta property="og:title" content="Lolo Travels™ — The World Is Yours."/>
+<meta property="og:description" content="Managed travel experiences for individuals, businesses, and organizations."/>
+<meta name="theme-color" content="#0A1628"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
 <style>
-/* ── TOKENS ──────────────────────────────────────────────────────────────── */
 :root{
-  --navy:#1B2A6B; --gold:#D4A830; --peri:#7B82C9;
-  --cream:#F7F4EE; --black:#0E0E1A; --white:#FFFFFF;
-  --gold-20:rgba(212,168,48,.18); --navy-10:rgba(27,42,107,.1);
-  --cream-60:rgba(247,244,238,.6); --black-80:rgba(14,14,26,.8);
-  --cg:"Cormorant Garamond",Georgia,serif;
-  --dm:"DM Sans","Helvetica Neue",Arial,sans-serif;
-  --ease:cubic-bezier(.22,.61,.36,1);
+  --navy:#0A1628;--navy-deep:#060E1A;
+  --gold:#C9A84C;--gold-lt:#E2C97E;
+  --cream:#F5F0E8;--white:#FFFFFF;--black:#050505;
+  --font-d:'Cormorant Garamond',Georgia,serif;
+  --font-b:'Jost',sans-serif;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+  --ease2:cubic-bezier(0.4,0,0.2,1);
 }
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{font-family:var(--dm);background:var(--black);color:var(--cream);overflow-x:hidden}
-img{max-width:100%;display:block}
-a{text-decoration:none;color:inherit}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-b);background:var(--black);color:var(--white);overflow-x:hidden;cursor:none;-webkit-font-smoothing:antialiased;}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+button{font-family:var(--font-b);}
+::selection{background:rgba(201,168,76,.15);color:var(--gold-lt);}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--black);}
+::-webkit-scrollbar-thumb{background:rgba(201,168,76,.25);border-radius:2px;}
 
-/* ── SCROLLBAR ───────────────────────────────────────────────────────────── */
-::-webkit-scrollbar{width:3px}
-::-webkit-scrollbar-track{background:var(--black)}
-::-webkit-scrollbar-thumb{background:var(--gold)}
+/* CURSOR */
+#cur{position:fixed;width:6px;height:6px;background:var(--gold);border-radius:50%;pointer-events:none;z-index:99999;transform:translate(-50%,-50%);transition:width .2s,height .2s;}
+#cur-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(201,168,76,.35);border-radius:50%;pointer-events:none;z-index:99998;transform:translate(-50%,-50%);transition:all .5s var(--ease);}
+#cur.big{width:14px;height:14px;}
+#cur-ring.big{width:50px;height:50px;border-color:rgba(201,168,76,.6);}
 
-/* ── NAV ─────────────────────────────────────────────────────────────────── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  padding:22px 48px;display:flex;align-items:center;
-  justify-content:space-between;
-  transition:background .4s var(--ease),padding .4s var(--ease);
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:32px 72px;transition:all .6s var(--ease);}
+#nav.scrolled{background:rgba(5,5,5,.95);backdrop-filter:blur(30px);padding:18px 72px;border-bottom:1px solid rgba(201,168,76,.06);}
+.nav-logo{display:flex;align-items:center;gap:14px;cursor:none;}
+.nav-mark{font-family:var(--font-d);font-size:.9rem;color:var(--white);letter-spacing:.22em;text-transform:uppercase;line-height:1;}
+.nav-links{display:flex;align-items:center;gap:42px;}
+.nav-links a{font-weight:200;font-size:.6rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.5);cursor:none;transition:color .3s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease);}
+.nav-links a:hover{color:rgba(255,255,255,.9);}
+.nav-links a:hover::after{transform:scaleX(1);}
+.nav-cta{font-weight:300;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;border:1px solid rgba(201,168,76,.4);color:var(--gold);padding:11px 26px;cursor:none;transition:all .3s;background:transparent;}
+.nav-cta:hover{background:var(--gold);color:var(--black);}
+.nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;background:none;border:none;padding:4px;}
+.nav-toggle span{display:block;width:22px;height:1px;background:var(--white);transition:all .3s;}
+
+/* PAGES */
+.page{display:none;}
+.page.active{display:block;}
+
+/* ═══════════════════════════════
+   HERO — pure cinematic typography
+═══════════════════════════════ */
+#hero{
+  position:relative;
+  height:100vh;
+  min-height:700px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:var(--black);
 }
-nav.scrolled{background:rgba(14,14,26,.96);backdrop-filter:blur(12px);padding:16px 48px}
-.nav-logo{font-family:var(--cg);font-size:18px;font-weight:300;
-  letter-spacing:8px;text-transform:uppercase;color:var(--cream)}
-.nav-logo span{color:var(--gold)}
-.nav-links{display:flex;align-items:center;gap:40px}
-.nav-links a{font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;
-  color:rgba(247,244,238,.65);transition:color .2s}
-.nav-links a:hover{color:var(--gold)}
-.nav-cta{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  padding:10px 24px;border:1px solid var(--gold);color:var(--gold);
-  border-radius:2px;transition:all .25s var(--ease)}
-.nav-cta:hover{background:var(--gold);color:var(--black)}
-.nav-hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
-.nav-hamburger span{width:22px;height:1px;background:var(--cream);transition:all .3s}
 
-/* ── HERO ─────────────────────────────────────────────────────────────────── */
-.hero{position:relative;height:100vh;min-height:700px;display:flex;
-  align-items:center;justify-content:center;overflow:hidden}
-.hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  object-position:center;z-index:0}
-.hero-overlay{position:absolute;inset:0;z-index:1;
-  background:linear-gradient(to bottom,
-    rgba(14,14,26,.15) 0%,
-    rgba(14,14,26,.25) 40%,
-    rgba(14,14,26,.6) 100%)}
-.hero-content{position:relative;z-index:2;text-align:center;padding:0 24px;
-  max-width:900px}
-.hero-line{display:block;overflow:hidden}
-.hero-eyebrow{font-size:11px;font-weight:500;letter-spacing:4px;text-transform:uppercase;
-  color:var(--gold);margin-bottom:28px;opacity:0;
-  animation:fadeUp .8s var(--ease) .4s forwards}
-.hero-title{font-family:var(--cg);font-size:clamp(54px,8vw,96px);font-weight:300;
-  font-style:italic;color:var(--cream);line-height:.95;letter-spacing:-1px;
-  margin-bottom:36px;opacity:0;animation:fadeUp .9s var(--ease) .6s forwards}
-.hero-title em{color:var(--gold);font-style:italic}
-.hero-sub{font-size:13px;font-weight:300;letter-spacing:2px;color:rgba(247,244,238,.6);
-  margin-bottom:48px;opacity:0;animation:fadeUp .8s var(--ease) .85s forwards}
-.hero-actions{display:flex;align-items:center;justify-content:center;gap:20px;
-  opacity:0;animation:fadeUp .8s var(--ease) 1s forwards}
-.btn-primary{font-size:11px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;
-  padding:16px 40px;background:var(--gold);color:var(--black);border-radius:2px;
-  transition:all .25s var(--ease);border:1px solid var(--gold)}
-.btn-primary:hover{background:transparent;color:var(--gold)}
-.btn-ghost{font-size:11px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;
-  padding:16px 32px;color:rgba(247,244,238,.7);border:1px solid rgba(247,244,238,.25);
-  border-radius:2px;transition:all .25s var(--ease)}
-.btn-ghost:hover{border-color:var(--cream);color:var(--cream)}
-.hero-scroll{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
-  z-index:2;display:flex;flex-direction:column;align-items:center;gap:10px;
-  opacity:0;animation:fadeIn 1s ease 1.4s forwards}
-.hero-scroll span{font-size:8px;letter-spacing:3px;text-transform:uppercase;
-  color:rgba(247,244,238,.4)}
-.scroll-line{width:1px;height:40px;background:linear-gradient(to bottom,rgba(212,168,48,.8),transparent);
-  animation:scrollLine 2s ease-in-out infinite}
-@keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}
-  50%{transform:scaleY(1);transform-origin:top}
-  100%{transform:scaleY(0);transform-origin:bottom}}
-
-/* ── STATEMENT ───────────────────────────────────────────────────────────── */
-.statement{padding:120px 48px;background:var(--black);text-align:center}
-.statement-inner{max-width:820px;margin:0 auto}
-.statement p{font-family:var(--cg);font-size:clamp(26px,3.5vw,42px);
-  font-weight:300;line-height:1.4;color:var(--cream);letter-spacing:-.3px}
-.statement p em{font-style:italic;color:var(--gold)}
-.statement-line{width:1px;height:60px;background:var(--gold);margin:48px auto 0;opacity:.4}
-
-/* ── SECTION HEADER ──────────────────────────────────────────────────────── */
-.sec-eyebrow{font-size:9px;font-weight:700;letter-spacing:4px;text-transform:uppercase;
-  color:var(--gold);margin-bottom:16px}
-.sec-title{font-family:var(--cg);font-size:clamp(36px,5vw,58px);font-weight:300;
-  font-style:italic;color:var(--cream);line-height:1.1;letter-spacing:-.5px}
-.sec-title em{color:var(--gold)}
-
-/* ── EXPERIENCES ─────────────────────────────────────────────────────────── */
-.experiences{padding:100px 48px;background:var(--black)}
-.exp-header{margin-bottom:64px}
-.exp-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:auto auto;gap:3px}
-.exp-card{position:relative;overflow:hidden;cursor:pointer;aspect-ratio:4/3}
-.exp-card:first-child{grid-row:span 2;aspect-ratio:unset}
-.exp-card img{width:100%;height:100%;object-fit:cover;
-  transition:transform 1s var(--ease);filter:brightness(.75)}
-.exp-card:hover img{transform:scale(1.04);filter:brightness(.6)}
-.exp-card-content{position:absolute;bottom:0;left:0;right:0;padding:32px;
-  background:linear-gradient(to top,rgba(14,14,26,.85) 0%,transparent 100%);
-  transform:translateY(8px);transition:transform .4s var(--ease)}
-.exp-card:hover .exp-card-content{transform:translateY(0)}
-.exp-card-region{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;
-  color:var(--gold);margin-bottom:8px}
-.exp-card-title{font-family:var(--cg);font-size:clamp(22px,2.5vw,30px);
-  font-weight:400;font-style:italic;color:var(--cream);line-height:1.2}
-.exp-card-desc{font-size:11px;color:rgba(247,244,238,.6);margin-top:8px;
-  max-height:0;overflow:hidden;transition:max-height .4s var(--ease)}
-.exp-card:hover .exp-card-desc{max-height:60px}
-.exp-cta{margin-top:48px;text-align:center}
-
-/* ── PROCESS ─────────────────────────────────────────────────────────────── */
-.process{padding:100px 48px;background:var(--navy);position:relative;overflow:hidden}
-.process::before{content:'';position:absolute;top:-1px;left:0;right:0;
-  height:1px;background:linear-gradient(to right,transparent,var(--gold),transparent)}
-.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
-  margin-top:64px;background:rgba(247,244,238,.06)}
-.process-step{padding:40px 32px;background:var(--navy);position:relative}
-.step-num{font-family:var(--cg);font-size:72px;font-weight:300;
-  color:rgba(212,168,48,.12);line-height:1;margin-bottom:20px}
-.step-title{font-family:var(--cg);font-size:20px;font-weight:400;font-style:italic;
-  color:var(--cream);margin-bottom:12px}
-.step-desc{font-size:12px;font-weight:300;color:rgba(247,244,238,.55);line-height:1.7}
-.step-bar{position:absolute;bottom:0;left:0;right:0;height:2px;background:transparent;
-  transition:background .3s}
-.process-step:hover .step-bar{background:var(--gold)}
-
-/* ── PROTECTION / INSURANCE ──────────────────────────────────────────────── */
-.protection{display:grid;grid-template-columns:1fr 1fr;min-height:600px}
-.prot-consumer{background:var(--cream);padding:80px 60px;display:flex;
-  flex-direction:column;justify-content:center;position:relative;overflow:hidden}
-.prot-consumer::before{content:'';position:absolute;top:0;right:0;
-  width:200px;height:200px;border-radius:50%;
-  background:radial-gradient(circle,rgba(212,168,48,.08) 0%,transparent 70%)}
-.prot-consumer .sec-eyebrow{color:rgba(27,42,107,.5)}
-.prot-consumer .sec-title{color:var(--navy)}
-.prot-consumer .sec-title em{color:var(--gold)}
-.prot-consumer p{font-size:13px;color:rgba(27,42,107,.65);line-height:1.8;
-  margin:20px 0 32px;max-width:420px}
-.prot-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
-.prot-tag{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
-  padding:7px 16px;border:1px solid rgba(27,42,107,.2);border-radius:2px;
-  color:rgba(27,42,107,.6)}
-.btn-navy{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  padding:14px 32px;background:var(--navy);color:var(--cream);
-  border-radius:2px;transition:all .25s var(--ease);display:inline-block;border:1px solid var(--navy)}
-.btn-navy:hover{background:transparent;color:var(--navy)}
-.prot-corporate{background:var(--black);padding:80px 60px;display:flex;
-  flex-direction:column;justify-content:center;position:relative;overflow:hidden;
-  border-left:1px solid rgba(212,168,48,.15)}
-.prot-corporate::before{content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(27,42,107,.15) 0%,transparent 60%)}
-.prot-divider{position:absolute;left:0;top:10%;bottom:10%;
-  width:1px;background:linear-gradient(to bottom,transparent,var(--gold),transparent)}
-.prot-corporate p{font-size:13px;color:rgba(247,244,238,.55);line-height:1.8;
-  margin:20px 0 32px;max-width:420px}
-.prot-corporate .prot-tag{border-color:rgba(212,168,48,.2);color:rgba(212,168,48,.6)}
-
-/* ── DESTINATIONS ────────────────────────────────────────────────────────── */
-.destinations{padding:100px 48px;background:var(--black)}
-.dest-ticker{overflow:hidden;margin:64px 0;position:relative}
-.dest-ticker::before,.dest-ticker::after{content:'';position:absolute;
-  top:0;bottom:0;width:80px;z-index:2;pointer-events:none}
-.dest-ticker::before{left:0;background:linear-gradient(to right,var(--black),transparent)}
-.dest-ticker::after{right:0;background:linear-gradient(to left,var(--black),transparent)}
-.ticker-track{display:flex;gap:0;animation:ticker 30s linear infinite;width:max-content}
-.ticker-track:hover{animation-play-state:paused}
-.ticker-item{display:flex;align-items:center;gap:24px;padding:0 32px;
-  border-right:1px solid rgba(247,244,238,.08);white-space:nowrap}
-.ticker-city{font-family:var(--cg);font-size:22px;font-weight:300;
-  font-style:italic;color:rgba(247,244,238,.4);transition:color .2s;cursor:default}
-.ticker-item:hover .ticker-city{color:var(--gold)}
-.ticker-code{font-size:9px;font-weight:700;letter-spacing:2px;color:rgba(212,168,48,.3)}
-@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.dest-footer{text-align:center}
-.dest-footer p{font-size:13px;color:rgba(247,244,238,.4);margin-bottom:24px;
-  font-style:italic;font-family:var(--cg);font-size:22px}
-
-/* ── ENTERPRISE TEASER ────────────────────────────────────────────────────── */
-.enterprise{position:relative;padding:0;overflow:hidden;min-height:500px;
-  display:flex;align-items:center}
-.enterprise-bg{position:absolute;inset:0;background:var(--navy);overflow:hidden}
-.enterprise-grid-lines{position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(212,168,48,.04) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(212,168,48,.04) 1px,transparent 1px);
-  background-size:60px 60px}
-.enterprise-content{position:relative;z-index:2;padding:100px 48px;
-  display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;width:100%}
-.enterprise-left .sec-eyebrow{color:rgba(212,168,48,.6)}
-.enterprise-badges{display:flex;gap:12px;margin-top:32px;flex-wrap:wrap}
-.enterprise-badge{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
-  padding:8px 16px;border:1px solid rgba(212,168,48,.25);color:rgba(212,168,48,.6);
-  border-radius:2px}
-.enterprise-right{border-left:1px solid rgba(212,168,48,.12);padding-left:80px}
-.enterprise-stat{margin-bottom:36px;padding-bottom:36px;
-  border-bottom:1px solid rgba(212,168,48,.08)}
-.enterprise-stat:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
-.stat-number{font-family:var(--cg);font-size:48px;font-weight:300;color:var(--gold);line-height:1}
-.stat-label{font-size:10px;font-weight:500;letter-spacing:2px;text-transform:uppercase;
-  color:rgba(247,244,238,.35);margin-top:6px}
-
-/* ── CONTACT ─────────────────────────────────────────────────────────────── */
-.contact-section{padding:100px 48px;background:var(--cream)}
-.contact-inner{max-width:900px;margin:0 auto;display:grid;
-  grid-template-columns:1fr 1.4fr;gap:80px;align-items:start}
-.contact-left .sec-eyebrow{color:rgba(27,42,107,.5)}
-.contact-left .sec-title{color:var(--navy)}
-.contact-left .sec-title em{color:var(--gold)}
-.contact-left p{font-size:13px;color:rgba(27,42,107,.6);line-height:1.8;margin:20px 0 32px}
-.contact-detail{display:flex;align-items:flex-start;gap:14px;margin-bottom:20px}
-.contact-detail-icon{width:32px;height:32px;border:1px solid rgba(27,42,107,.15);
-  border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.contact-detail-icon svg{stroke:var(--navy);opacity:.5}
-.contact-detail-text{font-size:12px;color:rgba(27,42,107,.6);line-height:1.6}
-.contact-detail-text strong{color:var(--navy);font-weight:500;display:block;margin-bottom:2px}
-
-/* ── FORM ─────────────────────────────────────────────────────────────────── */
-.contact-form{background:var(--white);padding:48px;border-radius:2px;
-  box-shadow:0 2px 40px rgba(27,42,107,.08)}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.form-group{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
-.form-group.full{grid-column:span 2}
-.form-label{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:rgba(27,42,107,.5)}
-.form-input,.form-select,.form-textarea{width:100%;padding:12px 16px;
-  border:1px solid rgba(27,42,107,.12);border-radius:2px;background:transparent;
-  font-family:var(--dm);font-size:13px;color:var(--navy);
-  transition:border-color .2s;outline:none}
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--gold)}
-.form-input::placeholder,.form-textarea::placeholder{color:rgba(27,42,107,.3)}
-.form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%231B2A6B' stroke-width='1.5'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 16px center;padding-right:40px}
-.form-textarea{min-height:100px;resize:vertical;line-height:1.6}
-.form-submit{width:100%;padding:16px;background:var(--navy);color:var(--cream);
-  border:none;border-radius:2px;font-family:var(--dm);font-size:11px;font-weight:700;
-  letter-spacing:2.5px;text-transform:uppercase;cursor:pointer;
-  transition:all .25s var(--ease);margin-top:8px}
-.form-submit:hover{background:var(--gold);color:var(--black)}
-.form-success{display:none;text-align:center;padding:48px 24px}
-.form-success h3{font-family:var(--cg);font-size:28px;font-style:italic;
-  color:var(--navy);margin-bottom:12px}
-.form-success p{font-size:13px;color:rgba(27,42,107,.6)}
-.form-success .success-mark{font-size:32px;margin-bottom:16px;color:var(--gold)}
-
-/* ── FOOTER ──────────────────────────────────────────────────────────────── */
-footer{background:var(--black);padding:60px 48px 40px;
-  border-top:1px solid rgba(212,168,48,.1)}
-.footer-top{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
-.footer-logo{font-family:var(--cg);font-size:16px;font-weight:300;
-  letter-spacing:8px;text-transform:uppercase;color:var(--cream);margin-bottom:12px}
-.footer-logo span{color:var(--gold)}
-.footer-tagline{font-size:11px;color:rgba(247,244,238,.35);font-style:italic;font-family:var(--cg)}
-.footer-col-title{font-size:9px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
-  color:rgba(212,168,48,.6);margin-bottom:20px}
-.footer-links{list-style:none}
-.footer-links li{margin-bottom:10px}
-.footer-links a{font-size:12px;color:rgba(247,244,238,.4);transition:color .2s}
-.footer-links a:hover{color:var(--gold)}
-.footer-bottom{display:flex;align-items:center;justify-content:space-between;
-  padding-top:32px;border-top:1px solid rgba(247,244,238,.06)}
-.footer-legal{font-size:10px;color:rgba(247,244,238,.25);letter-spacing:.5px}
-.footer-creds{display:flex;gap:20px}
-.footer-cred{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
-  color:rgba(247,244,238,.2)}
-
-/* ── REVEAL ANIMATIONS ───────────────────────────────────────────────────── */
-.reveal{opacity:0;transform:translateY(32px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-.reveal.visible{opacity:1;transform:translateY(0)}
-.reveal-delay-1{transition-delay:.1s}
-.reveal-delay-2{transition-delay:.2s}
-.reveal-delay-3{transition-delay:.3s}
-.reveal-delay-4{transition-delay:.4s}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-
-/* ── RESPONSIVE ──────────────────────────────────────────────────────────── */
-@media(max-width:1024px){
-  nav{padding:20px 32px}
-  .nav-links{gap:24px}
-  .statement,.experiences,.destinations,.contact-section,.enterprise-content{padding:80px 32px}
-  .process{padding:80px 32px}
-  .protection{grid-template-columns:1fr}
-  .prot-consumer,.prot-corporate{padding:60px 40px}
-  .enterprise-content{grid-template-columns:1fr;gap:48px}
-  .enterprise-right{border-left:none;padding-left:0;border-top:1px solid rgba(212,168,48,.12);padding-top:48px;display:flex;gap:48px}
-  .enterprise-stat{flex:1;border-bottom:none;margin-bottom:0;padding-bottom:0}
-  .contact-inner{grid-template-columns:1fr;gap:48px}
-  .footer-top{grid-template-columns:1fr 1fr;gap:32px}
+/* Animated gradient atmosphere */
+.hero-atm{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(201,168,76,.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(10,22,40,.8) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(6,14,26,.9) 0%, transparent 50%);
+  animation:atmShift 12s ease-in-out infinite alternate;
 }
-@media(max-width:768px){
-  nav{padding:18px 24px}
-  .nav-links{display:none}
-  .nav-hamburger{display:flex}
-  .hero-title{font-size:clamp(42px,10vw,64px)}
-  .hero-actions{flex-direction:column;align-items:center}
-  .exp-grid{grid-template-columns:1fr;grid-template-rows:auto}
-  .exp-card:first-child{aspect-ratio:4/3}
-  .process-grid{grid-template-columns:1fr 1fr}
-  .statement,.experiences,.destinations,.contact-section{padding:60px 24px}
-  .process,.enterprise-content{padding:60px 24px}
-  .form-row{grid-template-columns:1fr}
-  .form-group.full{grid-column:1}
-  .contact-form{padding:32px 24px}
-  .footer-top{grid-template-columns:1fr}
-  .footer-bottom{flex-direction:column;gap:12px;text-align:center}
-  .enterprise-right{flex-direction:column;gap:24px}
+@keyframes atmShift{
+  0%{opacity:.6;}
+  50%{opacity:1;}
+  100%{opacity:.7;}
 }
-@media(max-width:480px){
-  .process-grid{grid-template-columns:1fr}
+
+/* Particle field */
+.hero-particles{position:absolute;inset:0;overflow:hidden;}
+.particle{
+  position:absolute;
+  width:1px;
+  height:1px;
+  background:rgba(201,168,76,.4);
+  border-radius:50%;
+  animation:particleDrift linear infinite;
 }
+
+/* Horizontal light line */
+.hero-line{
+  position:absolute;
+  top:50%;
+  left:0;
+  right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent 0%,rgba(201,168,76,.08) 20%,rgba(201,168,76,.15) 50%,rgba(201,168,76,.08) 80%,transparent 100%);
+  transform:translateY(-1px);
+  animation:linePulse 4s ease-in-out infinite;
+}
+@keyframes linePulse{0%,100%{opacity:.4;}50%{opacity:1;}}
+
+/* Hero content */
+.hero-inner{
+  position:relative;
+  z-index:5;
+  text-align:center;
+  padding:0 40px;
+  max-width:1100px;
+}
+
+/* Eyebrow */
+.hero-eyebrow{
+  font-weight:200;
+  font-size:.56rem;
+  letter-spacing:.7em;
+  text-transform:uppercase;
+  color:rgba(201,168,76,.6);
+  margin-bottom:40px;
+  opacity:0;
+  animation:wordFade .8s var(--ease) .5s forwards;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{
+  content:'';
+  display:block;
+  width:40px;
+  height:1px;
+  background:rgba(201,168,76,.3);
+}
+
+/* Main title — staggered words */
+.hero-title{
+  font-family:var(--font-d);
+  font-weight:300;
+  line-height:.92;
+  margin-bottom:40px;
+  letter-spacing:-.02em;
+}
+.hero-word{
+  display:block;
+  overflow:hidden;
+}
+.hero-word-inner{
+  display:block;
+  font-size:clamp(5rem,11vw,13rem);
+  transform:translateY(110%);
+  animation:wordSlide .9s var(--ease) forwards;
+}
+.hero-word:nth-child(1) .hero-word-inner{animation-delay:.8s;color:var(--white);}
+.hero-word:nth-child(2) .hero-word-inner{animation-delay:1.05s;font-style:italic;color:var(--gold-lt);}
+.hero-word:nth-child(3) .hero-word-inner{animation-delay:1.3s;color:var(--white);}
+@keyframes wordSlide{
+  from{transform:translateY(110%);}
+  to{transform:translateY(0);}
+}
+
+/* Descriptor */
+.hero-descriptor{
+  font-weight:200;
+  font-size:.72rem;
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.3);
+  margin-bottom:56px;
+  opacity:0;
+  animation:wordFade .8s var(--ease) 1.8s forwards;
+}
+.hero-descriptor em{color:rgba(201,168,76,.5);font-style:normal;}
+
+/* CTAs */
+.hero-ctas{
+  display:flex;
+  gap:16px;
+  justify-content:center;
+  opacity:0;
+  animation:wordFade .8s var(--ease) 2.1s forwards;
+  flex-wrap:wrap;
+}
+
+/* Scroll indicator */
+.hero-scroll{
+  position:absolute;
+  bottom:40px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  z-index:5;
+  opacity:0;
+  animation:wordFade 1s var(--ease) 2.8s forwards;
+}
+.hero-scroll-line{
+  width:1px;
+  height:60px;
+  background:linear-gradient(to bottom,rgba(201,168,76,.6),transparent);
+  animation:scrollPulse 2.4s ease-in-out infinite;
+}
+.hero-scroll-text{
+  font-weight:200;
+  font-size:.5rem;
+  letter-spacing:.4em;
+  text-transform:uppercase;
+  color:rgba(201,168,76,.35);
+}
+@keyframes scrollPulse{0%,100%{transform:scaleY(1);opacity:.5;}50%{transform:scaleY(1.2);opacity:1;}}
+@keyframes wordFade{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+@keyframes particleDrift{
+  0%{transform:translateY(100vh) translateX(0);opacity:0;}
+  10%{opacity:1;}
+  90%{opacity:.5;}
+  100%{transform:translateY(-100px) translateX(var(--dx,20px));opacity:0;}
+}
+
+/* BUTTONS */
+.btn-gold{
+  font-weight:400;
+  font-size:.62rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  background:var(--gold);
+  color:var(--black);
+  padding:16px 48px;
+  cursor:none;
+  border:none;
+  display:inline-block;
+  transition:all .3s var(--ease);
+  position:relative;
+  overflow:hidden;
+}
+.btn-gold::before{content:'';position:absolute;inset:0;background:var(--gold-lt);transform:translateX(-101%);transition:transform .5s var(--ease);}
+.btn-gold:hover::before{transform:translateX(0);}
+.btn-gold span{position:relative;z-index:1;}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(201,168,76,.2);}
+.btn-ghost{
+  font-weight:200;
+  font-size:.62rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.55);
+  padding:16px 48px;
+  cursor:none;
+  background:none;
+  display:inline-block;
+  transition:all .3s;
+}
+.btn-ghost:hover{border-color:rgba(201,168,76,.4);color:rgba(201,168,76,.8);}
+.btn-outline-gold{
+  font-weight:200;
+  font-size:.62rem;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  border:1px solid rgba(201,168,76,.35);
+  color:var(--gold);
+  padding:16px 48px;
+  cursor:none;
+  background:none;
+  display:inline-block;
+  transition:all .3s;
+}
+.btn-outline-gold:hover{background:var(--gold);color:var(--black);}
+
+/* ═══════════════════════════════
+   MANIFESTO SECTION
+═══════════════════════════════ */
+#manifesto{
+  padding:180px 72px;
+  background:var(--black);
+  position:relative;
+  overflow:hidden;
+}
+#manifesto::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.12),transparent);
+}
+.manifesto-inner{max-width:1000px;margin:0 auto;}
+.manifesto-line{
+  font-family:var(--font-d);
+  font-weight:300;
+  font-size:clamp(2rem,4.5vw,5rem);
+  line-height:1.1;
+  color:rgba(255,255,255,.12);
+  transition:color .8s ease;
+  cursor:default;
+  margin-bottom:8px;
+  letter-spacing:-.01em;
+}
+.manifesto-line.active{color:rgba(255,255,255,.9);}
+.manifesto-line em{font-style:italic;color:var(--gold-lt);}
+.manifesto-line span{color:rgba(201,168,76,.6);}
+
+/* ═══════════════════════════════
+   SERVICES — FLIP CARDS
+═══════════════════════════════ */
+#services{
+  padding:160px 72px;
+  background:var(--black);
+  border-top:1px solid rgba(255,255,255,.04);
+}
+.services-header{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:end;
+  margin-bottom:80px;
+  max-width:1200px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.sec-tag{
+  font-weight:200;
+  font-size:.55rem;
+  letter-spacing:.45em;
+  text-transform:uppercase;
+  color:var(--gold);
+  margin-bottom:20px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.sec-tag::before{content:'';display:block;width:20px;height:1px;background:var(--gold);}
+.display-h{
+  font-family:var(--font-d);
+  font-weight:300;
+  font-size:clamp(2.4rem,4.5vw,4.5rem);
+  color:var(--white);
+  line-height:1.06;
+  letter-spacing:-.015em;
+}
+.display-h em{font-style:italic;color:var(--gold-lt);}
+.body-copy{
+  font-weight:200;
+  font-size:.86rem;
+  color:rgba(255,255,255,.42);
+  line-height:2.1;
+  margin-bottom:28px;
+}
+.flip-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+  max-width:1200px;
+  margin:0 auto;
+}
+.flip-card{height:340px;perspective:1200px;cursor:none;}
+.flip-inner{
+  position:relative;width:100%;height:100%;
+  transform-style:preserve-3d;
+  transition:transform .75s var(--ease);
+}
+.flip-card:hover .flip-inner{transform:rotateY(180deg);}
+.flip-front,.flip-back{
+  position:absolute;inset:0;
+  backface-visibility:hidden;
+  -webkit-backface-visibility:hidden;
+  padding:44px 36px;
+  display:flex;
+  flex-direction:column;
+}
+.flip-front{
+  background:rgba(255,255,255,.02);
+  border:1px solid rgba(255,255,255,.04);
+  justify-content:flex-end;
+}
+.flip-back{
+  background:var(--gold);
+  transform:rotateY(180deg);
+  justify-content:center;
+}
+.flip-num{
+  font-family:var(--font-d);
+  font-size:4rem;
+  font-weight:300;
+  color:rgba(201,168,76,.06);
+  line-height:1;
+  margin-bottom:auto;
+  padding-top:20px;
+}
+.flip-name{
+  font-family:var(--font-d);
+  font-size:1.5rem;
+  font-weight:300;
+  color:var(--white);
+  margin-bottom:8px;
+  line-height:1.2;
+}
+.flip-hint{
+  font-weight:200;
+  font-size:.54rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.2);
+}
+.flip-back-name{
+  font-family:var(--font-d);
+  font-size:1.4rem;
+  font-weight:300;
+  color:var(--black);
+  margin-bottom:16px;
+}
+.flip-back-desc{
+  font-weight:300;
+  font-size:.82rem;
+  color:rgba(5,5,5,.72);
+  line-height:1.95;
+}
+.flip-back-link{
+  margin-top:20px;
+  font-weight:500;
+  font-size:.58rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--black);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.flip-back-link::after{content:'→';}
+
+/* ═══════════════════════════════
+   SCROLL STORY — cinematic
+═══════════════════════════════ */
+#story{
+  background:var(--black);
+  border-top:1px solid rgba(255,255,255,.04);
+}
+.story-intro{
+  padding:160px 72px 100px;
+  max-width:700px;
+  margin:0 auto;
+  text-align:center;
+}
+.story-scene{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  min-height:100vh;
+  align-items:center;
+  border-top:1px solid rgba(255,255,255,.03);
+}
+.story-scene:nth-child(even){direction:rtl;}
+.story-scene:nth-child(even)>*{direction:ltr;}
+.story-text{padding:100px 80px;}
+.story-num{
+  font-family:var(--font-d);
+  font-size:6rem;
+  font-weight:300;
+  color:rgba(201,168,76,.05);
+  line-height:1;
+  margin-bottom:-20px;
+}
+.story-time{
+  font-weight:200;
+  font-size:.54rem;
+  letter-spacing:.55em;
+  text-transform:uppercase;
+  color:rgba(201,168,76,.55);
+  margin-bottom:28px;
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .9s var(--ease),transform .9s var(--ease);
+}
+.story-headline{
+  font-family:var(--font-d);
+  font-weight:300;
+  font-size:clamp(2rem,3.5vw,3.5rem);
+  color:var(--white);
+  line-height:1.2;
+  margin-bottom:20px;
+  opacity:0;
+  transform:translateY(24px);
+  transition:opacity 1s var(--ease) .15s,transform 1s var(--ease) .15s;
+}
+.story-headline em{font-style:italic;color:var(--gold-lt);}
+.story-detail{
+  font-weight:200;
+  font-size:.86rem;
+  color:rgba(255,255,255,.38);
+  line-height:2.1;
+  max-width:360px;
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity .9s var(--ease) .3s,transform .9s var(--ease) .3s;
+}
+.story-scene.in-view .story-time,
+.story-scene.in-view .story-headline,
+.story-scene.in-view .story-detail{opacity:1;transform:translateY(0);}
+
+/* Visual side — pure color/gradient, no image */
+.story-visual{
+  position:relative;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.story-visual-bg{
+  position:absolute;
+  inset:0;
+  transition:opacity 1.2s var(--ease);
+}
+.story-visual-num{
+  position:relative;
+  z-index:2;
+  font-family:var(--font-d);
+  font-size:clamp(12rem,22vw,26rem);
+  font-weight:300;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(201,168,76,.08);
+  line-height:1;
+  user-select:none;
+  opacity:0;
+  transform:scale(.9);
+  transition:opacity 1.2s var(--ease) .2s,transform 1.2s var(--ease) .2s;
+}
+.story-scene.in-view .story-visual-num{opacity:1;transform:scale(1);}
+.story-scene.in-view .story-visual-bg{opacity:1;}
+
+/* Scene 1 — Caribbean warmth */
+#sc1 .story-visual-bg{background:radial-gradient(ellipse at 40% 60%,rgba(201,100,50,.15) 0%,rgba(201,168,76,.06) 40%,rgba(5,5,5,1) 75%);}
+/* Scene 2 — Morocco spice */
+#sc2 .story-visual-bg{background:radial-gradient(ellipse at 60% 40%,rgba(150,80,20,.18) 0%,rgba(201,168,76,.05) 45%,rgba(5,5,5,1) 75%);}
+/* Scene 3 — Africa dusk */
+#sc3 .story-visual-bg{background:radial-gradient(ellipse at 35% 55%,rgba(180,60,20,.12) 0%,rgba(100,60,20,.08) 40%,rgba(5,5,5,1) 72%);}
+
+/* ═══════════════════════════════
+   WHY US
+═══════════════════════════════ */
+#why{
+  padding:160px 72px;
+  background:var(--navy-deep);
+  position:relative;
+  overflow:hidden;
+}
+#why::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(201,168,76,.04) 0%,transparent 60%);
+  pointer-events:none;
+}
+.why-inner{max-width:1200px;margin:0 auto;position:relative;z-index:1;}
+.why-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:rgba(255,255,255,.04);
+  margin-top:80px;
+}
+.why-item{
+  background:var(--navy-deep);
+  padding:52px 44px;
+  position:relative;
+  overflow:hidden;
+  transition:background .4s;
+}
+.why-item::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.2),transparent);
+  transform:scaleX(0);
+  transition:transform .5s var(--ease);
+}
+.why-item:hover{background:rgba(10,22,40,.4);}
+.why-item:hover::before{transform:scaleX(1);}
+.why-num{
+  font-family:var(--font-d);
+  font-size:3rem;
+  font-weight:300;
+  color:rgba(201,168,76,.07);
+  line-height:1;
+  margin-bottom:24px;
+}
+.why-title{
+  font-family:var(--font-d);
+  font-size:1.3rem;
+  font-weight:300;
+  color:var(--white);
+  margin-bottom:12px;
+  line-height:1.3;
+}
+.why-desc{
+  font-weight:200;
+  font-size:.8rem;
+  color:rgba(255,255,255,.38);
+  line-height:1.95;
+}
+
+/* ═══════════════════════════════
+   DESTINATIONS — minimal
+═══════════════════════════════ */
+#dest-strip{
+  padding:160px 72px;
+  background:var(--black);
+  border-top:1px solid rgba(255,255,255,.04);
+}
+.dest-strip-inner{max-width:1200px;margin:0 auto;}
+.dest-list{
+  margin-top:80px;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.dest-item{
+  display:grid;
+  grid-template-columns:80px 1fr auto;
+  align-items:center;
+  gap:40px;
+  padding:28px 0;
+  border-bottom:1px solid rgba(255,255,255,.04);
+  cursor:none;
+  transition:all .4s var(--ease);
+  position:relative;
+  overflow:hidden;
+}
+.dest-item::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:rgba(201,168,76,.02);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .4s var(--ease);
+}
+.dest-item:hover::before{transform:scaleX(1);}
+.dest-item:hover .dest-item-name{color:var(--gold-lt);transform:translateX(8px);}
+.dest-item:hover .dest-item-arrow{opacity:1;transform:translateX(0);}
+.dest-item-num{
+  font-family:var(--font-d);
+  font-size:.85rem;
+  font-weight:300;
+  color:rgba(201,168,76,.25);
+  letter-spacing:.1em;
+}
+.dest-item-name{
+  font-family:var(--font-d);
+  font-size:clamp(1.8rem,3vw,2.8rem);
+  font-weight:300;
+  color:var(--white);
+  transition:color .4s,transform .4s var(--ease);
+  display:flex;
+  align-items:center;
+  gap:20px;
+}
+.dest-item-region{
+  font-weight:200;
+  font-size:.58rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.25);
+}
+.dest-item-arrow{
+  font-size:1.2rem;
+  color:var(--gold);
+  opacity:0;
+  transform:translateX(-10px);
+  transition:all .4s var(--ease);
+}
+
+/* ═══════════════════════════════
+   POSITIONING
+═══════════════════════════════ */
+#positioning{
+  padding:200px 72px;
+  background:var(--black);
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+  border-top:1px solid rgba(255,255,255,.04);
+}
+.pos-glow{
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:600px;height:600px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(201,168,76,.05) 0%,transparent 65%);
+  pointer-events:none;
+  animation:glowPulse 6s ease-in-out infinite;
+}
+@keyframes glowPulse{0%,100%{transform:translate(-50%,-50%) scale(1);}50%{transform:translate(-50%,-50%) scale(1.15);}}
+.pos-quote{
+  font-family:var(--font-d);
+  font-style:italic;
+  font-weight:300;
+  font-size:clamp(1.6rem,3.2vw,3.2rem);
+  color:var(--white);
+  line-height:1.5;
+  max-width:860px;
+  margin:0 auto 20px;
+  position:relative;
+  z-index:1;
+}
+.pos-quote em{color:var(--gold-lt);}
+.pos-attr{
+  font-weight:200;
+  font-size:.58rem;
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  color:rgba(201,168,76,.45);
+  position:relative;
+  z-index:1;
+  margin-bottom:64px;
+}
+
+/* ═══════════════════════════════
+   FOUNDER
+═══════════════════════════════ */
+#founder{
+  padding:0;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  min-height:700px;
+  border-top:1px solid rgba(255,255,255,.04);
+}
+.founder-left{
+  background:var(--navy-deep);
+  padding:120px 80px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  position:relative;
+  overflow:hidden;
+}
+.founder-left::after{
+  content:'';
+  position:absolute;
+  top:0;right:0;bottom:0;
+  width:1px;
+  background:linear-gradient(to bottom,transparent,rgba(201,168,76,.15),transparent);
+}
+.founder-quote{
+  font-family:var(--font-d);
+  font-style:italic;
+  font-weight:300;
+  font-size:clamp(1.3rem,2.2vw,2rem);
+  color:var(--white);
+  line-height:1.65;
+  margin:32px 0;
+  padding-left:28px;
+  border-left:1px solid rgba(201,168,76,.4);
+}
+.founder-meta{
+  font-weight:200;
+  font-size:.6rem;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.25);
+}
+
+/* Founder right — pure visual */
+.founder-right{
+  background:var(--black);
+  position:relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.founder-visual{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(ellipse at 30% 40%,rgba(201,168,76,.06) 0%,transparent 55%),
+    radial-gradient(ellipse at 70% 70%,rgba(10,22,40,.8) 0%,transparent 50%);
+}
+.founder-monogram{
+  position:relative;
+  z-index:2;
+  font-family:var(--font-d);
+  font-size:clamp(10rem,18vw,22rem);
+  font-weight:300;
+  color:transparent;
+  -webkit-text-stroke:1px rgba(201,168,76,.06);
+  line-height:1;
+  user-select:none;
+  animation:monogramFloat 8s ease-in-out infinite;
+}
+@keyframes monogramFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-16px);}}
+
+/* ═══════════════════════════════
+   ABOUT PAGE
+═══════════════════════════════ */
+.page-hero-text{
+  padding:200px 72px 120px;
+  max-width:900px;
+}
+.heritage-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1px;
+  background:rgba(255,255,255,.04);
+  margin:0 72px 0;
+}
+.heritage-item{
+  padding:60px 44px;
+  background:var(--black);
+  position:relative;
+  overflow:hidden;
+  transition:background .4s;
+}
+.heritage-item::before{
+  content:'';
+  position:absolute;
+  top:0;left:0;right:0;
+  height:1px;
+  background:var(--gold);
+  transform:scaleX(0);
+  transition:transform .5s var(--ease);
+}
+.heritage-item:hover{background:rgba(10,22,40,.3);}
+.heritage-item:hover::before{transform:scaleX(1);}
+.heritage-name{
+  font-family:var(--font-d);
+  font-size:2rem;
+  font-weight:300;
+  color:var(--white);
+  margin-bottom:8px;
+}
+.heritage-region{
+  font-weight:200;
+  font-size:.6rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:rgba(201,168,76,.5);
+}
+
+/* ═══════════════════════════════
+   DESTINATIONS PAGE
+═══════════════════════════════ */
+#dest-bar{
+  position:sticky;top:60px;z-index:100;
+  background:rgba(5,5,5,.97);backdrop-filter:blur(20px);
+  padding:16px 72px;border-bottom:1px solid rgba(255,255,255,.04);
+  display:flex;gap:8px;flex-wrap:wrap;
+}
+.filter-btn{
+  font-weight:200;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  padding:7px 18px;border:1px solid rgba(255,255,255,.07);
+  color:rgba(255,255,255,.35);background:none;cursor:none;transition:all .3s;
+}
+.filter-btn:hover,.filter-btn.active{border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,.04);}
+.dest-full-list{padding:3px;background:rgba(255,255,255,.03);}
+.dest-row{
+  display:grid;grid-template-columns:60px 1fr 200px 100px;
+  align-items:center;gap:32px;padding:24px 72px;
+  border-bottom:1px solid rgba(255,255,255,.03);
+  cursor:none;transition:all .3s;
+}
+.dest-row:hover{background:rgba(201,168,76,.02);}
+.dest-row.hidden{display:none;}
+.dest-row-num{font-family:var(--font-d);font-size:.8rem;color:rgba(201,168,76,.2);letter-spacing:.1em;}
+.dest-row-name{font-family:var(--font-d);font-size:1.8rem;font-weight:300;color:var(--white);transition:color .3s;}
+.dest-row:hover .dest-row-name{color:var(--gold-lt);}
+.dest-row-region{font-weight:200;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.28);}
+.dest-row-arrow{font-size:1rem;color:rgba(201,168,76,.3);transition:all .3s;text-align:right;}
+.dest-row:hover .dest-row-arrow{color:var(--gold);transform:translateX(4px);}
+
+/* ═══════════════════════════════
+   SERVICES PAGE
+═══════════════════════════════ */
+.sfull-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:1px;background:rgba(255,255,255,.03);
+  max-width:1200px;margin:60px auto 0;
+}
+.sfull-card{
+  background:var(--black);padding:60px 52px;
+  position:relative;overflow:hidden;transition:background .4s;
+}
+.sfull-card::before{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.1),transparent);
+  transform:scaleX(0);transition:transform .5s var(--ease);
+}
+.sfull-card:hover{background:rgba(10,22,40,.2);}
+.sfull-card:hover::before{transform:scaleX(1);}
+.sfull-num{font-family:var(--font-d);font-size:.58rem;color:rgba(201,168,76,.18);letter-spacing:.2em;margin-bottom:28px;display:block;}
+.sfull-name{font-family:var(--font-d);font-size:1.8rem;font-weight:300;color:var(--white);margin-bottom:16px;line-height:1.2;}
+.sfull-desc{font-weight:200;font-size:.82rem;color:rgba(255,255,255,.38);line-height:2;}
+
+/* ═══════════════════════════════
+   INSURANCE PAGE
+═══════════════════════════════ */
+.ins-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:1px;background:rgba(255,255,255,.04);
+  max-width:1200px;margin:60px auto 0;
+}
+.ins-card{
+  background:var(--black);padding:48px 40px;transition:background .3s;
+}
+.ins-card:hover{background:rgba(10,22,40,.3);}
+.ins-card h3{font-family:var(--font-d);font-size:1.3rem;font-weight:300;color:var(--white);margin-bottom:12px;line-height:1.3;}
+.ins-card p{font-weight:200;font-size:.8rem;color:rgba(255,255,255,.38);line-height:1.95;}
+.ins-icon{margin-bottom:20px;opacity:.4;}
+.ins-disclosure{
+  max-width:1200px;margin:3px auto 0;
+  background:rgba(201,168,76,.02);
+  border:1px solid rgba(201,168,76,.08);
+  padding:52px;
+}
+
+/* ═══════════════════════════════
+   INTAKE FORM PAGE
+═══════════════════════════════ */
+#page-inquiry{background:var(--black);}
+.inquiry-wrap{
+  display:grid;grid-template-columns:1fr 1.6fr;
+  gap:100px;align-items:start;
+  padding:160px 72px 120px;max-width:1400px;
+}
+.inquiry-perks{display:flex;flex-direction:column;gap:14px;margin-top:40px;}
+.inquiry-perk{
+  font-weight:200;font-size:.8rem;color:rgba(255,255,255,.42);
+  display:flex;align-items:center;gap:14px;
+  padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.04);
+}
+.inquiry-perk::before{content:'✦';color:var(--gold);font-size:.6rem;}
+.fsec{margin-bottom:48px;}
+.fsec-title{
+  font-weight:200;font-size:.54rem;letter-spacing:.38em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:24px;padding-bottom:10px;
+  border-bottom:1px solid rgba(201,168,76,.1);
+}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.fg{display:flex;flex-direction:column;gap:8px;margin-bottom:22px;}
+.fl{font-weight:400;font-size:.54rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.45);}
+.fi{
+  font-weight:300;font-size:.9rem;color:var(--white);background:transparent;
+  border:none;border-bottom:1px solid rgba(255,255,255,.1);
+  padding:12px 0;outline:none;transition:border-color .3s;width:100%;
+}
+.fi:focus{border-color:var(--gold);}
+.fi::placeholder{color:rgba(255,255,255,.18);font-weight:200;}
+.fsel{
+  font-weight:200;font-size:.9rem;color:var(--white);background:transparent;
+  border:none;border-bottom:1px solid rgba(255,255,255,.1);
+  padding:12px 0;outline:none;width:100%;-webkit-appearance:none;cursor:none;
+  transition:border-color .3s;
+}
+.fsel option{background:var(--navy);color:var(--white);}
+.fsel:focus{border-color:var(--gold);outline:none;}
+.fta{
+  font-weight:200;font-size:.9rem;color:var(--white);background:transparent;
+  border:none;border-bottom:1px solid rgba(255,255,255,.1);
+  padding:12px 0;outline:none;resize:none;width:100%;min-height:80px;
+  transition:border-color .3s;
+}
+.fta:focus{border-color:var(--gold);}
+.fta::placeholder{color:rgba(255,255,255,.18);font-weight:200;}
+.check-group{display:flex;flex-direction:column;gap:12px;}
+.check-item{display:flex;align-items:center;gap:12px;cursor:none;}
+.check-item input{accent-color:var(--gold);cursor:none;}
+.check-item label{font-weight:200;font-size:.82rem;color:rgba(255,255,255,.52);cursor:none;}
+.radio-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.radio-item{display:flex;align-items:center;gap:10px;cursor:none;}
+.radio-item input{accent-color:var(--gold);cursor:none;}
+.radio-item label{font-weight:200;font-size:.8rem;color:rgba(255,255,255,.5);cursor:none;}
+.fsub{
+  width:100%;padding:17px;font-weight:400;font-size:.64rem;letter-spacing:.22em;
+  text-transform:uppercase;background:var(--gold);color:var(--black);
+  border:none;cursor:none;transition:background .3s;margin-top:8px;
+}
+.fsub:hover{background:var(--gold-lt);}
+.form-note{font-weight:200;font-size:.7rem;color:rgba(255,255,255,.25);line-height:1.8;margin-top:16px;text-align:center;}
+.form-success{display:none;padding:32px;border:1px solid rgba(201,168,76,.2);text-align:center;margin-top:20px;}
+.form-success p{font-family:var(--font-d);font-style:italic;font-size:1.1rem;color:var(--gold-lt);line-height:1.7;}
+
+/* ═══════════════════════════════
+   CONTACT PAGE
+═══════════════════════════════ */
+.contact-split{display:grid;grid-template-columns:1fr 1.6fr;min-height:600px;}
+.contact-left{
+  background:var(--navy-deep);padding:100px 72px;
+  display:flex;flex-direction:column;justify-content:space-between;
+}
+.contact-right{background:var(--cream);padding:100px 80px;}
+.c-label{
+  font-weight:500;font-size:.54rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--gold);margin-bottom:6px;display:block;
+}
+.c-val{font-weight:200;font-size:.88rem;color:rgba(255,255,255,.75);}
+.cf-label{
+  font-weight:500;font-size:.54rem;letter-spacing:.22em;
+  text-transform:uppercase;color:rgba(10,22,40,.6);margin-bottom:7px;display:block;
+}
+.cf-input{
+  width:100%;font-weight:300;font-size:.94rem;color:#0A1628;background:transparent;
+  border:none;border-bottom:2px solid rgba(10,22,40,.18);
+  padding:11px 0;outline:none;transition:border-color .3s;
+}
+.cf-input:focus{border-color:var(--navy);}
+.cf-input::placeholder{color:rgba(10,22,40,.28);font-weight:200;}
+.cf-textarea{
+  width:100%;font-weight:300;font-size:.94rem;color:#0A1628;background:transparent;
+  border:none;border-bottom:2px solid rgba(10,22,40,.18);
+  padding:11px 0;outline:none;resize:none;height:90px;transition:border-color .3s;
+}
+.cf-textarea::placeholder{color:rgba(10,22,40,.28);font-weight:200;}
+.btn-navy{
+  width:100%;padding:15px;font-weight:400;font-size:.64rem;letter-spacing:.22em;
+  text-transform:uppercase;background:var(--navy);color:var(--white);
+  border:none;cursor:none;transition:background .3s;margin-top:8px;
+}
+.btn-navy:hover{background:rgba(6,14,26,.85);}
+.soc-row{display:flex;gap:10px;margin-top:28px;}
+.soc-icon{
+  width:36px;height:36px;border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  cursor:none;transition:all .3s;color:rgba(255,255,255,.4);
+}
+.soc-icon:hover{border-color:var(--gold);color:var(--gold);}
+
+/* PRIVACY */
+.legal-wrap{padding:160px 72px 80px;max-width:760px;}
+
+/* FOOTER */
+#footer{
+  background:var(--black);padding:100px 72px 40px;
+  border-top:1px solid rgba(255,255,255,.04);
+  position:relative;
+}
+#footer::before{
+  content:'';position:absolute;top:0;left:72px;right:72px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.15),transparent);
+}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:52px;margin-bottom:60px;max-width:1200px;
+}
+.footer-tagline{font-family:var(--font-d);font-style:italic;font-size:1rem;color:var(--gold);margin:10px 0 14px;}
+.footer-desc{font-weight:200;font-size:.74rem;color:rgba(255,255,255,.25);line-height:2;max-width:260px;}
+.footer-badge{
+  display:inline-block;font-weight:200;font-size:.52rem;letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(201,168,76,.45);
+  border:1px solid rgba(201,168,76,.12);padding:4px 12px;margin-top:18px;
+}
+.footer-col-title{font-weight:200;font-size:.54rem;letter-spacing:.32em;text-transform:uppercase;color:rgba(255,255,255,.18);margin-bottom:18px;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:12px;}
+.footer-links a{font-weight:200;font-size:.76rem;color:rgba(255,255,255,.28);cursor:none;transition:color .3s;}
+.footer-links a:hover{color:var(--gold);}
+.footer-email{font-weight:200;font-size:.76rem;color:rgba(255,255,255,.28);cursor:none;transition:color .3s;display:block;margin-bottom:4px;}
+.footer-email:hover{color:var(--gold);}
+.footer-bottom{
+  max-width:1200px;border-top:1px solid rgba(255,255,255,.04);
+  padding-top:28px;display:flex;align-items:center;
+  justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.footer-copy{font-weight:200;font-size:.6rem;color:rgba(255,255,255,.15);letter-spacing:.05em;}
+.footer-util{display:flex;gap:20px;}
+.footer-util a{font-weight:200;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.15);cursor:none;transition:color .3s;}
+.footer-util a:hover{color:rgba(255,255,255,.4);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px);}to{opacity:1;transform:translateY(0);}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .85s var(--ease),transform .85s var(--ease);}
+.reveal.vis{opacity:1;transform:translateY(0);}
+.r1{transition-delay:.08s;}.r2{transition-delay:.16s;}.r3{transition-delay:.24s;}.r4{transition-delay:.32s;}
+
+/* MOBILE */
+@media(max-width:960px){
+  #nav,#nav.scrolled{padding:18px 24px;}
+  .nav-links{display:none;}
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;top:58px;background:rgba(5,5,5,.98);padding:36px 24px;gap:24px;z-index:999;}
+  .nav-toggle{display:flex;}
+  #hero .hero-inner{padding:0 24px;}
+  #manifesto,#services,#story .story-intro,#why,#dest-strip,#positioning,#founder .founder-left,.page-hero-text,.inquiry-wrap,.legal-wrap,#footer{padding-left:24px;padding-right:24px;}
+  .heritage-grid{margin-left:24px;margin-right:24px;}
+  .services-header,.story-scene,.contact-split{grid-template-columns:1fr;}
+  #founder{grid-template-columns:1fr;}
+  .founder-right{height:300px;}
+  .flip-grid,.dest-full-list,.sfull-grid,.ins-grid,.why-grid,.heritage-grid{grid-template-columns:1fr;}
+  .footer-grid{grid-template-columns:1fr 1fr;}
+  .footer-bottom{flex-direction:column;text-align:center;}
+  .story-scene{min-height:auto;}
+  .story-visual{height:50vw;min-height:280px;}
+  .story-text{padding:52px 24px;}
+  .dest-row{grid-template-columns:40px 1fr;padding:18px 24px;}
+  .dest-row-region,.dest-row-arrow{display:none;}
+  .frow,.radio-grid{grid-template-columns:1fr;}
+  .inquiry-wrap{grid-template-columns:1fr;gap:40px;padding:120px 24px 80px;}
+  .contact-left,.contact-right{padding:60px 24px;}
+  #dest-bar{padding:12px 24px;top:58px;}
+  #cur,#cur-ring{display:none;}
+}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important;}}
+
+/* VIDEO HERO */
+@keyframes kbZoom{from{transform:scale(1.08)}to{transform:scale(1)}}
+@keyframes kbSlow{from{transform:scale(1.06) translateX(-1%)}to{transform:scale(1) translateX(0)}}
+#hero .hero-atm{z-index:1}
+#hero .hero-particles{z-index:1}
+#hero .hero-line{z-index:1}
+#hero .hero-inner{z-index:2;position:relative}
+#hero .hero-scroll{z-index:2}
 </style>
 </head>
 <body>
+<div id="cur"></div>
+<div id="cur-ring"></div>
 
 <!-- NAV -->
 <nav id="nav">
-  <a href="#" class="nav-logo">LOLO<span>.</span></a>
-  <div class="nav-links">
-    <a href="#experiences">Experiences</a>
-    <a href="#protection">Protection</a>
-    <a href="https://lolotravels.com/government">Enterprise</a>
-    <a href="#contact" class="nav-cta">Plan Your Journey</a>
+  <a class="nav-logo" href="#" onclick="goPage('home');return false;">
+    <svg width="36" height="36" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18.5" fill="#0A1628" stroke="#C9A84C" stroke-width="1.8"/><text x="20" y="26" text-anchor="middle" font-family="Georgia,serif" font-size="14" font-weight="600" fill="#C9A84C" letter-spacing="1.5">LL</text></svg>
+    <span class="nav-mark">Lolo Travels™</span>
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="#" onclick="goPage('destinations');return false;">Destinations</a>
+    <a href="#" onclick="goPage('services');return false;">Services</a>
+    <a href="#" onclick="goPage('about');return false;">Our Story</a>
+    <a href="#" onclick="goPage('insurance');return false;">Protection</a>
+    <a href="#" class="nav-cta" onclick="goPage('inquiry');return false;">Plan Your Travel</a>
   </div>
-  <div class="nav-hamburger" onclick="toggleNav()">
-    <span></span><span></span><span></span>
-  </div>
+  <button class="nav-toggle" id="navToggle" onclick="toggleNav()"><span></span><span></span><span></span></button>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <!-- Replace src with your actual video file path on Netlify -->
-  <video class="hero-video" autoplay muted loop playsinline preload="auto"
-    poster="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=80">
-    <source src="19571397-hd_1920_1080_24fps.mp4" type="video/mp4">
+
+<!-- ═══════════════════════
+     HOME
+═══════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section id="hero">
+
+  <!-- VIDEO BACKGROUND — replace src with your footage when ready -->
+  <video 
+    id="heroVideo"
+    autoplay muted loop playsinline preload="auto"
+    poster="https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=95&fit=crop&crop=entropy"
+    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;transition:opacity 1.5s ease;">
+    <source src="https://drive.google.com/uc?export=download&id=1CR_AboN8luEQRUUoCTmbfaSi7mD8SsBX" type="video/mp4">
   </video>
-  <div class="hero-overlay"></div>
-  <div class="hero-content">
-    <span class="hero-eyebrow">Lolo Travels™</span>
-    <h1 class="hero-title">The World<br><em>Is Yours.</em></h1>
-    <p class="hero-sub">Boutique travel management · Cultural intelligence · Protection built in</p>
-    <div class="hero-actions">
-      <a href="#contact" class="btn-primary">Plan Your Journey</a>
-      <a href="#experiences" class="btn-ghost">Explore Experiences</a>
-    </div>
-  </div>
-  <div class="hero-scroll">
-    <span>Discover</span>
-    <div class="scroll-line"></div>
-  </div>
-</section>
+  <!-- POSTER IMAGE — shows while video loads or if video fails -->
+  <div id="heroPoster" style="position:absolute;inset:0;z-index:0;background:url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=1920&q=95&fit=crop&crop=entropy') center/cover no-repeat;opacity:1;transition:opacity 1.5s ease;animation:kbZoom 20s ease-out forwards;"></div>
 
-<!-- STATEMENT -->
-<section class="statement">
-  <div class="statement-inner reveal">
-    <p>Travel is not a transaction.<br>
-    It is the <em>experience you did not know you needed</em> —<br>
-    or the one you have been waiting for someone to plan properly.</p>
-  </div>
-  <div class="statement-line reveal reveal-delay-2"></div>
-</section>
+    <div class="hero-atm"></div>
+    <div class="hero-particles" id="particles"></div>
+    <div class="hero-line"></div>
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Lolo Travels™ — Travel, Protection & Logistics</div>
+      <h1 class="hero-title">
+        <span class="hero-word"><span class="hero-word-inner">The</span></span>
+        <span class="hero-word"><span class="hero-word-inner">World</span></span>
+        <span class="hero-word"><span class="hero-word-inner">Is Yours.</span></span>
+      </h1>
+      <p class="hero-descriptor">Managed End to End <em>·</em> Designed Around You</p>
+      <div class="hero-ctas">
+        <a href="#" class="btn-gold" onclick="goPage('inquiry');return false;"><span>Plan Your Travel</span></a>
+        <a href="#" class="btn-ghost" onclick="goPage('services');return false;">Our Services</a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="hero-scroll-line"></div>
+      <div class="hero-scroll-text">Discover</div>
+    </div>
+  </section>
 
-<!-- EXPERIENCES -->
-<section class="experiences" id="experiences">
-  <div class="exp-header reveal">
-    <div class="sec-eyebrow">Curated Journeys</div>
-    <h2 class="sec-title">Journeys that stay<br><em>with you.</em></h2>
-  </div>
-  <div class="exp-grid">
-    <div class="exp-card reveal">
-      <img src="https://images.unsplash.com/photo-1489749798305-4fea3ae63d43?w=1200&q=80" alt="Africa">
-      <div class="exp-card-content">
-        <div class="exp-card-region">Africa · Caribbean · Latin America</div>
-        <div class="exp-card-title">Where your roots<br><em>become your journey.</em></div>
-        <div class="exp-card-desc">Deep destination knowledge. Cultural intelligence that comes from living it.</div>
-      </div>
+  <!-- MANIFESTO -->
+  <section id="manifesto">
+    <div class="manifesto-inner">
+      <div class="sec-tag reveal">What We Believe</div>
+      <div class="manifesto-line" data-manifesto>Travel is not a transaction.</div>
+      <div class="manifesto-line" data-manifesto>It is <em>permission</em> to live differently.</div>
+      <div class="manifesto-line" data-manifesto>We manage every detail</div>
+      <div class="manifesto-line" data-manifesto>so you can be fully <em>present.</em></div>
+      <div class="manifesto-line" data-manifesto>Not a booking platform.</div>
+      <div class="manifesto-line" data-manifesto><span>A partner.</span></div>
     </div>
-    <div class="exp-card reveal reveal-delay-1">
-      <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80" alt="Luxury">
-      <div class="exp-card-content">
-        <div class="exp-card-region">Private Residences · Luxury Collections</div>
-        <div class="exp-card-title">The property most<br><em>guests never find.</em></div>
-      </div>
-    </div>
-    <div class="exp-card reveal reveal-delay-2">
-      <img src="https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?w=800&q=80" alt="Culture">
-      <div class="exp-card-content">
-        <div class="exp-card-region">Cultural · Experiential</div>
-        <div class="exp-card-title">A courtyard most<br><em>visitors never see.</em></div>
-      </div>
-    </div>
-  </div>
-  <div class="exp-cta reveal">
-    <a href="#contact" class="btn-ghost" style="border-color:rgba(212,168,48,.4);color:rgba(212,168,48,.8)">Every destination. Start planning →</a>
-  </div>
-</section>
+  </section>
 
-<!-- HOW IT WORKS -->
-<section class="process" id="how">
-  <div class="reveal">
-    <div class="sec-eyebrow">Simple Process</div>
-    <h2 class="sec-title">Exceptional<br><em>Results.</em></h2>
-  </div>
-  <div class="process-grid">
-    <div class="process-step reveal">
-      <div class="step-num">01</div>
-      <div class="step-title">Share Your Vision</div>
-      <p class="step-desc">Destination, dates, and what kind of experience matters to you. No forms. Just tell us.</p>
-      <div class="step-bar"></div>
+  <!-- SERVICES FLIP -->
+  <section id="services">
+    <div class="services-header">
+      <div>
+        <div class="sec-tag reveal">Every Detail Considered</div>
+        <h2 class="display-h reveal r1">Six ways we<br><em>serve you.</em></h2>
+      </div>
+      <div>
+        <p class="body-copy reveal r2">From the moment you inquire to the moment you return — every element of your travel is coordinated. Hover each card to discover what we do.</p>
+        <a href="#" class="btn-outline-gold reveal r3" onclick="goPage('services');return false;">All Services</a>
+      </div>
     </div>
-    <div class="process-step reveal reveal-delay-1">
-      <div class="step-num">02</div>
-      <div class="step-title">Receive Your Plan</div>
-      <p class="step-desc">A fully tailored proposal within 24–48 hours. Flights, stays, protection, and logistics — all considered.</p>
-      <div class="step-bar"></div>
+    <div class="flip-grid">
+      <div class="flip-card reveal r1"><div class="flip-inner"><div class="flip-front"><div class="flip-num">01</div><div class="flip-name">Air Travel</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Air Travel</div><p class="flip-back-desc">Global airline networks, consolidator fares, and premium cabin access. Complex routing made seamless.</p><div class="flip-back-link">Learn more</div></div></div></div>
+      <div class="flip-card reveal r2"><div class="flip-inner"><div class="flip-front"><div class="flip-num">02</div><div class="flip-name">Accommodations</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Accommodations</div><p class="flip-back-desc">Preferred rates, private residences, and exclusive collections. Every property matched to your needs.</p><div class="flip-back-link">Learn more</div></div></div></div>
+      <div class="flip-card reveal r3"><div class="flip-inner"><div class="flip-front"><div class="flip-num">03</div><div class="flip-name">Travel Protection</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Travel Protection</div><p class="flip-back-desc">Coverage built into every trip from day one. Cancellation, medical, evacuation, and more.</p><div class="flip-back-link">Learn more</div></div></div></div>
+      <div class="flip-card reveal r1"><div class="flip-inner"><div class="flip-front"><div class="flip-num">04</div><div class="flip-name">Corporate Travel</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Corporate Travel</div><p class="flip-back-desc">Mission-critical coordination for businesses and contractors. Accountability at every stage.</p><div class="flip-back-link">Learn more</div></div></div></div>
+      <div class="flip-card reveal r2"><div class="flip-inner"><div class="flip-front"><div class="flip-num">05</div><div class="flip-name">Managed Services</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Managed Services</div><p class="flip-back-desc">Ongoing support, preferred access, and a dedicated advisor who knows your preferences and priorities.</p><div class="flip-back-link">Learn more</div></div></div></div>
+      <div class="flip-card reveal r3"><div class="flip-inner"><div class="flip-front"><div class="flip-num">06</div><div class="flip-name">Technology</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Technology</div><p class="flip-back-desc">Lolo World App — itinerary access, eSIM connectivity, AI assistant, and real-time support anywhere.</p><div class="flip-back-link">Learn more</div></div></div></div>
     </div>
-    <div class="process-step reveal reveal-delay-2">
-      <div class="step-num">03</div>
-      <div class="step-title">Confirm & Secure</div>
-      <p class="step-desc">Review your options. We handle all bookings, confirmations, and documentation on your behalf.</p>
-      <div class="step-bar"></div>
-    </div>
-    <div class="process-step reveal reveal-delay-3">
-      <div class="step-num">04</div>
-      <div class="step-title">Travel With Support</div>
-      <p class="step-desc">Depart with confidence. Real-time support and a dedicated contact throughout your entire journey.</p>
-      <div class="step-bar"></div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- PROTECTION — SPLIT CONSUMER / CORPORATE -->
-<section class="protection" id="protection">
-  <!-- CONSUMER: Hamptons feel -->
-  <div class="prot-consumer">
-    <div class="reveal">
-      <div class="sec-eyebrow">For Travelers</div>
-      <h2 class="sec-title">Your journey.<br><em>Protected.</em></h2>
-      <p>As a licensed insurance agency, Lolo builds coverage into every itinerary from day one — not as an afterthought, but as the foundation. Cancellation, medical, evacuation, and disruption coverage tailored to where you are actually going.</p>
-      <div class="prot-tags">
-        <span class="prot-tag">Trip Cancellation</span>
-        <span class="prot-tag">Medical & Evacuation</span>
-        <span class="prot-tag">Flight Disruption</span>
-        <span class="prot-tag">Baggage & Personal Effects</span>
-        <span class="prot-tag">Cancel for Any Reason</span>
-      </div>
-      <a href="#contact" class="btn-navy">Get Protected</a>
+  <!-- SCROLL STORY -->
+  <section id="story">
+    <div class="story-intro">
+      <div class="sec-tag reveal" style="justify-content:center;">The Experience</div>
+      <h2 class="display-h reveal r1" style="text-align:center;font-size:clamp(2rem,4vw,3.8rem);">Journeys that stay<br><em>with you.</em></h2>
     </div>
-  </div>
-  <!-- CORPORATE: warm but structured -->
-  <div class="prot-corporate">
-    <div class="reveal">
-      <div class="sec-eyebrow" style="color:rgba(212,168,48,.6)">For Organizations</div>
-      <h2 class="sec-title">Duty of care,<br><em>built in.</em></h2>
-      <p>Corporate and group travel coordination with integrated risk management. One licensed agency managing bookings, protection, compliance documentation, and on-the-ground support — globally.</p>
-      <div class="prot-tags">
-        <span class="prot-tag">Corporate Accounts</span>
-        <span class="prot-tag">Group Coordination</span>
-        <span class="prot-tag">Risk Management</span>
-        <span class="prot-tag">Compliance Documentation</span>
-        <span class="prot-tag">24/7 Emergency Support</span>
+    <div class="story-scene" id="sc1">
+      <div class="story-text">
+        <div class="story-num">01</div>
+        <div class="story-time">Caribbean</div>
+        <h3 class="story-headline">A terrace above<br>the sea. No agenda.<br><em>No alarm.</em></h3>
+        <p class="story-detail">Every detail arranged so you can be fully present. That is the only measure of a well-planned journey.</p>
       </div>
-      <a href="https://lolotravels.com/government" class="btn-primary">Enterprise Solutions</a>
+      <div class="story-visual">
+        <div class="story-visual-bg"></div>
+        <div class="story-visual-num">01</div>
+      </div>
     </div>
-  </div>
-</section>
+    <div class="story-scene" id="sc2">
+      <div class="story-visual">
+        <div class="story-visual-bg"></div>
+        <div class="story-visual-num">02</div>
+      </div>
+      <div class="story-text">
+        <div class="story-num">02</div>
+        <div class="story-time">Morocco</div>
+        <h3 class="story-headline">A courtyard<br>most visitors<br><em>never find.</em></h3>
+        <p class="story-detail">Access comes from relationships built over time. We bring those relationships to every itinerary we design.</p>
+      </div>
+    </div>
+    <div class="story-scene" id="sc3">
+      <div class="story-text">
+        <div class="story-num">03</div>
+        <div class="story-time">East Africa</div>
+        <h3 class="story-headline">Above the Serengeti.<br>The horizon bends<br><em>with the earth.</em></h3>
+        <p class="story-detail">Some experiences cannot be replicated. We ensure the conditions exist for them to happen.</p>
+      </div>
+      <div class="story-visual">
+        <div class="story-visual-bg"></div>
+        <div class="story-visual-num">03</div>
+      </div>
+    </div>
+  </section>
 
-<!-- DESTINATIONS TICKER -->
-<section class="destinations" id="destinations">
-  <div class="reveal">
-    <div class="sec-eyebrow">We Go Everywhere</div>
-    <h2 class="sec-title">The world,<br><em>intentionally.</em></h2>
-  </div>
-  <div class="dest-ticker">
-    <div class="ticker-track" id="ticker">
-      <!-- duplicated for seamless loop -->
+  <!-- DESTINATIONS STRIP -->
+  <section id="dest-strip">
+    <div class="dest-strip-inner">
+      <div class="sec-tag reveal">Global Reach</div>
+      <h2 class="display-h reveal r1" style="font-size:clamp(2rem,4vw,4rem);">Every Corner,<br><em>Accessible.</em></h2>
+      <div class="dest-list">
+        <div class="dest-item reveal r1" onclick="goPage('destinations')"><div class="dest-item-num">01</div><div class="dest-item-name">St. Barts <span class="dest-item-region">Caribbean</span></div><div class="dest-item-arrow">→</div></div>
+        <div class="dest-item reveal r2" onclick="goPage('destinations')"><div class="dest-item-num">02</div><div class="dest-item-name">Paris <span class="dest-item-region">Europe</span></div><div class="dest-item-arrow">→</div></div>
+        <div class="dest-item reveal r3" onclick="goPage('destinations')"><div class="dest-item-num">03</div><div class="dest-item-name">Marrakech <span class="dest-item-region">Africa</span></div><div class="dest-item-arrow">→</div></div>
+        <div class="dest-item reveal r1" onclick="goPage('destinations')"><div class="dest-item-num">04</div><div class="dest-item-name">Serengeti <span class="dest-item-region">East Africa</span></div><div class="dest-item-arrow">→</div></div>
+        <div class="dest-item reveal r2" onclick="goPage('destinations')"><div class="dest-item-num">05</div><div class="dest-item-name">Japan <span class="dest-item-region">Asia</span></div><div class="dest-item-arrow">→</div></div>
+      </div>
+      <div style="text-align:center;margin-top:60px;" class="reveal">
+        <p style="font-family:var(--font-d);font-style:italic;font-size:clamp(1rem,1.8vw,1.4rem);color:rgba(255,255,255,.35);margin-bottom:24px;">Don't see your destination? <em style="color:var(--gold-lt);">We go anywhere.</em></p>
+        <a href="#" class="btn-outline-gold" onclick="goPage('destinations');return false;">Explore All Destinations</a>
+      </div>
     </div>
-  </div>
-  <div class="dest-footer reveal">
-    <p class="sec-title" style="font-size:clamp(20px,2.5vw,28px)"><em>Don't see your destination? We go anywhere.</em></p>
-    <a href="#contact" class="btn-primary" style="margin-top:24px;display:inline-block">Start Planning</a>
-  </div>
-</section>
+  </section>
 
-<!-- ENTERPRISE TEASER -->
-<section class="enterprise" id="enterprise">
-  <div class="enterprise-bg">
-    <div class="enterprise-grid-lines"></div>
-  </div>
-  <div class="enterprise-content">
-    <div class="enterprise-left reveal">
-      <div class="sec-eyebrow" style="color:rgba(212,168,48,.6)">Government & Enterprise</div>
-      <h2 class="sec-title">Built for those<br><em>who serve.</em></h2>
-      <p style="font-size:13px;color:rgba(247,244,238,.5);line-height:1.8;margin:20px 0 32px;max-width:440px">
-        Structured travel management for federal agencies, contractors, and mission-critical operations. Protection-first. Compliance-ready. SAM.gov registered.
-      </p>
-      <a href="https://lolotravels.com/government" class="btn-primary">View Capabilities</a>
-      <div class="enterprise-badges">
-        <span class="enterprise-badge">SAM.gov Active</span>
-        <span class="enterprise-badge">WOSB</span>
-        <span class="enterprise-badge">Licensed Insurance Agency</span>
-        <span class="enterprise-badge">Global Operations</span>
+  <!-- WHY US -->
+  <section id="why">
+    <div class="why-inner">
+      <div class="sec-tag reveal">Why Lolo Travels</div>
+      <h2 class="display-h reveal r1">Built for Complexity.<br><em>Designed for Confidence.</em></h2>
+      <div class="why-grid">
+        <div class="why-item reveal r1"><div class="why-num">01</div><div class="why-title">Global Supplier Network</div><p class="why-desc">Direct access to air, hotel, cruise, and ground suppliers with preferred rates across every major market.</p></div>
+        <div class="why-item reveal r2"><div class="why-num">02</div><div class="why-title">Protection-Integrated Planning</div><p class="why-desc">As a licensed insurance agent, we build coverage into the plan from day one — not as an afterthought.</p></div>
+        <div class="why-item reveal r3"><div class="why-num">03</div><div class="why-title">Real-Time Support</div><p class="why-desc">Dedicated point of contact and active itinerary management throughout every journey.</p></div>
+        <div class="why-item reveal r1"><div class="why-num">04</div><div class="why-title">Competitive Access</div><p class="why-desc">Multiple sourcing channels — consolidators, direct suppliers — delivering the best available value.</p></div>
+        <div class="why-item reveal r2"><div class="why-num">05</div><div class="why-title">International Experience</div><p class="why-desc">Complex multi-destination itineraries and international logistics across six continents.</p></div>
+        <div class="why-item reveal r3"><div class="why-num">06</div><div class="why-title">End-to-End Management</div><p class="why-desc">From first inquiry to safe return — every detail handled, every risk considered, every trip optimized.</p></div>
       </div>
     </div>
-    <div class="enterprise-right">
-      <div class="enterprise-stat reveal reveal-delay-1">
-        <div class="stat-number">24h</div>
-        <div class="stat-label">Response Guaranteed</div>
-      </div>
-      <div class="enterprise-stat reveal reveal-delay-2">
-        <div class="stat-number">6</div>
-        <div class="stat-label">Core Capability Areas</div>
-      </div>
-      <div class="enterprise-stat reveal reveal-delay-3">
-        <div class="stat-number">Global</div>
-        <div class="stat-label">Operations & Coverage</div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- CONTACT / INTAKE -->
-<section class="contact-section" id="contact">
-  <div class="contact-inner">
-    <div class="contact-left reveal">
-      <div class="sec-eyebrow">Plan Your Journey</div>
-      <h2 class="sec-title">Every detail.<br><em>Handled.</em></h2>
-      <p>Tell us where you want to go and what kind of experience matters to you. We do the rest — from first inquiry to safe return.</p>
-      <div class="contact-detail">
-        <div class="contact-detail-icon">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round">
-            <path d="M2 4l6 5 6-5M2 4h12v10H2z"/>
-          </svg>
-        </div>
-        <div class="contact-detail-text">
-          <strong>Email</strong>
-          slondon@lolotravels.com
-        </div>
+  <!-- FOUNDER -->
+  <section id="founder">
+    <div class="founder-left">
+      <div>
+        <div class="sec-tag reveal" style="color:var(--gold);">Our Story</div>
+        <h2 class="display-h reveal r1" style="font-size:clamp(2rem,3.5vw,3.2rem);">Built From<br><em>Roots & Roads</em></h2>
+        <blockquote class="founder-quote reveal r2">"The most transformative journeys are the ones that feel personal. Lolo Travels was built so every client feels that."</blockquote>
+        <p class="body-copy reveal r3">Woman-owned, culturally rooted, globally connected. Heritage spanning Guyana, Grenada, Trinidad, and Ethiopia. We built this firm because the world deserves to be experienced fully — not just visited.</p>
+        <a href="#" class="btn-ghost reveal r4" onclick="goPage('about');return false;">Our Story</a>
       </div>
-      <div class="contact-detail">
-        <div class="contact-detail-icon">
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke-width="1.5" stroke-linecap="round">
-            <path d="M12 10.5c-.5.5-1.5 1-2 1-2 0-5-3-5-5 0-.5.5-1.5 1-2L7.5 2 10 6l-1.5 1.5c.5 1 1 1.5 2 2L12 8l4 2.5-4 0z"/>
-          </svg>
-        </div>
-        <div class="contact-detail-text">
-          <strong>Phone</strong>
-          612-429-4943
-        </div>
+      <div style="margin-top:40px;" class="reveal">
+        <div class="founder-meta">Founder & CEO · Woman-Owned · Licensed Insurance Agent</div>
       </div>
     </div>
-    <div class="contact-form reveal reveal-delay-1">
-      <form id="intake-form">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">First Name</label>
-            <input class="form-input" type="text" name="firstName" placeholder="First name" required>
+    <div class="founder-right">
+      <div class="founder-visual"></div>
+      <div class="founder-monogram">LL</div>
+    </div>
+  </section>
+
+  <!-- POSITIONING -->
+  <section id="positioning">
+    <div class="pos-glow"></div>
+    <p class="pos-quote reveal">"We operate as a travel management and logistics partner — ensuring every detail is handled, <em>every risk is considered</em>, and every trip is optimized."</p>
+    <p class="pos-attr reveal r1">— Lolo Travels™</p>
+    <div class="reveal r2" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+      <a href="#" class="btn-gold" onclick="goPage('inquiry');return false;"><span>Plan Your Travel</span></a>
+      <a href="#" class="btn-ghost" onclick="goPage('services');return false;">View Services</a>
+    </div>
+  </section>
+
+</div><!-- /home -->
+
+
+<!-- ═══════════════════════
+     ABOUT
+═══════════════════════ -->
+<div id="page-about" class="page">
+  <div class="page-hero-text" style="padding:200px 72px 100px;">
+    <div class="sec-tag" style="color:var(--gold);">Our Story</div>
+    <h1 class="display-h" style="font-size:clamp(3rem,7vw,8rem);">Built From<br><em>Roots & Roads</em></h1>
+  </div>
+  <div style="padding:0 72px 120px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;max-width:1400px;">
+    <div>
+      <div class="sec-tag reveal">The Founder</div>
+      <h2 class="display-h reveal r1" style="font-size:clamp(1.8rem,3vw,2.8rem);">A Journey Born<br><em>From Within</em></h2>
+      <blockquote style="font-family:var(--font-d);font-style:italic;font-weight:300;font-size:1.3rem;color:var(--white);line-height:1.65;margin:32px 0;border-left:1px solid rgba(201,168,76,.4);padding-left:24px;" class="reveal r2">"The most transformative journeys are the ones that feel personal. Lolo Travels was built so every client feels that."</blockquote>
+    </div>
+    <div>
+      <p style="font-weight:200;font-size:.88rem;color:rgba(255,255,255,.48);line-height:2.1;margin-bottom:20px;" class="reveal r1">Lolo Travels was founded on a belief that a well-designed journey changes how you see the world — and yourself. With deep multicultural roots — Guyanese, Grenadian, Trinidadian, and Ethiopian — every experience we design carries genuine cultural intelligence.</p>
+      <p style="font-weight:200;font-size:.88rem;color:rgba(255,255,255,.48);line-height:2.1;margin-bottom:20px;" class="reveal r2">Years of travel across six continents shaped our approach: deeply personal, culturally informed, and operationally precise. We built this firm because the world deserves to be experienced fully — not just visited.</p>
+      <p style="font-weight:200;font-size:.88rem;color:rgba(255,255,255,.48);line-height:2.1;margin-bottom:36px;" class="reveal r3">Today, Lolo Travels is a woman-owned travel management and logistics firm providing global access, risk-integrated planning, and fully managed experiences for individuals, businesses, and organizations.</p>
+      <a href="#" class="btn-gold reveal r4" onclick="goPage('inquiry');return false;"><span>Plan Your Travel</span></a>
+    </div>
+  </div>
+  <div style="padding:0 0 120px;">
+    <div style="padding:0 72px;margin-bottom:40px;">
+      <div class="sec-tag reveal">Cultural Heritage</div>
+      <h2 class="display-h reveal r1" style="font-size:clamp(1.8rem,3vw,2.8rem);">Rooted in<br><em>Many Worlds</em></h2>
+    </div>
+    <div class="heritage-grid">
+      <div class="heritage-item reveal r1"><div class="heritage-name">Guyana</div><div class="heritage-region">South America</div></div>
+      <div class="heritage-item reveal r2"><div class="heritage-name">Grenada</div><div class="heritage-region">Caribbean</div></div>
+      <div class="heritage-item reveal r3"><div class="heritage-name">Trinidad</div><div class="heritage-region">Caribbean</div></div>
+      <div class="heritage-item reveal r4"><div class="heritage-name">Ethiopia</div><div class="heritage-region">Africa</div></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     DESTINATIONS
+═══════════════════════ -->
+<div id="page-destinations" class="page">
+  <div class="page-hero-text">
+    <div class="sec-tag" style="color:var(--gold);">Global Reach</div>
+    <h1 class="display-h" style="font-size:clamp(3rem,7vw,8rem);">Every Corner,<br><em>Accessible.</em></h1>
+  </div>
+  <div id="dest-bar">
+    <button class="filter-btn active" data-filter="all" onclick="filterDests('all')">All</button>
+    <button class="filter-btn" data-filter="caribbean" onclick="filterDests('caribbean')">Caribbean</button>
+    <button class="filter-btn" data-filter="africa" onclick="filterDests('africa')">Africa</button>
+    <button class="filter-btn" data-filter="europe" onclick="filterDests('europe')">Europe</button>
+    <button class="filter-btn" data-filter="asia" onclick="filterDests('asia')">Asia</button>
+    <button class="filter-btn" data-filter="americas" onclick="filterDests('americas')">Americas</button>
+    <button class="filter-btn" data-filter="middleeast" onclick="filterDests('middleeast')">Middle East</button>
+    <button class="filter-btn" data-filter="oceania" onclick="filterDests('oceania')">Oceania</button>
+  </div>
+  <div class="dest-full-list">
+    <div class="dest-row" data-region="caribbean"><div class="dest-row-num">01</div><div class="dest-row-name">St. Barts</div><div class="dest-row-region">Caribbean</div><div class="dest-row-arrow">→</div></div>
+    <div class="dest-row" data-region="caribbean"><div class="dest-row-num">02</div><div class="dest-row-name">Grenada</div><div class="dest-row-region">Caribbean</div><div class="dest-row-arrow">→</div></div>
+    <div class="dest-row" data-region="caribbean"><div class="dest-row-num">03</div><div class="dest-row-name">Trinidad & Tobago</div><div class="dest-row-region">Caribbean</div><div class="dest-row-arrow">→</div></div>
+    <div class="dest-row" data-region="africa"><div class="dest-row-num">04</div><div class="dest-row-name">Marrakech</div><div class="dest-row-region">Africa · Morocco</div><div class="dest-row-arrow">→</div></div>
+    <div class="dest-row" data-region="africa"><div class="dest-row-num">05</div><div class="dest-row-name">Serengeti</div><div class="dest-row-region">East Africa · Tanzania</div><div class="dest-row-arrow">→</div></div>
+    <div class="dest-row" data-region="africa"><div class="dest-row-num">06</div><div class="dest-row-name">Cape Town</div><div class="dest-row-region">Southern Africa</div><div class="dest-row-arrow">→</div></div>
+    <div class="dest-row" data-region="africa"><div class="dest-row-num">07</div><div class="dest-row-name">Ethiopian Highlands</div><div class="dest-row-region">Africa · Ethiopia</div><div class="dest-row-arrow">→</div></div>
+    <div class="dest-row" data-region="europe"><div class="dest-row-num">08</div><div class="dest-row-name">Paris</div><div class="dest-row-region">Europe · France</div><div class="dest-row-arrow">→</div></div>
+    <div class="dest-row" data-region="europe"><div class="dest-row-num">09</div><div class="dest-row-name">Amalfi Coast</div><div class="dest-row-region">Mediterranean · Italy</div><div class="dest-row-arrow">→</div></div>
+    <div class="dest-row" data-region="asia"><div class="dest-row-num">10</div><div class="dest-row-name">Japan</div><div class="dest-row-region">East Asia</div><div class="dest-row-arrow">→</div></div>
+    <div class="dest-row" data-region="americas"><div class="dest-row-num">11</div><div class="dest-row-name">Rio de Janeiro</div><div class="dest-row-region">South America · Brazil</div><div class="dest-row-arrow">→</div></div>
+    <div class="dest-row" data-region="middleeast"><div class="dest-row-num">12</div><div class="dest-row-name">Muscat, Oman</div><div class="dest-row-region">Middle East</div><div class="dest-row-arrow">→</div></div>
+    <div class="dest-row" data-region="oceania"><div class="dest-row-num">13</div><div class="dest-row-name">New Zealand</div><div class="dest-row-region">Oceania</div><div class="dest-row-arrow">→</div></div>
+  </div>
+  <div style="padding:80px 72px;text-align:center;border-top:1px solid rgba(255,255,255,.04);">
+    <p style="font-family:var(--font-d);font-style:italic;font-size:clamp(1rem,2vw,1.5rem);color:rgba(255,255,255,.35);margin-bottom:28px;">Don't see your destination? <em style="color:var(--gold-lt);">We go anywhere.</em></p>
+    <a href="#" class="btn-gold" onclick="goPage('inquiry');return false;"><span>Plan Your Travel</span></a>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     SERVICES
+═══════════════════════ -->
+<div id="page-services" class="page">
+  <div class="page-hero-text">
+    <div class="sec-tag" style="color:var(--gold);">What We Offer</div>
+    <h1 class="display-h" style="font-size:clamp(3rem,7vw,8rem);">Every Detail,<br><em>Considered.</em></h1>
+  </div>
+  <div style="padding:0 72px 120px;">
+    <div style="max-width:600px;margin-bottom:60px;">
+      <div class="sec-tag reveal">Our Services</div>
+      <h2 class="display-h reveal r1" style="font-size:clamp(1.8rem,3vw,2.8rem);">Integrated. Managed.<br><em>End to End.</em></h2>
+      <p class="body-copy reveal r2">From first inquiry to safe return, every element coordinated with precision.</p>
+    </div>
+    <div class="sfull-grid">
+      <div class="sfull-card reveal r1"><span class="sfull-num">01</span><div class="sfull-name">Air Travel</div><p class="sfull-desc">International and complex routing with access to global airline networks, consolidator fares, and premium cabin options. We source across multiple channels to deliver the best combination of value and experience.</p></div>
+      <div class="sfull-card reveal r2"><span class="sfull-num">02</span><div class="sfull-name">Accommodations</div><p class="sfull-desc">Global hotel sourcing with preferred rates and curated property access — from boutique hotels and private residences to established luxury collections. Every recommendation matched to your needs.</p></div>
+      <div class="sfull-card reveal r3"><span class="sfull-num">03</span><div class="sfull-name">Travel Protection</div><p class="sfull-desc">As a licensed insurance agent, we build protection into the plan as a core component — not an add-on. Coverage for cancellations, medical, disruptions, and asset protection tailored to each trip.</p></div>
+      <div class="sfull-card reveal r1"><span class="sfull-num">04</span><div class="sfull-name">Corporate & Contractor Travel</div><p class="sfull-desc">Structured coordination for mission-critical and project-based travel. Consistent service, documentation, and itinerary management for teams operating in demanding environments.</p></div>
+      <div class="sfull-card reveal r2"><span class="sfull-num">05</span><div class="sfull-name">Managed Travel Services</div><p class="sfull-desc">Ongoing support for business travelers and repeat clients — streamlined booking, preferred access, and a dedicated advisor who understands your requirements.</p></div>
+      <div class="sfull-card reveal r3"><span class="sfull-num">06</span><div class="sfull-name">Technology & App Integration</div><p class="sfull-desc">The Lolo World App — itinerary management, eSIM connectivity, AI assistant, translation tools, and real-time support. Everything in one place, anywhere in the world.</p></div>
+    </div>
+    <div style="text-align:center;margin-top:60px;" class="reveal">
+      <a href="#" class="btn-gold" onclick="goPage('inquiry');return false;"><span>Plan Your Travel</span></a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     INSURANCE
+═══════════════════════ -->
+<div id="page-insurance" class="page">
+  <div class="page-hero-text">
+    <div class="sec-tag" style="color:var(--gold);">Travel Protection</div>
+    <h1 class="display-h" style="font-size:clamp(3rem,7vw,8rem);">Protected at<br><em>Every Latitude</em></h1>
+  </div>
+  <div style="padding:0 72px 120px;">
+    <div style="max-width:680px;margin-bottom:60px;">
+      <div class="sec-tag reveal">Built In. Not Bolted On.</div>
+      <h2 class="display-h reveal r1" style="font-size:clamp(1.8rem,3vw,2.8rem);">Protection is part<br><em>of every trip we plan.</em></h2>
+      <p class="body-copy reveal r2">As a licensed insurance agent, we integrate travel protection from the beginning. Every trip includes a protection review and coverage options tailored to your specific journey.</p>
+    </div>
+    <div class="ins-grid">
+      <div class="ins-card reveal r1"><svg class="ins-icon" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="#C9A84C" stroke-width="1.2"><path d="M16 3L4 8v8c0 7 5.5 12.5 12 14 6.5-1.5 12-7 12-14V8L16 3z"/></svg><h3>Trip Cancellation & Interruption</h3><p>Full protection against unforeseen cancellations, delays, and disruptions — before and during your journey.</p></div>
+      <div class="ins-card reveal r2"><svg class="ins-icon" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="#C9A84C" stroke-width="1.2"><circle cx="16" cy="10" r="5"/><path d="M6 28c0-5.5 4.5-10 10-10s10 4.5 10 10"/></svg><h3>Emergency Medical & Evacuation</h3><p>Priority medical coverage and emergency evacuation services — domestic and international.</p></div>
+      <div class="ins-card reveal r3"><svg class="ins-icon" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="#C9A84C" stroke-width="1.2"><rect x="4" y="8" width="24" height="18" rx="1"/><path d="M10 8V6a6 6 0 0 1 12 0v2"/></svg><h3>Baggage & Delay Coverage</h3><p>Protection for lost, damaged, or delayed luggage and high-value personal assets.</p></div>
+      <div class="ins-card reveal r1"><svg class="ins-icon" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="#C9A84C" stroke-width="1.2"><circle cx="16" cy="16" r="12"/><path d="M12 16l3 3 6-6"/></svg><h3>Cancel For Any Reason (CFAR)</h3><p>Maximum flexibility — recover a significant portion of your investment for any cancellation, where available.</p></div>
+      <div class="ins-card reveal r2"><svg class="ins-icon" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="#C9A84C" stroke-width="1.2"><path d="M4 16h24M16 4l12 12-12 12"/></svg><h3>Supplier Default Protection</h3><p>Coverage if an airline, hotel, or tour operator ceases operations before or during your trip.</p></div>
+      <div class="ins-card reveal r3"><svg class="ins-icon" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="#C9A84C" stroke-width="1.2"><rect x="3" y="6" width="26" height="20" rx="2"/><path d="M3 12h26"/></svg><h3>24/7 Crisis Assistance</h3><p>Round-the-clock access to our assistance network for medical, logistical, or emergency support anywhere.</p></div>
+    </div>
+    <div class="ins-disclosure reveal">
+      <div class="sec-tag" style="margin-bottom:16px;">Important Disclosure</div>
+      <p style="font-weight:200;font-size:.8rem;color:rgba(255,255,255,.38);line-height:2;margin-bottom:14px;">Travel protection is offered in connection with travel services provided by Lolo Travels LLC. Coverage is underwritten by licensed insurance carriers and subject to the terms, conditions, and exclusions of the applicable policy. Not all coverages are available in all jurisdictions.</p>
+      <p style="font-weight:200;font-size:.8rem;color:rgba(255,255,255,.38);line-height:2;">You have the right to decline travel protection. If you choose to decline, you will be responsible for costs associated with cancellation, interruption, or other covered events. A record of your acceptance or declination is maintained on file.</p>
+    </div>
+    <div style="text-align:center;margin-top:3px;padding:60px;background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.08);max-width:1200px;" class="reveal">
+      <h3 style="font-family:var(--font-d);font-weight:300;font-size:clamp(1.5rem,2.8vw,2.4rem);color:var(--white);line-height:1.2;margin-bottom:16px;">Every trip includes<br><em style="color:var(--gold-lt);">a protection review.</em></h3>
+      <p style="font-weight:200;font-size:.84rem;color:rgba(255,255,255,.38);line-height:1.95;margin-bottom:32px;max-width:500px;margin-left:auto;margin-right:auto;">Submit your travel request and we'll include coverage options tailored to your specific journey.</p>
+      <a href="#" class="btn-gold" onclick="goPage('inquiry');return false;"><span>Plan Your Trip With Protection</span></a>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════
+     INQUIRY FORM
+═══════════════════════ -->
+<div id="page-inquiry" class="page">
+  <div class="inquiry-wrap">
+    <div>
+      <div class="sec-tag" style="color:var(--gold);">Begin Here</div>
+      <h1 class="display-h" style="font-size:clamp(2.8rem,6vw,6rem);">Plan Your<br><em>Travel</em></h1>
+      <p class="body-copy" style="margin-top:20px;">A Lolo Travels advisor will respond within 24–48 hours with a personalized plan.</p>
+      <div class="inquiry-perks">
+        <div class="inquiry-perk">Personalized itinerary built around your needs</div>
+        <div class="inquiry-perk">Travel protection options included</div>
+        <div class="inquiry-perk">Access to global supplier network and preferred rates</div>
+        <div class="inquiry-perk">Dedicated advisor from inquiry to return</div>
+        <div class="inquiry-perk">No obligation to book</div>
+      </div>
+    </div>
+    <div>
+      <form class="intake-form" name="travel-inquiry" netlify netlify-honeypot="bot-field" onsubmit="submitIntake(event,this)">
+        <input type="hidden" name="form-name" value="travel-inquiry"/>
+        <p style="display:none;"><input name="bot-field"/></p>
+        <div class="fsec">
+          <div class="fsec-title">01 — About You</div>
+          <div class="frow">
+            <div class="fg"><label class="fl">Full Name</label><input type="text" name="full_name" class="fi" placeholder="Your full name" required/></div>
+            <div class="fg"><label class="fl">Email Address</label><input type="email" name="email" class="fi" placeholder="your@email.com" required/></div>
           </div>
-          <div class="form-group">
-            <label class="form-label">Last Name</label>
-            <input class="form-input" type="text" name="lastName" placeholder="Last name" required>
+          <div class="fg"><label class="fl">Phone Number</label><input type="tel" name="phone" class="fi" placeholder="+1 (000) 000-0000"/></div>
+        </div>
+        <div class="fsec">
+          <div class="fsec-title">02 — Your Trip</div>
+          <div class="fg"><label class="fl">Destination(s)</label><input type="text" name="destinations" class="fi" placeholder="Where would you like to go?"/></div>
+          <div class="frow">
+            <div class="fg"><label class="fl">Travel Dates</label><input type="text" name="dates" class="fi" placeholder="Approximate dates"/></div>
+            <div class="fg"><label class="fl">Flexible Dates?</label><select name="dates_flexible" class="fsel"><option value="">Select one</option><option>Yes — flexible</option><option>Somewhat flexible</option><option>No — fixed dates</option></select></div>
+          </div>
+          <div class="frow">
+            <div class="fg"><label class="fl">Number of Travelers</label><input type="number" name="travelers" class="fi" placeholder="e.g. 2" min="1"/></div>
+            <div class="fg"><label class="fl">Departure City</label><input type="text" name="departure" class="fi" placeholder="Departing from"/></div>
           </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input class="form-input" type="email" name="email" placeholder="your@email.com" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Phone Number</label>
-          <input class="form-input" type="tel" name="phone" placeholder="Your phone number">
-        </div>
-        <div class="form-group">
-          <label class="form-label">Destination(s)</label>
-          <input class="form-input" type="text" name="destinations" placeholder="Where are you going?">
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label">Travel Dates</label>
-            <input class="form-input" type="text" name="dates" placeholder="Approximate dates">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Number of Travelers</label>
-            <input class="form-input" type="number" name="travelers" placeholder="How many?">
+        <div class="fsec">
+          <div class="fsec-title">03 — Travel Type</div>
+          <div class="check-group">
+            <div class="check-item"><input type="checkbox" name="travel_type" value="Leisure — Family" id="tt1"/><label for="tt1">Leisure — Family</label></div>
+            <div class="check-item"><input type="checkbox" name="travel_type" value="Honeymoon / Romance" id="tt2"/><label for="tt2">Honeymoon / Romance</label></div>
+            <div class="check-item"><input type="checkbox" name="travel_type" value="Solo Travel" id="tt3"/><label for="tt3">Solo Travel</label></div>
+            <div class="check-item"><input type="checkbox" name="travel_type" value="Celebration / Special Occasion" id="tt4"/><label for="tt4">Celebration / Special Occasion</label></div>
+            <div class="check-item"><input type="checkbox" name="travel_type" value="Business Travel" id="tt5"/><label for="tt5">Business Travel</label></div>
+            <div class="check-item"><input type="checkbox" name="travel_type" value="Group Travel" id="tt6"/><label for="tt6">Group Travel</label></div>
           </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Travel Type</label>
-          <select class="form-select" name="travelType">
-            <option value="" disabled selected>Select an option</option>
-            <option>Leisure & Luxury</option>
-            <option>Cultural & Experiential</option>
-            <option>Group Journey</option>
-            <option>Honeymoon / Romance</option>
-            <option>Family Travel</option>
-            <option>Corporate / Business</option>
-            <option>Heritage & Roots Travel</option>
-          </select>
+        <div class="fsec">
+          <div class="fsec-title">04 — Budget Range</div>
+          <div class="check-group">
+            <div class="radio-item"><input type="radio" name="budget" value="Under $10,000" id="b1"/><label for="b1">Under $10,000</label></div>
+            <div class="radio-item"><input type="radio" name="budget" value="$10,000–$25,000" id="b2"/><label for="b2">$10,000 – $25,000</label></div>
+            <div class="radio-item"><input type="radio" name="budget" value="$25,000–$50,000" id="b3"/><label for="b3">$25,000 – $50,000</label></div>
+            <div class="radio-item"><input type="radio" name="budget" value="$50,000+" id="b4"/><label for="b4">$50,000+</label></div>
+          </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Tell Us About Your Dream Trip</label>
-          <textarea class="form-textarea" name="message" placeholder="Share your vision — the more detail, the better we can plan."></textarea>
+        <div class="fsec">
+          <div class="fsec-title">05 — Preferences</div>
+          <div class="frow">
+            <div class="fg"><label class="fl">Flight Class</label><select name="flight_class" class="fsel"><option value="">Select preference</option><option>Economy</option><option>Premium Economy</option><option>Business Class</option><option>First Class</option><option>Private Charter</option><option>Open to recommendations</option></select></div>
+            <div class="fg"><label class="fl">Accommodation Style</label><select name="accommodation" class="fsel"><option value="">Select preference</option><option>Premium</option><option>Luxury / Private</option><option>Ultra-Luxury</option><option>Advise me</option></select></div>
+          </div>
         </div>
-        <button type="submit" class="form-submit">Submit Your Request</button>
+        <div class="fsec">
+          <div class="fsec-title">06 — Travel Protection</div>
+          <p style="font-weight:200;font-size:.8rem;color:rgba(255,255,255,.38);line-height:1.85;margin-bottom:16px;">As a licensed insurance agent, we build coverage into your plan. Would you like protection included?</p>
+          <div class="check-group">
+            <div class="radio-item"><input type="radio" name="protection" value="Yes" id="pr1"/><label for="pr1">Yes — include protection options</label></div>
+            <div class="radio-item"><input type="radio" name="protection" value="No" id="pr2"/><label for="pr2">No</label></div>
+            <div class="radio-item"><input type="radio" name="protection" value="Advise me" id="pr3"/><label for="pr3">Advise me</label></div>
+          </div>
+        </div>
+        <div class="fsec">
+          <div class="fsec-title">07 — Anything Else?</div>
+          <div class="fg"><label class="fl">Additional Notes</label><textarea name="notes" class="fta" placeholder="Special requests, occasions, accessibility needs..."></textarea></div>
+          <div class="fg"><label class="fl">Preferred Contact Method</label><textarea name="contact_preference" class="fta" placeholder="e.g. Email preferred, weekday mornings..." style="min-height:54px;"></textarea></div>
+        </div>
+        <button type="submit" class="fsub">Submit Your Request</button>
+        <p class="form-note">A Lolo Travels™ advisor responds within 24–48 hours.</p>
+        <div class="form-success" id="intakeSuccess"><p>✦ Your request has been received.<br/>We'll be in touch within 24–48 hours.</p></div>
       </form>
-      <div class="form-success" id="form-success">
-        <div class="success-mark">✦</div>
-        <h3>Request received.</h3>
-        <p>We will be in touch within 24 hours to begin planning your journey.</p>
-      </div>
     </div>
   </div>
-</section>
+</div>
+
+
+<!-- ═══════════════════════
+     CONTACT
+═══════════════════════ -->
+<div id="page-contact" class="page">
+  <div class="page-hero-text" style="padding:200px 72px 80px;">
+    <div class="sec-tag" style="color:var(--gold);">Get in Touch</div>
+    <h1 class="display-h" style="font-size:clamp(3rem,7vw,8rem);">Every Journey<br>Begins With a<br><em>Conversation</em></h1>
+  </div>
+  <div class="contact-split">
+    <div class="contact-left">
+      <div>
+        <div class="sec-tag reveal" style="color:var(--gold);">Contact</div>
+        <h2 class="display-h reveal r1" style="font-size:clamp(1.6rem,2.5vw,2.2rem);">Let's Create<br><em>Something Remarkable</em></h2>
+        <p class="body-copy reveal r2" style="margin-top:18px;">Tell us your travel needs and we will handle everything — from first inquiry to the moment you return.</p>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px;" class="reveal r2">
+        <div><span class="c-label">Contact Us</span><a href="mailto:hello@lolotravels.com" style="font-weight:200;font-size:.88rem;color:rgba(255,255,255,.72);text-decoration:none;cursor:none;">hello@lolotravels.com</a></div>
+        <div><span class="c-label">Response Time</span><div class="c-val">Within 24 hours</div></div>
+      </div>
+      <div class="soc-row reveal">
+        <a href="https://instagram.com/lolotravels" target="_blank" rel="noopener" class="soc-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg></a>
+        <a href="https://linkedin.com/company/lolotravels" target="_blank" rel="noopener" class="soc-icon"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M11 10v7M11 13.5c0-1.933 3-2 3 .5v3"/><circle cx="7" cy="7.5" r=".8" fill="currentColor" stroke="none"/></svg></a>
+      </div>
+    </div>
+    <div class="contact-right">
+      <div class="sec-tag reveal" style="color:rgba(10,22,40,.45);">Your Inquiry</div>
+      <h3 style="font-family:var(--font-d);font-size:2rem;font-weight:300;color:var(--navy);margin-bottom:36px;" class="reveal r1">Tell Us Your Travel Needs</h3>
+      <form onsubmit="submitContact(event,this)" style="display:flex;flex-direction:column;gap:18px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;">
+          <div><label class="cf-label">First Name</label><input type="text" name="first_name" class="cf-input" placeholder="First name"/></div>
+          <div><label class="cf-label">Last Name</label><input type="text" name="last_name" class="cf-input" placeholder="Last name"/></div>
+        </div>
+        <div><label class="cf-label">Email</label><input type="email" name="email" class="cf-input" placeholder="your@email.com" required/></div>
+        <div><label class="cf-label">Destination or Inquiry</label><input type="text" name="destination" class="cf-input" placeholder="Where would you like to go?"/></div>
+        <div><label class="cf-label">Message</label><textarea name="message" class="cf-textarea" placeholder="Tell us more about your travel needs..." required></textarea></div>
+        <button type="submit" class="btn-navy">Send My Inquiry</button>
+        <div id="contactSuccess" style="display:none;font-weight:200;font-size:.78rem;color:rgba(10,22,40,.65);line-height:1.9;">✦ &nbsp; Received. We'll be in touch within 24 hours.</div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- PRIVACY -->
+<div id="page-privacy" class="page">
+  <div class="legal-wrap">
+    <div class="sec-tag">Legal</div>
+    <h1 class="display-h" style="font-size:clamp(1.8rem,3.5vw,3rem);margin-bottom:36px;">Privacy <em>Policy</em></h1>
+    <div style="font-weight:200;font-size:.84rem;color:rgba(255,255,255,.42);line-height:2.1;display:flex;flex-direction:column;gap:22px;">
+      <p><strong style="color:var(--white);font-weight:300;">Last updated: 2026.</strong> Lolo Travels LLC is committed to protecting your personal information and your right to privacy.</p>
+      <p><strong style="color:var(--white);font-weight:300;">Information We Collect:</strong> Name, email, phone, travel preferences, and payment information when you engage our services.</p>
+      <p><strong style="color:var(--white);font-weight:300;">How We Use It:</strong> To provide and personalize our services, process transactions, and communicate about your journey.</p>
+      <p><strong style="color:var(--white);font-weight:300;">Sharing:</strong> We do not sell your personal data. We share only with trusted service providers under confidentiality agreements.</p>
+      <p><strong style="color:var(--white);font-weight:300;">Your Rights:</strong> You have the right to know what data is collected, request deletion, and opt out of data sale. We do not sell personal data.</p>
+      <p><strong style="color:var(--white);font-weight:300;">Contact:</strong> <a href="mailto:hello@lolotravels.com" style="color:var(--gold);cursor:none;">hello@lolotravels.com</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- GOVERNMENT — standalone -->
+<div id="page-government" class="page" style="display:none;"></div>
 
 <!-- FOOTER -->
-<footer>
-  <div class="footer-top">
+<footer id="footer">
+  <div class="footer-grid">
     <div>
-      <div class="footer-logo">LOLO<span>.</span></div>
-      <div class="footer-tagline">"The World Is Yours."</div>
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px;">
+        <svg width="34" height="34" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18.5" fill="#0A1628" stroke="#C9A84C" stroke-width="1.8"/><text x="20" y="26" text-anchor="middle" font-family="Georgia,serif" font-size="14" font-weight="600" fill="#C9A84C" letter-spacing="1.5">LL</text></svg>
+        <span style="font-family:var(--font-d);font-size:.9rem;color:var(--white);letter-spacing:.2em;text-transform:uppercase;">Lolo Travels™</span>
+      </div>
+      <div class="footer-tagline">The World Is Yours.</div>
+      <p class="footer-desc">An independent travel management and logistics firm — global access, risk-integrated planning, and fully managed experiences.</p>
+      <div class="footer-badge">Woman-Owned · Independent · Global</div>
     </div>
     <div>
-      <div class="footer-col-title">Experiences</div>
+      <div class="footer-col-title">Navigate</div>
       <ul class="footer-links">
-        <li><a href="#experiences">Cultural & Experiential</a></li>
-        <li><a href="#experiences">Luxury & Private</a></li>
-        <li><a href="#experiences">Group Journeys</a></li>
-        <li><a href="#experiences">Heritage & Roots</a></li>
-        <li><a href="#experiences">Food & Wine</a></li>
+        <li><a href="#" onclick="goPage('home');return false;">Home</a></li>
+        <li><a href="#" onclick="goPage('destinations');return false;">Destinations</a></li>
+        <li><a href="#" onclick="goPage('services');return false;">Services</a></li>
+        <li><a href="#" onclick="goPage('about');return false;">Our Story</a></li>
+        <li><a href="#" onclick="goPage('contact');return false;">Contact</a></li>
       </ul>
     </div>
     <div>
       <div class="footer-col-title">Services</div>
       <ul class="footer-links">
-        <li><a href="#protection">Travel Protection</a></li>
-        <li><a href="https://lolotravels.com/government">Enterprise</a></li>
-        <li><a href="#contact">Plan a Trip</a></li>
-        <li><a href="mailto:slondon@lolotravels.com">Contact Shana</a></li>
+        <li><a href="#" onclick="goPage('insurance');return false;">Travel Protection</a></li>
+        <li><a href="#" onclick="goPage('services');return false;">Corporate Travel</a></li>
+        <li><a href="#" onclick="goPage('inquiry');return false;">Plan Your Travel</a></li>
       </ul>
     </div>
     <div>
-      <div class="footer-col-title">Contact</div>
-      <ul class="footer-links">
-        <li><a href="mailto:slondon@lolotravels.com">slondon@lolotravels.com</a></li>
-        <li><a href="tel:6124294943">612-429-4943</a></li>
-        <li><a href="#">Minneapolis, MN</a></li>
+      <div class="footer-col-title">Company</div>
+      <a href="mailto:hello@lolotravels.com" class="footer-email">hello@lolotravels.com</a>
+      <ul class="footer-links" style="margin-top:14px;">
+        <li><a href="#" onclick="goPage('privacy');return false;">Privacy Policy</a></li>
+        <li><a href='/government' style='opacity:.4;'>Organizations</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <span class="footer-legal">© 2026 Lolo Travels LLC · All rights reserved</span>
-    <div class="footer-creds">
-      <span class="footer-cred">Woman-Owned</span>
-      <span class="footer-cred">Licensed Insurance Agency</span>
-      <span class="footer-cred">SAM.gov Registered</span>
+    <div class="footer-copy">© <span id="yr"></span> Lolo Travels LLC. All rights reserved.</div>
+    <div class="footer-util">
+      <a href="#" onclick="goPage('privacy');return false;">Privacy</a>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <a href="https://instagram.com/lolotravels" target="_blank" rel="noopener" style="color:rgba(255,255,255,.22);cursor:none;transition:color .3s;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.22)'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4.5"/><circle cx="17.5" cy="6.5" r=".5" fill="currentColor" stroke="none"/></svg></a>
+      <a href="https://linkedin.com/company/lolotravels" target="_blank" rel="noopener" style="color:rgba(255,255,255,.22);cursor:none;transition:color .3s;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.22)'"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 10v7M11 10v7M11 13.5c0-1.933 3-2 3 .5v3"/><circle cx="7" cy="7.5" r=".8" fill="currentColor" stroke="none"/></svg></a>
     </div>
   </div>
 </footer>
 
 <script>
-// NAV scroll behavior
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 60);
-}, {passive: true});
+/* YEAR */
+document.getElementById('yr').textContent = new Date().getFullYear();
 
-// Mobile nav
-function toggleNav() {
-  const links = document.querySelector('.nav-links');
-  links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
-  links.style.flexDirection = 'column';
-  links.style.position = 'fixed';
-  links.style.top = '70px';
-  links.style.left = '0';
-  links.style.right = '0';
-  links.style.background = 'rgba(14,14,26,.97)';
-  links.style.padding = '32px 48px';
-  links.style.gap = '24px';
+/* CURSOR */
+const cur=document.getElementById('cur'),cr=document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX;my=e.clientY;
+  cur.style.left=mx+'px';cur.style.top=my+'px';
+});
+(function loop(){
+  rx+=(mx-rx)*.1;ry+=(my-ry)*.1;
+  cr.style.left=rx+'px';cr.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+function addCursorHover(sel){
+  document.querySelectorAll(sel).forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cur.classList.add('big');cr.classList.add('big');});
+    el.addEventListener('mouseleave',()=>{cur.classList.remove('big');cr.classList.remove('big');});
+  });
+}
+addCursorHover('a,button,.flip-card,.dest-item,.dest-row,.why-item,.sfull-card,.ins-card,.heritage-item');
+
+/* NAV SCROLL */
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',window.scrollY>60),{passive:true});
+
+/* PARTICLES */
+(function(){
+  const container=document.getElementById('particles');
+  if(!container)return;
+  for(let i=0;i<35;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const x=Math.random()*100;
+    const dur=Math.random()*20+15;
+    const delay=Math.random()*20;
+    const dx=(Math.random()-0.5)*60;
+    p.style.cssText=`left:${x}%;bottom:-5px;--dx:${dx}px;animation-duration:${dur}s;animation-delay:${delay}s;opacity:${Math.random()*.4+.1};`;
+    container.appendChild(p);
+  }
+})();
+
+/* ROUTING */
+function goPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const t=document.getElementById('page-'+id);
+  if(t){
+    t.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+    setTimeout(triggerReveals,100);
+  }
+  closeMobileNav();
 }
 
-// Scroll reveal
-const reveals = document.querySelectorAll('.reveal');
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-reveals.forEach(r => io.observe(r));
+/* REVEALS */
+function triggerReveals(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}});
+  },{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+  document.querySelectorAll('.page.active .reveal').forEach(el=>{
+    el.classList.remove('vis');obs.observe(el);
+  });
+}
+triggerReveals();
 
-// Destination ticker
-const destinations = [
-  {city:'Lagos',code:'LOS'},{city:'Nairobi',code:'NBO'},{city:'Dakar',code:'DKR'},
-  {city:'Accra',code:'ACC'},{city:'Addis Ababa',code:'ADD'},{city:'Cape Town',code:'CPT'},
-  {city:'Marrakech',code:'RAK'},{city:'Zanzibar',code:'ZNZ'},{city:'Kigali',code:'KGL'},
-  {city:'Kingston',code:'KIN'},{city:'Bridgetown',code:'BGI'},{city:"St. George's",code:'GND'},
-  {city:'Georgetown',code:'GEO'},{city:'Port of Spain',code:'POS'},{city:'Nassau',code:'NAS'},
-  {city:'São Paulo',code:'GRU'},{city:'Bogotá',code:'BOG'},{city:'Lima',code:'LIM'},
-  {city:'Buenos Aires',code:'EZE'},{city:'Montevideo',code:'MVD'},{city:'Cartagena',code:'CTG'},
-  {city:'Paris',code:'CDG'},{city:'London',code:'LHR'},{city:'Lisbon',code:'LIS'},
-  {city:'Barcelona',code:'BCN'},{city:'Rome',code:'FCO'},{city:'Istanbul',code:'IST'},
-  {city:'Dubai',code:'DXB'},{city:'Tokyo',code:'NRT'},{city:'Singapore',code:'SIN'},
-  {city:'Bangkok',code:'BKK'},{city:'Bali',code:'DPS'},
-];
-const track = document.getElementById('ticker');
-const html = destinations.map(d => `<div class="ticker-item"><span class="ticker-city">${d.city}</span><span class="ticker-code">${d.code}</span></div>`).join('');
-track.innerHTML = html + html; // duplicate for seamless loop
-
-// Intake form
-document.getElementById('intake-form').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const form = e.target;
-  const data = new FormData(form);
-  const obj = Object.fromEntries(data.entries());
-
-  // Netlify Forms — works automatically when deployed to Netlify
-  // Just add name="intake" and data-netlify="true" to the form tag
-  try {
-    await fetch('/', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      body: new URLSearchParams({
-        'form-name': 'intake',
-        ...obj
-      }).toString()
+/* MANIFESTO SCROLL HIGHLIGHT */
+(function(){
+  const lines=document.querySelectorAll('[data-manifesto]');
+  if(!lines.length)return;
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      e.target.classList.toggle('active',e.isIntersecting);
     });
-  } catch(err) {
-    // Even if fetch fails, show success — Netlify handles it server-side
+  },{threshold:0.8,rootMargin:'-30% 0px -30% 0px'});
+  lines.forEach(l=>obs.observe(l));
+})();
+
+/* SCROLL STORY */
+(function(){
+  const obs=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in-view');});
+  },{threshold:0.2});
+  document.querySelectorAll('.story-scene').forEach(s=>obs.observe(s));
+})();
+
+/* DEST FILTER */
+function filterDests(r){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.toggle('active',b.dataset.filter===r));
+  document.querySelectorAll('.dest-row').forEach(c=>{
+    c.classList.toggle('hidden',r!=='all'&&c.dataset.region!==r);
+  });
+}
+
+/* FORMS */
+function submitIntake(e,form){
+  e.preventDefault();
+  const btn=form.querySelector('.fsub');
+  btn.textContent='Sending...';btn.disabled=true;
+  setTimeout(()=>{
+    form.querySelectorAll('.fsec,.form-note,.fsub').forEach(el=>el.style.display='none');
+    document.getElementById('intakeSuccess').style.display='block';
+  },900);
+}
+function submitContact(e,form){
+  e.preventDefault();
+  const btn=form.querySelector('.btn-navy');
+  btn.textContent='Sending...';btn.disabled=true;
+  setTimeout(()=>{btn.style.display='none';document.getElementById('contactSuccess').style.display='block';},900);
+}
+
+/* MOBILE NAV */
+function toggleNav(){
+  const l=document.getElementById('navLinks'),t=document.getElementById('navToggle');
+  l.classList.toggle('open');
+  const s=t.querySelectorAll('span');
+  if(l.classList.contains('open')){
+    s[0].style.transform='rotate(45deg) translate(4px,4px)';
+    s[1].style.opacity='0';
+    s[2].style.transform='rotate(-45deg) translate(4px,-4px)';
+  } else {
+    s[0].style.transform='';s[1].style.opacity='';s[2].style.transform='';
   }
-
-  form.style.display = 'none';
-  document.getElementById('form-success').style.display = 'block';
-
-  // Also send to your email via mailto as backup
-  const subject = encodeURIComponent(`New Travel Request — ${obj.firstName} ${obj.lastName}`);
-  const body = encodeURIComponent(`Name: ${obj.firstName} ${obj.lastName}\nEmail: ${obj.email}\nPhone: ${obj.phone}\nDestination: ${obj.destinations}\nDates: ${obj.dates}\nTravelers: ${obj.travelers}\nType: ${obj.travelType}\n\nMessage:\n${obj.message}`);
-  window.open(`mailto:slondon@lolotravels.com?subject=${subject}&body=${body}`);
-});
+}
+function closeMobileNav(){
+  document.getElementById('navLinks').classList.remove('open');
+  const s=document.getElementById('navToggle').querySelectorAll('span');
+  s[0].style.transform='';s[1].style.opacity='';s[2].style.transform='';
+}
 </script>
 
-<!-- Netlify form detection — required for form submissions to work on Netlify -->
-<form name="intake" netlify netlify-honeypot="bot-field" hidden>
-  <input name="firstName"><input name="lastName"><input name="email">
-  <input name="phone"><input name="destinations"><input name="dates">
-  <input name="travelers"><input name="travelType"><textarea name="message"></textarea>
-</form>
-
+<script>
+// Fade in video when loaded, keep poster as fallback
+var hv = document.getElementById('heroVideo');
+var hp = document.getElementById('heroPoster');
+if(hv){
+  hv.addEventListener('canplay', function(){
+    hv.style.opacity = '1';
+    setTimeout(function(){ hp.style.opacity = '0'; }, 800);
+  });
+  hv.play().catch(function(){ 
+    // Video blocked — poster image stays, looks beautiful
+  });
+}
+</script>
 </body>
 </html>
