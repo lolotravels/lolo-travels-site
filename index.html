@@ -1273,7 +1273,7 @@ button{font-family:var(--font-b);}
 .editorial-bg{
   position:absolute;inset:0;
   background-size:cover;background-position:center;
-  filter:brightness(.5);
+  filter:brightness(.62);
   transform:scale(1.06);
   animation:editKB 18s ease-out forwards;
 }
@@ -1610,11 +1610,11 @@ button{font-family:var(--font-b);}
   position:absolute;inset:0;
   background-size:cover;background-position:center;
   transition:transform .9s cubic-bezier(.16,1,.3,1), filter .5s;
-  filter:brightness(.6) saturate(.85);
+  filter:brightness(.72) saturate(.9);
 }
 .dest-img-card:hover .dest-img-card-bg{
   transform:scale(1.07);
-  filter:brightness(.72) saturate(1.1);
+  filter:brightness(.82) saturate(1.1);
 }
 .dest-img-card-info{
   position:absolute;bottom:0;left:0;right:0;
@@ -2339,56 +2339,79 @@ button{font-family:var(--font-b);}
 }
 
 
-/* ROOTS & ROADS — single elegant image */
+
+/* ROOTS — five origins, slow dissolve */
 #roots-section{
   position:relative;
-  height:70vh;min-height:480px;
+  height:80vh;min-height:560px;
   overflow:hidden;
+  background:#060E1A;
 }
-.roots-img{
+.roots-slide{
   position:absolute;inset:0;
-  background-image:url('/img-stbarts-sunset.jpg');
   background-size:cover;background-position:center;
-  filter:brightness(.55);
-  animation:rootsKB 22s ease-out forwards;
-  transform-origin:center bottom;
+  opacity:0;
+  transition:opacity 3s ease;
 }
-@keyframes rootsKB{
-  0%{transform:scale(1.06);}
-  100%{transform:scale(1);}
+.roots-slide.active{opacity:1;}
+.roots-slide-inner{
+  position:absolute;inset:0;
+  animation:rootsBreath 18s ease-in-out infinite;
+}
+@keyframes rootsBreath{
+  0%{transform:scale(1.05);}
+  50%{transform:scale(1.02);}
+  100%{transform:scale(1.05);}
 }
 .roots-overlay{
   position:absolute;inset:0;
   background:linear-gradient(
     to bottom,
-    rgba(13,21,32,0) 20%,
-    rgba(13,21,32,.85) 100%
+    rgba(6,14,26,.15) 0%,
+    rgba(6,14,26,.7) 100%
   );
+  z-index:1;
 }
 .roots-content{
   position:absolute;
-  bottom:64px;left:72px;
+  bottom:0;left:0;right:0;
+  padding:0 72px 56px;
   z-index:2;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
 }
-.roots-tag{
-  font-family:'Jost',sans-serif;font-weight:200;
-  font-size:.58rem;letter-spacing:.48em;text-transform:uppercase;
-  color:rgba(201,168,76,.6);margin-bottom:14px;
-  display:flex;align-items:center;gap:12px;
-}
-.roots-tag::before{
-  content:'';display:block;width:24px;height:1px;
-  background:rgba(201,168,76,.35);flex-shrink:0;
-}
-.roots-h{
+.roots-place{
   font-family:'Cormorant Garamond',Georgia,serif;
   font-weight:300;font-style:italic;
-  font-size:clamp(2.4rem,5vw,5rem);
+  font-size:clamp(2.8rem,6vw,6rem);
   color:#F5F0E8;line-height:1;
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity 1.2s ease, transform 1.2s ease;
 }
+.roots-place.active{opacity:1;transform:translateY(0);}
+.roots-right{text-align:right;}
+.roots-tag{
+  font-family:'Jost',sans-serif;font-weight:200;
+  font-size:.55rem;letter-spacing:.48em;text-transform:uppercase;
+  color:rgba(201,168,76,.55);margin-bottom:10px;
+}
+.roots-dots{
+  display:flex;gap:8px;justify-content:flex-end;margin-top:14px;
+}
+.roots-dot{
+  width:4px;height:4px;border-radius:50%;
+  background:rgba(255,255,255,.25);
+  transition:background .5s;
+}
+.roots-dot.active{background:rgba(201,168,76,.7);}
 @media(max-width:768px){
-  .roots-content{left:24px;bottom:40px;}
+  .roots-content{padding:0 24px 40px;flex-direction:column;align-items:flex-start;gap:12px;}
+  .roots-right{text-align:left;}
+  .roots-dots{justify-content:flex-start;}
 }
+
 
 
 /* DESTINATIONS — elegant list */
@@ -2424,13 +2447,13 @@ button{font-family:var(--font-b);}
 .dest-elegant-card-bg{
   position:absolute;inset:0;
   background-size:cover;background-position:center;
-  filter:brightness(.55) saturate(.9);
+  filter:brightness(.68) saturate(.95);
   transition:transform 1.2s cubic-bezier(.16,1,.3,1),filter .8s;
   transform:scale(1.02);
 }
 .dest-elegant-card:hover .dest-elegant-card-bg{
   transform:scale(1);
-  filter:brightness(.65) saturate(1.05);
+  filter:brightness(.78) saturate(1.05);
 }
 .dest-elegant-card-info{
   position:absolute;bottom:0;left:0;right:0;
@@ -2456,6 +2479,93 @@ button{font-family:var(--font-b);}
 }
 .dest-elegant-card:hover .dest-elegant-line{width:40px;}
 @media(max-width:768px){#film-strip{padding:80px 24px;}}
+
+
+/* ROOTS & ROADS — five origin panels */
+#roots-section{
+  position:relative;
+  height:80vh;min-height:560px;
+  overflow:hidden;
+  background:#060E1A;
+}
+.roots-panel{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  opacity:0;
+  transition:opacity 2.5s ease;
+  filter:brightness(.72);
+}
+.roots-panel.active{opacity:1;}
+.roots-panel.active .roots-panel-bg{
+  animation:rootsPanelKB 14s ease-out forwards;
+}
+.roots-panel-bg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  transform:scale(1.05);
+}
+@keyframes rootsPanelKB{
+  0%{transform:scale(1.05);}
+  100%{transform:scale(1);}
+}
+.roots-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(6,14,26,0) 30%,
+    rgba(6,14,26,.88) 100%
+  );
+  z-index:1;
+}
+.roots-content{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  z-index:2;
+  padding:0 72px 52px;
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-end;
+}
+.roots-place{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-weight:300;font-style:italic;
+  font-size:clamp(2.8rem,6vw,6rem);
+  color:#F5F0E8;line-height:1;
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity 1.2s ease .4s, transform 1.2s ease .4s;
+}
+.roots-panel.active .roots-place{
+  opacity:1;transform:translateY(0);
+}
+.roots-dots{
+  display:flex;gap:8px;align-items:center;
+  padding-bottom:8px;
+}
+.roots-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:rgba(201,168,76,.25);
+  transition:background .4s,transform .4s;
+  cursor:pointer;
+}
+.roots-dot.active{
+  background:rgba(201,168,76,.85);
+  transform:scale(1.3);
+}
+.roots-tag{
+  font-family:'Jost',sans-serif;font-weight:200;
+  font-size:.55rem;letter-spacing:.48em;text-transform:uppercase;
+  color:rgba(201,168,76,.5);margin-bottom:10px;
+  display:flex;align-items:center;gap:10px;
+}
+.roots-tag::before{
+  content:'';display:block;width:20px;height:1px;
+  background:rgba(201,168,76,.3);
+}
+@media(max-width:768px){
+  .roots-content{padding:0 24px 36px;}
+  .roots-place{font-size:clamp(2rem,8vw,3.5rem);}
+}
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -2508,7 +2618,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;transition:opacity 2s ease;">
     <source src="https://assets.mixkit.co/videos/1573/1573-720.mp4" type="video/mp4">
   </video>
-  <div id="heroPoster" style="position:absolute;inset:0;z-index:0;background:url('https://images.unsplash.com/photo-1601923021370-72f5f9f45571?w=1920&q=95&fit=crop') center/cover no-repeat;opacity:1;transition:opacity 2s ease;animation:kbZoom 22s ease-out forwards;"></div>
+  <div id="heroPoster" style="position:absolute;inset:0;z-index:0;background:url('/img-amalfi-cliff.jpg') center/cover no-repeat;opacity:1;transition:opacity 2s ease;animation:kbZoom 22s ease-out forwards;"></div>
 
     <div class="hero-atm"></div>
     <div class="hero-particles" id="particles"></div>
@@ -2534,13 +2644,33 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
 
 
 
-  <!-- ROOTS & ROADS -->
+  <!-- ROOTS — Five Origins -->
   <div id="roots-section">
-    <div class="roots-img"></div>
+    <div class="roots-slide active" id="rs0" style="background-image:url('/img-grenada-aerial.jpg');background-size:cover;background-position:center;"></div>
+    <div class="roots-slide" id="rs1" style="background-image:url('/img-guyana.jpg');background-size:cover;background-position:center;"></div>
+    <div class="roots-slide" id="rs2" style="background-image:url('/img-trinidad.jpg');background-size:cover;background-position:center;"></div>
+    <div class="roots-slide" id="rs3" style="background-image:url('/img-ethiopia-castle.jpg');background-size:cover;background-position:center;"></div>
+    <div class="roots-slide" id="rs4" style="background-image:url('/img-uruguay.jpg');background-size:cover;background-position:center;"></div>
     <div class="roots-overlay"></div>
     <div class="roots-content">
-      <div class="roots-tag">Roots &amp; Roads</div>
-      <div class="roots-h">The world<br>is yours.</div>
+      <div>
+        <div class="roots-tag">Where we come from</div>
+        <div class="roots-place active" id="rp0">Grenada</div>
+        <div class="roots-place" id="rp1">Guyana</div>
+        <div class="roots-place" id="rp2">Trinidad</div>
+        <div class="roots-place" id="rp3">Ethiopia</div>
+        <div class="roots-place" id="rp4">Uruguay</div>
+      </div>
+      <div class="roots-right">
+        <div class="roots-tag">Roots &amp; Roads</div>
+        <div class="roots-dots">
+          <div class="roots-dot active" id="rd0"></div>
+          <div class="roots-dot" id="rd1"></div>
+          <div class="roots-dot" id="rd2"></div>
+          <div class="roots-dot" id="rd3"></div>
+          <div class="roots-dot" id="rd4"></div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2594,7 +2724,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
   <section id="editorial-moments">
 
     <div class="editorial reveal">
-      <div class="editorial-bg" style="background-image:url('/img-stbarts-sunset.jpg');"></div>
+            <div class="editorial-bg" style="background-image:url('/img-africa-balloon.jpg');"></div>
       <div class="editorial-overlay"></div>
       <div class="editorial-content">
         <div class="editorial-num">01 · Caribbean</div>
@@ -2607,10 +2737,10 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
       <div class="editorial-bg" style="background-image:url('https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=1600&q=90&fit=crop');"></div>
       <div class="editorial-overlay" style="background:linear-gradient(285deg,rgba(13,21,32,.7) 0%,rgba(13,21,32,.1) 60%,transparent 100%);"></div>
       <div class="editorial-content">
-        <div class="editorial-num">02 · Morocco</div>
+        <div class="editorial-num">02 · East Africa</div>
         <div class="editorial-rule"></div>
-        <h2 class="editorial-h">A courtyard<br>most visitors<br><em>never find.</em></h2>
-        <p class="editorial-p">Access comes from relationships built over time. We bring those relationships to every itinerary we design.</p>
+        <h2 class="editorial-h">Where the wild<br>moves beside<br><em>you.</em></h2>
+
       </div>
     </div>
 
@@ -2636,10 +2766,10 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     </div>
     <div class="dest-elegant-grid">
       <div class="dest-elegant-card" onclick="goPage('destinations')">
-        <div class="dest-elegant-card-bg" style="background-image:url('/img-stbarts-sunset.jpg');"></div>
+        <div class="dest-elegant-card-bg" style="background-image:url('/img-grenada-town.jpg');"></div>
         <div class="dest-elegant-card-info">
           <div class="dest-elegant-region">Caribbean</div>
-          <div class="dest-elegant-name">St. Barts</div>
+          <div class="dest-elegant-name">Grenada</div>
           <div class="dest-elegant-line"></div>
         </div>
       </div>
@@ -2660,7 +2790,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
         </div>
       </div>
       <div class="dest-elegant-card" onclick="goPage('destinations')">
-        <div class="dest-elegant-card-bg" style="background-image:url('/img-africa-canyon.jpg');"></div>
+        <div class="dest-elegant-card-bg" style="background-image:url('https://images.unsplash.com/photo-1516426122078-c23e76319801?w=700&q=85');"></div>
         <div class="dest-elegant-card-info">
           <div class="dest-elegant-region">Tanzania · Kenya</div>
           <div class="dest-elegant-name">East Africa</div>
@@ -2988,7 +3118,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
       <div style="flex:1;">
         <div style="font-family:'Jost',sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:12px;">Lolo World App</div>
         <h3 style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-style:italic;font-size:1.8rem;color:#F5F0E8;margin-bottom:12px;line-height:1.1;">Your protection,<br>always with you.</h3>
-        <p style="font-family:'Jost',sans-serif;font-weight:200;font-size:.88rem;color:rgba(255,255,255,.62);line-height:1.95;">File a claim, contact your advisor, access your policy documents, and activate Lolo Shield — all from the app. Before, during, and after your trip.</p>
+        <p style="font-family:'Jost',sans-serif;font-weight:200;font-size:.88rem;color:rgba(255,255,255,.62);line-height:1.95;">Access your policy, activate Lolo Shield, and initiate a claim — all from one place, anywhere in the world.</p>
       </div>
       <div class="app-phone" style="flex-shrink:0;width:160px;height:320px;">
         <div class="app-glow"></div>
@@ -3060,6 +3190,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     <div>
       <form class="intake-form" name="travel-inquiry" netlify netlify-honeypot="bot-field" onsubmit="submitIntake(event,this)">
         <input type="hidden" name="form-name" value="travel-inquiry"/>
+          <input type="hidden" name="subject" value="New Trip Inquiry — Lolo Travels"/>
         <p style="display:none;"><input name="bot-field"/></p>
         <div class="fsec">
           <div class="fsec-title">01 — About You</div>
@@ -3744,7 +3875,10 @@ async function sendConcierge(){
           <strong>Certifications</strong>WOSB · SBA Small Business
         </div>
         <div class="gov-cred-item">
-          <strong>Clearance</strong>SAM.gov Active
+          <strong>CAGE / NCAGE</strong>1WR24
+        </div>
+        <div class="gov-cred-item">
+          <strong>SAM.gov</strong>Active Registration
         </div>
       </div>
     </div>
@@ -3788,6 +3922,11 @@ async function sendConcierge(){
         <div class="gov-cred-cell-label">Location</div>
         <div class="gov-cred-cell-val">Minneapolis, MN</div>
         <div class="gov-cred-cell-sub">7825 Washington Ave S · Suite 555</div>
+      </div>
+      <div class="gov-cred-cell">
+        <div class="gov-cred-cell-label">CAGE / NCAGE</div>
+        <div class="gov-cred-cell-val">1WR24</div>
+        <div class="gov-cred-cell-sub">Commercial and Government Entity</div>
       </div>
       <div class="gov-cred-cell">
         <div class="gov-cred-cell-label">Licensed</div>
@@ -3854,6 +3993,9 @@ async function sendConcierge(){
       <div>
         <form name="gov-inquiry" method="POST" data-netlify="true" onsubmit="handleGovSubmit(event)">
           <input type="hidden" name="form-name" value="gov-inquiry"/>
+          <input type="hidden" name="subject" value="Federal Inquiry — Lolo Travels"/>
+          <input type="hidden" name="subject" value="Federal Inquiry — Lolo Travels"/>
+          <input type="hidden" name="_to" value="hello@lolotravels.com"/>
           <div class="gov-form-field">
             <label class="gov-form-label">Agency or Organization</label>
             <input class="gov-form-input" type="text" name="agency" placeholder="Department / Agency Name" required/>
@@ -4399,6 +4541,74 @@ function handleInquirySubmit(e){
     document.getElementById('inq-success').style.display='block';
   });
 }
+</script>
+
+
+<script>
+// Roots — slow dissolve through five origins
+(function(){
+  var places = ['Grenada','Guyana','Trinidad','Ethiopia','Uruguay'];
+  var current = 0;
+  var total = places.length;
+
+  function goTo(n){
+    // Deactivate current
+    var prevSlide = document.getElementById('rs'+current);
+    var prevPlace = document.getElementById('rp'+current);
+    var prevDot   = document.getElementById('rd'+current);
+    if(prevSlide) prevSlide.classList.remove('active');
+    if(prevPlace) prevPlace.classList.remove('active');
+    if(prevDot)   prevDot.classList.remove('active');
+
+    current = n % total;
+
+    // Activate next
+    var nextSlide = document.getElementById('rs'+current);
+    var nextPlace = document.getElementById('rp'+current);
+    var nextDot   = document.getElementById('rd'+current);
+    if(nextSlide) nextSlide.classList.add('active');
+    if(nextDot)   nextDot.classList.add('active');
+    // Place name fades in 800ms after image starts
+    setTimeout(function(){
+      if(nextPlace) nextPlace.classList.add('active');
+    }, 800);
+  }
+
+  // Advance every 7 seconds
+  setInterval(function(){
+    goTo(current + 1);
+  }, 7000);
+})();
+</script>
+
+
+<script>
+// Roots & Roads — slow auto-advance
+(function(){
+  var panels = document.querySelectorAll('[data-roots]');
+  if(!panels.length) return;
+  var current = 0;
+  var timer;
+
+  function goRoots(idx){
+    panels[current].classList.remove('active');
+    document.querySelectorAll('.roots-dot').forEach(function(d,i){
+      d.classList.toggle('active', i === idx);
+    });
+    current = idx;
+    panels[current].classList.add('active');
+    resetTimer();
+  }
+  window.goRoots = goRoots;
+
+  function resetTimer(){
+    clearInterval(timer);
+    timer = setInterval(function(){
+      goRoots((current+1) % panels.length);
+    }, 6000);
+  }
+  resetTimer();
+})();
 </script>
 
 </body>
