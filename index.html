@@ -2643,35 +2643,10 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
   </section>
 
 
-
-  <!-- ROOTS — Five Origins -->
-  <div id="roots-section">
-    <div class="roots-slide active" id="rs0" style="background-image:url('/img-grenada-aerial.jpg');background-size:cover;background-position:center;"></div>
-    <div class="roots-slide" id="rs1" style="background-image:url('/img-guyana.jpg');background-size:cover;background-position:center;"></div>
-    <div class="roots-slide" id="rs2" style="background-image:url('/img-trinidad.jpg');background-size:cover;background-position:center;"></div>
-    <div class="roots-slide" id="rs3" style="background-image:url('/img-ethiopia-castle.jpg');background-size:cover;background-position:center;"></div>
-    <div class="roots-slide" id="rs4" style="background-image:url('/img-uruguay.jpg');background-size:cover;background-position:center;"></div>
-    <div class="roots-overlay"></div>
-    <div class="roots-content">
-      <div>
-        <div class="roots-tag">Where we come from</div>
-        <div class="roots-place active" id="rp0">Grenada</div>
-        <div class="roots-place" id="rp1">Guyana</div>
-        <div class="roots-place" id="rp2">Trinidad</div>
-        <div class="roots-place" id="rp3">Ethiopia</div>
-        <div class="roots-place" id="rp4">Uruguay</div>
-      </div>
-      <div class="roots-right">
-        <div class="roots-tag">Roots &amp; Roads</div>
-        <div class="roots-dots">
-          <div class="roots-dot active" id="rd0"></div>
-          <div class="roots-dot" id="rd1"></div>
-          <div class="roots-dot" id="rd2"></div>
-          <div class="roots-dot" id="rd3"></div>
-          <div class="roots-dot" id="rd4"></div>
-        </div>
-      </div>
-    </div>
+  <!-- SCENE BREAK -->
+  <div style="position:relative;height:52vh;min-height:360px;overflow:hidden;">
+    <div style="position:absolute;inset:0;background-image:url('/img-newzealand.jpg');background-size:cover;background-position:center;filter:brightness(.72);animation:kbZoom 22s ease-out forwards;"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,21,32,0) 20%,rgba(13,21,32,.75) 100%);"></div>
   </div>
 
   <!-- MANIFESTO -->
@@ -2875,7 +2850,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
       </div>
     </div>
     <div class="founder-right">
-      <div class="founder-visual"></div>
+      <div class="founder-visual" style="background-image:url('/img-grenada-aerial.jpg');"></div>
       <div class="founder-monogram">LL</div>
     </div>
   </section>
@@ -2902,6 +2877,37 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     <div class="sec-tag" style="color:var(--gold);">Our Story</div>
     <h1 class="display-h" style="font-size:clamp(3rem,7vw,8rem);">Built From<br><em>Roots & Roads</em></h1>
   </div>
+
+  <!-- ROOTS & ROADS ORIGIN PANELS -->
+  <div id="roots-section" style="margin-bottom:2px;">
+    <div class="roots-slide active" id="rs0" style="background-image:url('/img-grenada-aerial.jpg');background-size:cover;background-position:center;"></div>
+    <div class="roots-slide" id="rs1" style="background-image:url('/img-guyana.jpg');background-size:cover;background-position:center;"></div>
+    <div class="roots-slide" id="rs2" style="background-image:url('/img-trinidad.jpg');background-size:cover;background-position:center;"></div>
+    <div class="roots-slide" id="rs3" style="background-image:url('/img-ethiopia-castle.jpg');background-size:cover;background-position:center;"></div>
+    <div class="roots-slide" id="rs4" style="background-image:url('/img-uruguay.jpg');background-size:cover;background-position:center;"></div>
+    <div class="roots-overlay"></div>
+    <div class="roots-content">
+      <div>
+        <div class="roots-tag">Where we come from</div>
+        <div class="roots-place active" id="rp0">Grenada</div>
+        <div class="roots-place" id="rp1">Guyana</div>
+        <div class="roots-place" id="rp2">Trinidad</div>
+        <div class="roots-place" id="rp3">Ethiopia</div>
+        <div class="roots-place" id="rp4">Uruguay</div>
+      </div>
+      <div class="roots-right">
+        <div class="roots-tag">Roots &amp; Roads</div>
+        <div class="roots-dots">
+          <div class="roots-dot active" id="rd0" onclick="goRoots(0)"></div>
+          <div class="roots-dot" id="rd1" onclick="goRoots(1)"></div>
+          <div class="roots-dot" id="rd2" onclick="goRoots(2)"></div>
+          <div class="roots-dot" id="rd3" onclick="goRoots(3)"></div>
+          <div class="roots-dot" id="rd4" onclick="goRoots(4)"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div style="padding:0 72px 120px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;max-width:1400px;">
     <div>
       <div class="sec-tag reveal">The Founder</div>
