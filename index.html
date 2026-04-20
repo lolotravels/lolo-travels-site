@@ -312,17 +312,7 @@ button{font-family:var(--font-b);}
   background:linear-gradient(90deg,transparent,rgba(201,168,76,.12),transparent);
 }
 .manifesto-inner{max-width:1000px;margin:0 auto;}
-.manifesto-line{
-  font-family:var(--font-d);
-  font-weight:300;
-  font-size:clamp(2rem,4.5vw,5rem);
-  line-height:1.1;
-  color:rgba(255,255,255,.12);
-  transition:color .8s ease;
-  cursor:default;
-  margin-bottom:8px;
-  letter-spacing:-.01em;
-}
+.manifesto-line{font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-style:italic;font-size:clamp(1rem,2vw,1.6rem);line-height:1.5;color:#F5F0E8;margin-bottom:12px;}
 .manifesto-line.active{color:rgba(255,255,255,.9);}
 .manifesto-line em{font-style:italic;color:var(--gold-lt);}
 .manifesto-line span{color:rgba(201,168,76,.6);}
@@ -1169,11 +1159,12 @@ button{font-family:var(--font-b);}
 
 /* FLOATING APP MOCKUP */
 .app-float-wrap{
-  position:relative;display:flex;align-items:center;justify-content:center;
-  padding:60px 0 20px;
+  position:relative;display:flex;align-items:flex-start;justify-content:flex-end;
+  padding:0 0 20px;
+  margin-top:-20px;
 }
 .app-phone{
-  width:220px;height:440px;
+  width:180px;height:360px;
   background:linear-gradient(160deg,#0f1e3a 0%,#0A1628 100%);
   border:1.5px solid rgba(201,168,76,.35);
   border-radius:36px;
@@ -2493,7 +2484,6 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     <a href="#" onclick="goPage('services');return false;">Services</a>
     <a href="#" onclick="goPage('about');return false;">Our Story</a>
     <a href="#" onclick="goPage('insurance');return false;">Protection</a>
-    <a href="#" onclick="goPage('passport');return false;" style="font-family:var(--font-b);font-weight:200;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.65);transition:color .3s;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.65)'">Passport</a>
     <a href="#" onclick="goPage('members');return false;" style="font-family:var(--font-b);font-weight:200;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.65);transition:color .3s;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.65)'">Member Portal</a>
     <a href="#" class="nav-cta" onclick="goPage('inquiry');return false;"><span>Plan Your Travel</span></a>
   </div>
@@ -2560,18 +2550,29 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
   </section>
 
   <!-- SERVICES FLIP -->
-  <section id="services">
-    <div class="services-header">
+  <section id="services" style="position:relative;overflow:hidden;">
+    <!-- Continent watermark -->
+    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0;opacity:.06;">
+      <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="width:90%;max-width:900px;">
+        <path fill="white" d="M80,80 L190,55 L230,75 L250,145 L225,185 L195,225 L162,265 L128,242 L108,200 L88,155 Z"/>
+        <path fill="white" d="M178,265 L232,252 L262,282 L272,345 L252,405 L218,445 L188,425 L168,372 L158,312 Z"/>
+        <path fill="white" d="M415,55 L485,45 L515,65 L525,102 L495,122 L462,112 L432,90 Z"/>
+        <path fill="white" d="M438,128 L512,118 L542,158 L552,222 L542,302 L512,362 L472,382 L442,352 L420,282 L413,202 L423,148 Z"/>
+        <path fill="white" d="M518,48 L685,38 L785,68 L825,122 L802,162 L752,182 L682,172 L622,162 L558,142 L518,108 Z"/>
+        <path fill="white" d="M718,278 L802,258 L842,288 L852,342 L822,382 L772,392 L728,362 L708,318 Z"/>
+        <path fill="white" d="M900,80 L950,75 L970,110 L940,130 L910,120 Z"/>
+      </svg>
+    </div>
+    <div class="services-header" style="position:relative;z-index:1;">
       <div>
         <div class="sec-tag reveal">Every Detail Considered</div>
         <h2 class="display-h reveal r1">Six ways we<br><em>serve you.</em></h2>
       </div>
       <div>
-        <p class="body-copy reveal r2">From the moment you inquire to the moment you return — every element of your travel is coordinated. Hover each card to discover what we do.</p>
-        <a href="#" class="btn-outline-gold reveal r3" onclick="goPage('services');return false;">All Services</a>
+        <a href="#" class="btn-outline-gold reveal r2" onclick="goPage('services');return false;">All Services</a>
       </div>
     </div>
-    <div class="flip-grid">
+    <div class="flip-grid" style="position:relative;z-index:1;">
       <div class="flip-card reveal r1"><div class="flip-inner"><div class="flip-front"><div class="flip-num">01</div><div class="flip-name">Air Travel</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Air Travel</div><p class="flip-back-desc">Global airline networks, consolidator fares, and premium cabin access. Complex routing made seamless.</p><div class="flip-back-link">Learn more</div></div></div></div>
       <div class="flip-card reveal r2"><div class="flip-inner"><div class="flip-front"><div class="flip-num">02</div><div class="flip-name">Accommodations</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Accommodations</div><p class="flip-back-desc">Preferred rates, private residences, and exclusive collections. Every property matched to your needs.</p><div class="flip-back-link">Learn more</div></div></div></div>
       <div class="flip-card reveal r3"><div class="flip-inner"><div class="flip-front"><div class="flip-num">03</div><div class="flip-name">Travel Protection</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Travel Protection</div><p class="flip-back-desc">Coverage built into every trip from day one. Cancellation, medical, evacuation, and more.</p><div class="flip-back-link">Learn more</div></div></div></div>
@@ -2586,13 +2587,12 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
   <section id="editorial-moments">
 
     <div class="editorial reveal">
-      <div class="editorial-bg" style="background-image:url('https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=1600&q=90&fit=crop');"></div>
+      <div class="editorial-bg" style="background-image:url('/img-stbarts-sunset.jpg');"></div>
       <div class="editorial-overlay"></div>
       <div class="editorial-content">
         <div class="editorial-num">01 · Caribbean</div>
         <div class="editorial-rule"></div>
         <h2 class="editorial-h">A terrace above<br>the sea. No agenda.<br><em>No alarm.</em></h2>
-        <p class="editorial-p">Every detail arranged so you can be fully present. That is the only measure of a well-planned journey.</p>
       </div>
     </div>
 
@@ -2608,7 +2608,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     </div>
 
     <div class="editorial reveal">
-      <div class="editorial-bg" style="background-image:url('https://images.unsplash.com/photo-1516426122078-c23e76319801?w=1600&q=90&fit=crop');"></div>
+      <div class="editorial-bg" style="background-image:url('/img-africa-canyon.jpg');"></div>
       <div class="editorial-overlay"></div>
       <div class="editorial-content">
         <div class="editorial-num">03 · East Africa</div>
@@ -2625,7 +2625,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
   <section id="film-strip">
     <div class="film-strip-intro">
       <h2>Every corner,<br><em>accessible.</em></h2>
-      <p>From the Caribbean to East Africa, the Amalfi Coast to Japan — we go where you want to go. All 195 countries. Every continent.</p>
+
     </div>
     <div class="film-track">
       <div class="film-frame" onclick="goPage('destinations')">
@@ -2650,7 +2650,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
         </div>
       </div>
       <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600&q=85&fit=crop');"></div>
+        <div class="film-frame-img" style="background-image:url('/img-japan-temple.jpg');"></div>
         <div class="film-frame-label">
           <div class="film-frame-name">Kyoto</div>
           <div class="film-frame-region">Japan</div>
@@ -2685,14 +2685,14 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
         </div>
       </div>
       <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=600&q=85&fit=crop');"></div>
+        <div class="film-frame-img" style="background-image:url('/img-amalfi-town.jpg');"></div>
         <div class="film-frame-label">
           <div class="film-frame-name">Amalfi Coast</div>
           <div class="film-frame-region">Italy</div>
         </div>
       </div>
       <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=85&fit=crop');"></div>
+        <div class="film-frame-img" style="background-image:url('/img-africa-canyon.jpg');"></div>
         <div class="film-frame-label">
           <div class="film-frame-name">Bali</div>
           <div class="film-frame-region">Indonesia</div>
@@ -2734,7 +2734,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
         </div>
       </div>
       <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?w=600&q=85&fit=crop');"></div>
+        <div class="film-frame-img" style="background-image:url('/img-japan-temple.jpg');"></div>
         <div class="film-frame-label">
           <div class="film-frame-name">Kyoto</div>
           <div class="film-frame-region">Japan</div>
@@ -2769,14 +2769,14 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
         </div>
       </div>
       <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=600&q=85&fit=crop');"></div>
+        <div class="film-frame-img" style="background-image:url('/img-amalfi-town.jpg');"></div>
         <div class="film-frame-label">
           <div class="film-frame-name">Amalfi Coast</div>
           <div class="film-frame-region">Italy</div>
         </div>
       </div>
       <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1537996194471-e657df975ab4?w=600&q=85&fit=crop');"></div>
+        <div class="film-frame-img" style="background-image:url('/img-africa-canyon.jpg');"></div>
         <div class="film-frame-label">
           <div class="film-frame-name">Bali</div>
           <div class="film-frame-region">Indonesia</div>
@@ -2808,36 +2808,6 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     <div class="why-inner">
       <div class="sec-tag reveal">Why Lolo Travels</div>
       <h2 class="display-h reveal r1">The Lolo Standard.<br><em>Six pillars of service.</em></h2>
-
-      <div class="app-float-wrap">
-        <div class="app-phone">
-          <div class="app-glow"></div>
-          <div class="app-notch"></div>
-          <div class="app-screen">
-            <div class="app-status-bar">
-              <div class="app-status-dot"></div>
-              <div class="app-status-text">Lolo World</div>
-              <div class="app-status-dot"></div>
-            </div>
-            <div class="app-logo-line">Lolo World App</div>
-            <div class="app-card-mini">
-              <div class="app-card-label">Active Journey</div>
-              <div class="app-card-val">St. Barts, Caribbean</div>
-            </div>
-            <div class="app-card-mini">
-              <div class="app-card-label">Next Departure</div>
-              <div class="app-card-val">Thursday · 7:40 AM</div>
-            </div>
-            <div class="app-map-bar">
-              <div class="app-map-dot"></div>
-            </div>
-            <div class="app-card-mini">
-              <div class="app-card-label">Lolo Shield</div>
-              <div class="app-card-val">Active · All Clear</div>
-            </div>
-          </div>
-        </div>
-      </div>
       <div class="why-grid">
         <div class="why-item reveal r1"><div class="why-num">01</div><div class="why-title">Global Supplier Network</div><p class="why-desc">Direct access to air, hotel, cruise, and ground suppliers with preferred rates across every major market.</p></div>
         <div class="why-item reveal r2"><div class="why-num">02</div><div class="why-title">Protection-Integrated Planning</div><p class="why-desc">Protection is built into every itinerary from day one — coverage for cancellations, medical, evacuation, and disruptions as a core component, not an afterthought.</p></div>
@@ -2860,7 +2830,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
         <a href="#" class="btn-ghost reveal r4" onclick="goPage('about');return false;">Our Story</a>
       </div>
       <div style="margin-top:40px;" class="reveal">
-        <div class="founder-meta">Founder & CEO · Woman-Owned · Licensed Insurance Agent</div>
+        <div class="founder-meta">Founder & CEO · Woman-Owned · Licensed Insurance Agency</div>
       </div>
     </div>
     <div class="founder-right">
@@ -2980,7 +2950,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
       </div>
     </div>
     <div class="dest-img-card" onclick="goPage('inquiry')">
-      <div class="dest-img-card-bg" style="background-image:url('https://images.unsplash.com/photo-1516483638261-f4dbaf036963?w=700&q=85&fit=crop');"></div>
+      <div class="dest-img-card-bg" style="background-image:url('/img-amalfi-cliff.jpg');"></div>
       <div class="dest-img-card-info">
         <div class="dest-img-card-region">Italy · Mediterranean</div>
         <div class="dest-img-card-name">Amalfi Coast</div>
@@ -3012,7 +2982,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
       </div>
     </div>
     <div class="dest-img-card" onclick="goPage('inquiry')">
-      <div class="dest-img-card-bg" style="background-image:url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=700&q=85&fit=crop');"></div>
+      <div class="dest-img-card-bg" style="background-image:url('/img-japan-temple.jpg');"></div>
       <div class="dest-img-card-info">
         <div class="dest-img-card-region">Japan · East Asia</div>
         <div class="dest-img-card-name">Kyoto</div>
@@ -3028,7 +2998,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
       </div>
     </div>
     <div class="dest-img-card" onclick="goPage('inquiry')">
-      <div class="dest-img-card-bg" style="background-image:url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=700&q=85&fit=crop');"></div>
+      <div class="dest-img-card-bg" style="background-image:url('/img-japan-temple.jpg');"></div>
       <div class="dest-img-card-info">
         <div class="dest-img-card-region">Oman · Middle East</div>
         <div class="dest-img-card-name">Muscat</div>
@@ -3099,7 +3069,43 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     <div style="max-width:680px;margin-bottom:60px;">
       <div class="sec-tag reveal">Built In. Not Bolted On.</div>
       <h2 class="display-h reveal r1" style="font-size:clamp(1.8rem,3vw,2.8rem);">Protection is part<br><em>of every trip we plan.</em></h2>
-      <p class="body-copy reveal r2">We integrate travel protection from the beginning. Every trip includes a protection review and coverage options tailored to your specific journey.</p>
+      <p class="body-copy reveal r2">Lolo provides a protection system that supports you before, during, and after your trip — including ensuring any claims are actually processed and paid. We do not just file claims. We manage the process and ensure resolution.</p>
+    </div>
+
+    <!-- APP IN PROTECTION -->
+    <div style="display:flex;align-items:center;gap:48px;margin-bottom:60px;padding:40px;background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.08);">
+      <div style="flex:1;">
+        <div style="font-family:'Jost',sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.35em;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:12px;">Lolo World App</div>
+        <h3 style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-style:italic;font-size:1.8rem;color:#F5F0E8;margin-bottom:12px;line-height:1.1;">Your protection,<br>always with you.</h3>
+        <p style="font-family:'Jost',sans-serif;font-weight:200;font-size:.88rem;color:rgba(255,255,255,.62);line-height:1.95;">File a claim, contact your advisor, access your policy documents, and activate Lolo Shield — all from the app. Before, during, and after your trip.</p>
+      </div>
+      <div class="app-phone" style="flex-shrink:0;width:160px;height:320px;">
+        <div class="app-glow"></div>
+        <div class="app-notch"></div>
+        <div class="app-screen">
+          <div class="app-status-bar">
+            <div class="app-status-dot"></div>
+            <div class="app-status-text">Protection</div>
+            <div class="app-status-dot"></div>
+          </div>
+          <div class="app-logo-line">Lolo Shield</div>
+          <div class="app-card-mini">
+            <div class="app-card-label">Coverage Status</div>
+            <div class="app-card-val">Active · All Clear</div>
+          </div>
+          <div class="app-card-mini">
+            <div class="app-card-label">Claim Support</div>
+            <div class="app-card-val">Tap to File</div>
+          </div>
+          <div class="app-map-bar">
+            <div class="app-map-dot"></div>
+          </div>
+          <div class="app-card-mini">
+            <div class="app-card-label">Emergency</div>
+            <div class="app-card-val">1-tap Contact</div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="ins-grid">
       <div class="ins-card reveal r1"><svg class="ins-icon" width="28" height="28" viewBox="0 0 32 32" fill="none" stroke="#C9A84C" stroke-width="1.2"><path d="M16 3L4 8v8c0 7 5.5 12.5 12 14 6.5-1.5 12-7 12-14V8L16 3z"/></svg><h3>Trip Cancellation & Interruption</h3><p>Full protection against unforeseen cancellations, delays, and disruptions — before and during your journey.</p></div>
@@ -3522,21 +3528,11 @@ window.addEventListener('load',function(){
 // ── ROOTS & ROADS FLASH COLUMNS ─────────────────────────────────────────
 (function(){
   var cols = [
-    ['https://images.unsplash.com/photo-1601923021370-72f5f9f45571?w=400&q=80',
-     'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=400&q=80',
-     'https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=400&q=80'],
-    ['https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=400&q=80',
-     'https://images.unsplash.com/photo-1543429257-3eb0b65d9c58?w=400&q=80',
-     'https://images.unsplash.com/photo-1516426122078-c23e76319801?w=400&q=80'],
-    ['https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400&q=80',
-     'https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=400&q=80',
-     'https://images.unsplash.com/photo-1580710285183-d5bc09ef4c71?w=400&q=80'],
-    ['https://images.unsplash.com/photo-1633321702518-7feccafb94d5?w=400&q=80',
-     'https://images.unsplash.com/photo-1519046904884-53103b34b206?w=400&q=80',
-     'https://images.unsplash.com/photo-1548018560-c7196548bcd7?w=400&q=80'],
-    ['https://images.unsplash.com/photo-1528360983277-13d401cdc186?w=400&q=80',
-     'https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=400&q=80',
-     'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=400&q=80'],
+    ['/img-stbarts-sunset.jpg', '/img-amalfi-cliff.jpg', '/img-caribbean-bay.jpg'],
+    ['/img-morocco-interior.jpg', 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=400&q=80', '/img-amalfi-town.jpg'],
+    ['/img-africa-canyon.jpg', 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400&q=80', '/img-newzealand.jpg'],
+    ['/img-japan-temple.jpg', 'https://images.unsplash.com/photo-1580710285183-d5bc09ef4c71?w=400&q=80', 'https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=400&q=80'],
+    ['/img-stbarts-sunset.jpg', '/img-caribbean-bay.jpg', '/img-amalfi-cliff.jpg'],
   ];
 
   cols.forEach(function(imgs, ci){
@@ -3690,6 +3686,17 @@ document.querySelectorAll('.editorial').forEach(function(el){revObs.observe(el);
     </div>
 
     <div class="dash-signout" onclick="handleSignOut()">Sign Out</div>
+  </div>
+
+  <div style="padding:40px 72px;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+    <div style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-style:italic;font-size:1rem;color:rgba(201,168,76,.5);">Lolo Travels™</div>
+    <div style="display:flex;gap:28px;flex-wrap:wrap;">
+      <a href="#" onclick="goPage('home');return false;" style="font-family:'Jost',sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='rgba(201,168,76,.7)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Home</a>
+      <a href="#" onclick="goPage('destinations');return false;" style="font-family:'Jost',sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='rgba(201,168,76,.7)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Destinations</a>
+      <a href="#" onclick="goPage('services');return false;" style="font-family:'Jost',sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='rgba(201,168,76,.7)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Services</a>
+      <a href="#" onclick="goPage('inquiry');return false;" style="font-family:'Jost',sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='rgba(201,168,76,.7)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Plan Your Journey</a>
+      <a href="#" onclick="goPage('insurance');return false;" style="font-family:'Jost',sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='rgba(201,168,76,.7)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Protection</a>
+    </div>
   </div>
 
 </div>
@@ -4445,6 +4452,38 @@ function selectB2B(type, card){
 
   </div>
 
+
+  <!-- CONTINENTAL MAP SECTION -->
+  <div style="padding:0 72px 60px;text-align:center;">
+    <div style="font-family:'Jost',sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(201,168,76,.4);margin-bottom:24px;">195 Countries · Every Continent</div>
+    <svg viewBox="0 0 1000 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:800px;opacity:.35;filter:saturate(.6);">
+      <!-- Simplified continent shapes — muted gold outlines -->
+      <style>.cont{fill:none;stroke:rgba(201,168,76,0.6);stroke-width:1.5;}</style>
+      <!-- North America -->
+      <path class="cont" d="M80,80 L180,60 L220,80 L240,140 L220,180 L190,220 L160,260 L130,240 L110,200 L90,160 Z"/>
+      <!-- South America -->
+      <path class="cont" d="M180,260 L230,250 L260,280 L270,340 L250,400 L220,440 L190,420 L170,370 L160,310 Z"/>
+      <!-- Europe -->
+      <path class="cont" d="M420,60 L480,50 L510,70 L520,100 L490,120 L460,110 L430,90 Z"/>
+      <!-- Africa -->
+      <path class="cont" d="M440,130 L510,120 L540,160 L550,220 L540,300 L510,360 L470,380 L440,350 L420,280 L415,200 L425,150 Z"/>
+      <!-- Asia -->
+      <path class="cont" d="M520,50 L680,40 L780,70 L820,120 L800,160 L750,180 L680,170 L620,160 L560,140 L520,110 Z"/>
+      <!-- Australia -->
+      <path class="cont" d="M720,280 L800,260 L840,290 L850,340 L820,380 L770,390 L730,360 L710,320 Z"/>
+      <!-- Route lines -->
+      <line stroke="rgba(201,168,76,0.2)" stroke-width="0.8" stroke-dasharray="4,6" x1="220" y1="180" x2="420" y2="130"/>
+      <line stroke="rgba(201,168,76,0.2)" stroke-width="0.8" stroke-dasharray="4,6" x1="510" y1="90" x2="520" y2="80"/>
+      <line stroke="rgba(201,168,76,0.2)" stroke-width="0.8" stroke-dasharray="4,6" x1="490" y1="240" x2="720" y2="300"/>
+      <!-- Dots at destinations -->
+      <circle cx="150" cy="200" r="3" fill="rgba(201,168,76,0.6)"/>
+      <circle cx="200" cy="350" r="3" fill="rgba(201,168,76,0.6)"/>
+      <circle cx="460" cy="200" r="3" fill="rgba(201,168,76,0.6)"/>
+      <circle cx="490" cy="90" r="3" fill="rgba(201,168,76,0.6)"/>
+      <circle cx="670" cy="120" r="3" fill="rgba(201,168,76,0.6)"/>
+      <circle cx="770" cy="320" r="3" fill="rgba(201,168,76,0.6)"/>
+    </svg>
+  </div>
   <!-- EDITORIAL IMAGE -->
   <div class="passport-editorial">
     <div class="passport-editorial-bg"></div>
@@ -4459,6 +4498,17 @@ function selectB2B(type, card){
   <div style="text-align:center;padding:0 72px 100px;">
     <p style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(1rem,2vw,1.5rem);color:rgba(255,255,255,.35);margin-bottom:28px;">Questions about which tier is right for you?</p>
     <a href="#" class="btn-gold" onclick="goPage('inquiry');return false;"><span>Talk to an Advisor</span></a>
+  </div>
+
+  <div style="padding:40px 72px;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;">
+    <div style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-style:italic;font-size:1rem;color:rgba(201,168,76,.5);">Lolo Travels™</div>
+    <div style="display:flex;gap:28px;flex-wrap:wrap;">
+      <a href="#" onclick="goPage('home');return false;" style="font-family:'Jost',sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='rgba(201,168,76,.7)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Home</a>
+      <a href="#" onclick="goPage('destinations');return false;" style="font-family:'Jost',sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='rgba(201,168,76,.7)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Destinations</a>
+      <a href="#" onclick="goPage('services');return false;" style="font-family:'Jost',sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='rgba(201,168,76,.7)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Services</a>
+      <a href="#" onclick="goPage('inquiry');return false;" style="font-family:'Jost',sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='rgba(201,168,76,.7)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Plan Your Journey</a>
+      <a href="#" onclick="goPage('insurance');return false;" style="font-family:'Jost',sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.35);text-decoration:none;transition:color .3s;" onmouseover="this.style.color='rgba(201,168,76,.7)'" onmouseout="this.style.color='rgba(255,255,255,.35)'">Protection</a>
+    </div>
   </div>
 
 </div>
