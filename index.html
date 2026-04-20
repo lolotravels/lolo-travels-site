@@ -2345,7 +2345,7 @@ button{font-family:var(--font-b);}
   overflow:hidden;
   background:#060E1A;
 }
-.roots-slide{
+.roots-slide{background-color:#060E1A;background-image:radial-gradient(ellipse at 50% 50%,rgba(201,168,76,.04) 0%,transparent 65%);
   position:absolute;inset:0;
   background-size:cover;background-position:center;
   opacity:0;
@@ -2753,10 +2753,10 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     </div>
     <div class="dest-elegant-grid">
       <div class="dest-elegant-card" onclick="goPage('destinations')">
-        <div class="dest-elegant-card-bg" style="background-image:url('/img-grenada-town.jpg');"></div>
+        <div class="dest-elegant-card-bg" style="background-image:url('/img-stbarts-sunset.jpg');"></div>
         <div class="dest-elegant-card-info">
           <div class="dest-elegant-region">Caribbean</div>
-          <div class="dest-elegant-name">Grenada</div>
+          <div class="dest-elegant-name">St. Barts</div>
           <div class="dest-elegant-line"></div>
         </div>
       </div>
@@ -2795,8 +2795,8 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
       <div class="dest-elegant-card" onclick="goPage('destinations')">
         <div class="dest-elegant-card-bg" style="background-image:url('/img-caribbean-bay.jpg');"></div>
         <div class="dest-elegant-card-info">
-          <div class="dest-elegant-region">Grenada · Trinidad</div>
-          <div class="dest-elegant-name">Caribbean</div>
+          <div class="dest-elegant-region">Caribbean</div>
+          <div class="dest-elegant-name">Barbados</div>
           <div class="dest-elegant-line"></div>
         </div>
       </div>
@@ -2864,10 +2864,11 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     <div class="founder-right">
       <div class="founder-flash" id="founderFlash">
         <div class="ff-slide active" style="background-image:url('/img-grenada-aerial.jpg');"></div>
+        <div class="ff-slide" style="background-image:url('/img-grenada-bay.jpg');"></div>
         <div class="ff-slide" style="background-image:url('/img-guyana.jpg');"></div>
-        <div class="ff-slide" style="background-image:url('https://images.unsplash.com/photo-1627820743107-cde65a6da849?w=1400&q=90&fit=crop');"></div>
-        <div class="ff-slide" style="background-image:url('https://images.unsplash.com/photo-1568106294748-e14d6fcbabf6?w=1400&q=90&fit=crop');"></div>
-        <div class="ff-slide" style="background-image:url('https://images.unsplash.com/photo-1544982503-9f984c14501a?w=1400&q=90&fit=crop');"></div>
+        <div class="ff-slide" style="background-image:url('/img-africa-balloon.jpg');"></div>
+        <div class="ff-slide" style="background-image:url('/img-stbarts-sunset.jpg');"></div>
+      </div>
       </div>
       <div class="founder-monogram">LL</div>
     </div>
@@ -2900,9 +2901,9 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
   <div id="roots-section" style="margin-bottom:2px;">
     <div class="roots-slide active" id="rs0" style="background-image:url('/img-grenada-aerial.jpg');background-size:cover;background-position:center;"></div>
     <div class="roots-slide" id="rs1" style="background-image:url('/img-guyana.jpg');background-size:cover;background-position:center;"></div>
-    <div class="roots-slide" id="rs2" style="background-image:url('https://images.unsplash.com/photo-1627820743107-cde65a6da849?w=1400&q=90&fit=crop');background-size:cover;background-position:center;"></div>
-    <div class="roots-slide" id="rs3" style="background-image:url('https://images.unsplash.com/photo-1568106294748-e14d6fcbabf6?w=1400&q=90&fit=crop');background-size:cover;background-position:center;"></div>
-    <div class="roots-slide" id="rs4" style="background-image:url('https://images.unsplash.com/photo-1544982503-9f984c14501a?w=1400&q=90&fit=crop');background-size:cover;background-position:center;"></div>
+    <div class="roots-slide" id="rs2" style="background-image:url('');background-size:cover;background-position:center;"></div>
+    <div class="roots-slide" id="rs3" style="background-image:url('');background-size:cover;background-position:center;"></div>
+    <div class="roots-slide" id="rs4" style="background-image:url('');background-size:cover;background-position:center;"></div>
     <div class="roots-overlay"></div>
     <div class="roots-content">
       <div>
@@ -2980,14 +2981,6 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
         <div class="dest-img-card-region">Caribbean</div>
         <div class="dest-img-card-name">St. Barts</div>
         <div class="dest-img-card-tag">Pristine beaches. Zero pretense.</div>
-      </div>
-    </div>
-    <div class="dest-img-card" onclick="goPage('inquiry')">
-      <div class="dest-img-card-bg" style="background-image:url('https://images.unsplash.com/photo-1589394815349-6985e4baf3c0?w=700&q=85&fit=crop');"></div>
-      <div class="dest-img-card-info">
-        <div class="dest-img-card-region">Caribbean</div>
-        <div class="dest-img-card-name">Grenada</div>
-        <div class="dest-img-card-tag">Spice Island. Soul intact.</div>
       </div>
     </div>
     <div class="dest-img-card" onclick="goPage('inquiry')">
