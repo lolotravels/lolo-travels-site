@@ -1262,48 +1262,7 @@ button{font-family:var(--font-b);}
   background-image:url('https://images.unsplash.com/photo-1516426122078-c23e76319801?w=800&q=85&fit=crop');
 }
 
-/* ROOTS & ROADS — flashing montage header */
-#roots-flash{
-  position:relative;
-  height:420px;
-  overflow:hidden;
-  border-bottom:1px solid rgba(201,168,76,.08);
-}
-#roots-flash .flash-reel{
-  display:flex;
-  height:100%;
-  gap:3px;
-}
-#roots-flash .flash-col{
-  flex:1;
-  position:relative;
-  overflow:hidden;
-}
-#roots-flash .flash-col-img{
-  position:absolute;inset:0;
-  background-size:cover;background-position:center;
-  transition:opacity .7s ease;
-  opacity:0;
-}
-#roots-flash .flash-col-img.on{opacity:1;}
-#roots-flash::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(to bottom,rgba(13,21,32,0) 40%,#0D1520 100%);
-  z-index:2;pointer-events:none;
-}
-.roots-label{
-  position:absolute;bottom:40px;left:72px;z-index:3;
-}
-.roots-label-tag{
-  font-family:'Jost',sans-serif;font-weight:200;
-  font-size:.65rem;letter-spacing:.42em;text-transform:uppercase;
-  color:rgba(201,168,76,.65);margin-bottom:10px;
-}
-.roots-label-h{
-  font-family:'Cormorant Garamond',Georgia,serif;
-  font-weight:300;font-style:italic;
-  font-size:clamp(2rem,3.5vw,3rem);color:#F5F0E8;line-height:1.1;
-}
+
 
 /* EDITORIAL MOMENTS — full bleed text floats over image */
 .editorial{
@@ -1314,11 +1273,14 @@ button{font-family:var(--font-b);}
 .editorial-bg{
   position:absolute;inset:0;
   background-size:cover;background-position:center;
-  filter:brightness(.55);
-  transform:scale(1.04);
-  transition:transform 8s ease;
+  filter:brightness(.5);
+  transform:scale(1.06);
+  animation:editKB 18s ease-out forwards;
 }
-.editorial:hover .editorial-bg{transform:scale(1);}
+@keyframes editKB{
+  0%{transform:scale(1.06);}
+  100%{transform:scale(1);}
+}
 .editorial-overlay{
   position:absolute;inset:0;
   background:linear-gradient(105deg,rgba(13,21,32,.7) 0%,rgba(13,21,32,.1) 60%,transparent 100%);
@@ -1336,8 +1298,8 @@ button{font-family:var(--font-b);}
 .editorial-h{
   font-family:'Cormorant Garamond',Georgia,serif;
   font-weight:300;font-style:italic;
-  font-size:clamp(2.4rem,5vw,5rem);
-  color:#F5F0E8;line-height:1.05;margin-bottom:20px;
+  font-size:clamp(2.8rem,6vw,6.5rem);
+  color:#F5F0E8;line-height:.95;margin-bottom:24px;
 }
 .editorial-p{
   font-family:'Jost',sans-serif;font-weight:300;
@@ -1352,69 +1314,7 @@ button{font-family:var(--font-b);}
 }
 .editorial.vis .editorial-rule{width:60px;}
 
-/* DESTINATIONS FILM STRIP */
-#film-strip{
-  overflow:hidden;
-  border-top:1px solid rgba(201,168,76,.08);
-  border-bottom:1px solid rgba(201,168,76,.08);
-  padding:0;
-}
-.film-track{
-  display:flex;
-  gap:3px;
-  animation:filmScroll 30s linear infinite;
-  width:max-content;
-}
-.film-track:hover{animation-play-state:paused;}
-@keyframes filmScroll{
-  0%{transform:translateX(0);}
-  100%{transform:translateX(-50%);}
-}
-.film-frame{
-  width:280px;height:360px;
-  position:relative;overflow:hidden;flex-shrink:0;
-  cursor:none;
-}
-.film-frame-img{
-  width:100%;height:100%;
-  background-size:cover;background-position:center;
-  transition:transform .8s cubic-bezier(.16,1,.3,1),filter .4s;
-  filter:brightness(.65) saturate(.8);
-}
-.film-frame:hover .film-frame-img{
-  transform:scale(1.06);
-  filter:brightness(.75) saturate(1.1);
-}
-.film-frame-label{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:40px 20px 20px;
-  background:linear-gradient(to top,rgba(10,22,40,.9) 0%,transparent 100%);
-}
-.film-frame-name{
-  font-family:'Cormorant Garamond',Georgia,serif;
-  font-weight:300;font-style:italic;
-  font-size:1.3rem;color:#F5F0E8;line-height:1.1;margin-bottom:4px;
-}
-.film-frame-region{
-  font-family:'Jost',sans-serif;font-weight:200;
-  font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;
-  color:rgba(201,168,76,.6);
-}
-.film-strip-intro{
-  padding:80px 72px 40px;display:flex;
-  justify-content:space-between;align-items:flex-end;
-}
-.film-strip-intro h2{
-  font-family:'Cormorant Garamond',Georgia,serif;
-  font-weight:300;font-style:italic;
-  font-size:clamp(2rem,4vw,4rem);
-  color:#F5F0E8;line-height:1.05;
-}
-.film-strip-intro p{
-  font-family:'Jost',sans-serif;font-weight:300;
-  font-size:.88rem;color:rgba(255,255,255,.72);
-  line-height:1.9;max-width:320px;text-align:right;
-}
+
 
 
 /* ═══════════════════════════════════════════
@@ -1653,55 +1553,40 @@ button{font-family:var(--font-b);}
 }
 
 
-/* MANIFESTO WITH IMAGE FLASH */
+/* MANIFESTO — elegant centered text */
 #manifesto{
+  padding:120px 72px;
+  text-align:center;
+  background:#0D1520;
   position:relative;
-  padding:120px 0;
-  overflow:hidden;
-  display:grid;
-  grid-template-columns:520px 1fr;
-  align-items:center;
-  min-height:80vh;
-  gap:0;
 }
-@media(max-width:900px){
-  #manifesto{grid-template-columns:1fr;padding:80px 0;}
+#manifesto::before{
+  content:'';position:absolute;
+  top:0;left:50%;transform:translateX(-50%);
+  width:1px;height:60px;
+  background:linear-gradient(to bottom,rgba(201,168,76,.3),transparent);
 }
 .manifesto-inner{
-  padding:0 72px;
+  max-width:640px;margin:0 auto;
   position:relative;z-index:2;
-  flex-shrink:0;
 }
-.manifesto-flash-right{
-  position:relative;
-  height:520px;
-  overflow:hidden;
-  border-left:1px solid rgba(201,168,76,.08);
+.manifesto-line{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-weight:300;font-style:italic;
+  font-size:clamp(1.4rem,3vw,2.4rem);
+  line-height:1.6;color:rgba(245,240,232,.55);
+  margin-bottom:0;
+  transition:color 1.2s ease,transform 1.2s ease;
+  transform:translateY(6px);
 }
-.manifesto-flash-right .mf-slide{
-  position:absolute;inset:0;
-  background-size:cover;background-position:center;
-  opacity:0;
-  transition:opacity 2s ease;
+.manifesto-line.active{
+  color:rgba(245,240,232,.92);
+  transform:translateY(0);
 }
-.manifesto-flash-right .mf-slide.on{opacity:1;}
-.manifesto-flash-right::before{
-  content:'';position:absolute;inset:0;z-index:1;
-  background:linear-gradient(to right,#0D1520 0%,rgba(13,21,32,.3) 25%,transparent 55%);
-  pointer-events:none;
-}
-.manifesto-flash-right::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:40%;z-index:1;
-  background:linear-gradient(to top,#0D1520 0%,transparent 100%);
-  pointer-events:none;
-}
-@media(max-width:900px){
-  .manifesto-flash-right{
-    height:320px;
-    border-left:none;
-    border-top:1px solid rgba(201,168,76,.08);
-    margin-top:40px;
-  }
+.manifesto-line em{color:rgba(201,168,76,.8);font-style:italic;}
+.manifesto-line span{color:rgba(201,168,76,.6);}
+@media(max-width:768px){
+  #manifesto{padding:80px 24px;}
 }
 
 
@@ -2453,6 +2338,125 @@ button{font-family:var(--font-b);}
   font-size:.88rem;color:rgba(255,255,255,.45);line-height:1.9;
 }
 
+
+/* ROOTS & ROADS — single elegant image */
+#roots-section{
+  position:relative;
+  height:70vh;min-height:480px;
+  overflow:hidden;
+}
+.roots-img{
+  position:absolute;inset:0;
+  background-image:url('/img-stbarts-sunset.jpg');
+  background-size:cover;background-position:center;
+  filter:brightness(.55);
+  animation:rootsKB 22s ease-out forwards;
+  transform-origin:center bottom;
+}
+@keyframes rootsKB{
+  0%{transform:scale(1.06);}
+  100%{transform:scale(1);}
+}
+.roots-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(
+    to bottom,
+    rgba(13,21,32,0) 20%,
+    rgba(13,21,32,.85) 100%
+  );
+}
+.roots-content{
+  position:absolute;
+  bottom:64px;left:72px;
+  z-index:2;
+}
+.roots-tag{
+  font-family:'Jost',sans-serif;font-weight:200;
+  font-size:.58rem;letter-spacing:.48em;text-transform:uppercase;
+  color:rgba(201,168,76,.6);margin-bottom:14px;
+  display:flex;align-items:center;gap:12px;
+}
+.roots-tag::before{
+  content:'';display:block;width:24px;height:1px;
+  background:rgba(201,168,76,.35);flex-shrink:0;
+}
+.roots-h{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-weight:300;font-style:italic;
+  font-size:clamp(2.4rem,5vw,5rem);
+  color:#F5F0E8;line-height:1;
+}
+@media(max-width:768px){
+  .roots-content{left:24px;bottom:40px;}
+}
+
+
+/* DESTINATIONS — elegant list */
+#film-strip{
+  padding:100px 72px;
+  border-top:1px solid rgba(201,168,76,.08);
+}
+.dest-elegant-header{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:60px;align-items:end;
+  margin-bottom:64px;
+}
+.dest-elegant-header h2{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-weight:300;font-style:italic;
+  font-size:clamp(2.4rem,5vw,5rem);
+  color:#F5F0E8;line-height:1;
+}
+.dest-elegant-header p{
+  font-family:'Jost',sans-serif;font-weight:200;
+  font-size:.88rem;color:rgba(255,255,255,.45);
+  line-height:2;
+}
+.dest-elegant-grid{
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  gap:2px;
+}
+@media(max-width:900px){.dest-elegant-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.dest-elegant-grid{grid-template-columns:1fr;}}
+.dest-elegant-card{
+  position:relative;height:320px;overflow:hidden;cursor:none;
+}
+.dest-elegant-card-bg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  filter:brightness(.55) saturate(.9);
+  transition:transform 1.2s cubic-bezier(.16,1,.3,1),filter .8s;
+  transform:scale(1.02);
+}
+.dest-elegant-card:hover .dest-elegant-card-bg{
+  transform:scale(1);
+  filter:brightness(.65) saturate(1.05);
+}
+.dest-elegant-card-info{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:50px 28px 24px;
+  background:linear-gradient(to top,rgba(6,14,26,.95) 0%,transparent 100%);
+  transition:padding .4s;
+}
+.dest-elegant-card:hover .dest-elegant-card-info{padding-bottom:28px;}
+.dest-elegant-region{
+  font-family:'Jost',sans-serif;font-weight:200;
+  font-size:.55rem;letter-spacing:.35em;text-transform:uppercase;
+  color:rgba(201,168,76,.55);margin-bottom:6px;
+}
+.dest-elegant-name{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-weight:300;font-style:italic;
+  font-size:1.6rem;color:#F5F0E8;line-height:1;
+}
+.dest-elegant-line{
+  width:0;height:1px;background:rgba(201,168,76,.4);
+  margin-top:10px;
+  transition:width .6s cubic-bezier(.16,1,.3,1);
+}
+.dest-elegant-card:hover .dest-elegant-line{width:40px;}
+@media(max-width:768px){#film-strip{padding:80px 24px;}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -2530,38 +2534,25 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
 
 
 
-  <!-- ROOTS & ROADS FLASH -->
-  <div id="roots-flash">
-    <div class="flash-reel">
-      <div class="flash-col" id="fc0"></div>
-      <div class="flash-col" id="fc1"></div>
-      <div class="flash-col" id="fc2"></div>
-      <div class="flash-col" id="fc3"></div>
-      <div class="flash-col" id="fc4"></div>
-    </div>
-    <div class="roots-label">
-      <div class="roots-label-tag">Roots &amp; Roads</div>
-      <div class="roots-label-h">The world<br><em>awaits.</em></div>
+  <!-- ROOTS & ROADS -->
+  <div id="roots-section">
+    <div class="roots-img"></div>
+    <div class="roots-overlay"></div>
+    <div class="roots-content">
+      <div class="roots-tag">Roots &amp; Roads</div>
+      <div class="roots-h">The world<br>is yours.</div>
     </div>
   </div>
 
   <!-- MANIFESTO -->
   <section id="manifesto">
     <div class="manifesto-inner">
-      <div class="sec-tag reveal">What We Believe</div>
       <div class="manifesto-line" data-manifesto>Travel is not a transaction.</div>
       <div class="manifesto-line" data-manifesto>It is <em>permission</em> to live differently.</div>
       <div class="manifesto-line" data-manifesto>We manage every detail</div>
       <div class="manifesto-line" data-manifesto>so you can be fully <em>present.</em></div>
       <div class="manifesto-line" data-manifesto>Not a booking platform.</div>
       <div class="manifesto-line" data-manifesto><span>A partner.</span></div>
-    </div>
-    <div class="manifesto-flash-right" id="manifesto-flash">
-      <div class="mf-slide on" style="background-image:url('https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=900&q=90&fit=crop');"></div>
-      <div class="mf-slide" style="background-image:url('https://images.unsplash.com/photo-1519046904884-53103b34b206?w=900&q=90&fit=crop');"></div>
-      <div class="mf-slide" style="background-image:url('https://images.unsplash.com/photo-1539635278303-d4002c07eae3?w=900&q=90&fit=crop');"></div>
-      <div class="mf-slide" style="background-image:url('https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=900&q=90&fit=crop');"></div>
-      <div class="mf-slide" style="background-image:url('https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=900&q=90&fit=crop');"></div>
     </div>
   </section>
 
@@ -2589,12 +2580,12 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
       </div>
     </div>
     <div class="flip-grid" style="position:relative;z-index:1;">
-      <div class="flip-card reveal r1"><div class="flip-inner"><div class="flip-front"><div class="flip-num">01</div><div class="flip-name">Air Travel</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Air Travel</div><p class="flip-back-desc">Global airline networks, consolidator fares, and premium cabin access. Complex routing made seamless.</p><div class="flip-back-link">Learn more</div></div></div></div>
-      <div class="flip-card reveal r2"><div class="flip-inner"><div class="flip-front"><div class="flip-num">02</div><div class="flip-name">Accommodations</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Accommodations</div><p class="flip-back-desc">Preferred rates, private residences, and exclusive collections. Every property matched to your needs.</p><div class="flip-back-link">Learn more</div></div></div></div>
-      <div class="flip-card reveal r3"><div class="flip-inner"><div class="flip-front"><div class="flip-num">03</div><div class="flip-name">Travel Protection</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Travel Protection</div><p class="flip-back-desc">Coverage built into every trip from day one. Cancellation, medical, evacuation, and more.</p><div class="flip-back-link">Learn more</div></div></div></div>
-      <div class="flip-card reveal r1"><div class="flip-inner"><div class="flip-front"><div class="flip-num">04</div><div class="flip-name">Corporate Travel</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Corporate Travel</div><p class="flip-back-desc">Mission-critical coordination for businesses and contractors. Accountability at every stage.</p><div class="flip-back-link">Learn more</div></div></div></div>
-      <div class="flip-card reveal r2"><div class="flip-inner"><div class="flip-front"><div class="flip-num">05</div><div class="flip-name">Managed Services</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Managed Services</div><p class="flip-back-desc">Ongoing support, preferred access, and a dedicated advisor who knows your preferences and priorities.</p><div class="flip-back-link">Learn more</div></div></div></div>
-      <div class="flip-card reveal r3"><div class="flip-inner"><div class="flip-front"><div class="flip-num">06</div><div class="flip-name">Technology</div><div class="flip-hint">Hover to discover</div></div><div class="flip-back"><div class="flip-back-name">Technology</div><p class="flip-back-desc">Lolo World App — itinerary access, eSIM connectivity, AI assistant, and real-time support anywhere.</p><div class="flip-back-link">Learn more</div></div></div></div>
+      <div class="flip-card reveal r1"><div class="flip-inner"><div class="flip-front"><div class="flip-num">01</div><div class="flip-name">Air Travel</div></div><div class="flip-back"><div class="flip-back-name">Air Travel</div><p class="flip-back-desc">Global airline networks, consolidator fares, and premium cabin access. Complex routing made seamless.</p><div class="flip-back-link">Learn more</div></div></div></div>
+      <div class="flip-card reveal r2"><div class="flip-inner"><div class="flip-front"><div class="flip-num">02</div><div class="flip-name">Accommodations</div></div><div class="flip-back"><div class="flip-back-name">Accommodations</div><p class="flip-back-desc">Preferred rates, private residences, and exclusive collections. Every property matched to your needs.</p><div class="flip-back-link">Learn more</div></div></div></div>
+      <div class="flip-card reveal r3"><div class="flip-inner"><div class="flip-front"><div class="flip-num">03</div><div class="flip-name">Travel Protection</div></div><div class="flip-back"><div class="flip-back-name">Travel Protection</div><p class="flip-back-desc">Coverage built into every trip from day one. Cancellation, medical, evacuation, and more.</p><div class="flip-back-link">Learn more</div></div></div></div>
+      <div class="flip-card reveal r1"><div class="flip-inner"><div class="flip-front"><div class="flip-num">04</div><div class="flip-name">Corporate Travel</div></div><div class="flip-back"><div class="flip-back-name">Corporate Travel</div><p class="flip-back-desc">Mission-critical coordination for businesses and contractors. Accountability at every stage.</p><div class="flip-back-link">Learn more</div></div></div></div>
+      <div class="flip-card reveal r2"><div class="flip-inner"><div class="flip-front"><div class="flip-num">05</div><div class="flip-name">Managed Services</div></div><div class="flip-back"><div class="flip-back-name">Managed Services</div><p class="flip-back-desc">Ongoing support, preferred access, and a dedicated advisor who knows your preferences and priorities.</p><div class="flip-back-link">Learn more</div></div></div></div>
+      <div class="flip-card reveal r3"><div class="flip-inner"><div class="flip-front"><div class="flip-num">06</div><div class="flip-name">Technology</div></div><div class="flip-back"><div class="flip-back-name">Technology</div><p class="flip-back-desc">Lolo World App — itinerary access, eSIM connectivity, AI assistant, and real-time support anywhere.</p><div class="flip-back-link">Learn more</div></div></div></div>
     </div>
   </section>
 
@@ -2637,183 +2628,87 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
   </section>
 
 
-  <!-- DESTINATIONS FILM STRIP -->
+<!-- DESTINATIONS ELEGANT GRID -->
   <section id="film-strip">
-    <div class="film-strip-intro">
+    <div class="dest-elegant-header">
       <h2>Every corner,<br><em>accessible.</em></h2>
-
+      <p>From the Caribbean to East Africa, the Amalfi Coast to Japan — wherever you want to go, we take you there. All 195 countries. Every continent.</p>
     </div>
-    <div class="film-track">
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1601923021370-72f5f9f45571?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">St. Barts</div>
-          <div class="film-frame-region">Caribbean</div>
+    <div class="dest-elegant-grid">
+      <div class="dest-elegant-card" onclick="goPage('destinations')">
+        <div class="dest-elegant-card-bg" style="background-image:url('/img-stbarts-sunset.jpg');"></div>
+        <div class="dest-elegant-card-info">
+          <div class="dest-elegant-region">Caribbean</div>
+          <div class="dest-elegant-name">St. Barts</div>
+          <div class="dest-elegant-line"></div>
         </div>
       </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1543429257-3eb0b65d9c58?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Tuscany</div>
-          <div class="film-frame-region">Italy</div>
+      <div class="dest-elegant-card" onclick="goPage('destinations')">
+        <div class="dest-elegant-card-bg" style="background-image:url('/img-amalfi-town.jpg');"></div>
+        <div class="dest-elegant-card-info">
+          <div class="dest-elegant-region">Italy</div>
+          <div class="dest-elegant-name">Amalfi Coast</div>
+          <div class="dest-elegant-line"></div>
         </div>
       </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Marrakech</div>
-          <div class="film-frame-region">Morocco</div>
+      <div class="dest-elegant-card" onclick="goPage('destinations')">
+        <div class="dest-elegant-card-bg" style="background-image:url('/img-morocco-interior.jpg');"></div>
+        <div class="dest-elegant-card-info">
+          <div class="dest-elegant-region">Africa</div>
+          <div class="dest-elegant-name">Morocco</div>
+          <div class="dest-elegant-line"></div>
         </div>
       </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('/img-japan-temple.jpg');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Kyoto</div>
-          <div class="film-frame-region">Japan</div>
+      <div class="dest-elegant-card" onclick="goPage('destinations')">
+        <div class="dest-elegant-card-bg" style="background-image:url('/img-africa-canyon.jpg');"></div>
+        <div class="dest-elegant-card-info">
+          <div class="dest-elegant-region">Tanzania · Kenya</div>
+          <div class="dest-elegant-name">East Africa</div>
+          <div class="dest-elegant-line"></div>
         </div>
       </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Serengeti</div>
-          <div class="film-frame-region">East Africa</div>
+      <div class="dest-elegant-card" onclick="goPage('destinations')">
+        <div class="dest-elegant-card-bg" style="background-image:url('/img-japan-temple.jpg');"></div>
+        <div class="dest-elegant-card-info">
+          <div class="dest-elegant-region">East Asia</div>
+          <div class="dest-elegant-name">Japan</div>
+          <div class="dest-elegant-line"></div>
         </div>
       </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Santorini</div>
-          <div class="film-frame-region">Greece</div>
+      <div class="dest-elegant-card" onclick="goPage('destinations')">
+        <div class="dest-elegant-card-bg" style="background-image:url('/img-caribbean-bay.jpg');"></div>
+        <div class="dest-elegant-card-info">
+          <div class="dest-elegant-region">Grenada · Trinidad</div>
+          <div class="dest-elegant-name">Caribbean</div>
+          <div class="dest-elegant-line"></div>
         </div>
       </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1580710285183-d5bc09ef4c71?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Addis Ababa</div>
-          <div class="film-frame-region">Ethiopia</div>
+      <div class="dest-elegant-card" onclick="goPage('destinations')">
+        <div class="dest-elegant-card-bg" style="background-image:url('/img-newzealand.jpg');"></div>
+        <div class="dest-elegant-card-info">
+          <div class="dest-elegant-region">Oceania</div>
+          <div class="dest-elegant-name">New Zealand</div>
+          <div class="dest-elegant-line"></div>
         </div>
       </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Barbados</div>
-          <div class="film-frame-region">Caribbean</div>
+      <div class="dest-elegant-card" onclick="goPage('destinations')">
+        <div class="dest-elegant-card-bg" style="background-image:url('/img-amalfi-cliff.jpg');"></div>
+        <div class="dest-elegant-card-info">
+          <div class="dest-elegant-region">Amalfi · Italy</div>
+          <div class="dest-elegant-name">Positano</div>
+          <div class="dest-elegant-line"></div>
         </div>
       </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('/img-amalfi-town.jpg');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Amalfi Coast</div>
-          <div class="film-frame-region">Italy</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('/img-africa-canyon.jpg');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Bali</div>
-          <div class="film-frame-region">Indonesia</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Paris</div>
-          <div class="film-frame-region">France</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1589394815349-6985e4baf3c0?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Trinidad</div>
-          <div class="film-frame-region">Caribbean</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1601923021370-72f5f9f45571?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">St. Barts</div>
-          <div class="film-frame-region">Caribbean</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1543429257-3eb0b65d9c58?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Tuscany</div>
-          <div class="film-frame-region">Italy</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Marrakech</div>
-          <div class="film-frame-region">Morocco</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('/img-japan-temple.jpg');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Kyoto</div>
-          <div class="film-frame-region">Japan</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1516426122078-c23e76319801?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Serengeti</div>
-          <div class="film-frame-region">East Africa</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Santorini</div>
-          <div class="film-frame-region">Greece</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1580710285183-d5bc09ef4c71?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Addis Ababa</div>
-          <div class="film-frame-region">Ethiopia</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Barbados</div>
-          <div class="film-frame-region">Caribbean</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('/img-amalfi-town.jpg');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Amalfi Coast</div>
-          <div class="film-frame-region">Italy</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('/img-africa-canyon.jpg');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Bali</div>
-          <div class="film-frame-region">Indonesia</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Paris</div>
-          <div class="film-frame-region">France</div>
-        </div>
-      </div>
-      <div class="film-frame" onclick="goPage('destinations')">
-        <div class="film-frame-img" style="background-image:url('https://images.unsplash.com/photo-1589394815349-6985e4baf3c0?w=600&q=85&fit=crop');"></div>
-        <div class="film-frame-label">
-          <div class="film-frame-name">Trinidad</div>
-          <div class="film-frame-region">Caribbean</div>
+      <div class="dest-elegant-card" onclick="goPage('destinations')">
+        <div class="dest-elegant-card-bg" style="background-image:url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600&q=85');"></div>
+        <div class="dest-elegant-card-info">
+          <div class="dest-elegant-region">France</div>
+          <div class="dest-elegant-name">Paris</div>
+          <div class="dest-elegant-line"></div>
         </div>
       </div>
     </div>
-    <div style="text-align:center;padding:48px 0 72px;">
+    <div style="text-align:center;margin-top:48px;">
       <a href="#" class="btn-outline-gold" onclick="goPage('destinations');return false;">Explore All Destinations</a>
     </div>
   </section>
@@ -3541,36 +3436,7 @@ window.addEventListener('load',function(){
 </script>
 
 <script>
-// ── ROOTS & ROADS FLASH COLUMNS ─────────────────────────────────────────
-(function(){
-  var cols = [
-    ['/img-stbarts-sunset.jpg', '/img-amalfi-cliff.jpg', '/img-caribbean-bay.jpg'],
-    ['/img-morocco-interior.jpg', 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?w=400&q=80', '/img-amalfi-town.jpg'],
-    ['/img-africa-canyon.jpg', 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400&q=80', '/img-newzealand.jpg'],
-    ['/img-japan-temple.jpg', 'https://images.unsplash.com/photo-1580710285183-d5bc09ef4c71?w=400&q=80', 'https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=400&q=80'],
-    ['/img-stbarts-sunset.jpg', '/img-caribbean-bay.jpg', '/img-amalfi-cliff.jpg'],
-  ];
 
-  cols.forEach(function(imgs, ci){
-    var col = document.getElementById('fc'+ci);
-    if(!col) return;
-    imgs.forEach(function(src, i){
-      var d = document.createElement('div');
-      d.className = 'flash-col-img' + (i===0?' on':'');
-      d.style.backgroundImage = "url('"+src+"')";
-      col.appendChild(d);
-    });
-
-    var idx = 0;
-    var slides = col.querySelectorAll('.flash-col-img');
-    var interval = 2200 + ci * 380;
-    setInterval(function(){
-      slides[idx].classList.remove('on');
-      idx = (idx+1) % slides.length;
-      slides[idx].classList.add('on');
-    }, interval);
-  });
-})();
 
 // ── EDITORIAL RULE DRAW ON SCROLL ──────────────────────────────────────
 var revObs = new IntersectionObserver(function(entries){
@@ -3844,19 +3710,7 @@ async function sendConcierge(){
 </script>
 
 
-<script>
-// Manifesto slow image flash
-(function(){
-  var slides = document.querySelectorAll('#manifesto-flash .mf-slide');
-  if(!slides.length) return;
-  var idx = 0;
-  setInterval(function(){
-    slides[idx].classList.remove('on');
-    idx = (idx+1) % slides.length;
-    slides[idx].classList.add('on');
-  }, 4500);
-})();
-</script>
+
 
 <!-- ═══════════════════════
      GOVERNMENT PAGE
