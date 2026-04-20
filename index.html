@@ -789,7 +789,8 @@ button{font-family:var(--font-b);}
 .founder-visual{
   position:absolute;
   inset:0;
-  display:none;
+  background-size:cover;
+  background-position:center;
 }
 .founder-monogram{
   position:relative;
@@ -2341,7 +2342,7 @@ button{font-family:var(--font-b);}
 /* ROOTS — five origins, slow dissolve */
 #roots-section{
   position:relative;
-  height:65vh;min-height:480px;
+  height:55vh;min-height:420px;
   overflow:hidden;
   background:#060E1A;
 }
@@ -2546,25 +2547,7 @@ button{font-family:var(--font-b);}
 }
 
 
-/* FOUNDER FLASH — slow origin image cycle */
-.founder-flash{
-  position:absolute;inset:0;overflow:hidden;
-}
-.founder-flash::after{
-  content:"";
-  position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(6,14,26,.4) 0%,rgba(6,14,26,.1) 100%);
-  z-index:1;
-  pointer-events:none;
-}
-.ff-slide{
-  position:absolute;inset:0;
-  background-size:cover;background-position:center;
-  opacity:0;
-  transition:opacity 2.5s ease;
-  filter:brightness(.55);
-}
-.ff-slide.active{opacity:1;}
+
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -2701,13 +2684,13 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     </div>
 
     <div class="editorial reveal" style="justify-content:flex-start;">
-      <div class="editorial-bg" style="background-image:url('/img-africa-balloon.jpg');"></div>
+      <div class="editorial-bg" style="background-image:url('/img-morocco-interior.jpg');"></div>
       <div class="editorial-overlay" style="background:linear-gradient(285deg,rgba(13,21,32,.7) 0%,rgba(13,21,32,.1) 60%,transparent 100%);"></div>
       <div class="editorial-content">
-        <div class="editorial-num">02 · East Africa</div>
+        <div class="editorial-num">02 · Morocco</div>
         <div class="editorial-rule"></div>
-        <h2 class="editorial-h">Where the wild<br>moves beside<br><em>you.</em></h2>
-
+        <h2 class="editorial-h">A courtyard<br>most visitors<br><em>never find.</em></h2>
+        <p class="editorial-p">Access comes from relationships built over time. We bring those relationships to every itinerary we design.</p>
       </div>
     </div>
 
@@ -2842,14 +2825,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
       </div>
     </div>
     <div class="founder-right">
-      <div class="founder-flash" id="founderFlash">
-        <div class="ff-slide active" style="background-image:url('/img-grenada-aerial.jpg');"></div>
-        <div class="ff-slide" style="background-image:url('/img-grenada-bay.jpg');"></div>
-        <div class="ff-slide" style="background-image:url('/img-guyana.jpg');"></div>
-        <div class="ff-slide" style="background-image:url('/img-africa-balloon.jpg');"></div>
-        <div class="ff-slide" style="background-image:url('/img-stbarts-sunset.jpg');"></div>
-      </div>
-      </div>
+      <div class="founder-visual" style="background-image:url('/img-grenada-aerial.jpg');background-size:cover;background-position:center;filter:brightness(.65);"></div>
       <div class="founder-monogram">LL</div>
     </div>
   </section>
@@ -4607,19 +4583,7 @@ function handleInquirySubmit(e){
 </script>
 
 
-<script>
-// Founder section — slow origin image cycle
-(function(){
-  var slides = document.querySelectorAll('#founderFlash .ff-slide');
-  if(!slides.length) return;
-  var idx = 0;
-  setInterval(function(){
-    slides[idx].classList.remove('active');
-    idx = (idx + 1) % slides.length;
-    slides[idx].classList.add('active');
-  }, 5000);
-})();
-</script>
+
 
 
 <script>
