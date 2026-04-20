@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Page Not Found · Lolo Travels™</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:#060E1A;color:#F5F0E8;
+  font-family:'Jost',sans-serif;
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.wrap{text-align:center;padding:40px;position:relative;z-index:2;}
+.num{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-weight:300;
+  font-size:clamp(8rem,20vw,18rem);
+  color:rgba(201,168,76,.07);
+  line-height:1;
+  letter-spacing:-.02em;
+  position:absolute;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  z-index:0;
+  white-space:nowrap;
+}
+.tag{
+  font-family:'Jost',sans-serif;font-weight:200;
+  font-size:.6rem;letter-spacing:.45em;text-transform:uppercase;
+  color:rgba(201,168,76,.45);
+  margin-bottom:20px;
+  display:flex;align-items:center;justify-content:center;gap:12px;
+}
+.tag::before,.tag::after{
+  content:'';display:block;width:24px;height:1px;
+  background:rgba(201,168,76,.25);
+}
+h1{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-weight:300;font-style:italic;
+  font-size:clamp(2rem,5vw,4.5rem);
+  color:#F5F0E8;line-height:1.05;margin-bottom:16px;
+}
+p{
+  font-family:'Jost',sans-serif;font-weight:200;
+  font-size:.9rem;color:rgba(255,255,255,.42);
+  line-height:2;margin-bottom:44px;
+  max-width:400px;margin-left:auto;margin-right:auto;
+}
+.btn{
+  display:inline-block;
+  font-family:'Jost',sans-serif;font-weight:400;
+  font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;
+  background:rgba(201,168,76,.9);color:#060E1A;
+  padding:16px 52px;
+  text-decoration:none;
+  position:relative;overflow:hidden;
+  transition:letter-spacing .35s cubic-bezier(.16,1,.3,1);
+}
+.btn::before{
+  content:'';position:absolute;inset:0;
+  background:#E2C97E;
+  transform:translateX(-101%);
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.btn:hover{letter-spacing:.32em;}
+.btn:hover::before{transform:translateX(0);}
+.btn span{position:relative;z-index:1;}
+.ghost{
+  display:inline-block;margin-left:16px;
+  font-family:'Jost',sans-serif;font-weight:200;
+  font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;
+  color:rgba(201,168,76,.55);
+  text-decoration:none;
+  border-bottom:1px solid rgba(201,168,76,.2);
+  padding-bottom:2px;
+  transition:color .3s,border-color .3s;
+}
+.ghost:hover{color:rgba(201,168,76,.85);border-color:rgba(201,168,76,.5);}
+/* Animated dots */
+.dots{
+  position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+}
+.dot{
+  position:absolute;
+  width:1px;height:1px;
+  background:rgba(201,168,76,.4);
+  border-radius:50%;
+  animation:float linear infinite;
+}
+@keyframes float{
+  0%{transform:translateY(100vh) translateX(0);opacity:0;}
+  10%{opacity:.8;}
+  90%{opacity:.3;}
+  100%{transform:translateY(-80px) translateX(var(--dx,20px));opacity:0;}
+}
+</style>
+</head>
+<body>
+<div class="dots" id="dots"></div>
+<div class="num">404</div>
+<div class="wrap">
+  <div class="tag">Lolo Travels™</div>
+  <h1>This page took<br>a detour.</h1>
+  <p>The page you are looking for may have moved or no longer exists. Let us get you back on track.</p>
+  <div>
+    <a href="/" class="btn"><span>Return Home</span></a>
+    <a href="/inquiry" class="ghost">Plan a Trip</a>
+  </div>
+</div>
+<script>
+var dots = document.getElementById('dots');
+for(var i=0;i<28;i++){
+  var d = document.createElement('div');
+  d.className='dot';
+  d.style.left = Math.random()*100+'%';
+  d.style.width = d.style.height = (Math.random()*2+1)+'px';
+  d.style.setProperty('--dx',(Math.random()*60-30)+'px');
+  d.style.animationDuration = (Math.random()*12+8)+'s';
+  d.style.animationDelay = (Math.random()*10)+'s';
+  dots.appendChild(d);
+}
+</script>
+</body>
+</html>
