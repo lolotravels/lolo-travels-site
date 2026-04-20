@@ -1651,6 +1651,9 @@ button{font-family:var(--font-b);}
   overflow:hidden;
   background:#060E1A;
 }
+.gov-grid-canvas{
+  background:#060E1A;
+}
 /* Animated grid overlay */
 .gov-grid-canvas{
   position:absolute;inset:0;z-index:0;
@@ -2607,7 +2610,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:0;transition:opacity 2s ease;">
     <source src="https://assets.mixkit.co/videos/1573/1573-720.mp4" type="video/mp4">
   </video>
-  <div id="heroPoster" style="position:absolute;inset:0;z-index:0;background:url('/img-amalfi-cliff.jpg') center/cover no-repeat;opacity:1;transition:opacity 2s ease;animation:kbZoom 22s ease-out forwards;"></div>
+  <div id="heroPoster" style="position:absolute;inset:0;z-index:0;background:url('/img-stbarts-sunset.jpg') center/cover no-repeat;opacity:1;transition:opacity 3s ease;animation:kbZoom 22s ease-out forwards;"></div>
 
     <div class="hero-atm"></div>
     <div class="hero-particles" id="particles"></div>
@@ -3180,7 +3183,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
       </div>
     </div>
     <div>
-      <form class="intake-form" name="travel-inquiry" netlify netlify-honeypot="bot-field" onsubmit="submitIntake(event,this)">
+      <form class="intake-form" name="travel-inquiry" method="POST" data-netlify="true" netlify-honeypot="bot-field" onsubmit="submitIntake(event,this)">
         <input type="hidden" name="form-name" value="travel-inquiry"/>
           <input type="hidden" name="subject" value="New Trip Inquiry — Lolo Travels"/>
         <p style="display:none;"><input name="bot-field"/></p>
@@ -4643,5 +4646,21 @@ function handleInquirySubmit(e){
   }, 5500);
 })();
 </script>
+
+<script>
+// URL path routing — handles direct URLs like /government
+(function(){
+  var path = window.location.pathname.replace(/\//g,'').toLowerCase();
+  var validPages = ['home','about','destinations','services','insurance',
+    'inquiry','contact','government','members','b2b','passport'];
+  if(path && validPages.indexOf(path) !== -1){
+    // Wait for DOM then navigate
+    document.addEventListener('DOMContentLoaded', function(){
+      goPage(path);
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
