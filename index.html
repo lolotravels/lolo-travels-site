@@ -789,9 +789,7 @@ button{font-family:var(--font-b);}
 .founder-visual{
   position:absolute;
   inset:0;
-  background:
-    radial-gradient(ellipse at 30% 40%,rgba(201,168,76,.06) 0%,transparent 55%),
-    radial-gradient(ellipse at 70% 70%,rgba(10,22,40,.8) 0%,transparent 50%);
+  display:none;
 }
 .founder-monogram{
   position:relative;
@@ -1098,7 +1096,7 @@ button{font-family:var(--font-b);}
   .heritage-grid{margin-left:24px;margin-right:24px;}
   .services-header,.story-scene,.contact-split{grid-template-columns:1fr;}
   #founder{grid-template-columns:1fr;}
-  .founder-right{height:300px;}
+  .founder-right{height:400px;}
   .flip-grid,.dest-full-list,.sfull-grid,.ins-grid,.why-grid,.heritage-grid{grid-template-columns:1fr;}
   .footer-grid{grid-template-columns:1fr 1fr;}
   .footer-bottom{flex-direction:column;text-align:center;}
@@ -2343,7 +2341,7 @@ button{font-family:var(--font-b);}
 /* ROOTS — five origins, slow dissolve */
 #roots-section{
   position:relative;
-  height:80vh;min-height:560px;
+  height:65vh;min-height:480px;
   overflow:hidden;
   background:#060E1A;
 }
@@ -2484,7 +2482,7 @@ button{font-family:var(--font-b);}
 /* ROOTS & ROADS — five origin panels */
 #roots-section{
   position:relative;
-  height:80vh;min-height:560px;
+  height:65vh;min-height:480px;
   overflow:hidden;
   background:#060E1A;
 }
@@ -2566,6 +2564,20 @@ button{font-family:var(--font-b);}
   .roots-content{padding:0 24px 36px;}
   .roots-place{font-size:clamp(2rem,8vw,3.5rem);}
 }
+
+
+/* FOUNDER FLASH — slow origin image cycle */
+.founder-flash{
+  position:absolute;inset:0;overflow:hidden;
+}
+.ff-slide{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  opacity:0;
+  transition:opacity 2.5s ease;
+  filter:brightness(.65);
+}
+.ff-slide.active{opacity:1;}
 
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -2850,7 +2862,13 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
       </div>
     </div>
     <div class="founder-right">
-      <div class="founder-visual" style="background-image:url('/img-grenada-aerial.jpg');"></div>
+      <div class="founder-flash" id="founderFlash">
+        <div class="ff-slide active" style="background-image:url('/img-grenada-aerial.jpg');"></div>
+        <div class="ff-slide" style="background-image:url('/img-guyana.jpg');"></div>
+        <div class="ff-slide" style="background-image:url('https://images.unsplash.com/photo-1627820743107-cde65a6da849?w=1400&q=90&fit=crop');"></div>
+        <div class="ff-slide" style="background-image:url('https://images.unsplash.com/photo-1568106294748-e14d6fcbabf6?w=1400&q=90&fit=crop');"></div>
+        <div class="ff-slide" style="background-image:url('https://images.unsplash.com/photo-1544982503-9f984c14501a?w=1400&q=90&fit=crop');"></div>
+      </div>
       <div class="founder-monogram">LL</div>
     </div>
   </section>
@@ -2882,9 +2900,9 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
   <div id="roots-section" style="margin-bottom:2px;">
     <div class="roots-slide active" id="rs0" style="background-image:url('/img-grenada-aerial.jpg');background-size:cover;background-position:center;"></div>
     <div class="roots-slide" id="rs1" style="background-image:url('/img-guyana.jpg');background-size:cover;background-position:center;"></div>
-    <div class="roots-slide" id="rs2" style="background-image:url('/img-trinidad.jpg');background-size:cover;background-position:center;"></div>
-    <div class="roots-slide" id="rs3" style="background-image:url('/img-ethiopia-castle.jpg');background-size:cover;background-position:center;"></div>
-    <div class="roots-slide" id="rs4" style="background-image:url('/img-uruguay.jpg');background-size:cover;background-position:center;"></div>
+    <div class="roots-slide" id="rs2" style="background-image:url('https://images.unsplash.com/photo-1627820743107-cde65a6da849?w=1400&q=90&fit=crop');background-size:cover;background-position:center;"></div>
+    <div class="roots-slide" id="rs3" style="background-image:url('https://images.unsplash.com/photo-1568106294748-e14d6fcbabf6?w=1400&q=90&fit=crop');background-size:cover;background-position:center;"></div>
+    <div class="roots-slide" id="rs4" style="background-image:url('https://images.unsplash.com/photo-1544982503-9f984c14501a?w=1400&q=90&fit=crop');background-size:cover;background-position:center;"></div>
     <div class="roots-overlay"></div>
     <div class="roots-content">
       <div>
@@ -2908,7 +2926,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     </div>
   </div>
 
-  <div style="padding:0 72px 120px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;max-width:1400px;">
+  <div style="padding:60px 72px 120px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;">
     <div>
       <div class="sec-tag reveal">The Founder</div>
       <h2 class="display-h reveal r1" style="font-size:clamp(1.8rem,3vw,2.8rem);">A Journey Born<br><em>From Within</em></h2>
@@ -4614,6 +4632,21 @@ function handleInquirySubmit(e){
     }, 6000);
   }
   resetTimer();
+})();
+</script>
+
+
+<script>
+// Founder section — slow origin image cycle
+(function(){
+  var slides = document.querySelectorAll('#founderFlash .ff-slide');
+  if(!slides.length) return;
+  var idx = 0;
+  setInterval(function(){
+    slides[idx].classList.remove('active');
+    idx = (idx + 1) % slides.length;
+    slides[idx].classList.add('active');
+  }, 5000);
 })();
 </script>
 
