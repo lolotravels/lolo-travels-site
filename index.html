@@ -2480,30 +2480,12 @@ button{font-family:var(--font-b);}
 
 
 /* ROOTS & ROADS — five origin panels */
-#roots-section{
-  position:relative;
-  height:65vh;min-height:480px;
-  overflow:hidden;
-  background:#060E1A;
-}
-.roots-panel{
-  position:absolute;inset:0;
-  background-size:cover;background-position:center;
-  opacity:0;
-  transition:opacity 2.5s ease;
-  filter:brightness(.72);
-}
-.roots-panel.active{opacity:1;}
-.roots-panel.active .roots-panel-bg{
-  animation:rootsPanelKB 14s ease-out forwards;
-}
-.roots-panel-bg{
-  position:absolute;inset:0;
-  background-size:cover;background-position:center;
-  transform:scale(1.05);
-}
-@keyframes rootsPanelKB{
-  0%{transform:scale(1.05);}
+
+
+
+
+
+
   100%{transform:scale(1);}
 }
 .roots-overlay{
@@ -2533,9 +2515,7 @@ button{font-family:var(--font-b);}
   transform:translateY(12px);
   transition:opacity 1.2s ease .4s, transform 1.2s ease .4s;
 }
-.roots-panel.active .roots-place{
-  opacity:1;transform:translateY(0);
-}
+
 .roots-dots{
   display:flex;gap:8px;align-items:center;
   padding-bottom:8px;
@@ -2711,7 +2691,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
   <section id="editorial-moments">
 
     <div class="editorial reveal">
-            <div class="editorial-bg" style="background-image:url('/img-africa-balloon.jpg');"></div>
+      <div class="editorial-bg" style="background-image:url('/img-stbarts-sunset.jpg');"></div>
       <div class="editorial-overlay"></div>
       <div class="editorial-content">
         <div class="editorial-num">01 · Caribbean</div>
@@ -2721,7 +2701,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     </div>
 
     <div class="editorial reveal" style="justify-content:flex-start;">
-      <div class="editorial-bg" style="background-image:url('https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=1600&q=90&fit=crop');"></div>
+      <div class="editorial-bg" style="background-image:url('/img-africa-balloon.jpg');"></div>
       <div class="editorial-overlay" style="background:linear-gradient(285deg,rgba(13,21,32,.7) 0%,rgba(13,21,32,.1) 60%,transparent 100%);"></div>
       <div class="editorial-content">
         <div class="editorial-num">02 · East Africa</div>
@@ -2796,7 +2776,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
         <div class="dest-elegant-card-bg" style="background-image:url('/img-caribbean-bay.jpg');"></div>
         <div class="dest-elegant-card-info">
           <div class="dest-elegant-region">Caribbean</div>
-          <div class="dest-elegant-name">Barbados</div>
+          <div class="dest-elegant-name">Grenada</div>
           <div class="dest-elegant-line"></div>
         </div>
       </div>
@@ -2877,9 +2857,9 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
   <!-- POSITIONING -->
   <section id="positioning">
     <div class="pos-glow"></div>
-    <p class="pos-quote reveal">"We operate as a travel management and logistics partner — ensuring every detail is handled, <em>every risk is considered</em>, and every trip is optimized."</p>
-    <p class="pos-attr reveal r1">— Lolo Travels™</p>
-    <div class="reveal r2" style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+    <p class="pos-quote">"We operate as a travel management and logistics partner — ensuring every detail is handled, <em>every risk is considered</em>, and every trip is optimized."</p>
+    <p class="pos-attr">— Lolo Travels™</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
       <a href="#" class="btn-gold" onclick="goPage('inquiry');return false;"><span>Plan Your Travel</span></a>
       <a href="#" class="btn-ghost" onclick="goPage('services');return false;">View Services</a>
     </div>
@@ -3338,8 +3318,6 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
   </div>
 </div>
 
-<!-- GOVERNMENT — standalone -->
-<div id="page-government" class="page" style="display:none;"></div>
 
 <!-- FOOTER -->
 
@@ -4640,6 +4618,21 @@ function handleInquirySubmit(e){
     idx = (idx + 1) % slides.length;
     slides[idx].classList.add('active');
   }, 5000);
+})();
+</script>
+
+
+<script>
+// Manifesto — each line reveals as it scrolls into view
+(function(){
+  var lines = document.querySelectorAll('[data-manifesto]');
+  if(!lines.length) return;
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(entry.isIntersecting) entry.target.classList.add('active');
+    });
+  }, {threshold:0.5, rootMargin:'0px 0px -20px 0px'});
+  lines.forEach(function(line){ obs.observe(line); });
 })();
 </script>
 
