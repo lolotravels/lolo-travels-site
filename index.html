@@ -1,25 +1,4 @@
-# Lolo Travels — Netlify Configuration
 
-# Single-page app routing — all paths serve index.html
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-# 404 handler
-[[redirects]]
-  from = "/404"
-  to = "/404.html"
-  status = 404
-
-# Security headers
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
 
 <!DOCTYPE html>
 <html lang="en">
