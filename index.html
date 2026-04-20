@@ -2549,6 +2549,13 @@ button{font-family:var(--font-b);}
 
 
 
+
+/* FOUNDER FLASH — origin images */
+.founder-flash{position:absolute;inset:0;overflow:hidden;}
+.founder-flash::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(6,14,26,.35) 0%,rgba(6,14,26,.1) 100%);z-index:1;pointer-events:none;}
+.ff-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 2.8s ease;filter:brightness(.58);}
+.ff-slide.on{opacity:1;}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
@@ -2623,6 +2630,12 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
       <div class="hero-scroll-text">Discover</div>
     </div>
   </section>
+
+  <!-- IMAGE BREAK — hero to manifesto -->
+  <div style="position:relative;height:48vh;min-height:320px;overflow:hidden;">
+    <div style="position:absolute;inset:0;background-image:url('/img-newzealand.jpg');background-size:cover;background-position:center;filter:brightness(.68);animation:kbZoom 22s ease-out forwards;"></div>
+    <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(13,21,32,.15) 0%,rgba(13,21,32,.6) 100%);"></div>
+  </div>
 
   <!-- MANIFESTO -->
   <section id="manifesto">
@@ -2825,7 +2838,13 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
       </div>
     </div>
     <div class="founder-right">
-      <div class="founder-visual" style="background-image:url('/img-grenada-aerial.jpg');background-size:cover;background-position:center;filter:brightness(.65);"></div>
+      <div class="founder-flash" id="founderFlash">
+        <div class="ff-slide on" style="background-image:url('/img-grenada-aerial.jpg');"></div>
+        <div class="ff-slide" style="background-image:url('/img-grenada-bay.jpg');"></div>
+        <div class="ff-slide" style="background-image:url('/img-guyana.jpg');"></div>
+        <div class="ff-slide" style="background-image:url('/img-stbarts-sunset.jpg');"></div>
+        <div class="ff-slide" style="background-image:url('/img-africa-balloon.jpg');"></div>
+      </div>
       <div class="founder-monogram">LL</div>
     </div>
   </section>
@@ -3400,6 +3419,13 @@ function goPage(id){
     setTimeout(triggerReveals,100);
   }
   closeMobileNav();
+  // Start gov canvas only when navigating to government page
+  if(id==='government'){
+    setTimeout(startGovCanvas, 50);
+  } else {
+    // Stop canvas when leaving government page
+    if(_govRAF){ cancelAnimationFrame(_govRAF); _govRAF=null; }
+  }
 }
 
 /* REVEALS */
@@ -4012,14 +4038,16 @@ async function sendConcierge(){
 
 <script>
 // Government page — animated grid/map canvas
-(function(){
+// Only runs when government page is active — avoids 0x0 canvas issue
+var _govRAF = null;
+function startGovCanvas(){
   var canvas = document.getElementById('govCanvas');
   if(!canvas) return;
   var ctx = canvas.getContext('2d');
 
   function resize(){
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
+    canvas.width = canvas.offsetWidth || canvas.parentElement.offsetWidth || 900;
+    canvas.height = canvas.offsetHeight || 600;
   }
   resize();
   window.addEventListener('resize', resize);
@@ -4109,10 +4137,11 @@ async function sendConcierge(){
       ctx.beginPath();ctx.arc(pos.x,pos.y,3,0,Math.PI*2);ctx.fill();
     });
 
-    requestAnimationFrame(draw);
+    _govRAF = requestAnimationFrame(draw);
   }
+  if(_govRAF) cancelAnimationFrame(_govRAF);
   draw();
-})();
+}
 
 // Gov form submit
 function handleGovSubmit(e){
@@ -4600,5 +4629,19 @@ function handleInquirySubmit(e){
 })();
 </script>
 
+
+<script>
+// Founder section — slow origin image cycle
+(function(){
+  var slides = document.querySelectorAll('#founderFlash .ff-slide');
+  if(!slides.length) return;
+  var idx = 0;
+  setInterval(function(){
+    slides[idx].classList.remove('on');
+    idx = (idx + 1) % slides.length;
+    slides[idx].classList.add('on');
+  }, 5500);
+})();
+</script>
 </body>
 </html>
