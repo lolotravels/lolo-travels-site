@@ -1082,7 +1082,7 @@ button{font-family:var(--font-b);}
   font-family:'Jost',sans-serif;font-weight:200;
   font-size:.78rem;color:rgba(255,255,255,.35);
 }
-.lp-switch a{color:rgba(201,168,76,.65);text-decoration:none;cursor:pointer;}
+.lp-switch #page-members .lp-switch a, #page-members .lp-foot-link{color:rgba(201,168,76,.65);text-decoration:none;cursor:pointer;}
 .lp-switch a:hover{color:var(--gold);}
 .lp-err{
   font-family:'Jost',sans-serif;font-weight:200;font-size:.76rem;
@@ -1361,21 +1361,21 @@ button{font-family:var(--font-b);}
 .lp-concierge-msgs::-webkit-scrollbar{width:2px;}
 .lp-concierge-msgs::-webkit-scrollbar-thumb{background:rgba(201,168,76,.2);}
 .lp-cmsg{display:flex;gap:12px;margin-bottom:16px;align-items:flex-start;}
-.lp-cmsg.user{flex-direction:row-reverse;}
+.lp-cmsg#page-members .lp-cmsg-user{flex-direction:row-reverse;}
 .lp-cmsg-av{
   width:26px;height:26px;flex-shrink:0;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   font-family:'Cormorant Garamond',serif;font-size:.65rem;
 }
-.lp-cmsg-av.ai{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.2);color:rgba(201,168,76,.7);}
-.lp-cmsg-av.user{background:rgba(255,255,255,.06);color:rgba(255,255,255,.4);}
+.lp-cmsg-av#page-members .lp-cmsg-av-ai{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.2);color:rgba(201,168,76,.7);}
+.lp-cmsg-av#page-members .lp-cmsg-av-user{background:rgba(255,255,255,.06);color:rgba(255,255,255,.4);}
 .lp-cmsg-bubble{
   max-width:82%;padding:12px 16px;
   font-family:'Jost',sans-serif;font-weight:200;
   font-size:.82rem;line-height:1.85;
 }
-.ai .lp-cmsg-bubble{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.1);color:rgba(245,240,232,.85);}
-.user .lp-cmsg-bubble{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:rgba(245,240,232,.65);}
+#page-members .lp-cmsg-ai .lp-cmsg-bubble{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.1);color:rgba(245,240,232,.85);}
+#page-members .lp-cmsg-user .lp-cmsg-bubble{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.09);color:rgba(245,240,232,.65);}
 .lp-typing span{
   display:inline-block;width:4px;height:4px;border-radius:50%;
   background:rgba(201,168,76,.5);margin:0 2px;
@@ -2815,7 +2815,7 @@ document.querySelectorAll('.editorial').forEach(function(el){revObs.observe(el);
         <p class="lp-panel-sub">Your personal travel intelligence. Ask anything — destinations, protection, claims, packing, safety, timing.</p>
         <div style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:28px;">
           <div class="lp-concierge-msgs" id="c-msgs">
-            <div class="lp-cmsg ai"><div class="lp-cmsg-av ai">LL</div><div class="lp-cmsg-bubble">Welcome to Lolo Concierge. I am here to help with destination intelligence, travel protection questions, claim guidance, and anything your journey requires. What can I assist you with today?</div></div>
+            <div class="lp-cmsg lp-cmsg-ai"><div class="lp-cmsg-av lp-cmsg-av-ai">LL</div><div class="lp-cmsg-bubble">Welcome to Lolo Concierge. I am here to help with destination intelligence, travel protection questions, claim guidance, and anything your journey requires. What can I assist you with today?</div></div>
           </div>
           <div class="lp-cin-row">
             <input class="lp-cin" id="c-input" placeholder="Ask about protection, destinations, claims, safety..." onkeydown="if(event.key==='Enter')lpConcierge('consumer')"/>
@@ -2973,7 +2973,7 @@ document.querySelectorAll('.editorial').forEach(function(el){revObs.observe(el);
         <p class="lp-panel-sub">Intelligence and guidance for your corporate travel program.</p>
         <div style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:28px;">
           <div class="lp-concierge-msgs" id="corp-msgs">
-            <div class="lp-cmsg ai"><div class="lp-cmsg-av ai">LL</div><div class="lp-cmsg-bubble">Welcome to Lolo Corporate Concierge. I can assist with duty of care questions, destination risk assessments, traveler preparation, and claims guidance. What does your team need today?</div></div>
+            <div class="lp-cmsg lp-cmsg-ai"><div class="lp-cmsg-av lp-cmsg-av-ai">LL</div><div class="lp-cmsg-bubble">Welcome to Lolo Corporate Concierge. I can assist with duty of care questions, destination risk assessments, traveler preparation, and claims guidance. What does your team need today?</div></div>
           </div>
           <div class="lp-cin-row">
             <input class="lp-cin" id="corp-input" placeholder="Ask about risk, compliance, destinations, claims..." onkeydown="if(event.key==='Enter')lpConcierge('corporate')"/>
@@ -3107,7 +3107,7 @@ document.querySelectorAll('.editorial').forEach(function(el){revObs.observe(el);
         <p class="lp-panel-sub">Partner intelligence — destination risk, protection guidance, and claims support.</p>
         <div style="background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);padding:28px;">
           <div class="lp-concierge-msgs" id="b2b-msgs">
-            <div class="lp-cmsg ai"><div class="lp-cmsg-av ai">LL</div><div class="lp-cmsg-bubble">Welcome to the Lolo Partner Concierge. I can assist with client protection guidance, destination risk assessments, claims process questions, and co-branded support. What do you need today?</div></div>
+            <div class="lp-cmsg lp-cmsg-ai"><div class="lp-cmsg-av lp-cmsg-av-ai">LL</div><div class="lp-cmsg-bubble">Welcome to the Lolo Partner Concierge. I can assist with client protection guidance, destination risk assessments, claims process questions, and co-branded support. What do you need today?</div></div>
           </div>
           <div class="lp-cin-row">
             <input class="lp-cin" id="b2b-input" placeholder="Ask about client protection, risk, claims, destinations..." onkeydown="if(event.key==='Enter')lpConcierge('b2b')"/>
@@ -3941,10 +3941,10 @@ async function lpConcierge(dash){
   if(!msg) return;
   inp.value='';
 
-  msgs.innerHTML += '<div class="lp-cmsg user"><div class="lp-cmsg-av user">→</div><div class="lp-cmsg-bubble">'+msg+'</div></div>';
+  msgs.innerHTML += '<div class="lp-cmsg lp-cmsg-user"><div class="lp-cmsg-av lp-cmsg-av-user">→</div><div class="lp-cmsg-bubble">'+msg+'</div></div>';
 
   var typingId = 'lpty-'+Date.now();
-  msgs.innerHTML += '<div class="lp-cmsg ai" id="'+typingId+'"><div class="lp-cmsg-av ai">LL</div><div class="lp-cmsg-bubble"><div class="lp-typing"><span></span><span></span><span></span></div></div></div>';
+  msgs.innerHTML += '<div class="lp-cmsg lp-cmsg-ai" id="'+typingId+'"><div class="lp-cmsg-av lp-cmsg-av-ai">LL</div><div class="lp-cmsg-bubble"><div class="lp-typing"><span></span><span></span><span></span></div></div></div>';
   msgs.scrollTop = msgs.scrollHeight;
 
   _lpHistory[dash].push({role:'user',content:msg});
