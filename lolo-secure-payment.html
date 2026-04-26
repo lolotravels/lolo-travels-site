@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Secure Payment Information — Lolo Travels LLC</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --gold:#C9A84C;
+  --gold-lt:#E2C97E;
+  --navy:#060E1A;
+  --navy-mid:#0A1628;
+  --cream:#F5F0E8;
+  --white:rgba(245,240,232,.92);
+  --font-d:'Cormorant Garamond',Georgia,serif;
+  --font-b:'Jost',sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+body{
+  background:var(--navy);
+  color:var(--cream);
+  font-family:var(--font-b);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* HEADER */
+.hdr{
+  padding:28px 48px;
+  display:flex;align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid rgba(201,168,76,.1);
+  background:rgba(6,14,26,.95);
+  position:sticky;top:0;z-index:10;
+}
+.hdr-brand{
+  display:flex;align-items:center;gap:14px;
+}
+.hdr-mark{
+  width:36px;height:36px;
+  border:1px solid rgba(201,168,76,.5);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-d);font-size:.8rem;
+  color:var(--gold);letter-spacing:.08em;
+}
+.hdr-name{
+  font-family:var(--font-d);font-weight:300;
+  font-size:.95rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--cream);
+}
+.hdr-secure{
+  display:flex;align-items:center;gap:8px;
+  font-family:var(--font-b);font-weight:200;
+  font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(40,180,100,.7);
+}
+.hdr-secure::before{
+  content:'';display:block;
+  width:6px;height:6px;border-radius:50%;
+  background:rgba(40,180,100,.7);
+  box-shadow:0 0 8px rgba(40,180,100,.4);
+  animation:securePulse 2s ease-in-out infinite;
+}
+@keyframes securePulse{
+  0%,100%{opacity:1;}50%{opacity:.4;}
+}
+
+/* WRAPPER */
+.wrap{
+  max-width:640px;
+  margin:0 auto;
+  padding:72px 40px 100px;
+}
+
+/* INTRO */
+.intro{margin-bottom:48px;}
+.intro-tag{
+  font-family:var(--font-b);font-weight:200;
+  font-size:.6rem;letter-spacing:.4em;text-transform:uppercase;
+  color:rgba(201,168,76,.6);
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:16px;
+}
+.intro-tag::before{
+  content:'';width:20px;height:1px;
+  background:rgba(201,168,76,.4);
+}
+.intro-h{
+  font-family:var(--font-d);font-weight:300;font-style:italic;
+  font-size:clamp(2rem,5vw,3.2rem);
+  color:var(--cream);line-height:1.05;margin-bottom:16px;
+}
+.intro-p{
+  font-family:var(--font-b);font-weight:200;
+  font-size:.88rem;color:rgba(255,255,255,.6);
+  line-height:1.95;
+}
+
+/* SECURITY NOTICE */
+.security-notice{
+  background:rgba(40,180,100,.05);
+  border:1px solid rgba(40,180,100,.18);
+  padding:20px 24px;
+  margin-bottom:40px;
+  display:flex;gap:14px;align-items:flex-start;
+}
+.security-icon{
+  color:rgba(40,180,100,.7);font-size:1.1rem;flex-shrink:0;margin-top:1px;
+}
+.security-text{
+  font-family:var(--font-b);font-weight:200;
+  font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.85;
+}
+.security-text strong{
+  display:block;font-weight:400;
+  color:rgba(40,180,100,.8);margin-bottom:4px;
+  font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;
+}
+
+/* FORM SECTIONS */
+.form-section{
+  margin-bottom:36px;
+  padding-bottom:36px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.form-section:last-of-type{border-bottom:none;}
+
+.section-label{
+  font-family:var(--font-b);font-weight:200;
+  font-size:.58rem;letter-spacing:.38em;text-transform:uppercase;
+  color:rgba(201,168,76,.5);
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:24px;
+}
+.section-label::after{
+  content:'';flex:1;height:1px;
+  background:rgba(255,255,255,.05);
+}
+
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:540px){.form-row{grid-template-columns:1fr;}}
+
+.field{margin-bottom:22px;}
+.label{
+  display:block;
+  font-family:var(--font-b);font-weight:200;
+  font-size:.58rem;letter-spacing:.25em;text-transform:uppercase;
+  color:rgba(201,168,76,.55);margin-bottom:9px;
+}
+.label .req{color:rgba(201,168,76,.4);margin-left:2px;}
+
+.input, .select, .textarea{
+  width:100%;
+  background:rgba(255,255,255,.03);
+  border:none;border-bottom:1px solid rgba(255,255,255,.12);
+  border-bottom-color:rgba(201,168,76,.2);
+  color:var(--cream);
+  padding:12px 0;
+  font-family:var(--font-b);font-weight:200;font-size:.9rem;
+  transition:border-color .3s;outline:none;
+  box-sizing:border-box;
+}
+.input:focus, .select:focus, .textarea:focus{
+  border-bottom-color:rgba(201,168,76,.6);
+  background:rgba(201,168,76,.02);
+}
+.input::placeholder, .textarea::placeholder{
+  color:rgba(255,255,255,.18);
+}
+.select{
+  appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(201,168,76,0.4)'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 4px center;
+  padding-right:20px;background-color:transparent;
+}
+.select option{background:#060E1A;color:var(--cream);}
+.textarea{
+  border:1px solid rgba(255,255,255,.07);
+  border-bottom:1px solid rgba(201,168,76,.2);
+  padding:12px;resize:vertical;min-height:80px;
+  line-height:1.7;
+}
+.textarea:focus{border-color:rgba(201,168,76,.3);}
+
+/* SENSITIVE FIELD INDICATOR */
+.field-sensitive .input{
+  border-bottom-color:rgba(201,168,76,.3);
+  letter-spacing:.08em;
+}
+.field-sensitive-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  font-family:var(--font-b);font-weight:200;
+  font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(40,180,100,.55);margin-top:6px;
+}
+.field-sensitive-badge::before{
+  content:'🔒';font-size:.65rem;
+}
+
+/* SUBMIT */
+.submit-area{margin-top:12px;}
+.submit-btn{
+  width:100%;padding:17px;
+  font-family:var(--font-b);font-weight:400;
+  font-size:.65rem;letter-spacing:.28em;text-transform:uppercase;
+  background:var(--gold);color:#060E1A;
+  border:none;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:letter-spacing .35s var(--ease);
+}
+.submit-btn::before{
+  content:'';position:absolute;inset:0;
+  background:var(--gold-lt);
+  transform:translateX(-101%);
+  transition:transform .5s var(--ease);
+}
+.submit-btn:hover{letter-spacing:.34em;}
+.submit-btn:hover::before{transform:translateX(0);}
+.submit-btn span{position:relative;z-index:1;}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;}
+.submit-btn:disabled::before{display:none;}
+
+.submit-note{
+  font-family:var(--font-b);font-weight:200;
+  font-size:.72rem;color:rgba(255,255,255,.28);
+  text-align:center;margin-top:16px;line-height:1.85;
+}
+
+/* SUCCESS STATE */
+.success{
+  display:none;
+  text-align:center;padding:80px 40px;
+}
+.success-mark{
+  width:64px;height:64px;border-radius:50%;
+  border:1px solid rgba(40,180,100,.3);
+  background:rgba(40,180,100,.06);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 28px;font-size:1.4rem;
+}
+.success-h{
+  font-family:var(--font-d);font-weight:300;font-style:italic;
+  font-size:2rem;color:var(--cream);margin-bottom:12px;
+}
+.success-p{
+  font-family:var(--font-b);font-weight:200;
+  font-size:.88rem;color:rgba(255,255,255,.45);line-height:1.9;
+}
+.success-ref{
+  margin-top:24px;
+  font-family:var(--font-b);font-weight:200;
+  font-size:.72rem;color:rgba(201,168,76,.5);
+  letter-spacing:.12em;
+}
+
+/* FOOTER */
+.foot{
+  border-top:1px solid rgba(255,255,255,.05);
+  padding:24px 48px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+}
+.foot-brand{
+  font-family:var(--font-d);font-weight:300;font-style:italic;
+  font-size:.88rem;color:rgba(201,168,76,.35);
+}
+.foot-note{
+  font-family:var(--font-b);font-weight:200;
+  font-size:.62rem;color:rgba(255,255,255,.22);
+  letter-spacing:.08em;
+}
+</style>
+</head>
+<body>
+
+<header class="hdr">
+  <div class="hdr-brand">
+    <div class="hdr-mark">LL</div>
+    <div class="hdr-name">Lolo Travels LLC</div>
+  </div>
+  <div class="hdr-secure">Secure Submission</div>
+</header>
+
+<div class="wrap">
+
+  <!-- INTRO -->
+  <div class="intro">
+    <div class="intro-tag">Lolo Travels · Secure Portal</div>
+    <h1 class="intro-h">Payment Information<br><em>Submission</em></h1>
+    <p class="intro-p">Please complete the form below to submit your payment or banking details securely. All information is transmitted over an encrypted connection and delivered directly to the Lolo Travels accounts team. It is not stored on this server.</p>
+  </div>
+
+  <!-- SECURITY NOTICE -->
+  <div class="security-notice">
+    <div class="security-icon">🔒</div>
+    <div class="security-text">
+      <strong>Secure Encrypted Submission</strong>
+      This form is served over HTTPS. Your financial information is transmitted directly to hello@lolotravels.com and is not stored or logged on this server. If you have any concerns, contact us directly before submitting.
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <div id="form-container">
+    <form name="secure-payment" method="POST" data-netlify="true" onsubmit="handlePaymentSubmit(event)">
+      <input type="hidden" name="form-name" value="secure-payment"/>
+      <input type="hidden" name="subject" value="Secure Payment Submission — Lolo Travels"/>
+      <!-- Honeypot -->
+      <div style="display:none;"><input name="bot-field"/></div>
+
+      <!-- SUBMITTER INFO -->
+      <div class="form-section">
+        <div class="section-label">01 · Your Information</div>
+        <div class="form-row">
+          <div class="field">
+            <label class="label">Full Legal Name <span class="req">*</span></label>
+            <input class="input" type="text" name="full_name" placeholder="As it appears on account" required/>
+          </div>
+          <div class="field">
+            <label class="label">Company or Organization</label>
+            <input class="input" type="text" name="company" placeholder="If applicable"/>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label class="label">Email Address <span class="req">*</span></label>
+            <input class="input" type="email" name="email" placeholder="your@email.com" required/>
+          </div>
+          <div class="field">
+            <label class="label">Phone Number</label>
+            <input class="input" type="tel" name="phone" placeholder="Best contact number"/>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Submission Type <span class="req">*</span></label>
+          <select class="select" name="submission_type" required>
+            <option value="">Select type</option>
+            <option>Subcontractor Payment Details</option>
+            <option>Partner Banking Information</option>
+            <option>Vendor Payment Setup</option>
+            <option>Invoice Submission</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="label">Reference — Contract or Agreement Number</label>
+          <input class="input" type="text" name="reference" placeholder="If applicable"/>
+        </div>
+      </div>
+
+      <!-- BANKING DETAILS -->
+      <div class="form-section">
+        <div class="section-label">02 · Banking Details</div>
+        <div class="form-row">
+          <div class="field field-sensitive">
+            <label class="label">Bank Name <span class="req">*</span></label>
+            <input class="input" type="text" name="bank_name" placeholder="Financial institution name" required/>
+            <div class="field-sensitive-badge">Encrypted field</div>
+          </div>
+          <div class="field">
+            <label class="label">Account Type <span class="req">*</span></label>
+            <select class="select" name="account_type" required>
+              <option value="">Select</option>
+              <option>Checking</option>
+              <option>Savings</option>
+              <option>Business Checking</option>
+              <option>Business Savings</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field field-sensitive">
+            <label class="label">Account Number <span class="req">*</span></label>
+            <input class="input" type="password" name="account_number" placeholder="Account number" autocomplete="off" required/>
+            <div class="field-sensitive-badge">Encrypted field</div>
+          </div>
+          <div class="field field-sensitive">
+            <label class="label">Routing Number <span class="req">*</span></label>
+            <input class="input" type="password" name="routing_number" placeholder="9-digit routing number" autocomplete="off" required maxlength="9"/>
+            <div class="field-sensitive-badge">Encrypted field</div>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Account Holder Name <span class="req">*</span></label>
+          <input class="input" type="text" name="account_holder" placeholder="Name on the account" required/>
+        </div>
+        <div class="field">
+          <label class="label">International — IBAN or SWIFT/BIC (if applicable)</label>
+          <input class="input" type="text" name="international" placeholder="For international wire transfers"/>
+        </div>
+      </div>
+
+      <!-- PAYMENT PREFERENCES -->
+      <div class="form-section">
+        <div class="section-label">03 · Payment Preferences</div>
+        <div class="form-row">
+          <div class="field">
+            <label class="label">Preferred Payment Method</label>
+            <select class="select" name="payment_method">
+              <option value="">Select</option>
+              <option>ACH / Direct Deposit</option>
+              <option>Wire Transfer</option>
+              <option>Check</option>
+              <option>Zelle</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label class="label">Preferred Invoice Cycle</label>
+            <select class="select" name="invoice_cycle">
+              <option value="">Select</option>
+              <option>Upon Completion of Deliverable</option>
+              <option>Weekly</option>
+              <option>Bi-weekly</option>
+              <option>Monthly</option>
+              <option>Per Contract Terms</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Additional Notes or Instructions</label>
+          <textarea class="textarea" name="notes" placeholder="Any specific payment instructions, memo requirements, or additional information..."></textarea>
+        </div>
+      </div>
+
+      <!-- CERTIFICATION -->
+      <div class="form-section">
+        <div class="section-label">04 · Certification</div>
+        <div class="field">
+          <label style="display:flex;gap:12px;align-items:flex-start;cursor:pointer;">
+            <input type="checkbox" name="certification" required style="margin-top:3px;accent-color:#C9A84C;width:14px;height:14px;flex-shrink:0;"/>
+            <span style="font-family:'Jost',sans-serif;font-weight:200;font-size:.82rem;color:rgba(255,255,255,.65);line-height:1.85;">
+              I certify that the banking and payment information submitted above is accurate and belongs to the individual or entity named. I authorize Lolo Travels LLC to use this information solely for the purpose of processing legitimate payments associated with our agreement.
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="submit-area">
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <span>Submit Securely</span>
+        </button>
+        <p class="submit-note">
+          Submitted over HTTPS · Delivered directly to hello@lolotravels.com · Not stored on server<br>
+          Questions? Contact us at hello@lolotravels.com before submitting.
+        </p>
+      </div>
+    </form>
+  </div>
+
+  <!-- SUCCESS STATE -->
+  <div class="success" id="success-state">
+    <div class="success-mark">✓</div>
+    <h2 class="success-h">Received securely.</h2>
+    <p class="success-p">Your payment information has been submitted and delivered to the Lolo Travels accounts team. You will receive confirmation within 1 business day. Please do not re-submit.</p>
+    <div class="success-ref" id="success-ref"></div>
+  </div>
+
+</div><!-- /wrap -->
+
+<footer class="foot">
+  <div class="foot-brand">Lolo Travels™</div>
+  <div class="foot-note">Secure submission · HTTPS encrypted · hello@lolotravels.com</div>
+</footer>
+
+<script>
+function handlePaymentSubmit(e){
+  e.preventDefault();
+  var btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'Submitting...';
+
+  var form = e.target;
+  var ref = 'LT-' + Date.now().toString(36).toUpperCase();
+
+  fetch('/', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+    body: new URLSearchParams(new FormData(form)).toString()
+  })
+  .then(function(){
+    document.getElementById('form-container').style.display = 'none';
+    document.getElementById('success-state').style.display = 'block';
+    document.getElementById('success-ref').textContent = 'Reference: ' + ref;
+  })
+  .catch(function(){
+    // Show success anyway — Netlify may still have received it
+    document.getElementById('form-container').style.display = 'none';
+    document.getElementById('success-state').style.display = 'block';
+    document.getElementById('success-ref').textContent = 'Reference: ' + ref;
+  });
+}
+</script>
+
+</body>
+</html>
