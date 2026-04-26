@@ -446,11 +446,159 @@ body{background:var(--navy);color:var(--cream);font-family:var(--font-b);
 .st-l{font-size:.62rem;font-weight:200;letter-spacing:.18em;
   text-transform:uppercase;color:rgba(255,255,255,.35);}
 
+
+/* ── LOGIN GATE ──────────────────────────────────────────────────────── */
+#login-gate{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--navy);
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;
+}
+.lg-wrap{
+  width:100%;max-width:400px;padding:0 32px;
+  animation:lgFadeIn .5s ease forwards;
+}
+@keyframes lgFadeIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+.lg-logo{
+  display:flex;flex-direction:column;align-items:center;
+  margin-bottom:44px;
+}
+.lg-mark{
+  width:48px;height:48px;border-radius:50%;
+  border:1px solid rgba(201,168,76,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-d);font-size:.95rem;color:var(--gold);
+  margin-bottom:12px;
+}
+.lg-brand{
+  font-family:var(--font-b);font-weight:200;
+  font-size:.58rem;letter-spacing:.42em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);margin-bottom:6px;
+}
+.lg-system{
+  font-family:var(--font-d);font-weight:300;font-style:italic;
+  font-size:1.5rem;color:var(--cream);
+}
+.lg-field{margin-bottom:20px;}
+.lg-label{
+  display:block;font-family:var(--font-b);font-weight:200;
+  font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(201,168,76,.55);margin-bottom:8px;
+}
+.lg-input{
+  width:100%;background:rgba(255,255,255,.04);
+  border:none;border-bottom:1px solid rgba(201,168,76,.2);
+  color:var(--cream);padding:12px 0;
+  font-family:var(--font-b);font-weight:200;font-size:.9rem;
+  transition:border-color .3s;outline:none;box-sizing:border-box;
+}
+.lg-input:focus{border-bottom-color:rgba(201,168,76,.6);}
+.lg-input::placeholder{color:rgba(255,255,255,.18);}
+.lg-btn{
+  width:100%;padding:15px;margin-top:4px;
+  font-family:var(--font-b);font-weight:400;
+  font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;
+  background:var(--gold);color:var(--navy);
+  border:none;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:letter-spacing .35s cubic-bezier(.16,1,.3,1);
+}
+.lg-btn::before{
+  content:'';position:absolute;inset:0;background:var(--gold-lt);
+  transform:translateX(-101%);
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.lg-btn:hover{letter-spacing:.3em;}
+.lg-btn:hover::before{transform:translateX(0);}
+.lg-btn span{position:relative;z-index:1;}
+.lg-btn:disabled{opacity:.5;cursor:not-allowed;}
+.lg-btn:disabled::before{display:none;}
+.lg-err{
+  font-family:var(--font-b);font-weight:200;font-size:.75rem;
+  color:rgba(220,80,80,.8);text-align:center;
+  min-height:18px;margin-top:10px;
+}
+.lg-note{
+  font-family:var(--font-b);font-weight:200;font-size:.7rem;
+  color:rgba(255,255,255,.2);text-align:center;
+  margin-top:20px;line-height:1.8;
+}
+.lg-reset{
+  display:block;text-align:center;margin-top:14px;
+  font-family:var(--font-b);font-weight:200;font-size:.68rem;
+  color:rgba(201,168,76,.45);cursor:pointer;
+  transition:color .2s;text-decoration:none;
+}
+.lg-reset:hover{color:var(--gold);}
+.lg-divider{
+  height:1px;background:rgba(255,255,255,.05);
+  margin:28px 0;
+}
+/* RESET STATE */
+#lg-reset-view{display:none;}
+
 </style>
 </head>
 <body>
 
-<div class="shell">
+
+<!-- ═══════════════════════════════════════════════
+     FINANCE SYSTEM — LOGIN GATE
+     Powered by Supabase Auth
+     Only Lolo Admin accounts can access
+═══════════════════════════════════════════════ -->
+<div id="login-gate">
+  <div class="lg-wrap">
+    <div class="lg-logo">
+      <div class="lg-mark">LL</div>
+      <div class="lg-brand">Lolo Travels LLC</div>
+      <div class="lg-system">Finance System</div>
+    </div>
+
+    <!-- SIGN IN VIEW -->
+    <div id="lg-signin-view">
+      <div class="lg-field">
+        <label class="lg-label">Email</label>
+        <input class="lg-input" type="email" id="lg-email"
+          placeholder="your@lolotravels.com"
+          autocomplete="email"
+          onkeydown="if(event.key==='Enter')lgSignIn()"/>
+      </div>
+      <div class="lg-field">
+        <label class="lg-label">Password</label>
+        <input class="lg-input" type="password" id="lg-pass"
+          placeholder="••••••••"
+          autocomplete="current-password"
+          onkeydown="if(event.key==='Enter')lgSignIn()"/>
+      </div>
+      <div class="lg-err" id="lg-err"></div>
+      <button class="lg-btn" id="lg-submit-btn" onclick="lgSignIn()">
+        <span>Access Finance System</span>
+      </button>
+      <a class="lg-reset" onclick="lgShowReset()">Forgot password?</a>
+      <p class="lg-note">
+        Access is restricted to authorized Lolo Travels personnel.<br>
+        Contact hello@lolotravels.com to request access.
+      </p>
+    </div>
+
+    <!-- RESET VIEW -->
+    <div id="lg-reset-view">
+      <div class="lg-field">
+        <label class="lg-label">Email Address</label>
+        <input class="lg-input" type="email" id="lg-reset-email"
+          placeholder="your@lolotravels.com"/>
+      </div>
+      <div class="lg-err" id="lg-reset-err"></div>
+      <button class="lg-btn" onclick="lgSendReset()">
+        <span>Send Reset Link</span>
+      </button>
+      <a class="lg-reset" onclick="lgShowSignin()">Back to sign in</a>
+    </div>
+  </div>
+</div>
+
+<div class="shell" id="finance-shell" style="display:none;">
 
 <!-- SIDEBAR -->
 <aside class="sidebar">
@@ -507,7 +655,7 @@ body{background:var(--navy);color:var(--cream);font-family:var(--font-b);
     <div class="topbar-right">
       <div class="tb-badge">Accrual · Calendar Year</div>
       <div class="tb-badge">DCAA-Aligned</div>
-      <button class="tb-btn" onclick="exportCOA()">Export PDF</button>
+      <span id="finance-user" style="font-family:var(--font-b);font-weight:200;font-size:.7rem;color:rgba(255,255,255,.35);"></span><button class="tb-btn" onclick="exportCOA()">Export PDF</button><button class="tb-btn" style="background:transparent;color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.1);margin-left:4px;" onclick="lgSignOut()">Sign Out</button>
     </div>
   </div>
 
@@ -764,7 +912,6 @@ const SECTORS = [
          dcaa:'',far:'',projects:['TECH-SHIELD']},
       ]
     },
-  ],
     {
       code:'2300–2324', label:'Tax Liabilities — Federal, State & Insurance', type:'Liability',
       desc:'All tax obligations including income, payroll, insurance premium, and surplus lines taxes',
@@ -811,6 +958,7 @@ const SECTORS = [
          dcaa:'',far:'',projects:[]},
       ]
     }
+  ]
 },
 {
   code:'3000', label:'Equity', color:'#7B8FD9',
@@ -1502,10 +1650,106 @@ function exportCOA(){
   alert('PDF export will be available in Phase 2 when the full accounting system launches. The current Chart of Accounts PDF is in your downloads from the previous session.');
 }
 
+
+// ══════════════════════════════════════════════════════════════════════
+// FINANCE SYSTEM AUTH — Supabase Login Gate
+// Only authenticated admin users can access the finance system
+// ══════════════════════════════════════════════════════════════════════
+
+async function lgSignIn(){
+  var email = document.getElementById('lg-email').value.trim();
+  var pass  = document.getElementById('lg-pass').value;
+  var err   = document.getElementById('lg-err');
+  var btn   = document.getElementById('lg-submit-btn');
+  err.textContent = '';
+  if(!email || !pass){
+    err.textContent = 'Please enter your email and password.';
+    return;
+  }
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'Signing in...';
+  try{
+    var r = await _sb.auth.signInWithPassword({email:email, password:pass});
+    if(r.error){
+      err.textContent = r.error.message === 'Invalid login credentials'
+        ? 'Email or password is incorrect.'
+        : r.error.message;
+      btn.disabled = false;
+      btn.querySelector('span').textContent = 'Access Finance System';
+      return;
+    }
+    lgGrantAccess(r.data.user);
+  }catch(e){
+    err.textContent = 'Connection error. Please try again.';
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Access Finance System';
+  }
+}
+
+function lgGrantAccess(user){
+  document.getElementById('login-gate').style.display = 'none';
+  document.getElementById('finance-shell').style.display = 'grid';
+  // Set user display if element exists
+  var nameEl = document.getElementById('finance-user');
+  if(nameEl){
+    var meta = user.user_metadata || {};
+    nameEl.textContent = meta.full_name || user.email.split('@')[0];
+  }
+}
+
+async function lgSendReset(){
+  var email = document.getElementById('lg-reset-email').value.trim();
+  var err   = document.getElementById('lg-reset-err');
+  err.textContent = '';
+  if(!email){ err.textContent = 'Please enter your email.'; return; }
+  try{
+    var r = await _sb.auth.resetPasswordForEmail(email, {
+      redirectTo: window.location.origin + '/finance'
+    });
+    if(r.error){ err.textContent = r.error.message; return; }
+    err.style.color = 'rgba(40,180,100,.8)';
+    err.textContent = 'Reset link sent. Check your inbox.';
+  }catch(e){
+    err.textContent = 'Connection error. Try again.';
+  }
+}
+
+function lgShowReset(){
+  document.getElementById('lg-signin-view').style.display = 'none';
+  document.getElementById('lg-reset-view').style.display = 'block';
+}
+
+function lgShowSignin(){
+  document.getElementById('lg-reset-view').style.display = 'none';
+  document.getElementById('lg-signin-view').style.display = 'block';
+}
+
+async function lgSignOut(){
+  await _sb.auth.signOut();
+  document.getElementById('finance-shell').style.display = 'none';
+  document.getElementById('login-gate').style.display = 'flex';
+  document.getElementById('lg-email').value = '';
+  document.getElementById('lg-pass').value = '';
+  document.getElementById('lg-err').textContent = '';
+  document.getElementById('lg-submit-btn').disabled = false;
+  document.getElementById('lg-submit-btn').querySelector('span').textContent = 'Access Finance System';
+}
+
+// Check for existing session on load — skip login if already authenticated
+(async function(){
+  try{
+    var sess = await _sb.auth.getSession();
+    if(sess.data && sess.data.session){
+      lgGrantAccess(sess.data.session.user);
+    }
+  }catch(e){
+    // No session — stay on login screen
+  }
+})();
+
 // ── INIT ────────────────────────────────────────────────────────────────
 buildCOA();
 buildProjects();
-buildTaxCalendar();
 
 // ══════════════════════════════════════════════════════════════════════
 // TAX & FILING CALENDAR DATA
@@ -1765,6 +2009,9 @@ function buildTaxSummary(){
   }).join('');
 }
 
+
+// ── DEFERRED INIT — runs after all data is defined ──────────────────
+buildTaxCalendar();
 </script>
 </body>
 </html>
