@@ -1,4 +1,4 @@
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/finance"
+  to = "/lolo-coa-system.html"
   status = 200
