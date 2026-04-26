@@ -1,0 +1,1770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lolo Travels — Chart of Accounts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#060E1A; --navy-2:#0A1628; --navy-3:#0F1E32;
+  --gold:#C9A84C; --gold-lt:#E2C97E;
+  --cream:#F5F0E8; --white:rgba(245,240,232,.9);
+  --green:rgba(40,180,100,.8); --red:#E05252;
+  --font-d:'Cormorant Garamond',Georgia,serif;
+  --font-b:'Jost',sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+body{background:var(--navy);color:var(--cream);font-family:var(--font-b);
+  -webkit-font-smoothing:antialiased;min-height:100vh;overflow-x:hidden;}
+
+/* ── LAYOUT ──────────────────────────────────────────── */
+.shell{display:grid;grid-template-columns:260px 1fr;min-height:100vh;}
+@media(max-width:900px){.shell{grid-template-columns:1fr;}}
+
+/* ── SIDEBAR ─────────────────────────────────────────── */
+.sidebar{
+  background:var(--navy-2);
+  border-right:1px solid rgba(255,255,255,.05);
+  padding:0;position:sticky;top:0;height:100vh;
+  overflow-y:auto;display:flex;flex-direction:column;
+}
+.sidebar::-webkit-scrollbar{width:2px;}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(201,168,76,.2);}
+
+.sb-brand{
+  padding:24px 20px 20px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.sb-mark{
+  display:flex;align-items:center;gap:10px;margin-bottom:4px;
+}
+.sb-ll{
+  width:30px;height:30px;border-radius:50%;
+  border:1px solid rgba(201,168,76,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-d);font-size:.75rem;color:var(--gold);
+}
+.sb-name{font-size:.65rem;font-weight:300;letter-spacing:.22em;
+  text-transform:uppercase;color:rgba(255,255,255,.55);}
+.sb-system{font-family:var(--font-d);font-style:italic;
+  font-size:.95rem;color:var(--cream);}
+
+.sb-nav{padding:16px 0;flex:1;}
+.sb-section{
+  font-size:.52rem;font-weight:200;letter-spacing:.38em;
+  text-transform:uppercase;color:rgba(201,168,76,.4);
+  padding:8px 20px 4px;
+}
+.sb-item{
+  display:flex;align-items:center;gap:8px;
+  padding:9px 20px;cursor:pointer;
+  font-size:.75rem;font-weight:200;color:rgba(255,255,255,.45);
+  transition:color .2s,background .2s;border-left:2px solid transparent;
+}
+.sb-item:hover{color:rgba(255,255,255,.75);background:rgba(255,255,255,.03);}
+.sb-item.active{color:var(--cream);background:rgba(201,168,76,.06);
+  border-left-color:var(--gold);}
+.sb-dot{width:4px;height:4px;border-radius:50%;
+  background:rgba(201,168,76,.3);flex-shrink:0;}
+.sb-item.active .sb-dot{background:var(--gold);}
+
+/* ── MAIN ────────────────────────────────────────────── */
+.main{padding:0;overflow:hidden;}
+
+/* ── TOPBAR ──────────────────────────────────────────── */
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:18px 36px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+  background:rgba(6,14,26,.8);backdrop-filter:blur(10px);
+  position:sticky;top:0;z-index:10;
+}
+.topbar-title{
+  font-family:var(--font-d);font-weight:300;font-style:italic;
+  font-size:1.3rem;color:var(--cream);
+}
+.topbar-right{display:flex;align-items:center;gap:12px;}
+.tb-badge{
+  font-size:.55rem;font-weight:300;letter-spacing:.2em;
+  text-transform:uppercase;padding:4px 12px;
+  border:1px solid rgba(201,168,76,.25);color:rgba(201,168,76,.7);
+}
+.tb-btn{
+  font-size:.6rem;font-weight:400;letter-spacing:.18em;
+  text-transform:uppercase;padding:8px 20px;
+  background:var(--gold);color:var(--navy);border:none;cursor:pointer;
+  transition:background .2s;
+}
+.tb-btn:hover{background:var(--gold-lt);}
+
+/* ── VIEWS ───────────────────────────────────────────── */
+.view{display:none;padding:32px 36px;animation:fadeIn .25s ease;}
+.view.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+/* ── COA TREE ────────────────────────────────────────── */
+.coa-sector{
+  margin-bottom:4px;
+  border:1px solid rgba(255,255,255,.06);
+  overflow:hidden;
+}
+.sector-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 20px;cursor:pointer;
+  background:var(--navy-2);
+  transition:background .2s;user-select:none;
+}
+.sector-hdr:hover{background:var(--navy-3);}
+.sector-hdr.open{background:var(--navy-3);}
+.sector-left{display:flex;align-items:center;gap:12px;}
+.sector-code{
+  font-size:.65rem;font-weight:400;letter-spacing:.12em;
+  color:var(--gold);background:rgba(201,168,76,.08);
+  padding:2px 8px;
+}
+.sector-label{
+  font-family:var(--font-d);font-size:1rem;font-weight:300;
+  color:var(--cream);
+}
+.sector-right{display:flex;align-items:center;gap:16px;}
+.sector-total{
+  font-size:.72rem;font-weight:300;color:rgba(255,255,255,.4);
+  text-align:right;
+}
+.sector-chevron{
+  width:20px;height:20px;display:flex;align-items:center;
+  justify-content:center;color:rgba(201,168,76,.5);
+  transition:transform .3s var(--ease);font-size:.7rem;
+}
+.sector-hdr.open .sector-chevron{transform:rotate(180deg);}
+
+/* Sub-sectors */
+.subsectors{display:none;}
+.subsectors.open{display:block;}
+.subsector{
+  border-top:1px solid rgba(255,255,255,.04);
+}
+.subsector-hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 20px 10px 36px;cursor:pointer;
+  background:rgba(255,255,255,.015);
+  transition:background .2s;
+}
+.subsector-hdr:hover{background:rgba(255,255,255,.03);}
+.subsector-hdr.open{background:rgba(201,168,76,.03);}
+.sub-code{
+  font-size:.6rem;font-weight:400;letter-spacing:.1em;
+  color:rgba(201,168,76,.6);width:40px;flex-shrink:0;
+}
+.sub-label{
+  font-size:.82rem;font-weight:300;color:rgba(245,240,232,.75);flex:1;
+}
+.sub-type{
+  font-size:.6rem;font-weight:200;letter-spacing:.15em;
+  text-transform:uppercase;color:rgba(255,255,255,.3);
+  padding-right:16px;
+}
+.sub-chevron{
+  width:16px;height:16px;display:flex;align-items:center;
+  justify-content:center;color:rgba(201,168,76,.4);
+  transition:transform .3s;font-size:.6rem;
+}
+.subsector-hdr.open .sub-chevron{transform:rotate(180deg);}
+
+/* Account rows */
+.accounts{display:none;background:rgba(0,0,0,.15);}
+.accounts.open{display:block;}
+.acct-row{
+  display:grid;
+  grid-template-columns:60px 1fr 90px 90px;
+  padding:9px 20px 9px 52px;
+  border-top:1px solid rgba(255,255,255,.025);
+  cursor:pointer;transition:background .2s;
+  align-items:center;
+}
+.acct-row:hover{background:rgba(201,168,76,.04);}
+.acct-row.unallowable{background:rgba(224,82,82,.04);}
+.acct-row.unallowable:hover{background:rgba(224,82,82,.07);}
+.a-code{font-size:.72rem;font-weight:400;color:rgba(201,168,76,.7);}
+.a-name{font-size:.8rem;font-weight:200;color:rgba(245,240,232,.7);}
+.a-name.ua{color:rgba(224,82,82,.8);font-style:italic;}
+.a-type{font-size:.62rem;font-weight:200;color:rgba(255,255,255,.3);}
+.a-tag{
+  display:inline-block;font-size:.5rem;letter-spacing:.15em;
+  text-transform:uppercase;padding:2px 6px;
+  border:1px solid rgba(201,168,76,.2);color:rgba(201,168,76,.5);
+}
+.a-tag.ua{border-color:rgba(224,82,82,.3);color:rgba(224,82,82,.6);}
+
+/* ── DETAIL PANEL ────────────────────────────────────── */
+.detail-overlay{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(6,14,26,.7);backdrop-filter:blur(4px);
+}
+.detail-overlay.open{display:block;}
+.detail-panel{
+  position:fixed;right:0;top:0;bottom:0;width:480px;
+  background:var(--navy-2);border-left:1px solid rgba(255,255,255,.07);
+  overflow-y:auto;animation:slideIn .3s var(--ease);
+  display:flex;flex-direction:column;
+}
+@keyframes slideIn{from{transform:translateX(100%);}to{transform:none;}}
+.dp-close{
+  position:absolute;top:16px;right:20px;cursor:pointer;
+  font-size:1.2rem;color:rgba(255,255,255,.4);
+  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  transition:color .2s;
+}
+.dp-close:hover{color:rgba(255,255,255,.8);}
+.dp-hdr{
+  padding:28px 28px 20px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.dp-code{
+  font-size:.6rem;font-weight:400;letter-spacing:.2em;
+  color:var(--gold);margin-bottom:8px;
+}
+.dp-title{
+  font-family:var(--font-d);font-weight:300;font-style:italic;
+  font-size:1.6rem;color:var(--cream);line-height:1.1;margin-bottom:8px;
+}
+.dp-type{
+  font-size:.6rem;font-weight:200;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(255,255,255,.35);
+}
+.dp-body{padding:24px 28px;flex:1;}
+.dp-section{margin-bottom:24px;}
+.dp-sec-label{
+  font-size:.55rem;font-weight:200;letter-spacing:.35em;
+  text-transform:uppercase;color:rgba(201,168,76,.5);
+  margin-bottom:10px;padding-bottom:6px;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.dp-desc{
+  font-size:.84rem;font-weight:200;color:rgba(255,255,255,.65);
+  line-height:1.9;
+}
+.dp-note{
+  font-size:.75rem;font-style:italic;color:rgba(255,255,255,.35);
+  line-height:1.8;margin-top:8px;
+}
+.dp-field{margin-bottom:12px;}
+.dp-field-label{
+  font-size:.58rem;font-weight:200;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(201,168,76,.45);margin-bottom:4px;
+}
+.dp-field-val{
+  font-size:.84rem;font-weight:300;color:rgba(245,240,232,.8);
+}
+
+/* Project tags */
+.project-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.62rem;font-weight:300;letter-spacing:.1em;
+  padding:5px 12px;margin:3px;cursor:pointer;
+  border:1px solid rgba(201,168,76,.2);
+  color:rgba(201,168,76,.7);
+  transition:all .2s;
+}
+.project-tag:hover{
+  border-color:rgba(201,168,76,.5);color:var(--gold);
+  background:rgba(201,168,76,.06);
+}
+.project-dot{
+  width:5px;height:5px;border-radius:50%;background:var(--gold);
+}
+
+/* ── PROJECTS VIEW ───────────────────────────────────── */
+.proj-grid{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:2px;
+}
+.proj-card{
+  background:var(--navy-2);border:1px solid rgba(255,255,255,.06);
+  padding:24px;cursor:pointer;transition:border-color .25s,background .25s;
+}
+.proj-card:hover{border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.03);}
+.pc-code{
+  font-size:.58rem;font-weight:400;letter-spacing:.2em;
+  color:var(--gold);margin-bottom:8px;
+}
+.pc-name{
+  font-family:var(--font-d);font-style:italic;
+  font-size:1.1rem;color:var(--cream);margin-bottom:6px;
+}
+.pc-client{
+  font-size:.75rem;font-weight:200;color:rgba(255,255,255,.45);
+  margin-bottom:12px;
+}
+.pc-meta{display:flex;gap:8px;flex-wrap:wrap;}
+.pc-pill{
+  font-size:.55rem;font-weight:200;letter-spacing:.15em;
+  text-transform:uppercase;padding:3px 8px;
+  border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.4);
+}
+.pc-pill.gov{border-color:rgba(40,120,200,.3);color:rgba(100,160,240,.6);}
+.pc-pill.ins{border-color:rgba(201,168,76,.3);color:rgba(201,168,76,.6);}
+.pc-pill.active{border-color:rgba(40,180,100,.3);color:rgba(40,180,100,.7);}
+.pc-pill.pending{border-color:rgba(220,160,40,.3);color:rgba(220,160,40,.7);}
+
+/* ── PAGE HEADER ─────────────────────────────────────── */
+.view-header{margin-bottom:28px;}
+.view-tag{
+  font-size:.58rem;font-weight:200;letter-spacing:.38em;
+  text-transform:uppercase;color:rgba(201,168,76,.5);
+  margin-bottom:8px;
+}
+.view-title{
+  font-family:var(--font-d);font-weight:300;font-style:italic;
+  font-size:clamp(1.4rem,3vw,2rem);color:var(--cream);
+}
+.view-sub{
+  font-size:.8rem;font-weight:200;color:rgba(255,255,255,.4);
+  margin-top:6px;line-height:1.8;
+}
+
+/* ── SECTOR SUMMARY BAR ──────────────────────────────── */
+.sector-bar{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));
+  gap:2px;margin-bottom:28px;
+}
+.sector-tile{
+  background:var(--navy-2);border:1px solid rgba(255,255,255,.06);
+  padding:16px;cursor:pointer;transition:border-color .2s;
+}
+.sector-tile:hover{border-color:rgba(201,168,76,.3);}
+.st-code{font-size:.58rem;font-weight:400;letter-spacing:.15em;color:var(--gold);}
+.st-label{font-size:.75rem;font-weight:300;color:rgba(255,255,255,.6);margin-top:4px;}
+.st-count{font-size:.65rem;font-weight:200;color:rgba(255,255,255,.3);margin-top:6px;}
+
+/* ── SEARCH ──────────────────────────────────────────── */
+.search-wrap{position:relative;margin-bottom:20px;}
+.search-input{
+  width:100%;background:rgba(255,255,255,.04);
+  border:none;border-bottom:1px solid rgba(201,168,76,.2);
+  color:var(--cream);padding:11px 12px 11px 36px;
+  font-family:var(--font-b);font-weight:200;font-size:.88rem;
+  outline:none;transition:border-color .3s;
+}
+.search-input:focus{border-bottom-color:rgba(201,168,76,.5);}
+.search-icon{
+  position:absolute;left:10px;top:50%;transform:translateY(-50%);
+  color:rgba(255,255,255,.25);font-size:.85rem;
+}
+
+/* ── EMPTY / INFO ────────────────────────────────────── */
+.info-bar{
+  background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.12);
+  padding:12px 16px;margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+  font-size:.78rem;font-weight:200;color:rgba(201,168,76,.75);
+}
+.ua-bar{
+  background:rgba(224,82,82,.05);border:1px solid rgba(224,82,82,.15);
+  padding:12px 16px;margin-bottom:20px;
+  font-size:.75rem;font-weight:200;color:rgba(224,82,82,.7);line-height:1.8;
+}
+
+/* ── DIVIDER ─────────────────────────────────────────── */
+.divider{height:1px;background:rgba(255,255,255,.05);margin:24px 0;}
+
+/* Unallowable highlight */
+.unallow-section .sector-hdr{border-left:3px solid rgba(224,82,82,.5);}
+
+
+/* ── TAX FILING CALENDAR ─────────────────────────────────── */
+.qbtn{
+  font-family:var(--font-b);font-weight:200;font-size:.6rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  padding:8px 18px;background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);color:rgba(255,255,255,.45);
+  cursor:pointer;transition:all .2s;
+}
+.qbtn:hover{border-color:rgba(201,168,76,.3);color:rgba(201,168,76,.7);}
+.qbtn.active{border-color:rgba(201,168,76,.5);color:var(--gold);
+  background:rgba(201,168,76,.06);}
+
+.filing-card{
+  background:var(--navy-2);border:1px solid rgba(255,255,255,.06);
+  margin-bottom:2px;cursor:pointer;transition:border-color .2s;
+}
+.filing-card:hover{border-color:rgba(201,168,76,.3);}
+.filing-hdr{
+  display:grid;grid-template-columns:90px 1fr 120px 100px 80px;
+  padding:14px 20px;align-items:center;gap:12px;
+}
+@media(max-width:800px){.filing-hdr{grid-template-columns:80px 1fr 100px;}}
+.f-due{
+  font-size:.7rem;font-weight:400;letter-spacing:.06em;
+  color:var(--gold);
+}
+.f-name{font-size:.84rem;font-weight:300;color:var(--cream);}
+.f-form{font-size:.68rem;font-weight:200;color:rgba(255,255,255,.35);margin-top:2px;}
+.f-agency{font-size:.65rem;font-weight:200;letter-spacing:.12em;
+  text-transform:uppercase;color:rgba(255,255,255,.3);}
+.f-status{
+  display:inline-block;font-size:.55rem;font-weight:300;
+  letter-spacing:.18em;text-transform:uppercase;
+  padding:4px 10px;text-align:center;
+}
+.f-status.not-due{border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.35);}
+.f-status.upcoming{border:1px solid rgba(220,160,40,.35);color:rgba(220,160,40,.7);}
+.f-status.due-now{border:1px solid rgba(224,82,82,.4);color:rgba(224,82,82,.8);}
+.f-status.filed{border:1px solid rgba(40,180,100,.3);color:rgba(40,180,100,.7);}
+.f-status.na{border:1px solid rgba(255,255,255,.06);color:rgba(255,255,255,.2);}
+.f-freq{font-size:.62rem;font-weight:200;color:rgba(255,255,255,.3);}
+.filing-body{
+  display:none;padding:0 20px 16px 20px;
+  border-top:1px solid rgba(255,255,255,.04);
+  background:rgba(0,0,0,.1);
+}
+.filing-body.open{display:block;}
+.fb-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px;}
+.fb-field-label{font-size:.55rem;font-weight:200;letter-spacing:.2em;
+  text-transform:uppercase;color:rgba(201,168,76,.4);margin-bottom:3px;}
+.fb-field-val{font-size:.8rem;font-weight:200;color:rgba(245,240,232,.7);line-height:1.8;}
+.fb-penalty{
+  background:rgba(224,82,82,.05);border:1px solid rgba(224,82,82,.15);
+  padding:8px 12px;margin-top:8px;
+  font-size:.74rem;font-weight:200;color:rgba(224,82,82,.7);line-height:1.8;
+}
+.f-section-hdr{
+  font-size:.58rem;font-weight:200;letter-spacing:.35em;
+  text-transform:uppercase;color:rgba(201,168,76,.4);
+  margin:20px 0 8px;padding-bottom:6px;
+  border-bottom:1px solid rgba(255,255,255,.04);
+}
+.summary-tile{
+  background:var(--navy-2);border:1px solid rgba(255,255,255,.06);
+  padding:16px;
+}
+.st-n{font-family:var(--font-d);font-style:italic;
+  font-size:2rem;color:var(--cream);margin-bottom:4px;}
+.st-l{font-size:.62rem;font-weight:200;letter-spacing:.18em;
+  text-transform:uppercase;color:rgba(255,255,255,.35);}
+
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="sb-mark">
+      <div class="sb-ll">LL</div>
+      <div>
+        <div class="sb-name">Lolo Travels LLC</div>
+      </div>
+    </div>
+    <div class="sb-system">Accounting System</div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-section">Accounts</div>
+    <div class="sb-item active" onclick="showView('coa')">
+      <div class="sb-dot"></div>Chart of Accounts
+    </div>
+    <div class="sb-item" onclick="showView('projects')">
+      <div class="sb-dot"></div>Projects
+    </div>
+    <div class="sb-section">Coming — Phase 2</div>
+    <div class="sb-item" onclick="showView('taxes')">
+      <div class="sb-dot"></div>Tax & Filing Calendar
+    </div>
+    <div class="sb-item" onclick="showView('ledger')">
+      <div class="sb-dot"></div>General Ledger
+    </div>
+    <div class="sb-item" onclick="showView('ar')">
+      <div class="sb-dot"></div>Accounts Receivable
+    </div>
+    <div class="sb-item" onclick="showView('ap')">
+      <div class="sb-dot"></div>Accounts Payable
+    </div>
+    <div class="sb-item" onclick="showView('close')">
+      <div class="sb-dot"></div>Monthly Close
+    </div>
+    <div class="sb-section">Coming — Phase 3</div>
+    <div class="sb-item" onclick="showView('statements')">
+      <div class="sb-dot"></div>Financial Statements
+    </div>
+    <div class="sb-item" onclick="showView('rates')">
+      <div class="sb-dot"></div>Indirect Rates
+    </div>
+    <div class="sb-item" onclick="showView('analytics')">
+      <div class="sb-dot"></div>Analytics
+    </div>
+  </nav>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">Chart of Accounts</div>
+    <div class="topbar-right">
+      <div class="tb-badge">Accrual · Calendar Year</div>
+      <div class="tb-badge">DCAA-Aligned</div>
+      <button class="tb-btn" onclick="exportCOA()">Export PDF</button>
+    </div>
+  </div>
+
+  <!-- COA VIEW -->
+  <div class="view active" id="view-coa">
+    <div class="view-header">
+      <div class="view-tag">Lolo Travels LLC · EIN 41-4888165 · CAGE 1WR24</div>
+      <div class="view-title">Chart of Accounts</div>
+      <div class="view-sub">Click any sector to expand. Click any account to view details, mapped projects, and DCAA guidance.</div>
+    </div>
+
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input class="search-input" type="text" id="coa-search"
+        placeholder="Search accounts by code or name..."
+        oninput="filterCOA(this.value)"/>
+    </div>
+
+    <div class="ua-bar">
+      ⚠ &nbsp;<strong>Accounts 7200–7280 are UNALLOWABLE under FAR Part 31.</strong> These costs must be segregated in the ledger and must never be included in indirect rate calculations or billed to the government. They are highlighted below in red.
+    </div>
+
+    <div id="coa-tree"></div>
+  </div>
+
+  <!-- PROJECTS VIEW -->
+  <div class="view" id="view-projects">
+    <div class="view-header">
+      <div class="view-tag">Project Registry</div>
+      <div class="view-title">Projects &amp; Mapping</div>
+      <div class="view-sub">Every client, contract, and subcontractor is tied to a project code. All revenue and costs map through a project.</div>
+    </div>
+    <div class="proj-grid" id="proj-grid"></div>
+  </div>
+
+
+  <!-- TAX & FILING CALENDAR VIEW -->
+  <div class="view" id="view-taxes">
+    <div class="view-header">
+      <div class="view-tag">Lolo Travels LLC · EIN 41-4888165</div>
+      <div class="view-title">Tax & Filing Calendar</div>
+      <div class="view-sub">All federal, Minnesota, and insurance regulatory filings in one place. Calendar year basis. Click any filing for full details.</div>
+    </div>
+
+    <!-- FILING STATUS SUMMARY -->
+    <div id="tax-summary-bar" style="display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-bottom:28px;"></div>
+
+    <!-- QUARTER FILTER -->
+    <div style="display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap;">
+      <button class="qbtn active" onclick="filterQ('all',this)">All Filings</button>
+      <button class="qbtn" onclick="filterQ('Q1',this)">Q1 · Jan–Mar</button>
+      <button class="qbtn" onclick="filterQ('Q2',this)">Q2 · Apr–Jun</button>
+      <button class="qbtn" onclick="filterQ('Q3',this)">Q3 · Jul–Sep</button>
+      <button class="qbtn" onclick="filterQ('Q4',this)">Q4 · Oct–Dec</button>
+      <button class="qbtn" onclick="filterQ('annual',this)">Annual</button>
+    </div>
+
+    <div id="tax-filings-list"></div>
+  </div>
+
+  <!-- PHASE 2+ PLACEHOLDER VIEWS -->
+  <div class="view" id="view-ledger"><div class="view-header"><div class="view-tag">Phase 2</div><div class="view-title">General Ledger</div><div class="view-sub">Journal entries, transaction history, and period balances. Available in Phase 2.</div></div></div>
+  <div class="view" id="view-ar"><div class="view-header"><div class="view-tag">Phase 2</div><div class="view-title">Accounts Receivable</div><div class="view-sub">Government and commercial AR, aging, and collection tracking. Available in Phase 2.</div></div></div>
+  <div class="view" id="view-ap"><div class="view-header"><div class="view-tag">Phase 2</div><div class="view-title">Accounts Payable</div><div class="view-sub">Sub and vendor AP, Prompt Payment Act tracker, and aging. Available in Phase 2.</div></div></div>
+  <div class="view" id="view-close"><div class="view-header"><div class="view-tag">Phase 2</div><div class="view-title">Monthly Close</div><div class="view-sub">Automated close checklist with 5-day deadline enforcement. Available in Phase 2.</div></div></div>
+  <div class="view" id="view-statements"><div class="view-header"><div class="view-tag">Phase 3</div><div class="view-title">Financial Statements</div><div class="view-sub">P&L, Balance Sheet, and Cash Flow auto-generated from the ledger. Available in Phase 3.</div></div></div>
+  <div class="view" id="view-rates"><div class="view-header"><div class="view-tag">Phase 3</div><div class="view-title">Indirect Rates</div><div class="view-sub">Fringe, overhead, and G&A rate calculations. Available in Phase 3.</div></div></div>
+  <div class="view" id="view-analytics"><div class="view-header"><div class="view-tag">Phase 3</div><div class="view-title">Analytics</div><div class="view-sub">Contract profitability, cash forecast, and burn rate. Available in Phase 3.</div></div></div>
+</main>
+</div>
+
+<!-- DETAIL PANEL -->
+<div class="detail-overlay" id="overlay" onclick="closeDetail()"></div>
+<div class="detail-panel" id="detail-panel">
+  <div class="dp-close" onclick="closeDetail()">✕</div>
+  <div class="dp-hdr">
+    <div class="dp-code" id="dp-code"></div>
+    <div class="dp-title" id="dp-title"></div>
+    <div class="dp-type" id="dp-type"></div>
+  </div>
+  <div class="dp-body" id="dp-body"></div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════════════════════
+// DATA — FULL HIERARCHICAL CHART OF ACCOUNTS
+// Structure: Sector > Sub-sector > Accounts
+// ══════════════════════════════════════════════════════════════════════
+
+const SECTORS = [
+{
+  code:'1000', label:'Assets', color:'#4A90D9',
+  subsectors:[
+    {
+      code:'1010–1040', label:'Cash & Equivalents', type:'Asset',
+      desc:'All bank accounts and cash on hand',
+      accounts:[
+        {code:'1010', name:'Operating Checking Account', type:'Asset',
+         desc:'Primary business checking. All operating transactions flow through this account.',
+         dcaa:'Keep separate from personal accounts. All contract receipts deposited here.',
+         far:'', projects:['GOV-JAM-001','GOV-ABJ-001','COM-GEN']},
+        {code:'1020', name:'Payroll Clearing Account', type:'Asset',
+         desc:'Dedicated payroll disbursement account. Zero-balance after each payroll run.',
+         dcaa:'Separate payroll account required for clean audit trail on labor costs.',
+         far:'FAR 31.205-6',projects:[]},
+        {code:'1030', name:'Operating Reserve — Money Market', type:'Asset',
+         desc:'Short-term operating reserve. Maintain minimum 90-day cash requirement.',
+         dcaa:'Document interest earned separately — classify to Account 4900.',
+         far:'',projects:[]},
+        {code:'1040', name:'Petty Cash', type:'Asset',
+         desc:'Minor incidental expenses. Maximum balance $500. Replenish with receipts only.',
+         dcaa:'All petty cash disbursements must have receipts and be coded to appropriate accounts.',
+         far:'',projects:[]},
+      ]
+    },
+    {
+      code:'1100–1220', label:'Receivables', type:'Asset',
+      desc:'Amounts owed to Lolo Travels by clients and agencies',
+      accounts:[
+        {code:'1100', name:'Accounts Receivable — Federal Government', type:'Asset',
+         desc:'Amounts billed and awaiting payment from federal agencies on prime contracts.',
+         dcaa:'Age AR weekly. Government Net 30 terms. Flag anything over 45 days for CO follow-up.',
+         far:'',projects:['GOV-JAM-001','GOV-ABJ-001']},
+        {code:'1110', name:'Accounts Receivable — Commercial', type:'Asset',
+         desc:'Amounts owed by corporate accounts, B2B partners, and commercial clients.',
+         dcaa:'',far:'',projects:['COM-GEN','COM-CORP']},
+        {code:'1120', name:'Allowance for Doubtful Accounts', type:'Asset (Contra)',
+         desc:'Estimated uncollectible receivables. Credit balance. Review quarterly.',
+         dcaa:'Document basis for reserve. Do not include government AR — federal debt collection laws provide strong recovery.',
+         far:'',projects:[]},
+        {code:'1200', name:'Unbilled Revenue (Accrued)', type:'Asset',
+         desc:'Revenue earned but not yet invoiced. Critical accrual account. Clears when invoice is issued.',
+         dcaa:'Must document what deliverables support each accrual. Review and clear monthly.',
+         far:'FAR 52.232-25',projects:['GOV-JAM-001','GOV-ABJ-001']},
+        {code:'1210', name:'Costs in Excess of Billings', type:'Asset',
+         desc:'On cost-type contracts — costs incurred exceeding amounts billed to date.',
+         dcaa:'Reconcile to contract CLINs monthly. Represents amounts you are entitled to bill but have not yet billed.',
+         far:'',projects:['GOV-JAM-001','GOV-ABJ-001']},
+        {code:'1220', name:'Retainage Receivable', type:'Asset',
+         desc:'Amounts withheld by agency pending final acceptance. Release upon contract closeout.',
+         dcaa:'Track by contract. Include in final invoice upon acceptance of all deliverables.',
+         far:'',projects:[]},
+      ]
+    },
+    {
+      code:'1300–1330', label:'Prepaid Expenses', type:'Asset',
+      desc:'Expenses paid in advance — amortize monthly',
+      accounts:[
+        {code:'1300', name:'Prepaid Expenses — General', type:'Asset',
+         desc:'Catch-all for prepaid costs not classified below. Review monthly and reclassify.',
+         dcaa:'',far:'',projects:[]},
+        {code:'1310', name:'Prepaid Insurance Premiums', type:'Asset',
+         desc:'GL, E&O, professional liability, cyber, and travel insurance paid in advance. Amortize monthly.',
+         dcaa:'Allowable when reasonable and required. FAR 31.205-19.',
+         far:'FAR 31.205-19',projects:[]},
+        {code:'1320', name:'Prepaid Software & Subscriptions', type:'Asset',
+         desc:'Annual licenses and subscriptions. Amortize over contract term.',
+         dcaa:'',far:'',projects:[]},
+        {code:'1330', name:'Prepaid Rent & Security Deposits', type:'Asset',
+         desc:'Minneapolis office at 7825 Washington Ave S. $300/month. Security deposit held.',
+         dcaa:'',far:'',projects:[]},
+        {code:'1340', name:'Federal Estimated Tax Payments', type:'Asset',
+         desc:'Quarterly federal estimated tax payments made (Form 1040-ES or EFTPS). Carries as asset until year-end return filed; then applies against tax liability.',
+         dcaa:'',far:'',projects:[]},
+        {code:'1341', name:'MN Estimated Tax Payments', type:'Asset',
+         desc:'Minnesota quarterly estimated tax payments made (Form M14). Carries as asset until MN return filed.',
+         dcaa:'',far:'',projects:[]},
+      ]
+    },
+    {
+      code:'1500–1610', label:'Fixed & Intangible Assets', type:'Asset',
+      desc:'Capitalized equipment and development costs',
+      accounts:[
+        {code:'1500', name:'Computer & Technology Equipment', type:'Asset',
+         desc:'Capitalized equipment over $2,500. Depreciate 3–5 years straight-line.',
+         dcaa:'Maintain fixed asset register. Required for DCAA property audits.',
+         far:'FAR 31.205-11',projects:[]},
+        {code:'1510', name:'Office Furniture & Equipment', type:'Asset',
+         desc:'Capitalized furniture over $2,500. Depreciate 5–7 years.',
+         dcaa:'',far:'',projects:[]},
+        {code:'1520', name:'Accumulated Depreciation', type:'Asset (Contra)',
+         desc:'Credit balance. Total depreciation recognized to date on all fixed assets.',
+         dcaa:'Reconcile to fixed asset register monthly.',
+         far:'',projects:[]},
+        {code:'1600', name:'Intangible Assets — App Development', type:'Asset',
+         desc:'Capitalized Lolo World App and platform development costs. Amortize over useful life.',
+         dcaa:'Document development costs carefully. Internal labor capitalized must have timesheets.',
+         far:'',projects:['TECH-APP-001']},
+        {code:'1610', name:'Accumulated Amortization — Intangibles', type:'Asset (Contra)',
+         desc:'Credit balance. Amortization recognized on capitalized intangibles.',
+         dcaa:'',far:'',projects:[]},
+      ]
+    },
+  ]
+},
+{
+  code:'2000', label:'Liabilities', color:'#E05252',
+  subsectors:[
+    {
+      code:'2010–2030', label:'Accounts Payable', type:'Liability',
+      desc:'Amounts owed to vendors, subs, and carriers',
+      accounts:[
+        {code:'2010', name:'Accounts Payable — Vendors', type:'Liability',
+         desc:'Trade payables to vendors and suppliers. Pay per agreed terms.',
+         dcaa:'',far:'',projects:[]},
+        {code:'2020', name:'Accounts Payable — Subcontractors', type:'Liability',
+         desc:'Amounts owed to subcontractors. Prompt Payment Act: pay within 7 days of receiving government payment.',
+         dcaa:'CRITICAL: Late sub payment violates FAR 52.232-27. Track government payment receipt date.',
+         far:'FAR 52.232-27',projects:['GOV-JAM-001','GOV-ABJ-001']},
+        {code:'2030', name:'Accounts Payable — Insurance Carriers', type:'Liability',
+         desc:'Premiums owed to carriers for placed policies. Segregate from operating AP.',
+         dcaa:'',far:'',projects:['INS-TRV','INS-LES']},
+      ]
+    },
+    {
+      code:'2100–2150', label:'Accrued Liabilities', type:'Liability',
+      desc:'Costs incurred but not yet paid — core accrual accounts',
+      accounts:[
+        {code:'2100', name:'Accrued Salaries & Wages', type:'Liability',
+         desc:'Earned but unpaid compensation at period end. Reverse on first pay date of following period.',
+         dcaa:'Must accrue at period end. Key audit point.',
+         far:'FAR 31.205-6',projects:[]},
+        {code:'2110', name:'Accrued Payroll Taxes', type:'Liability',
+         desc:'Employer FICA, FUTA, SUTA accrued at period end.',
+         dcaa:'',far:'',projects:[]},
+        {code:'2120', name:'Accrued Fringe Benefits', type:'Liability',
+         desc:'PTO earned, health insurance, and retirement contributions accrued and unpaid.',
+         dcaa:'',far:'FAR 31.205-6',projects:[]},
+        {code:'2130', name:'Accrued Subcontractor Costs', type:'Liability',
+         desc:'Sub services received but not yet invoiced or paid. Critical for accrual accuracy and contract cost reporting.',
+         dcaa:'Accrue based on work completed per sub reporting. Do not wait for invoice.',
+         far:'',projects:['GOV-JAM-001','GOV-ABJ-001']},
+        {code:'2140', name:'Accrued Professional Fees', type:'Liability',
+         desc:'Legal and advisory fees incurred but not yet invoiced.',
+         dcaa:'',far:'',projects:[]},
+        {code:'2150', name:'Accrued Bonuses', type:'Liability',
+         desc:'Performance bonuses earned. Must pay within 2.5 months of year-end per IRS to be deductible.',
+         dcaa:'Deductible if paid within 2.5 months. FAR 31.205-6(f).',
+         far:'FAR 31.205-6(f)',projects:[]},
+      ]
+    },
+    {
+      code:'2200–2230', label:'Deferred Revenue', type:'Liability',
+      desc:'Cash received before services are rendered',
+      accounts:[
+        {code:'2200', name:'Deferred Revenue — General', type:'Liability',
+         desc:'Cash received before services rendered. Recognize as revenue when earned.',
+         dcaa:'',far:'',projects:[]},
+        {code:'2220', name:'Passport Membership — Deferred', type:'Liability',
+         desc:'Annual membership fees paid upfront. Recognize 1/12th monthly over membership period.',
+         dcaa:'',far:'',projects:['PASS-MEMBER']},
+        {code:'2230', name:'Lolo Shield Subscriptions — Deferred', type:'Liability',
+         desc:'Subscription fees paid in advance. Recognize monthly over subscription term.',
+         dcaa:'',far:'',projects:['TECH-SHIELD']},
+      ]
+    },
+  ],
+    {
+      code:'2300–2324', label:'Tax Liabilities — Federal, State & Insurance', type:'Liability',
+      desc:'All tax obligations including income, payroll, insurance premium, and surplus lines taxes',
+      accounts:[
+        {code:'2300', name:'Sales & Use Tax Payable', type:'Liability',
+         desc:'MN sales tax on taxable services (6.875%). Most professional services are MN-exempt; however Lolo Shield SaaS subscriptions and app revenue may be subject. Review each revenue stream with MN tax advisor annually.',
+         dcaa:'',far:'',projects:[]},
+        {code:'2305', name:'Insurance Premium Tax Payable — MN', type:'Liability',
+         desc:'Minnesota insurance premium tax: 2% of gross premiums written on MN risks as a licensed insurance agency. File Form IG-113 annually with MN Dept of Commerce. Due March 1.',
+         dcaa:'',far:'',projects:['INS-TRV']},
+        {code:'2306', name:'Surplus Lines Tax Payable', type:'Liability',
+         desc:"Surplus lines tax on non-admitted (Lloyd's) placements. MN rate: 3% of premium. Must be itemized on policy. File via MN SLIP portal with Dept of Commerce. Rate varies if insured is domiciled outside MN.",
+         dcaa:'',far:'',projects:['INS-LES']},
+        {code:'2310', name:'Federal Income Tax Payable', type:'Liability',
+         desc:"Single-member LLC income passes through to Shana's personal Form 1040 (Schedule C). No entity-level federal income tax. Track quarterly estimated payments. Underpayment penalty applies if short by more than $1,000.",
+         dcaa:'',far:'',projects:[]},
+        {code:'2311', name:'Self-Employment Tax Payable', type:'Liability',
+         desc:'15.3% SE tax on net self-employment income. Composed of: 12.4% Social Security (capped at wage base) + 2.9% Medicare (no ceiling). Pay quarterly via EFTPS. Deduct 50% as above-the-line deduction on Form 1040.',
+         dcaa:'',far:'',projects:[]},
+        {code:'2312', name:'Federal Quarterly Estimated Tax Payable', type:'Liability',
+         desc:'Quarterly federal estimated payments via EFTPS or IRS Direct Pay. Due: Apr 15 (Q1), Jun 15 (Q2), Sep 15 (Q3), Jan 15 (Q4). Safe harbor: pay 100% of prior year liability or 90% of current year estimate.',
+         dcaa:'',far:'',projects:[]},
+        {code:'2315', name:'Minnesota Income Tax Payable', type:'Liability',
+         desc:'MN individual income tax on pass-through earnings. Rates: 5.35%–9.85% (top bracket ~$171K single). File Form M1 by April 15. MN does not conform to all federal provisions — confirm annually.',
+         dcaa:'',far:'',projects:[]},
+        {code:'2316', name:'MN Quarterly Estimated Tax Payable', type:'Liability',
+         desc:'MN estimated payments via MN e-Services. Same quarterly due dates as federal. File Form M14. Safe harbor: 90% current year or 100% prior year MN liability.',
+         dcaa:'',far:'',projects:[]},
+        {code:'2320', name:'Federal Payroll Tax Withholding Payable', type:'Liability',
+         desc:'Federal income tax withheld from employee wages. Deposit via EFTPS monthly (if lookback under $50K) or semi-weekly (if over $50K). File Form 941 quarterly. Form 940 annually for FUTA.',
+         dcaa:'CRITICAL: Trust fund penalty = 100% personal liability. Never use withheld taxes for any other purpose.',
+         far:'',projects:[]},
+        {code:'2321', name:'FICA Withheld & Employer Match Payable', type:'Liability',
+         desc:'Employee 6.2% SS + 1.45% Medicare withheld, plus employer matching 6.2% SS + 1.45% Medicare. Remit combined via EFTPS with each payroll.',
+         dcaa:'',far:'',projects:[]},
+        {code:'2322', name:'Minnesota Withholding Tax Payable', type:'Liability',
+         desc:'MN state income tax withheld from employees. Remit monthly (if $500+/month) or quarterly (if under $500). File Form MW-1. Annual reconciliation on Forms W-2 and MW-3.',
+         dcaa:'',far:'',projects:[]},
+        {code:'2323', name:'Minnesota SUTA Payable', type:'Liability',
+         desc:'MN State Unemployment Tax. New employer rate: 1.0% on first $40,000 wages per employee. File quarterly with MN DEED. Due Apr 30, Jul 31, Oct 31, Jan 31. Register at uimn.org.',
+         dcaa:'',far:'',projects:[]},
+        {code:'2324', name:'Federal FUTA Payable', type:'Liability',
+         desc:'Federal Unemployment Tax: 6% on first $7,000 per employee. Net effective rate typically 0.6% after SUTA credit. Deposit quarterly if liability over $500. File Form 940 by Jan 31.',
+         dcaa:'',far:'',projects:[]},
+      ]
+    }
+},
+{
+  code:'3000', label:'Equity', color:'#7B8FD9',
+  subsectors:[
+    {
+      code:'3010–3040', label:'Member Equity', type:'Equity',
+      desc:'Owner contributions, draws, and retained earnings',
+      accounts:[
+        {code:'3010', name:'Member Capital — Shana London', type:'Equity',
+         desc:'Owner equity contributions. Track by date and amount.',
+         dcaa:'',far:'',projects:[]},
+        {code:'3020', name:'Member Draws — Shana London', type:'Equity',
+         desc:'Owner distributions. Reduces equity. Debit balance account.',
+         dcaa:'Draws are NOT compensation — do not charge to contracts. Compensation flows through payroll.',
+         far:'',projects:[]},
+        {code:'3030', name:'Retained Earnings', type:'Equity',
+         desc:'Cumulative net income retained. Prior year earnings close here at year-end.',
+         dcaa:'',far:'',projects:[]},
+        {code:'3040', name:'Current Year Net Income', type:'Equity',
+         desc:'Current period earnings. Auto-calculated: Total Revenue minus Total Expenses.',
+         dcaa:'',far:'',projects:[]},
+      ]
+    },
+  ]
+},
+{
+  code:'4000', label:'Revenue', color:'#50B882',
+  subsectors:[
+    {
+      code:'4100–4170', label:'Government Contracts', type:'Revenue — Federal',
+      desc:'Prime contract revenue from federal agencies',
+      accounts:[
+        {code:'4100', name:'Federal — Fixed Price Contract Revenue', type:'Revenue',
+         desc:'Firm-fixed-price (FFP) contract revenue. Recognize when deliverable is accepted by the CO.',
+         dcaa:'Revenue recognition tied to acceptance, not invoice date. Document CO acceptance in writing.',
+         far:'FAR 52.232-1',projects:['GOV-JAM-001','GOV-ABJ-001']},
+        {code:'4110', name:'Federal — Time & Materials Revenue', type:'Revenue',
+         desc:'T&M contract revenue. Recognize as direct labor hours and ODCs are incurred.',
+         dcaa:'Bill at established labor rates. Track to CLIN ceilings. Do not overbill.',
+         far:'FAR 52.232-7',projects:[]},
+        {code:'4120', name:'Federal — Cost Plus Revenue', type:'Revenue',
+         desc:'CPFF/CPAF/CPIF revenue. Recognize costs as incurred plus earned fee.',
+         dcaa:'Provisional billing rate applies. Reconcile to actual rates at year-end.',
+         far:'FAR 52.216-7',projects:[]},
+        {code:'4130', name:'Federal — IDIQ Task Order Revenue', type:'Revenue',
+         desc:'Revenue from task orders against indefinite delivery vehicles. Track by individual TO.',
+         dcaa:'Each task order is a separate project record.',
+         far:'',projects:[]},
+        {code:'4140', name:'Federal — Travel Management Fees', type:'Revenue',
+         desc:'Management and transaction fees for coordinating federal employee travel. NAICS 561510.',
+         dcaa:'Separate fee revenue from reimbursable travel costs. Do not net.',
+         far:'',projects:['GOV-JAM-001','GOV-ABJ-001']},
+        {code:'4150', name:'Federal — Insurance Services (LES)', type:'Revenue',
+         desc:'Insurance and risk advisory fees under government contracts. NAICS 524210. Lloyd\'s-backed specialty lines for diplomatic and high-risk deployments.',
+         dcaa:'Insurance revenue must be tracked separately from travel management revenue.',
+         far:'',projects:['GOV-JAM-001','INS-GOV']},
+        {code:'4160', name:'Federal — Risk Advisory Revenue', type:'Revenue',
+         desc:'Travel Risk Infrastructure advisory fees. Duty of care frameworks, pre-deployment assessments, incident response.',
+         dcaa:'',far:'',projects:['GOV-JAM-001','GOV-ABJ-001']},
+      ]
+    },
+    {
+      code:'4200–4240', label:'Commercial & Corporate', type:'Revenue — Commercial',
+      desc:'Non-government client revenue',
+      accounts:[
+        {code:'4200', name:'Corporate Travel Management', type:'Revenue',
+         desc:'Managed travel program fees from corporate accounts.',
+         dcaa:'Not government — no FAR constraints. Standard commercial accounting.',
+         far:'',projects:['COM-CORP']},
+        {code:'4210', name:'B2B Protection Services', type:'Revenue',
+         desc:'Protection placement fees charged to travel agencies and advisors using Lolo as their protection layer.',
+         dcaa:'',far:'',projects:['B2B-PARTNER']},
+        {code:'4220', name:'Duty of Care Services', type:'Revenue',
+         desc:'Corporate duty of care advisory, documentation, traveler management, and incident coordination.',
+         dcaa:'',far:'',projects:['COM-CORP']},
+        {code:'4230', name:'Study Abroad & Institutional', type:'Revenue',
+         desc:'University and institutional contracts for student traveler protection and emergency support.',
+         dcaa:'',far:'',projects:[]},
+      ]
+    },
+    {
+      code:'4300–4330', label:'Insurance Commissions', type:'Revenue — Insurance',
+      desc:'Commission revenue from policy placements',
+      accounts:[
+        {code:'4300', name:'Insurance Commissions — Travel Lines', type:'Revenue',
+         desc:'Commissions from standard travel insurance placements (Allianz, Travel Guard/AIG, Seven Corners). Recognize when policy is bound.',
+         dcaa:'',far:'',projects:['INS-TRV']},
+        {code:'4310', name:'Insurance Commissions — Specialty Lines (Lloyd\'s)', type:'Revenue',
+         desc:'Commissions from Lloyd\'s-market surplus lines: political risk, K&R, medical evacuation, diplomatic liability, event cancellation. International scope.',
+         dcaa:'',far:'',projects:['INS-LES']},
+        {code:'4320', name:'Insurance Commissions — Government Programs', type:'Revenue',
+         desc:'Insurance commission revenue tied to federal contract insurance requirements.',
+         dcaa:'Separate from contract revenue. Do not net against direct insurance costs.',
+         far:'',projects:['INS-GOV']},
+      ]
+    },
+    {
+      code:'4400–4430', label:'Claims Recovery', type:'Revenue — Claims',
+      desc:'Lolo\'s differentiator — post-trip recovery fees',
+      accounts:[
+        {code:'4400', name:'Claims Recovery — Flat Fee', type:'Revenue',
+         desc:'Fixed management fee for handling claims from initiation through resolution. Recognize when engagement is signed.',
+         dcaa:'',far:'',projects:['CLM-REC']},
+        {code:'4410', name:'Claims Recovery — Percentage of Recovery', type:'Revenue',
+         desc:'15–20% of recovered claim amount. Recognize when recovery payment is received.',
+         dcaa:'',far:'',projects:['CLM-REC']},
+        {code:'4420', name:'Claims Recovery — Legal Escalation', type:'Revenue',
+         desc:'Referral fees from LegalZoom affiliate and attorney network when cases escalate to legal action.',
+         dcaa:'',far:'',projects:['CLM-REC']},
+      ]
+    },
+    {
+      code:'4500–4530', label:'Technology & App', type:'Revenue — Technology',
+      desc:'Platform and subscription revenue',
+      accounts:[
+        {code:'4500', name:'Lolo Shield — Subscription Revenue', type:'Revenue',
+         desc:'Monthly ($9.99) and annual subscriptions for destination safety intelligence. Recognize monthly.',
+         dcaa:'',far:'',projects:['TECH-SHIELD']},
+        {code:'4510', name:'Lolo World App Revenue', type:'Revenue',
+         desc:'In-app purchases, premium features, enterprise app licensing.',
+         dcaa:'',far:'',projects:['TECH-APP-001']},
+        {code:'4520', name:'eSIM Commission Revenue', type:'Revenue',
+         desc:'Airalo reseller and affiliate commissions on eSIM sales through the app. Recognize monthly.',
+         dcaa:'',far:'',projects:['TECH-APP-001']},
+      ]
+    },
+    {
+      code:'4600–4630', label:'Passport Membership', type:'Revenue — Membership',
+      desc:'Tiered membership program revenue',
+      accounts:[
+        {code:'4600', name:'Passport Explorer — Membership', type:'Revenue',
+         desc:'Entry-tier annual membership. Recognize 1/12th per month over membership year.',
+         dcaa:'',far:'',projects:['PASS-MEMBER']},
+        {code:'4610', name:'Passport Passport — Membership', type:'Revenue',
+         desc:'Mid-tier annual membership. Recognize ratably over 12-month period.',
+         dcaa:'',far:'',projects:['PASS-MEMBER']},
+        {code:'4620', name:'Passport Elite — Membership', type:'Revenue',
+         desc:'Top-tier annual membership with full protection integration. Recognize ratably.',
+         dcaa:'',far:'',projects:['PASS-MEMBER']},
+      ]
+    },
+    {
+      code:'4700–4830', label:'Services & Other', type:'Revenue — Services',
+      desc:'Concierge, affiliate, and miscellaneous revenue',
+      accounts:[
+        {code:'4700', name:'Concierge & Packing Services', type:'Revenue',
+         desc:'White-glove luggage forward, hotel retrieval, and packing coordination. $175–$399 per engagement.',
+         dcaa:'',far:'',projects:['SVC-CONCIERGE']},
+        {code:'4710', name:'Security Detail Services', type:'Revenue',
+         desc:'Discreet security coordination fees. Intake by referral and secure channel only.',
+         dcaa:'',far:'',projects:['SVC-SECURITY']},
+        {code:'4800', name:'Affiliate Commission Revenue', type:'Revenue',
+         desc:'LegalZoom (15%), travel product affiliates, and referral commissions.',
+         dcaa:'',far:'',projects:[]},
+        {code:'4900', name:'Interest & Investment Income', type:'Revenue',
+         desc:'Interest earned on operating accounts and money market reserve.',
+         dcaa:'',far:'',projects:[]},
+      ]
+    },
+  ]
+},
+{
+  code:'5000', label:'Direct Costs', color:'#D9924A',
+  subsectors:[
+    {
+      code:'5100–5120', label:'Direct Labor', type:'Direct Cost',
+      desc:'Labor directly attributable to contract performance — must have timesheets',
+      accounts:[
+        {code:'5100', name:'Direct Labor — Principals', type:'Direct Cost',
+         desc:'Owner and principal time charged directly to contracts. Must be supported by daily timesheets. Charge at established billing rate.',
+         dcaa:'CRITICAL: Principal direct labor is heavily scrutinized. Timesheets must be contemporaneous — filled out daily, not reconstructed.',
+         far:'FAR 31.205-6',projects:['GOV-JAM-001','GOV-ABJ-001']},
+        {code:'5110', name:'Direct Labor — Staff', type:'Direct Cost',
+         desc:'Employee time directly attributable to contract deliverables. Track by employee and contract.',
+         dcaa:'Daily timesheets required. Employees cannot charge more than 8 hours/day without documented overtime approval.',
+         far:'FAR 31.205-6',projects:[]},
+        {code:'5120', name:'Direct Labor — Contract Employees', type:'Direct Cost',
+         desc:'1099 and temporary labor charged directly to specific contracts.',
+         dcaa:'1099s must receive W-9. Track separately from employee labor.',
+         far:'',projects:[]},
+      ]
+    },
+    {
+      code:'5200–5230', label:'Subcontractor Costs', type:'Direct Cost',
+      desc:'Amounts paid to subcontractors performing on your prime contracts',
+      accounts:[
+        {code:'5200', name:'Sub Costs — Jamaica (19GE5026R0041)', type:'Direct Cost',
+         desc:'Amounts paid to Caribbean Assurance Brokers for Kingston/Embassy contract deliverables. Track against partnership agreement payment schedule.',
+         dcaa:'Flow-down FAR clauses apply. Sub must have compliant accounting and timekeeping. Obtain invoices before payment.',
+         far:'FAR 52.244-2',projects:['GOV-JAM-001']},
+        {code:'5210', name:'Sub Costs — Abuja (19N10226Q0011)', type:'Direct Cost',
+         desc:'Amounts paid to subcontractors on Nigeria/Abuja prime contract.',
+         dcaa:'Same flow-down requirements as Jamaica contract.',
+         far:'FAR 52.244-2',projects:['GOV-ABJ-001']},
+        {code:'5220', name:'Sub Costs — Other Federal Contracts', type:'Direct Cost',
+         desc:'Sub payments on future federal awards. Create specific account (5221, 5222, etc.) per contract as awarded.',
+         dcaa:'',far:'',projects:[]},
+        {code:'5230', name:'Sub Costs — Commercial Contracts', type:'Direct Cost',
+         desc:'Sub payments on non-government engagements.',
+         dcaa:'',far:'',projects:['COM-CORP']},
+      ]
+    },
+    {
+      code:'5300–5430', label:'Direct Travel & ODCs', type:'Direct Cost',
+      desc:'Contract-required travel and other direct costs',
+      accounts:[
+        {code:'5300', name:'Direct Travel — Airfare', type:'Direct Cost',
+         desc:'Client-reimbursable or contract-required airfare. GSA city-pair rates apply on most federal contracts.',
+         dcaa:'Coach required unless business class is justified in writing. Retain all receipts.',
+         far:'FAR 31.205-46',projects:['GOV-JAM-001','GOV-ABJ-001']},
+        {code:'5310', name:'Direct Travel — Lodging', type:'Direct Cost',
+         desc:'Contract-required lodging. GSA per diem rates set the ceiling on federal contracts.',
+         dcaa:'Actual reasonable cost, not to exceed GSA rate for destination.',
+         far:'FAR 31.205-46',projects:['GOV-JAM-001','GOV-ABJ-001']},
+        {code:'5320', name:'Direct Travel — Per Diem & Meals', type:'Direct Cost',
+         desc:'Contract per diem. GSA M&IE rates for federal. 50% limitation does not apply if fully reimbursable.',
+         dcaa:'If not fully reimbursable, 50% limit applies per IRS.',
+         far:'FAR 31.205-46',projects:[]},
+        {code:'5400', name:'Direct Insurance Costs', type:'Direct Cost',
+         desc:'Insurance premiums directly required by contract SOW.',
+         dcaa:'Must be specified in contract. Do not charge general business insurance to direct.',
+         far:'FAR 31.205-19',projects:['GOV-JAM-001']},
+        {code:'5430', name:'Other Direct Costs (ODCs)', type:'Direct Cost',
+         desc:'All other directly billable costs. Document with receipts and contract authorization.',
+         dcaa:'ODCs must be listed in contract or approved by CO. No surprise billing.',
+         far:'FAR 31.202',projects:[]},
+      ]
+    },
+  ]
+},
+{
+  code:'6000', label:'Fringe Benefits Pool', color:'#A07BD9',
+  subsectors:[
+    {
+      code:'6010–6080', label:'Fringe Benefits', type:'Indirect — Fringe',
+      desc:'Employee benefit costs allocated to the fringe pool',
+      accounts:[
+        {code:'6010', name:'Employer Payroll Taxes — FICA', type:'Indirect-Fringe',
+         desc:'Employer 7.65% FICA on all wages. Allocate to fringe benefits pool.',
+         dcaa:'',far:'FAR 31.205-6',projects:[]},
+        {code:'6020', name:'Employer Payroll Taxes — FUTA/SUTA', type:'Indirect-Fringe',
+         desc:'Federal and state unemployment taxes.',
+         dcaa:'',far:'',projects:[]},
+        {code:'6030', name:'Health & Dental Insurance — Employer', type:'Indirect-Fringe',
+         desc:'Employer-paid premiums. Document per employee. Allowable when reasonable.',
+         dcaa:'',far:'FAR 31.205-6',projects:[]},
+        {code:'6050', name:'Retirement Plan Contributions', type:'Indirect-Fringe',
+         desc:'Employer 401(k) match and profit-sharing. FAR 31.205-6(j) — must be paid to be allowable.',
+         dcaa:'Must actually fund within tax year to claim.',
+         far:'FAR 31.205-6(j)',projects:[]},
+        {code:'6060', name:'Paid Time Off — Accrual', type:'Indirect-Fringe',
+         desc:'PTO expense as earned. Must accrue under accrual basis — cannot wait until taken.',
+         dcaa:'',far:'',projects:[]},
+        {code:'6070', name:'Workers Compensation Insurance', type:'Indirect-Fringe',
+         desc:'Statutory premiums. Allocate to fringe pool.',
+         dcaa:'',far:'',projects:[]},
+      ]
+    }
+  ]
+},
+{
+  code:'6500', label:'Overhead Pool', color:'#D9B84A',
+  subsectors:[
+    {
+      code:'6510–6580', label:'Overhead Costs', type:'Indirect — Overhead',
+      desc:'Indirect costs supporting contract operations',
+      accounts:[
+        {code:'6510', name:'Indirect Labor — Overhead', type:'Indirect-OH',
+         desc:'Employee time supporting operations but not directly chargeable to contracts.',
+         dcaa:'Timesheets still required. Code to specific overhead accounts.',
+         far:'',projects:[]},
+        {code:'6520', name:'Office Rent & Occupancy', type:'Indirect-OH',
+         desc:'Minneapolis office at 7825 Washington Ave S. $300/month. Allocate to overhead.',
+         dcaa:'Allowable when reasonable. Arm\'s length lease required.',
+         far:'FAR 31.205-36',projects:[]},
+        {code:'6530', name:'Utilities', type:'Indirect-OH',
+         desc:'Electric, internet, phone lines at office. Allocate to overhead pool.',
+         dcaa:'',far:'',projects:[]},
+        {code:'6540', name:'Office Supplies', type:'Indirect-OH',
+         desc:'General office supplies not attributable to specific contracts.',
+         dcaa:'',far:'',projects:[]},
+        {code:'6550', name:'Depreciation — Equipment', type:'Indirect-OH',
+         desc:'Monthly depreciation on computers and office equipment.',
+         dcaa:'Straight-line depreciation. Document useful life and basis.',
+         far:'FAR 31.205-11',projects:[]},
+        {code:'6560', name:'Software — Operations', type:'Indirect-OH',
+         desc:'Operational software: Supabase, project management tools, Lolo platform hosting.',
+         dcaa:'',far:'',projects:[]},
+      ]
+    }
+  ]
+},
+{
+  code:'7000', label:'G&A Pool', color:'#4ABDD9',
+  subsectors:[
+    {
+      code:'7010–7170', label:'G&A Costs', type:'Indirect — G&A',
+      desc:'General and administrative costs to run the business',
+      accounts:[
+        {code:'7010', name:'Executive Labor — G&A', type:'Indirect-GA',
+         desc:'Shana London G&A time: business development, administration, strategy, and finance.',
+         dcaa:'Executive compensation cap applies (FAR 31.205-6(p)). Document time allocation between direct, overhead, and G&A.',
+         far:'FAR 31.205-6(p)',projects:[]},
+        {code:'7020', name:'Accounting & Bookkeeping', type:'Indirect-GA',
+         desc:'External accounting, bookkeeping, and CPA fees for business administration.',
+         dcaa:'Allowable. Document scope of services.',
+         far:'FAR 31.205-33',projects:[]},
+        {code:'7030', name:'Legal Fees — General', type:'Indirect-GA',
+         desc:'General corporate legal, contract review, and compliance counsel.',
+         dcaa:'Allowable if reasonable and related to contract performance or general business. Litigation costs may be unallowable.',
+         far:'FAR 31.205-33',projects:[]},
+        {code:'7040', name:'Professional Development', type:'Indirect-GA',
+         desc:'Industry certifications, conferences, and professional education.',
+         dcaa:'Allowable when related to contract work.',
+         far:'FAR 31.205-44',projects:[]},
+        {code:'7050', name:'Professional Memberships & Dues', type:'Indirect-GA',
+         desc:'ASTA, insurance associations, contractor associations.',
+         dcaa:'Civic and professional organizations — allowable. Lobbying organizations — unallowable.',
+         far:'FAR 31.205-28',projects:[]},
+        {code:'7060', name:'Marketing & Advertising', type:'Indirect-GA',
+         desc:'Website, digital marketing, branding. Must be related to contract performance or business development.',
+         dcaa:'Product advertising is partially unallowable. Recruitment advertising is allowable.',
+         far:'FAR 31.205-1',projects:[]},
+        {code:'7070', name:'Business Development', type:'Indirect-GA',
+         desc:'Proposal costs, BD travel, client outreach. Track separately from marketing.',
+         dcaa:'',far:'',projects:[]},
+        {code:'7080', name:'Bid & Proposal Costs (B&P)', type:'Indirect-GA',
+         desc:'Direct costs of preparing government proposals. Track separately — may form its own pool if material.',
+         dcaa:'B&P costs are allowable. Must be separately identifiable.',
+         far:'FAR 31.205-18',projects:[]},
+        {code:'7100', name:'Business Insurance — G&A', type:'Indirect-GA',
+         desc:'GL, professional liability, cyber, E&O premiums for general business operations.',
+         dcaa:'Allowable when reasonable.',
+         far:'FAR 31.205-19',projects:[]},
+        {code:'7110', name:'Technology & IT — G&A', type:'Indirect-GA',
+         desc:'General IT infrastructure, cybersecurity, cloud hosting not tied to specific contracts.',
+         dcaa:'',far:'',projects:[]},
+        {code:'7130', name:'Indirect Travel — Business Development', type:'Indirect-GA',
+         desc:'Travel for BD, conferences, supplier relations. GSA rates as benchmark.',
+         dcaa:'Must be reasonable. Document purpose.',
+         far:'FAR 31.205-46',projects:[]},
+        {code:'7140', name:'Meals & Entertainment — 50% Deductible', type:'Indirect-GA',
+         desc:'Business meals. 50% limitation per IRS. Document: business purpose, attendees, amount.',
+         dcaa:'50% of allowable amount only.',
+         far:'FAR 31.205-14',projects:[]},
+      ]
+    },
+    {
+      code:'7200–7280', label:'⚠ Unallowable Costs — FAR Part 31', type:'UNALLOWABLE',
+      desc:'These costs MUST be segregated. Never include in indirect rates or bill to government.',
+      accounts:[
+        {code:'7210', name:'Entertainment — Unallowable', type:'Unallowable',
+         desc:'Amusement, recreation, and entertainment costs. Must be segregated and never included in any rate calculation.',
+         dcaa:'CRITICAL: Mixing unallowable with allowable costs can result in contract termination for default.',
+         far:'FAR 31.205-14',projects:[],unallowable:true},
+        {code:'7220', name:'Lobbying & Political Contributions', type:'Unallowable',
+         desc:'Any lobbying, political donations, or advocacy costs.',
+         dcaa:'',far:'FAR 31.205-22',projects:[],unallowable:true},
+        {code:'7230', name:'Fines & Penalties', type:'Unallowable',
+         desc:'Government-imposed fines and penalties.',
+         dcaa:'',far:'FAR 31.205-15',projects:[],unallowable:true},
+        {code:'7240', name:'Charitable Contributions', type:'Unallowable',
+         desc:'Donations and charitable giving.',
+         dcaa:'',far:'FAR 31.205-8',projects:[],unallowable:true},
+        {code:'7250', name:'Alcohol', type:'Unallowable',
+         desc:'Alcoholic beverages in any context — meals, entertainment, or otherwise.',
+         dcaa:'',far:'FAR 31.205-51',projects:[],unallowable:true},
+        {code:'7260', name:'Interest Expense', type:'Unallowable',
+         desc:'Most interest is unallowable. Exceptions are very narrow and require legal review.',
+         dcaa:'',far:'FAR 31.205-20',projects:[],unallowable:true},
+        {code:'7270', name:'Excess Executive Compensation', type:'Unallowable',
+         desc:'Compensation exceeding the annual benchmark cap set by OFPP.',
+         dcaa:'',far:'FAR 31.205-6(p)',projects:[],unallowable:true},
+        {code:'7280', name:'Advertising — Unallowable Portion', type:'Unallowable',
+         desc:'Product and brand advertising not related to contract recruitment or performance.',
+         dcaa:'',far:'FAR 31.205-1',projects:[],unallowable:true},
+      ]
+    }
+  ]
+},
+];
+
+// ── PROJECTS DATA ──────────────────────────────────────────────────────────
+const PROJECTS = [
+  {code:'GOV-JAM-001', name:'U.S. Embassy Kingston', client:'U.S. Department of State',
+   contract:'19GE5026R0041', naics:'524210', type:'Federal — Fixed Price',
+   status:'Pending Award', pop:'TBD upon award', value:'TBD',
+   description:'Insurance and travel risk services for U.S. Embassy Kingston, Jamaica. Prime: Lolo Travels LLC. Sub: Caribbean Assurance Brokers (Raymond Walker, Marigold Naar). Proposal submitted April 23, 2026.',
+   accounts:['4100','4150','4160','5200','5300'],
+   tags:['gov','pending']},
+  {code:'GOV-ABJ-001', name:'U.S. Embassy Abuja', client:'U.S. Department of State',
+   contract:'19N10226Q0011', naics:'561510', type:'Federal — Travel Management',
+   status:'Pending Submission', pop:'TBD', value:'TBD',
+   description:'Federal travel management and logistics support for U.S. Embassy Abuja, Nigeria. Files held pending submission to CO. Prime: Lolo Travels LLC.',
+   accounts:['4100','4140','4150','4160','5100','5210','5300'],
+   tags:['gov','pending']},
+  {code:'INS-TRV', name:'Travel Insurance Program', client:'Multiple Clients',
+   contract:'N/A — Commission', naics:'524210', type:'Insurance — Commission',
+   status:'Active — Building', pop:'Ongoing', value:'Per Placement',
+   description:'Travel insurance placements through appointed carriers (Allianz, Travel Guard/AIG). Commission revenue 15–25% per policy. License: Minnesota Licensed Insurance Agency.',
+   accounts:['4300'],
+   tags:['ins','active']},
+  {code:'INS-LES', name:'Lloyd\'s Specialty Lines', client:'Commercial & Government',
+   contract:'N/A — Commission', naics:'524210', type:'Insurance — Surplus Lines',
+   status:'Prospecting', pop:'Ongoing', value:'Per Placement',
+   description:'International specialty lines through Lloyd\'s-connected coverholder (producing agent model). Political risk, K&R, medical evacuation, diplomatic liability. International scope — not US domestic.',
+   accounts:['4310'],
+   tags:['ins','pending']},
+  {code:'INS-GOV', name:'Government Insurance Services', client:'Federal Agencies',
+   contract:'Multiple', naics:'524210', type:'Insurance — Federal',
+   status:'Active', pop:'Ongoing', value:'Per Contract',
+   description:'Insurance placement and advisory services tied to government contracts. Commission revenue treated separately from contract management fees.',
+   accounts:['4320','4150'],
+   tags:['gov','ins','active']},
+  {code:'CLM-REC', name:'Claims Recovery Program', client:'Consumer & Corporate',
+   contract:'N/A — Fee for Service', naics:'524210', type:'Claims Management',
+   status:'Building', pop:'Ongoing', value:'Flat + %',
+   description:'Post-trip claims management and recovery service. Lolo manages the full process from filing through escalation. Flat fee or 15–20% of recovered amount. LegalZoom legal escalation pathway.',
+   accounts:['4400','4410','4420'],
+   tags:['active']},
+  {code:'TECH-SHIELD', name:'Lolo Shield — Subscription', client:'Consumer & Corporate',
+   contract:'N/A — Subscription', naics:'561599', type:'Technology — SaaS',
+   status:'Building', pop:'Ongoing', value:'$9.99–$19.99/mo',
+   description:'Destination safety intelligence subscription. Real-time risk alerts, emergency contacts, vetted local contacts, embassy information. Consumer and enterprise tiers.',
+   accounts:['4500','2230'],
+   tags:['active']},
+  {code:'TECH-APP-001', name:'Lolo World App', client:'Consumer',
+   contract:'N/A — App Revenue', naics:'541512', type:'Technology — Mobile App',
+   status:'Development', pop:'Ongoing', value:'Multiple streams',
+   description:'Mobile travel intelligence app. Itinerary management, eSIM integration (Airalo), AI concierge, camera overlay translation, packing tracker, Shield integration, entertainment downloads.',
+   accounts:['4510','4520','1600'],
+   tags:['pending']},
+  {code:'PASS-MEMBER', name:'Passport Membership Program', client:'Consumer',
+   contract:'N/A — Membership', naics:'561510', type:'Membership Revenue',
+   status:'Building', pop:'Annual Renewable', value:'$TBD per tier',
+   description:'Three-tier annual membership: Explorer, Passport, Elite. Includes protection integration, concierge access, and Lolo Shield. Revenue recognized ratably over 12 months.',
+   accounts:['4600','4610','4620','2220'],
+   tags:['active']},
+  {code:'B2B-PARTNER', name:'B2B Partner Program', client:'Travel Agencies & Advisors',
+   contract:'TTP_ Agreement', naics:'561510', type:'B2B Revenue',
+   status:'Active', pop:'Ongoing', value:'Per Placement',
+   description:'White-label protection layer for travel agencies. Lolo provides protection, claims management, and Shield access. Agencies maintain client relationships. Revenue: protection placement fees + commission share.',
+   accounts:['4210'],
+   tags:['active']},
+  {code:'COM-CORP', name:'Corporate Travel Management', client:'Corporate Accounts',
+   contract:'Per Agreement', naics:'561510', type:'Commercial Revenue',
+   status:'Prospecting', pop:'Ongoing', value:'Monthly Retainer',
+   description:'Managed corporate travel programs for mid-size companies in Minneapolis and nationally. Duty of care framework, traveler management, incident response, claims recovery.',
+   accounts:['4200','4220','5230'],
+   tags:['pending']},
+  {code:'SVC-CONCIERGE', name:'Concierge & Packing Services', client:'Consumer & Passport Members',
+   contract:'Per Engagement', naics:'561599', type:'Service Revenue',
+   status:'Building', pop:'Per Trip', value:'$175–$399 per trip',
+   description:'White-glove luggage forward, hotel retrieval for left-behind items, packing coordination. Carrier partnerships: Luggage Forward, Ship Sticks. Lolo coordination layer on top.',
+   accounts:['4700'],
+   tags:['active']},
+];
+
+// ══════════════════════════════════════════════════════════════════════
+// RENDER COA TREE
+// ══════════════════════════════════════════════════════════════════════
+function buildCOA(){
+  const tree = document.getElementById('coa-tree');
+  tree.innerHTML = '';
+
+  SECTORS.forEach(sector => {
+    const isUnallow = sector.code === '7000';
+    const div = document.createElement('div');
+    div.className = 'coa-sector' + (isUnallow ? ' unallow-section' : '');
+    div.dataset.sector = sector.code;
+
+    // Count total accounts
+    let totalAccts = 0;
+    sector.subsectors.forEach(s => totalAccts += s.accounts.length);
+
+    div.innerHTML = `
+      <div class="sector-hdr" onclick="toggleSector(this)">
+        <div class="sector-left">
+          <div class="sector-code">${sector.code}</div>
+          <div class="sector-label">${sector.label}</div>
+        </div>
+        <div class="sector-right">
+          <div class="sector-total">${totalAccts} accounts</div>
+          <div class="sector-chevron">▾</div>
+        </div>
+      </div>
+      <div class="subsectors">${buildSubsectors(sector.subsectors)}</div>
+    `;
+    tree.appendChild(div);
+  });
+}
+
+function buildSubsectors(subsectors){
+  return subsectors.map(sub => `
+    <div class="subsector">
+      <div class="subsector-hdr" onclick="toggleSubsector(this)">
+        <div class="sub-code">${sub.code.split('–')[0]}</div>
+        <div class="sub-label">${sub.label}</div>
+        <div class="sub-type">${sub.type}</div>
+        <div class="sub-chevron">▾</div>
+      </div>
+      <div class="accounts">
+        ${sub.accounts.map(a => `
+          <div class="acct-row ${a.unallowable?'unallowable':''}"
+               onclick="showDetail(${JSON.stringify(a).replace(/"/g,'&quot;')})">
+            <div class="a-code">${a.code}</div>
+            <div class="a-name ${a.unallowable?'ua':''}">${a.name}${a.unallowable?' ⚠':''}</div>
+            <div class="a-type">${a.type}</div>
+            <div>
+              ${a.projects.length ? `<span class="a-tag ${a.unallowable?'ua':''}">${a.projects.length} project${a.projects.length>1?'s':''}</span>` : ''}
+              ${a.far ? `<span class="a-tag">FAR</span>` : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleSector(hdr){
+  hdr.classList.toggle('open');
+  hdr.nextElementSibling.classList.toggle('open');
+}
+
+function toggleSubsector(hdr){
+  hdr.classList.toggle('open');
+  hdr.nextElementSibling.classList.toggle('open');
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// DETAIL PANEL
+// ══════════════════════════════════════════════════════════════════════
+function showDetail(acct){
+  document.getElementById('dp-code').textContent = acct.code;
+  document.getElementById('dp-title').textContent = acct.name;
+  document.getElementById('dp-type').textContent = acct.type;
+
+  const body = document.getElementById('dp-body');
+  const projLinks = acct.projects.map(p => {
+    const proj = PROJECTS.find(x => x.code === p);
+    return `<span class="project-tag" onclick="showProjectDetail('${p}')">
+      <span class="project-dot"></span>${p}${proj?' · '+proj.name.split(' ').slice(0,3).join(' '):''}
+    </span>`;
+  }).join('');
+
+  body.innerHTML = `
+    <div class="dp-section">
+      <div class="dp-sec-label">Description</div>
+      <div class="dp-desc">${acct.desc}</div>
+    </div>
+    ${acct.dcaa ? `
+    <div class="dp-section">
+      <div class="dp-sec-label">DCAA Guidance</div>
+      <div class="dp-desc" style="color:rgba(201,168,76,.75);">${acct.dcaa}</div>
+    </div>` : ''}
+    ${acct.far ? `
+    <div class="dp-section">
+      <div class="dp-sec-label">FAR Reference</div>
+      <div class="dp-desc" style="color:rgba(100,160,240,.75);">${acct.far}</div>
+    </div>` : ''}
+    ${acct.unallowable ? `
+    <div class="dp-section">
+      <div class="dp-sec-label" style="color:rgba(224,82,82,.6);">⚠ Unallowable Under FAR Part 31</div>
+      <div class="dp-desc" style="color:rgba(224,82,82,.7);">
+        This cost category must be segregated in the ledger. It must never be included in indirect rate calculations, never billed to the government directly or indirectly, and must be clearly identified in all cost submissions. Failure to segregate unallowable costs is a leading cause of DCAA findings.
+      </div>
+    </div>` : ''}
+    ${acct.projects.length ? `
+    <div class="dp-section">
+      <div class="dp-sec-label">Mapped Projects</div>
+      <div>${projLinks}</div>
+    </div>` : ''}
+    <div class="divider"></div>
+    <div class="dp-section">
+      <div class="dp-sec-label">Accounting Notes</div>
+      <div class="dp-note">
+        Account ${acct.code} · ${acct.type} · Accrual Basis · Calendar Year<br>
+        All entries to this account require source documentation. Monthly close by the 5th business day.
+      </div>
+    </div>
+  `;
+
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('detail-panel').classList.add('open');
+}
+
+function showProjectDetail(code){
+  const p = PROJECTS.find(x => x.code === code);
+  if(!p) return;
+  document.getElementById('dp-code').textContent = p.code;
+  document.getElementById('dp-title').textContent = p.name;
+  document.getElementById('dp-type').textContent = p.type + ' · ' + p.naics;
+  const body = document.getElementById('dp-body');
+  body.innerHTML = `
+    <div class="dp-section">
+      <div class="dp-sec-label">Client / Agency</div>
+      <div class="dp-desc">${p.client}</div>
+    </div>
+    <div class="dp-section">
+      <div class="dp-sec-label">Contract / Reference</div>
+      <div class="dp-desc">${p.contract}</div>
+    </div>
+    <div class="dp-section">
+      <div class="dp-sec-label">Description</div>
+      <div class="dp-desc">${p.description}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:24px;">
+      <div class="dp-field">
+        <div class="dp-field-label">Status</div>
+        <div class="dp-field-val">${p.status}</div>
+      </div>
+      <div class="dp-field">
+        <div class="dp-field-label">Period of Performance</div>
+        <div class="dp-field-val">${p.pop}</div>
+      </div>
+      <div class="dp-field">
+        <div class="dp-field-label">Contract Value</div>
+        <div class="dp-field-val">${p.value}</div>
+      </div>
+      <div class="dp-field">
+        <div class="dp-field-label">NAICS</div>
+        <div class="dp-field-val">${p.naics}</div>
+      </div>
+    </div>
+    <div class="dp-section">
+      <div class="dp-sec-label">Mapped Revenue & Cost Accounts</div>
+      <div>${p.accounts.map(a => `<span class="project-tag">${a}</span>`).join('')}</div>
+    </div>
+  `;
+}
+
+function closeDetail(){
+  document.getElementById('overlay').classList.remove('open');
+  document.getElementById('detail-panel').classList.remove('open');
+}
+
+// ══════════════════════════════════════════════════════════════════════
+// RENDER PROJECTS
+// ══════════════════════════════════════════════════════════════════════
+function buildProjects(){
+  const grid = document.getElementById('proj-grid');
+  grid.innerHTML = PROJECTS.map(p => `
+    <div class="proj-card" onclick="showProjectDetail('${p.code}');openDetailPanel();">
+      <div class="pc-code">${p.code}</div>
+      <div class="pc-name">${p.name}</div>
+      <div class="pc-client">${p.client}</div>
+      <div class="pc-meta">
+        ${p.tags.includes('gov') ? '<div class="pc-pill gov">Federal</div>' : ''}
+        ${p.tags.includes('ins') ? '<div class="pc-pill ins">Insurance</div>' : ''}
+        ${p.tags.includes('active') ? '<div class="pc-pill active">Active</div>' : '<div class="pc-pill pending">Pending</div>'}
+        <div class="pc-pill">${p.naics}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openDetailPanel(){
+  document.getElementById('overlay').classList.add('open');
+  document.getElementById('detail-panel').classList.add('open');
+}
+
+// ── SEARCH ─────────────────────────────────────────────────────────────
+function filterCOA(q){
+  q = q.toLowerCase();
+  document.querySelectorAll('.acct-row').forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(q) ? '' : 'none';
+  });
+  if(q.length > 0){
+    document.querySelectorAll('.accounts').forEach(a => a.classList.add('open'));
+    document.querySelectorAll('.subsectors').forEach(s => s.classList.add('open'));
+    document.querySelectorAll('.sector-hdr,.subsector-hdr').forEach(h => h.classList.add('open'));
+  }
+}
+
+// ── VIEW SWITCHING ──────────────────────────────────────────────────────
+function showView(id){
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(i => i.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  document.querySelector('.topbar-title').textContent =
+    id==='coa' ? 'Chart of Accounts' :
+    id==='projects' ? 'Projects' :
+    id.charAt(0).toUpperCase()+id.slice(1);
+}
+
+function exportCOA(){
+  alert('PDF export will be available in Phase 2 when the full accounting system launches. The current Chart of Accounts PDF is in your downloads from the previous session.');
+}
+
+// ── INIT ────────────────────────────────────────────────────────────────
+buildCOA();
+buildProjects();
+buildTaxCalendar();
+
+// ══════════════════════════════════════════════════════════════════════
+// TAX & FILING CALENDAR DATA
+// ══════════════════════════════════════════════════════════════════════
+const FILINGS = [
+  {id:'q1-est-fed', name:'Q1 Federal Estimated Tax', form:'Form 1040-ES / EFTPS',
+   due:'April 15', quarter:'Q1', agency:'IRS', freq:'Quarterly', status:'not-due',
+   accts:['2312','1340'],
+   who:'Shana London personal — SE tax + income tax on Lolo net earnings.',
+   how:'Pay via IRS Direct Pay (irs.gov/payments) or EFTPS. No paper form required.',
+   amount:'Safe harbor: 25% of prior year total federal tax liability.',
+   penalty:'Underpayment penalty: federal short-term rate + 3%. Currently ~7-8% annualized.',
+   notes:'Include self-employment tax (15.3% of net SE income) in your estimate. MN estimated is due same date.'},
+  {id:'q2-est-fed', name:'Q2 Federal Estimated Tax', form:'Form 1040-ES / EFTPS',
+   due:'June 15', quarter:'Q2', agency:'IRS', freq:'Quarterly', status:'not-due',
+   accts:['2312','1340'], who:'Shana London personal.', how:'IRS Direct Pay or EFTPS.',
+   amount:'25% of annual safe harbor amount.', penalty:'Underpayment penalty on shortfall.',
+   notes:'Q2 covers April and May income only — not a full quarter.'},
+  {id:'q3-est-fed', name:'Q3 Federal Estimated Tax', form:'Form 1040-ES / EFTPS',
+   due:'September 15', quarter:'Q3', agency:'IRS', freq:'Quarterly', status:'not-due',
+   accts:['2312','1340'], who:'Shana London personal.', how:'IRS Direct Pay or EFTPS.',
+   amount:'25% of annual safe harbor.', penalty:'Underpayment penalty.', notes:''},
+  {id:'q4-est-fed', name:'Q4 Federal Estimated Tax', form:'Form 1040-ES / EFTPS',
+   due:'January 15 (following year)', quarter:'Q4', agency:'IRS', freq:'Quarterly', status:'not-due',
+   accts:['2312','1340'], who:'Shana London personal.', how:'IRS Direct Pay or EFTPS.',
+   amount:'Final true-up to actual liability.', penalty:'Underpayment penalty.',
+   notes:'Can skip Q4 if you file AND pay full tax return by January 31.'},
+  {id:'q1-est-mn', name:'Q1 Minnesota Estimated Tax', form:'Form M14',
+   due:'April 15', quarter:'Q1', agency:'MN Dept of Revenue', freq:'Quarterly', status:'not-due',
+   accts:['2316','1341'], who:'Shana London MN resident.', how:'Pay at mn.gov/revenue or mail Form M14.',
+   amount:'25% of estimated MN annual tax. Rates: 5.35% to 9.85%.',
+   penalty:'MN underpayment penalty: 6% annualized on shortfall.', notes:''},
+  {id:'q2-est-mn', name:'Q2 Minnesota Estimated Tax', form:'Form M14',
+   due:'June 15', quarter:'Q2', agency:'MN Dept of Revenue', freq:'Quarterly', status:'not-due',
+   accts:['2316','1341'], who:'Shana London MN resident.', how:'mn.gov/revenue',
+   amount:'25% of MN safe harbor.', penalty:'6% MN underpayment penalty.', notes:''},
+  {id:'q3-est-mn', name:'Q3 Minnesota Estimated Tax', form:'Form M14',
+   due:'September 15', quarter:'Q3', agency:'MN Dept of Revenue', freq:'Quarterly', status:'not-due',
+   accts:['2316','1341'], who:'Shana London MN resident.', how:'mn.gov/revenue',
+   amount:'25% MN safe harbor.', penalty:'6% underpayment.', notes:''},
+  {id:'q4-est-mn', name:'Q4 Minnesota Estimated Tax', form:'Form M14',
+   due:'January 15 (following year)', quarter:'Q4', agency:'MN Dept of Revenue', freq:'Quarterly', status:'not-due',
+   accts:['2316','1341'], who:'Shana London MN resident.', how:'mn.gov/revenue',
+   amount:'Final MN true-up.', penalty:'6% underpayment penalty.', notes:''},
+  {id:'q1-941', name:'Q1 Federal Payroll Tax Return', form:'Form 941',
+   due:'April 30', quarter:'Q1', agency:'IRS', freq:'Quarterly', status:'na',
+   accts:['2320','2321'], who:'Lolo Travels LLC as employer. Activate when first employee hired.',
+   how:'File via IRS e-file. Report wages, withholding, and employer+employee FICA.',
+   amount:'Reconcile to payroll records. Deposits during quarter reduce balance.',
+   penalty:'Failure to file: 5% per month up to 25%. Trust fund penalty: 100% personal liability.',
+   notes:'Register for EFTPS before first payroll. Set up deposit schedule immediately on hiring.'},
+  {id:'q2-941', name:'Q2 Federal Payroll Tax Return', form:'Form 941',
+   due:'July 31', quarter:'Q2', agency:'IRS', freq:'Quarterly', status:'na',
+   accts:['2320','2321'], who:'Lolo Travels LLC.', how:'IRS e-file.',
+   amount:'Per payroll records.', penalty:'5%/month + trust fund risk.', notes:''},
+  {id:'q3-941', name:'Q3 Federal Payroll Tax Return', form:'Form 941',
+   due:'October 31', quarter:'Q3', agency:'IRS', freq:'Quarterly', status:'na',
+   accts:['2320','2321'], who:'Lolo Travels LLC.', how:'IRS e-file.',
+   amount:'Per payroll records.', penalty:'5%/month + trust fund risk.', notes:''},
+  {id:'q4-941', name:'Q4 Federal Payroll Tax Return', form:'Form 941',
+   due:'January 31', quarter:'Q4', agency:'IRS', freq:'Quarterly', status:'na',
+   accts:['2320','2321'], who:'Lolo Travels LLC.', how:'IRS e-file.',
+   amount:'Per payroll records.', penalty:'5%/month + trust fund risk.', notes:''},
+  {id:'q1-suta', name:'Q1 MN Unemployment Tax', form:'DEED Quarterly Report',
+   due:'April 30', quarter:'Q1', agency:'MN DEED (uimn.org)', freq:'Quarterly', status:'na',
+   accts:['2323'], who:'Lolo Travels LLC. Required when first MN employee hired.',
+   how:'File and pay at uimn.org. New employer rate: 1.0% on first $40,000 wages per employee.',
+   amount:'1.0% x Q1 wages (per employee, up to $40K annual cap).',
+   penalty:'Late penalty: 10% of tax due.', notes:'Register at uimn.org before first hire.'},
+  {id:'q2-suta', name:'Q2 MN Unemployment Tax', form:'DEED Quarterly Report',
+   due:'July 31', quarter:'Q2', agency:'MN DEED', freq:'Quarterly', status:'na',
+   accts:['2323'], who:'Lolo Travels LLC.', how:'uimn.org',
+   amount:'1.0% x Q2 wages.', penalty:'10% late penalty.', notes:''},
+  {id:'q3-suta', name:'Q3 MN Unemployment Tax', form:'DEED Quarterly Report',
+   due:'October 31', quarter:'Q3', agency:'MN DEED', freq:'Quarterly', status:'na',
+   accts:['2323'], who:'Lolo Travels LLC.', how:'uimn.org',
+   amount:'1.0% x Q3 wages.', penalty:'10% late penalty.', notes:''},
+  {id:'q4-suta', name:'Q4 MN Unemployment Tax', form:'DEED Quarterly Report',
+   due:'January 31', quarter:'Q4', agency:'MN DEED', freq:'Quarterly', status:'na',
+   accts:['2323'], who:'Lolo Travels LLC.', how:'uimn.org',
+   amount:'1.0% x Q4 wages.', penalty:'10% late penalty.', notes:''},
+  {id:'ann-1040', name:'Federal Personal Income Tax Return', form:'Form 1040 + Schedule C',
+   due:'April 15 (or Oct 15 with extension)', quarter:'annual', agency:'IRS', freq:'Annual', status:'not-due',
+   accts:['2310','2311'],
+   who:'Shana London personal. All Lolo Travels LLC income reported on Schedule C.',
+   how:'File via tax software or CPA. Attach Schedule C for Lolo Travels, Schedule SE for self-employment tax.',
+   amount:'Net Schedule C income minus deductions. SE tax calculated on Schedule SE at 15.3%.',
+   penalty:'Failure to file: 5% per month up to 25%. Extension does NOT extend payment deadline.',
+   notes:'Extension (Form 4868) due April 15 extends filing to Oct 15. Pay balance due with extension. Consider S-Corp election if net income exceeds $80K to reduce SE tax exposure.'},
+  {id:'ann-m1', name:'Minnesota Individual Income Tax', form:'Form M1',
+   due:'April 15 (or Oct 15 with extension)', quarter:'annual', agency:'MN Dept of Revenue', freq:'Annual', status:'not-due',
+   accts:['2315'], who:'Shana London MN resident.',
+   how:'File via MN e-Services or tax software.',
+   amount:'MN taxable income x applicable rate (5.35% to 9.85%).',
+   penalty:'Late filing: 5% per month up to 25% of unpaid tax.',
+   notes:'MN does not conform to all federal deductions. Review MN additions and subtractions each year.'},
+  {id:'ann-940', name:'Federal Unemployment Tax Annual Return', form:'Form 940',
+   due:'January 31', quarter:'annual', agency:'IRS', freq:'Annual', status:'na',
+   accts:['2324'], who:'Lolo Travels LLC as employer. Required when first employee hired.',
+   how:'File via IRS e-file. Report all wages subject to FUTA.',
+   amount:'6% on first $7,000 per employee. Net typically 0.6% after SUTA credit.',
+   penalty:'Late: 5% per month up to 25%.', notes:'Deposit quarterly if FUTA liability exceeds $500.'},
+  {id:'ann-w2', name:'W-2 / W-3 Employee Wage Reporting', form:'Forms W-2 and W-3',
+   due:'January 31', quarter:'annual', agency:'IRS and SSA', freq:'Annual', status:'na',
+   accts:['2320','2321','2322'],
+   who:'Lolo Travels LLC. One W-2 per employee.',
+   how:'File W-3 transmittal with all W-2s via SSA Business Services Online (BSO).',
+   amount:'Report gross wages, all withholding, and FICA per employee.',
+   penalty:'Late W-2 to employee: $50-$280 per form. Same for late SSA filing.',
+   notes:'Mail copies to employees and file with SSA by January 31.'},
+  {id:'ann-1099', name:'1099-NEC — Contractor and Sub Payments', form:'Form 1099-NEC',
+   due:'January 31', quarter:'annual', agency:'IRS', freq:'Annual', status:'not-due',
+   accts:['5200','5210','5220'],
+   who:'Lolo Travels LLC. Required for each sub or contractor paid $600+ during the year.',
+   how:'File via IRS FIRE system or tax software. Must collect W-9 BEFORE first payment.',
+   amount:'Report total calendar year payments to each covered contractor.',
+   penalty:'Late: $50-$310 per form. Intentional disregard: $630 per form.',
+   notes:'Caribbean Assurance Brokers and Abuja subs require 1099s if not US corporations. Consult tax advisor on international reporting (Form 1042 may apply for foreign contractors).'},
+  {id:'ann-boi', name:'FinCEN Beneficial Ownership Report', form:'BOI Report',
+   due:'Initial: within 90 days of formation. Update within 30 days of any ownership change.',
+   quarter:'annual', agency:'FinCEN (U.S. Treasury)', freq:'As needed', status:'not-due',
+   accts:[],
+   who:'Lolo Travels LLC. Shana London as 100% beneficial owner.',
+   how:'File at fincen.gov/boi. Report name, DOB, address, and government-issued ID for each beneficial owner.',
+   amount:'No fee.',
+   penalty:'Willful failure: up to $591/day civil penalty plus potential criminal charges.',
+   notes:'Required under Corporate Transparency Act. If not yet filed, file immediately.'},
+  {id:'ann-ins-mn', name:'MN Insurance Premium Tax Return', form:'Form IG-113',
+   due:'March 1', quarter:'annual', agency:'MN Dept of Commerce', freq:'Annual', status:'not-due',
+   accts:['2305'],
+   who:'Lolo Travels LLC as licensed MN insurance agency.',
+   how:'File with MN Dept of Commerce. Report gross premiums written on MN risks during calendar year.',
+   amount:'2% of gross premiums written on Minnesota-domiciled risks.',
+   penalty:'Late filing penalty plus interest on unpaid tax.',
+   notes:'Required as a licensed insurance agency. Out-of-state risks may be subject to that state premium tax.'},
+  {id:'ann-surplus', name:'Surplus Lines Annual Reporting', form:'MN SLIP Portal Filing',
+   due:'March 1', quarter:'annual', agency:'MN Dept of Commerce', freq:'Annual', status:'not-due',
+   accts:['2306'],
+   who:'Lolo Travels LLC as surplus lines producer for Lloyd\'s placements.',
+   how:'File via SLIP (Surplus Lines Information Portal). Report all non-admitted placements.',
+   amount:'3% surplus lines tax on premium for MN-domiciled insured risks.',
+   penalty:'License suspension for failure to file and remit.',
+   notes:'Tax must be collected from insured and remitted. Home state rules govern multi-state risks.'},
+  {id:'ann-mn-reg', name:'Minnesota LLC Annual Renewal', form:'MN SOS Annual Renewal',
+   due:'December 31', quarter:'annual', agency:'MN Secretary of State', freq:'Annual', status:'not-due',
+   accts:[],
+   who:'Lolo Travels LLC. MN SOS: 1631568800021.',
+   how:'File at sos.state.mn.us. Confirm registered agent, address, and member names.',
+   amount:'$25 filing fee.',
+   penalty:'Administrative dissolution if not renewed. This kills federal contract eligibility.',
+   notes:'Address must match SAM.gov at all times for federal contracting purposes.'},
+  {id:'ann-sam', name:'SAM.gov Annual Renewal', form:'SAM.gov Registration',
+   due:'Annual — renew before expiration date', quarter:'annual', agency:'GSA', freq:'Annual', status:'not-due',
+   accts:[],
+   who:'Lolo Travels LLC. CAGE 1WR24. UEI TKCPDKVVWYG9.',
+   how:'Log in at sam.gov and renew. Update banking, NAICS codes, and all representations and certifications.',
+   amount:'No fee.',
+   penalty:'Inactive SAM = cannot receive federal payments or new contract awards. Immediate revenue risk.',
+   notes:'Set calendar alert 60 days before expiration. Verify banking matches operating account.'},
+  {id:'ann-dcaa', name:'DCAA Incurred Cost Submission', form:'ICE Schedule',
+   due:'Within 6 months of fiscal year end (June 30 for calendar year)',
+   quarter:'annual', agency:'DCAA / ACO', freq:'Annual', status:'not-due',
+   accts:['5100','5200','6000','6500','7000'],
+   who:'Lolo Travels LLC. Required once cost-reimbursable or T&M federal contracts are active.',
+   how:'Submit via DCAA ICE system or to ACO. Includes Schedule A (direct costs), B (indirect), H (compensation).',
+   amount:'No fee. Reports actual vs provisional indirect rates.',
+   penalty:'Failure to submit triggers payment withholding and potential contract suspension.',
+   notes:'Jamaica and Abuja contracts may trigger this. Build cost pools now so first submission is clean.'},
+  {id:'ann-gsa', name:'GSA MAS Application — NAICS 561510', form:'GSA eOffer',
+   due:'Begin NOW — 3 to 6 month approval process',
+   quarter:'annual', agency:'GSA', freq:'One-time then maintenance', status:'not-due',
+   accts:[],
+   who:'Lolo Travels LLC.',
+   how:'Apply at gsaadvantage.gov via eOffer. Requires financials, past performance, and pricing.',
+   amount:'No fee. Significant documentation preparation required.',
+   penalty:'Missing 2027 vendor identification deadline may exclude Lolo from major federal travel vehicles.',
+   notes:'URGENT — begin immediately. Peace Corps TMC RFQ anticipated May 2026. GSA MAS opens significant federal revenue.'},
+];
+
+// ── RENDER TAX FILINGS ──────────────────────────────────────────────────
+function buildTaxCalendar(){
+  const list = document.getElementById('tax-filings-list');
+  if(!list) return;
+  renderFilings(FILINGS, list);
+  buildTaxSummary();
+}
+
+function renderFilings(data, container){
+  container.innerHTML = '';
+  const categories = [
+    {label:'Quarterly Estimated Tax — Federal and Minnesota', filter: function(f){ return f.id.indexOf('est') > -1; }},
+    {label:'Quarterly Payroll Returns (Activate When Employees Are Hired)', filter: function(f){ return f.id.indexOf('941') > -1 || f.id.indexOf('suta') > -1; }},
+    {label:'Annual Federal Filings', filter: function(f){ return f.quarter==='annual' && (f.agency==='IRS' || f.agency==='IRS and SSA' || f.id==='ann-boi'); }},
+    {label:'Annual Minnesota Filings', filter: function(f){ return f.quarter==='annual' && (f.agency.indexOf('MN') > -1 || f.id==='ann-mn-reg'); }},
+    {label:'Government Contracting and Regulatory', filter: function(f){ return f.id==='ann-dcaa' || f.id==='ann-sam' || f.id==='ann-gsa'; }},
+  ];
+  categories.forEach(function(cat){
+    var items = data.filter(cat.filter);
+    if(!items.length) return;
+    var hdr = document.createElement('div');
+    hdr.className = 'f-section-hdr';
+    hdr.textContent = cat.label;
+    container.appendChild(hdr);
+    items.forEach(function(f){
+      var card = document.createElement('div');
+      card.className = 'filing-card';
+      card.dataset.quarter = f.quarter;
+      var statusClass = f.status==='na'?'na':f.status==='filed'?'filed':f.status==='upcoming'?'upcoming':f.status==='due-now'?'due-now':'not-due';
+      var statusLabel = f.status==='na'?'N/A — Future':f.status==='filed'?'Filed':f.status==='upcoming'?'Due Soon':f.status==='due-now'?'Due Now':'Pending';
+      card.innerHTML = '<div class="filing-hdr" onclick="toggleFiling(this)">'
+        +'<div class="f-due">'+f.due+'</div>'
+        +'<div><div class="f-name">'+f.name+'</div><div class="f-form">'+f.form+'</div></div>'
+        +'<div class="f-agency">'+f.agency+'</div>'
+        +'<div><span class="f-status '+statusClass+'">'+statusLabel+'</span></div>'
+        +'<div class="f-freq">'+f.freq+'</div>'
+        +'</div>'
+        +'<div class="filing-body">'
+        +'<div class="fb-grid">'
+        +'<div><div class="fb-field-label">Who Files</div><div class="fb-field-val">'+f.who+'</div></div>'
+        +'<div><div class="fb-field-label">How to File</div><div class="fb-field-val">'+f.how+'</div></div>'
+        +'<div><div class="fb-field-label">Amount Basis</div><div class="fb-field-val">'+f.amount+'</div></div>'
+        +'<div><div class="fb-field-label">Mapped Accounts</div><div class="fb-field-val">'+(f.accts.length?f.accts.join(', '):'N/A')+'</div></div>'
+        +'</div>'
+        +(f.penalty?'<div class="fb-penalty">Penalty: '+f.penalty+'</div>':'')
+        +(f.notes?'<div style="margin-top:10px;font-size:.76rem;font-weight:200;color:rgba(255,255,255,.4);line-height:1.85;">'+f.notes+'</div>':'')
+        +'</div>';
+      container.appendChild(card);
+    });
+  });
+}
+
+function toggleFiling(hdr){
+  hdr.nextElementSibling.classList.toggle('open');
+}
+
+function filterQ(q,btn){
+  document.querySelectorAll('.qbtn').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  var list = document.getElementById('tax-filings-list');
+  renderFilings(q==='all'?FILINGS:FILINGS.filter(function(f){return f.quarter===q;}),list);
+}
+
+function buildTaxSummary(){
+  var bar = document.getElementById('tax-summary-bar');
+  if(!bar) return;
+  var total = FILINGS.length;
+  var notDue = FILINGS.filter(function(f){return f.status==='not-due';}).length;
+  var filed = FILINGS.filter(function(f){return f.status==='filed';}).length;
+  var na = FILINGS.filter(function(f){return f.status==='na';}).length;
+  bar.innerHTML = [
+    {n:total,l:'Total Filings Tracked',c:'var(--cream)'},
+    {n:notDue,l:'Pending This Year',c:'rgba(220,160,40,.8)'},
+    {n:filed,l:'Filed This Year',c:'rgba(40,180,100,.7)'},
+    {n:na,l:'N/A Until Employees Hired',c:'rgba(255,255,255,.25)'},
+  ].map(function(item){
+    return '<div class="summary-tile"><div class="st-n" style="color:'+item.c+';">'+item.n+'</div><div class="st-l">'+item.l+'</div></div>';
+  }).join('');
+}
+
+</script>
+</body>
+</html>
