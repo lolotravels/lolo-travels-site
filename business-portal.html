@@ -58,7 +58,7 @@ html,body{background:var(--navy);color:var(--cream);font-family:var(--fb);min-he
 .amsg{font-family:var(--fb);font-weight:200;font-size:.76rem;min-height:16px;margin-top:8px;text-align:center;}
 .amsg-err{color:var(--red);}
 .amsg-ok{color:var(--green);}
-.acct-types{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:24px;}
+.acct-types{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-bottom:24px;}
 .acct-type{border:var(--bdr);padding:18px 14px;cursor:pointer;text-align:center;transition:border-color .25s,background .25s;}
 .acct-type:hover{border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.03);}
 .acct-type.sel{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.06);}
@@ -204,13 +204,12 @@ html,body{background:var(--navy);color:var(--cream);font-family:var(--fb);min-he
         <div class="acct-type-name">Advisor</div>
         <div class="acct-type-desc">Travel advisor managing client protection</div>
       </div>
-      <div class="acct-type" id="at-contractor" onclick="selectType('contractor')">
-        <div class="acct-type-icon">P</div>
-        <div class="acct-type-name">Partner</div>
-        <div class="acct-type-desc">Sub or teaming partner on a Lolo contract</div>
-      </div>
+
     </div>
     <button class="abtn" id="sel-continue" onclick="showView('signin')" disabled><span>Continue</span></button>
+    <div style="margin-top:18px;text-align:center;font-family:'Jost',sans-serif;font-weight:200;font-size:.72rem;color:rgba(245,240,232,.3);line-height:2;">
+      Partner or subcontractor? <a href="/contractor" style="color:rgba(201,168,76,.6);text-decoration:none;cursor:pointer;">Access the Partner Portal</a>
+    </div>
   </div>
 
   <!-- SIGN IN -->
@@ -560,84 +559,212 @@ html,body{background:var(--navy);color:var(--cream);font-family:var(--fb);min-he
       <!-- ======= CONTRACTOR PANELS ======= -->
 
       <div class="panel" id="p-con-overview">
-        <div class="ph"><div class="ptag">Partner Account</div><h2 class="ph1" id="con-greet">Contract Overview</h2><p class="ph2">Your contracts with Lolo Travels. Deliverables, payment requests, and documents all in one place.</p></div>
-        <div class="sgrid">
-          <div class="stat"><div class="slabel">Active Contracts</div><div class="sval">0</div><div class="smeta">Currently in performance period</div></div>
-          <div class="stat"><div class="slabel">Pending Deliverables</div><div class="sval">0</div><div class="smeta">Due within the next 30 days</div></div>
-          <div class="stat"><div class="slabel">Payments Pending</div><div class="sval">$0</div><div class="smeta">Submitted and awaiting approval</div></div>
-          <div class="stat" style="cursor:pointer;" onclick="nav('con-payment')"><div class="slabel">Request Payment</div><div class="sval" style="font-size:1rem;">Submit</div><div class="smeta">Upload invoice and submit for approval</div></div>
-          <div class="stat" style="cursor:pointer;" onclick="nav('con-docs')"><div class="slabel">Document Vault</div><div class="sval" style="font-size:1rem;">View</div><div class="smeta">Upload and access contract documents</div></div>
-          <div class="stat" style="cursor:pointer;" onclick="nav('con-messages')"><div class="slabel">Messages</div><div class="sval" style="font-size:1rem;">Open</div><div class="smeta">Direct thread with Lolo</div></div>
+        <div class="ph">
+          <div class="ptag">Partner Account</div>
+          <h2 class="ph1" id="con-greet">Solicitations Overview</h2>
+          <p class="ph2">Your government solicitations organized by due date. Each project shows compliance status and required items.</p>
         </div>
-      </div>
-
-      <div class="panel" id="p-con-deliverables">
-        <div class="ph"><div class="ptag">Contract Performance</div><h2 class="ph1">Deliverable Timeline</h2><p class="ph2">Every deliverable on your contract with current status. Submit completed work directly from this panel.</p></div>
-        <div class="empty"><div class="empty-icon">No deliverables on file.</div><div class="empty-txt">Once your contract is set up by Lolo, deliverables<br>appear here with due dates and submission instructions.</div></div>
-      </div>
-
-      <div class="panel" id="p-con-checklist">
-        <div class="ph"><div class="ptag">Onboarding</div><h2 class="ph1">Onboarding Checklist</h2><p class="ph2">Every item required to complete your onboarding. Lolo flags gaps automatically.</p></div>
-        <div class="cards" id="checklist-items">
-          <div class="deliv-row"><div><div class="deliv-title">Signed Partnership Agreement</div><div class="deliv-meta">Required before contract activation</div></div><span class="badge badge-a">Pending</span></div>
-          <div class="deliv-row"><div><div class="deliv-title">Company Registration Documents</div><div class="deliv-meta">Business license or incorporation certificate</div></div><span class="badge badge-a">Pending</span></div>
-          <div class="deliv-row"><div><div class="deliv-title">Tax Identification</div><div class="deliv-meta">EIN or local equivalent</div></div><span class="badge badge-a">Pending</span></div>
-          <div class="deliv-row"><div><div class="deliv-title">Bank Account Details</div><div class="deliv-meta">For payment processing</div></div><span class="badge badge-a">Pending</span></div>
-          <div class="deliv-row"><div><div class="deliv-title">Insurance Certificates</div><div class="deliv-meta">Required for government contracts</div></div><span class="badge badge-a">Pending</span></div>
-          <div class="deliv-row"><div><div class="deliv-title">Professional Licenses or Accreditations</div><div class="deliv-meta">IATA, NANTA, or other applicable credentials</div></div><span class="badge badge-a">Pending</span></div>
-          <div class="deliv-row"><div><div class="deliv-title">24-Hour Emergency Contact</div><div class="deliv-meta">Required for Embassy and government contracts</div></div><span class="badge badge-a">Pending</span></div>
+        <div id="con-company-header" style="background:rgba(201,168,76,.03);border:var(--bdrg);padding:20px 24px;margin-bottom:20px;">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;">
+            <div><div class="sg-label">Company</div><div class="sg-val" id="ch-name">Loading...</div></div>
+            <div><div class="sg-label">Address</div><div class="sg-val" id="ch-address">Loading...</div></div>
+            <div><div class="sg-label">Authorized Signatory</div><div class="sg-val" id="ch-contact">Loading...</div></div>
+          </div>
+        </div>
+        <div class="sgrid">
+          <div class="stat"><div class="slabel">Active Solicitations</div><div class="sval" id="cs-active">0</div></div>
+          <div class="stat"><div class="slabel">Items Required</div><div class="sval" id="cs-missing" style="color:var(--red);">0</div><div class="smeta">Action needed from you</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('con-docs')"><div class="slabel">Document Library</div><div class="sval" style="font-size:1rem;">View All</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('con-profile')"><div class="slabel">Company Profile</div><div class="sval" style="font-size:1rem;">View</div></div>
         </div>
         <div class="div"></div>
-        <button class="sbtn" onclick="nav('con-docs')"><span>Upload Documents</span></button>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+          <span style="font-family:var(--fb);font-weight:200;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.42);">Your Solicitations</span>
+        </div>
+        <div id="solicitation-list" class="cards"></div>
+      </div>
+
+      <div class="panel" id="p-con-solicitation">
+        <div class="ph">
+          <div class="ptag" id="sol-agency-tag">Solicitation</div>
+          <h2 class="ph1" id="sol-title">Loading...</h2>
+          <p class="ph2" id="sol-desc"></p>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:2px;margin-bottom:16px;">
+          <div class="stat"><div class="slabel">Solicitation No.</div><div class="sval" style="font-size:.85rem;" id="sol-num">--</div></div>
+          <div class="stat"><div class="slabel">Agency</div><div class="sval" style="font-size:.85rem;" id="sol-agency">--</div></div>
+          <div class="stat"><div class="slabel">Submitted</div><div class="sval" style="font-size:.85rem;" id="sol-submitted">--</div></div>
+          <div class="stat"><div class="slabel">Status</div><div class="sval" style="font-size:.85rem;" id="sol-status">--</div></div>
+          <div class="stat"><div class="slabel">Completion</div><div class="sval" style="font-size:.85rem;" id="sol-pct">--</div></div>
+        </div>
+        <div style="background:rgba(255,255,255,.05);height:4px;margin-bottom:24px;">
+          <div id="sol-bar" style="background:var(--gold);height:4px;width:0%;transition:width 1s var(--ease);"></div>
+        </div>
+        <div style="margin-bottom:20px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <span style="font-family:var(--fb);font-weight:200;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.42);">Action Required</span>
+            <span id="missing-count" style="font-family:var(--fb);font-weight:200;font-size:.6rem;background:rgba(220,70,70,.12);color:var(--red);border:1px solid rgba(220,70,70,.25);padding:2px 8px;">0 items</span>
+          </div>
+          <div id="reqs-missing" class="cards"></div>
+          <div id="reqs-missing-empty" class="empty" style="padding:16px 0;display:none;"><div class="empty-txt" style="color:var(--green);">All required items are complete.</div></div>
+        </div>
+        <div class="div"></div>
+        <div style="margin-bottom:20px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+            <span style="font-family:var(--fb);font-weight:200;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.42);">Verified and Complete</span>
+            <span id="verified-count" style="font-family:var(--fb);font-weight:200;font-size:.6rem;background:rgba(40,180,100,.08);color:var(--green);border:1px solid rgba(40,180,100,.2);padding:2px 8px;">0 items</span>
+          </div>
+          <div id="reqs-verified" class="cards"></div>
+        </div>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--cream);margin-bottom:12px;">Upload a Document for This Solicitation</h3>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Document Type</label>
+            <select class="sel" id="upload-doc-type">
+              <option value="">Select type</option>
+              <option value="company_profile">Company Profile</option>
+              <option value="registration_cert">Registration Certificate</option>
+              <option value="tax_id">Tax Identification</option>
+              <option value="tax_clearance">Tax Clearance Certificate</option>
+              <option value="iata_cert">IATA Certificate</option>
+              <option value="professional_license">Professional License or Accreditation</option>
+              <option value="gds_confirmation">GDS Platform Confirmation</option>
+              <option value="insurance_cert">Insurance Certificate</option>
+              <option value="capability_statement">Capability Statement or Quotation</option>
+              <option value="past_performance">Past Performance or Reference Letter</option>
+              <option value="signed_agreement">Signed Agreement</option>
+              <option value="bank_details">Bank Details</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="ff"><label class="flabel">Document Name</label><input class="inp" type="text" id="upload-doc-name" placeholder="e.g. IATA Certificate 2026"/></div>
+          <div class="ff"><label class="flabel">Issue Date</label><input class="inp" type="date" id="upload-issue-date"/></div>
+          <div class="ff"><label class="flabel">Expiry Date (if applicable)</label><input class="inp" type="date" id="upload-expiry-date"/></div>
+        </div>
+        <div class="ff">
+          <label class="flabel">Upload File</label>
+          <div class="upload-zone" id="sol-upload-zone" onclick="document.getElementById('sol-file').click()">
+            <div class="upload-txt">Click to attach file (PDF, Word, or image)</div>
+            <input type="file" id="sol-file" style="display:none;" accept=".pdf,.doc,.docx,.jpg,.png" onchange="handleSolUpload(this)"/>
+          </div>
+          <div id="sol-file-name" style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--green);margin-top:7px;"></div>
+        </div>
+        <div class="ff"><label class="flabel">Notes</label><textarea class="txa" id="upload-notes" placeholder="Any context Lolo should know..."></textarea></div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <button class="sbtn" onclick="submitDoc('final')"><span>Submit Document</span></button>
+          <button class="sbtn" style="background:rgba(255,255,255,.05);color:var(--muted);border:var(--bdr);" onclick="submitDoc('draft')"><span>Save as Draft</span></button>
+        </div>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--dim);margin-top:10px;line-height:1.85;">Lolo reviews all uploads. Documents already in your library are matched automatically. Save as draft if not yet finalized.</p>
       </div>
 
       <div class="panel" id="p-con-docs">
-        <div class="ph"><div class="ptag">Document Vault</div><h2 class="ph1">Documents</h2><p class="ph2">Upload and access all contract-related documents. Every upload is logged with an audit trail.</p></div>
-        <div class="upload-zone" onclick="document.getElementById('doc-upload').click()">
-          <div class="upload-txt">Click to upload a document<br>PDF, Word, or image files accepted</div>
-          <input type="file" id="doc-upload" style="display:none;" accept=".pdf,.doc,.docx,.jpg,.png" onchange="handleUpload(this)"/>
+        <div class="ph"><div class="ptag">Master Document Vault</div><h2 class="ph1">Document Library</h2><p class="ph2">Upload once, reuse across all solicitations. Expiry is tracked automatically. Items appear in your solicitation checklists when matched.</p></div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;">
+          <button class="sbtn" style="padding:6px 14px;font-size:.55rem;" onclick="filterDocs('all')"><span>All</span></button>
+          <button class="sbtn" style="padding:6px 14px;font-size:.55rem;background:rgba(40,180,100,.12);color:var(--green);border:1px solid rgba(40,180,100,.22);" onclick="filterDocs('active')"><span>Active</span></button>
+          <button class="sbtn" style="padding:6px 14px;font-size:.55rem;background:rgba(220,160,40,.08);color:var(--amber);border:1px solid rgba(220,160,40,.22);" onclick="filterDocs('expiring')"><span>Expiring</span></button>
+          <button class="sbtn" style="padding:6px 14px;font-size:.55rem;background:rgba(220,70,70,.08);color:var(--red);border:1px solid rgba(220,70,70,.22);" onclick="filterDocs('expired')"><span>Expired</span></button>
+          <button class="sbtn" style="padding:6px 14px;font-size:.55rem;background:rgba(255,255,255,.03);color:var(--dim);border:var(--bdr);" onclick="filterDocs('draft')"><span>Drafts</span></button>
+        </div>
+        <div id="doc-library" class="cards"></div>
+        <div class="empty" id="doc-library-empty" style="display:none;"><div class="empty-icon">No documents yet.</div><div class="empty-txt">Upload your first document below.</div></div>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--cream);margin-bottom:14px;">Add to Document Library</h3>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Document Type</label>
+            <select class="sel" id="lib-doc-type">
+              <option value="">Select type</option>
+              <option value="company_profile">Company Profile</option>
+              <option value="registration_cert">Registration Certificate</option>
+              <option value="tax_id">Tax Identification</option>
+              <option value="tax_clearance">Tax Clearance Certificate</option>
+              <option value="iata_cert">IATA Certificate</option>
+              <option value="professional_license">Professional License</option>
+              <option value="gds_confirmation">GDS Confirmation</option>
+              <option value="insurance_cert">Insurance Certificate</option>
+              <option value="capability_statement">Capability Statement</option>
+              <option value="past_performance">Reference Letter</option>
+              <option value="signed_agreement">Signed Agreement</option>
+              <option value="bank_details">Bank Details</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="ff"><label class="flabel">Document Name</label><input class="inp" type="text" id="lib-doc-name" placeholder="Descriptive name"/></div>
+          <div class="ff"><label class="flabel">Issue Date</label><input class="inp" type="date" id="lib-issue"/></div>
+          <div class="ff"><label class="flabel">Expiry Date (if applicable)</label><input class="inp" type="date" id="lib-expiry"/></div>
+        </div>
+        <div class="ff">
+          <label class="flabel">Upload File</label>
+          <div class="upload-zone" onclick="document.getElementById('lib-file').click()">
+            <div class="upload-txt" id="lib-file-txt">Click to attach file</div>
+            <input type="file" id="lib-file" style="display:none;" accept=".pdf,.doc,.docx,.jpg,.png" onchange="handleLibUpload(this)"/>
+          </div>
+        </div>
+        <button class="sbtn" onclick="submitLibDoc()"><span>Add to Library</span></button>
+      </div>
+
+      <div class="panel" id="p-con-profile">
+        <div class="ph"><div class="ptag">Company Information</div><h2 class="ph1">Company Profile</h2><p class="ph2">Your company details on file with Lolo. This populates compliance packages automatically. Contact Lolo to update any information.</p></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;">
+          <div class="stat"><div class="slabel">Legal Name</div><div class="sval" style="font-size:.85rem;" id="pf-legal">--</div></div>
+          <div class="stat"><div class="slabel">Entity Type</div><div class="sval" style="font-size:.85rem;" id="pf-type">--</div></div>
+          <div class="stat"><div class="slabel">Registration Number</div><div class="sval" style="font-size:.85rem;" id="pf-reg">--</div></div>
+          <div class="stat"><div class="slabel">Tax ID</div><div class="sval" style="font-size:.85rem;" id="pf-tax">--</div></div>
+          <div class="stat"><div class="slabel">IATA Code</div><div class="sval" style="font-size:.85rem;" id="pf-iata">--</div></div>
+          <div class="stat"><div class="slabel">GDS Platform</div><div class="sval" style="font-size:.85rem;" id="pf-gds">--</div></div>
         </div>
         <div class="div"></div>
-        <div class="empty"><div class="empty-icon">No documents uploaded.</div><div class="empty-txt">Upload your first document above.</div></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:2px;">
+          <div class="stat"><div class="slabel">Address</div><div class="sval" style="font-size:.82rem;" id="pf-address">--</div></div>
+          <div class="stat"><div class="slabel">Office Phone</div><div class="sval" style="font-size:.85rem;" id="pf-phone">--</div></div>
+          <div class="stat"><div class="slabel">24-Hour Emergency 1</div><div class="sval" style="font-size:.82rem;" id="pf-emerg1">--</div></div>
+          <div class="stat"><div class="slabel">24-Hour Emergency 2</div><div class="sval" style="font-size:.82rem;" id="pf-emerg2">--</div></div>
+        </div>
+        <div class="div"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;">
+          <div class="stat"><div class="slabel">Authorized Signatory</div><div class="sval" style="font-size:.82rem;" id="pf-sig">--</div></div>
+          <div class="stat"><div class="slabel">Bank Account</div><div class="sval" style="font-size:.82rem;" id="pf-bank">--</div></div>
+        </div>
+        <div class="div"></div>
+        <div class="ff"><label class="flabel">Request a Profile Update</label><textarea class="txa" placeholder="Describe what needs updating. Lolo will confirm the change."></textarea></div>
+        <button class="sbtn" onclick="submit('profile-update')"><span>Submit Update Request</span></button>
       </div>
 
       <div class="panel" id="p-con-payment">
-        <div class="ph"><div class="ptag">Payment Request</div><h2 class="ph1">Submit Payment Request</h2><p class="ph2">Upload your invoice and submit for Lolo approval. Once approved, Lolo generates the government invoice automatically.</p></div>
-        <div style="background:rgba(201,168,76,.04);border:var(--bdrg);padding:16px;margin-bottom:22px;">
-          <div style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:rgba(201,168,76,.75);line-height:1.85;">When you submit a payment request, Lolo reviews and approves it. Upon approval, the system automatically generates an IPP-format invoice from Lolo Travels LLC to the contracting agency using your deliverable details and Lolo credentials (EIN 41-4888165, CAGE 1WR24). You receive payment to your bank account on file.</div>
-        </div>
+        <div class="ph"><div class="ptag">Payment Request</div><h2 class="ph1">Submit Payment Request</h2><p class="ph2">Upload your invoice and submit for approval. Upon approval, Lolo generates the government-format invoice automatically.</p></div>
+        <div style="background:rgba(201,168,76,.04);border:var(--bdrg);padding:16px;margin-bottom:22px;font-family:var(--fb);font-weight:200;font-size:.72rem;color:rgba(201,168,76,.75);line-height:1.85;">Upon approval, the system generates an IPP-format invoice from Lolo Travels LLC (EIN 41-4888165, CAGE 1WR24) to the contracting agency. Payment is processed to your bank account on file.</div>
         <div class="frm-row">
-          <div class="ff"><label class="flabel">Invoice Number</label><input class="inp" type="text" placeholder="Your invoice reference number"/></div>
-          <div class="ff"><label class="flabel">Amount Requested</label><input class="inp" type="text" placeholder="Dollar amount"/></div>
+          <div class="ff"><label class="flabel">Solicitation or Contract</label><select class="sel" id="pay-sol"><option>19GE5026R0041 - US Embassy Kingston</option><option>19N10226Q0011 - US Embassy Abuja</option></select></div>
+          <div class="ff"><label class="flabel">Your Invoice Number</label><input class="inp" type="text" placeholder="Your reference number"/></div>
+          <div class="ff"><label class="flabel">Amount Requested (USD)</label><input class="inp" type="text" placeholder="Dollar amount"/></div>
           <div class="ff"><label class="flabel">Performance Period</label><input class="inp" type="text" placeholder="Start and end dates covered"/></div>
-          <div class="ff"><label class="flabel">CLIN or Deliverable</label><input class="inp" type="text" placeholder="Which contract line item?"/></div>
+          <div class="ff"><label class="flabel">CLIN or Deliverable</label><input class="inp" type="text" placeholder="Contract line item"/></div>
+          <div class="ff"><label class="flabel">Services Delivered</label><input class="inp" type="text" placeholder="Brief description"/></div>
         </div>
-        <div class="ff"><label class="flabel">Description of Work</label><textarea class="txa" placeholder="Brief description of services delivered during this period..."></textarea></div>
         <div class="ff">
-          <label class="flabel">Upload Your Invoice</label>
-          <div class="upload-zone" onclick="document.getElementById('inv-upload').click()">
-            <div class="upload-txt">Click to attach your invoice (PDF required)</div>
-            <input type="file" id="inv-upload" style="display:none;" accept=".pdf" onchange="handleInvoice(this)"/>
+          <label class="flabel">Attach Your Invoice (PDF required)</label>
+          <div class="upload-zone" onclick="document.getElementById('pay-file').click()">
+            <div class="upload-txt">Click to attach invoice PDF</div>
+            <input type="file" id="pay-file" style="display:none;" accept=".pdf" onchange="handlePayUpload(this)"/>
           </div>
-          <div id="inv-name" style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--green);margin-top:7px;"></div>
+          <div id="pay-file-name" style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--green);margin-top:7px;"></div>
         </div>
         <button class="sbtn" onclick="submit('payment-request')"><span>Submit Payment Request</span></button>
-        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--dim);margin-top:10px;line-height:1.85;">Lolo will review within 2 business days and notify you by email upon approval.</p>
       </div>
 
       <div class="panel" id="p-con-history">
-        <div class="ph"><div class="ptag">Payment History</div><h2 class="ph1">Payment History</h2><p class="ph2">Every payment received from Lolo. Downloadable for your accounting records.</p></div>
-        <div class="empty"><div class="empty-icon">No payment history yet.</div><div class="empty-txt">Approved and paid requests appear here with<br>date, amount, and reference number.</div></div>
+        <div class="ph"><div class="ptag">Payments</div><h2 class="ph1">Payment History</h2><p class="ph2">Every payment received from Lolo with date, amount, and reference number.</p></div>
+        <div class="empty"><div class="empty-icon">No payment history yet.</div></div>
       </div>
 
       <div class="panel" id="p-con-messages">
         <div class="ph"><div class="ptag">Communication</div><h2 class="ph1">Messages</h2><p class="ph2">Direct thread with Lolo. All messages are logged against your contract record.</p></div>
         <div class="chat-box">
           <div class="chat-msgs" id="chat-con">
-            <div class="cmsg"><div class="cav cav-ai">LL</div><div class="cbub cbub-ai">Welcome to your Lolo partner message thread. I can help with contract questions, deliverable guidance, payment process questions, and document requirements. What do you need today?</div></div>
+            <div class="cmsg"><div class="cav cav-ai">LL</div><div class="cbub cbub-ai">Welcome to your Lolo partner message thread. I can help with solicitation questions, document requirements, compliance guidance, and payment process. What do you need today?</div></div>
           </div>
           <div class="chat-row">
-            <input class="chat-inp" id="ci-con" placeholder="Ask about your contract, deliverables, or payments..." onkeydown="if(event.key==='Enter')chat('con')"/>
+            <input class="chat-inp" id="ci-con" placeholder="Ask about your contract, documents, or payments..." onkeydown="if(event.key==='Enter')chat('con')"/>
             <button class="chat-send" onclick="chat('con')">Send</button>
           </div>
         </div>
@@ -708,28 +835,12 @@ var NAV = {
       {id:'adv-concierge',label:'Advisor Concierge'}
     ]}
   ],
-  contractor:[
-    {sec:'Overview', items:[{id:'con-overview',label:'Contract Overview'}]},
-    {sec:'Contract', items:[
-      {id:'con-deliverables',label:'Deliverable Timeline'},
-      {id:'con-checklist',label:'Onboarding Checklist'}
-    ]},
-    {sec:'Payments', items:[
-      {id:'con-payment',label:'Submit Payment Request'},
-      {id:'con-history',label:'Payment History'}
-    ]},
-    {sec:'Documents', items:[
-      {id:'con-docs',label:'Document Vault'}
-    ]},
-    {sec:'Communication', items:[
-      {id:'con-messages',label:'Messages'}
-    ]}
-  ]
+
 };
 
-var TIERS = {corp:'Corporate', advisor:'Travel Advisor', contractor:'Partner'};
-var GREETS = {corp:'corp-greet', advisor:'adv-greet', contractor:'con-greet'};
-var FIRST = {corp:'corp-overview', advisor:'adv-overview', contractor:'con-overview'};
+var TIERS = {corp:'Corporate', advisor:'Travel Advisor'};
+var GREETS = {corp:'corp-greet', advisor:'adv-greet'};
+var FIRST = {corp:'corp-overview', advisor:'adv-overview'};
 
 var chatSystems = {
   corp:'You are the Lolo Corporate Concierge. Help with duty of care questions, destination risk, traveler preparation, incident guidance, compliance documentation, and claims process. Professional and concise. Under 160 words. No bullet points.',
@@ -863,6 +974,9 @@ function loadPortal(user){
   currentUser = user;
   var meta = user.user_metadata || {};
   if(!currentType) currentType = meta.account_type || 'corp';
+  if(currentType === 'contractor' && typeof loadContractorDash === 'function') {
+    loadContractorDash(user);
+  }
   document.getElementById('auth-gate').style.display = 'none';
   document.getElementById('portal').style.display = 'block';
   var name = meta.full_name ? meta.full_name.split(' ')[0] : user.email.split('@')[0];
@@ -972,6 +1086,200 @@ async function chat(role){
   }
   msgs.scrollTop = msgs.scrollHeight;
 }
+
+// COMPLIANCE PORTAL
+var _activeCompanyId = null;
+var _activeSolId = null;
+var _docFilter = 'all';
+
+async function loadContractorDash(user) {
+  if (!sb) return;
+  try {
+    var r = await sb.from('profiles').select('company_id,full_name').eq('id', user.id).single();
+    if (r.data && r.data.company_id) {
+      _activeCompanyId = r.data.company_id;
+      loadCompanyHeader();
+      loadSolicitations();
+    }
+  } catch(e) {}
+}
+
+async function loadCompanyHeader() {
+  if (!_activeCompanyId || !sb) return;
+  try {
+    var r = await sb.from('partner_profiles').select('*').eq('company_id', _activeCompanyId).single();
+    if (r.data) {
+      var d = r.data;
+      setEl('ch-name', d.legal_name || '--');
+      setEl('ch-address', [d.address_line1, d.address_city, d.address_country].filter(Boolean).join(', ') || '--');
+      setEl('ch-contact', d.signatory_name ? d.signatory_name + (d.signatory_title ? ', ' + d.signatory_title : '') : '--');
+      setEl('pf-legal', d.legal_name||'--'); setEl('pf-type', d.entity_type||'--');
+      setEl('pf-reg', d.registration_number||'--'); setEl('pf-tax', d.tax_id||'--');
+      setEl('pf-iata', d.iata_code ? d.iata_code + (d.iata_expiry ? ' exp ' + d.iata_expiry : '') : '--');
+      setEl('pf-gds', d.gds_platform||'--');
+      setEl('pf-address', [d.address_line1, d.address_city, d.address_country].filter(Boolean).join(', ')||'--');
+      setEl('pf-phone', d.office_phone||'--');
+      setEl('pf-emerg1', d.emergency_line_1||'--'); setEl('pf-emerg2', d.emergency_line_2||'--');
+      setEl('pf-sig', d.signatory_name ? d.signatory_name + (d.signatory_title ? ', ' + d.signatory_title : '') : '--');
+      setEl('pf-bank', d.bank_name ? d.bank_name + ' ' + (d.bank_account_number||'') : '--');
+    }
+  } catch(e) {}
+}
+
+async function loadSolicitations() {
+  if (!_activeCompanyId || !sb) return;
+  try {
+    var r = await sb.from('solicitations').select('*').eq('company_id', _activeCompanyId).order('due_date', {ascending:false});
+    var sols = r.data || [];
+    var list = document.getElementById('solicitation-list');
+    if (!list) return;
+    var active=0, missing=0;
+    if (!sols.length) {
+      list.innerHTML = '<div class="empty"><div class="empty-icon">No solicitations on file.</div><div class="empty-txt">Lolo will add your solicitations here once active.</div></div>';
+      return;
+    }
+    var html = '';
+    sols.forEach(function(s) {
+      if (['submitted','active','pending_award'].indexOf(s.status) > -1) active++;
+      missing += (s.docs_missing || 0);
+      var pct = s.completion_pct || 0;
+      var sc = s.status === 'submitted' ? 'badge-a' : s.status === 'awarded' ? 'badge-g' : s.status === 'not_awarded' ? 'badge-r' : 'badge-d';
+      var urg = s.priority === 'urgent' ? '<span style="font-size:.52rem;background:rgba(220,70,70,.12);color:var(--red);border:1px solid rgba(220,70,70,.25);padding:2px 8px;margin-left:8px;font-family:var(--fb);font-weight:200;letter-spacing:.12em;text-transform:uppercase;">Urgent</span>' : '';
+      html += '<div class="card" onclick="openSolicitation('' + s.id + '')">' +
+        '<div style="flex:1;">' +
+          '<div style="display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap;"><div class="card-t">' + s.solicitation_number + '</div>' + urg + '</div>' +
+          '<div class="card-m">' + s.title + '</div>' +
+          '<div style="font-family:var(--fb);font-weight:200;font-size:.68rem;color:var(--dim);margin-top:4px;">' +
+            s.agency_location + (s.submittal_date ? ' &nbsp;|&nbsp; Submitted: ' + s.submittal_date : '') + (s.due_date ? ' &nbsp;|&nbsp; Due: ' + s.due_date : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="card-right" style="text-align:right;">' +
+          '<span class="badge ' + sc + '">' + (s.status||'').replace(/_/g,' ') + '</span>' +
+          '<div style="font-family:var(--fb);font-weight:200;font-size:.65rem;color:' + (s.docs_missing>0?'var(--red)':'var(--green)') + ';margin-top:6px;">' + (s.docs_missing>0 ? s.docs_missing+' required' : 'Complete') + '</div>' +
+          '<div style="width:70px;height:2px;background:rgba(255,255,255,.08);margin-top:6px;"><div style="width:'+pct+'%;height:2px;background:'+(pct===100?'var(--green)':'var(--gold)')+'"></div></div>' +
+        '</div>' +
+      '</div>';
+    });
+    list.innerHTML = html;
+    setEl('cs-active', active); setEl('cs-missing', missing);
+  } catch(e) {}
+}
+
+async function openSolicitation(solId) {
+  _activeSolId = solId;
+  if (!sb) return;
+  try {
+    var sr = await sb.from('solicitations').select('*').eq('id', solId).single();
+    var s = sr.data; if (!s) return;
+    setEl('sol-agency-tag', s.agency_name); setEl('sol-title', s.title);
+    setEl('sol-desc', s.agency_location + (s.description ? '  -  ' + s.description : ''));
+    setEl('sol-num', s.solicitation_number); setEl('sol-agency', s.agency_location);
+    setEl('sol-submitted', s.submittal_date||'Pending');
+    setEl('sol-status', (s.status||'').replace(/_/g,' '));
+    var pct = s.completion_pct||0; setEl('sol-pct', pct+'%');
+    var bar = document.getElementById('sol-bar'); if (bar) bar.style.width = pct+'%';
+    var rr = await sb.from('solicitation_requirements').select('*').eq('solicitation_id', solId).order('sort_order');
+    var reqs = rr.data||[];
+    var missing = reqs.filter(function(r){return r.status==='missing'||r.status==='expired';});
+    var expiring = reqs.filter(function(r){return r.status==='expiring_soon';});
+    var verified = reqs.filter(function(r){return r.status==='verified';});
+    var action = missing.concat(expiring);
+    setEl('missing-count', action.length+' item'+(action.length!==1?'s':''));
+    var me = document.getElementById('reqs-missing');
+    var mem = document.getElementById('reqs-missing-empty');
+    if (me) {
+      if (!action.length) { me.innerHTML=''; if(mem) mem.style.display='block'; }
+      else {
+        if(mem) mem.style.display='none';
+        me.innerHTML = action.map(function(r) {
+          var sc = r.status==='missing'||r.status==='expired' ? 'badge-r' : 'badge-a';
+          var sl = r.status==='missing' ? 'Required' : r.status==='expired' ? 'Expired' : 'Expiring Soon';
+          return '<div class="card" style="cursor:default;">' +
+            '<div style="flex:1;">' +
+              '<div class="card-t">' + r.req_name + '</div>' +
+              (r.req_description ? '<div class="card-m">' + r.req_description + '</div>' : '') +
+              (r.lolo_notes ? '<div style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--dim);margin-top:4px;line-height:1.75;">Lolo: ' + r.lolo_notes + '</div>' : '') +
+              (r.flag_message ? '<div style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:rgba(220,70,70,.75);margin-top:4px;line-height:1.75;">' + r.flag_message + '</div>' : '') +
+            '</div>' +
+            '<div class="card-right"><span class="badge ' + sc + '">' + sl + '</span></div></div>';
+        }).join('');
+      }
+    }
+    var ve = document.getElementById('reqs-verified');
+    if (ve) {
+      setEl('verified-count', verified.length+' item'+(verified.length!==1?'s':''));
+      ve.innerHTML = verified.map(function(r) {
+        return '<div class="card" style="cursor:default;">' +
+          '<div style="flex:1;"><div class="card-t">' + r.req_name + '</div>' +
+          (r.lolo_notes ? '<div class="card-m">' + r.lolo_notes + '</div>' : '') + '</div>' +
+          '<div class="card-right"><span class="badge badge-g">Verified</span>' +
+          (r.lolo_preselected ? '<div style="font-family:var(--fb);font-weight:200;font-size:.58rem;color:var(--dim);margin-top:4px;">Pre-loaded by Lolo</div>' : '') +
+          '</div></div>';
+      }).join('');
+    }
+    nav('con-solicitation');
+  } catch(e) { nav('con-solicitation'); }
+}
+
+async function loadDocLibrary() {
+  if (!_activeCompanyId || !sb) return;
+  try {
+    var r = await sb.from('partner_documents').select('*').eq('company_id', _activeCompanyId).eq('is_current', true).order('created_at', {ascending:false});
+    var docs = r.data||[];
+    var filtered = _docFilter==='all' ? docs :
+      _docFilter==='active' ? docs.filter(function(d){return d.status==='active';}) :
+      _docFilter==='expiring' ? docs.filter(function(d){return d.status==='expiring_soon';}) :
+      _docFilter==='expired' ? docs.filter(function(d){return d.status==='expired';}) :
+      docs.filter(function(d){return d.is_draft;});
+    var el = document.getElementById('doc-library');
+    var empty = document.getElementById('doc-library-empty');
+    if (!el) return;
+    if (!filtered.length) { el.innerHTML=''; if(empty) empty.style.display='block'; return; }
+    if (empty) empty.style.display='none';
+    el.innerHTML = filtered.map(function(d) {
+      var sc = d.status==='active'?'badge-g':d.status==='expiring_soon'?'badge-a':d.status==='expired'?'badge-r':'badge-d';
+      var sl = d.status==='active'?'Active':d.status==='expiring_soon'?'Expiring Soon':d.status==='expired'?'Expired':d.is_draft?'Draft':'Pending';
+      return '<div class="card" style="cursor:default;">' +
+        '<div style="flex:1;">' +
+          '<div class="card-t">' + d.doc_name + '</div>' +
+          '<div class="card-m">' + (d.doc_type||'').replace(/_/g,' ') +
+            (d.issue_date ? ' | Issued: ' + d.issue_date : '') +
+            (d.expiry_date ? ' | Expires: ' + d.expiry_date : '') +
+          '</div>' +
+        '</div>' +
+        '<div class="card-right"><span class="badge ' + sc + '">' + sl + '</span>' +
+          (d.verified ? '<div style="font-family:var(--fb);font-weight:200;font-size:.58rem;color:var(--green);margin-top:5px;">Verified</div>' : '<div style="font-family:var(--fb);font-weight:200;font-size:.58rem;color:var(--dim);margin-top:5px;">Pending review</div>') +
+        '</div></div>';
+    }).join('');
+  } catch(e) {}
+}
+
+function filterDocs(f) { _docFilter = f; loadDocLibrary(); }
+
+function handleSolUpload(input) {
+  if (input.files && input.files[0]) {
+    var z = document.getElementById('sol-upload-zone');
+    if (z) z.querySelector('.upload-txt').textContent = input.files[0].name + ' ready';
+    setEl('sol-file-name', input.files[0].name + ' selected');
+  }
+}
+function handleLibUpload(input) {
+  if (input.files && input.files[0]) setEl('lib-file-txt', input.files[0].name + ' ready');
+}
+function handlePayUpload(input) {
+  if (input.files && input.files[0]) setEl('pay-file-name', input.files[0].name + ' attached');
+}
+function submitDoc(mode) {
+  var btns = document.querySelectorAll('#p-con-solicitation .sbtn');
+  var btn = mode === 'draft' ? btns[1] : btns[0];
+  if (btn) { var o=btn.innerHTML; btn.innerHTML='<span>'+(mode==='draft'?'Draft Saved':'Submitted to Lolo')+'</span>'; btn.style.background=mode==='draft'?'rgba(255,255,255,.08)':'rgba(40,180,100,.8)'; setTimeout(function(){btn.innerHTML=o;btn.style.background='';},3000); }
+}
+function submitLibDoc() {
+  var btn = document.querySelector('#p-con-docs > .sbtn');
+  if (btn) { var o=btn.innerHTML; btn.innerHTML='<span>Added to Library</span>'; btn.style.background='rgba(40,180,100,.8)'; setTimeout(function(){btn.innerHTML=o;btn.style.background='';},3000); }
+}
+function setEl(id, val) { var el=document.getElementById(id); if(el) el.textContent=val; }
+
 </script>
 </body>
 </html>
