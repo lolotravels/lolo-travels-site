@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lolo Travels  -  Partner Compliance Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+/* ============================================================
+   LOLO TRAVELS -- CONTRACTOR COMPLIANCE PORTAL
+   contractor-portal.html
+   Theme: Cream / Premium Document Management
+   Colors: Cream #F5F0E8, White #FFFFFF, Navy #060E1A, Gold #C9A84C
+   Fonts: Cormorant Garamond + Jost
+============================================================ */
+
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --cream:#F5F0E8;
+  --cream-dk:#EDE8DE;
+  --cream-mid:#E8E2D8;
+  --white:#FFFFFF;
+  --navy:#060E1A;
+  --navy-2:#1B2B3A;
+  --navy-3:#2D3E50;
+  --gold:#C9A84C;
+  --gold-dk:#A8882C;
+  --gold-lt:#E2C97E;
+  --gold-pale:rgba(201,168,76,.1);
+  --green:#1A6E3C;
+  --green-bg:rgba(26,110,60,.08);
+  --green-bd:rgba(26,110,60,.25);
+  --red:#B02020;
+  --red-bg:rgba(176,32,32,.07);
+  --red-bd:rgba(176,32,32,.22);
+  --amber:#8A6A10;
+  --amber-bg:rgba(138,106,16,.08);
+  --amber-bd:rgba(138,106,16,.25);
+  --border:1px solid rgba(6,14,26,.1);
+  --border-gold:1px solid rgba(201,168,76,.35);
+  --border-gold-lt:1px solid rgba(201,168,76,.2);
+  --shadow:0 2px 12px rgba(6,14,26,.06);
+  --shadow-md:0 4px 24px rgba(6,14,26,.1);
+  --fd:'Cormorant Garamond',Georgia,serif;
+  --fb:'Jost',sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --text-primary:#060E1A;
+  --text-secondary:#2D3E50;
+  --text-muted:#6A7A8A;
+  --text-dim:#9AA4AE;
+}
+
+html,body{
+  background:var(--cream);
+  color:var(--text-primary);
+  font-family:var(--fb);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ============================================================
+   AUTH GATE -- dark, on-brand with lolotravels.com
+============================================================ */
+#auth-gate{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -5%, rgba(201,168,76,.07) 0%, transparent 65%),
+    #060E1A;
+  position:relative;
+  overflow:hidden;
+}
+#auth-gate::before{
+  content:'';
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(201,168,76,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,.025) 1px, transparent 1px);
+  background-size:80px 80px;
+  pointer-events:none;
+}
+.auth-card{
+  width:100%;max-width:440px;
+  padding:0 32px;
+  position:relative;z-index:2;
+}
+.auth-brand{
+  text-align:center;margin-bottom:44px;
+}
+.auth-emblem{
+  width:60px;height:60px;border-radius:50%;
+  border:1px solid rgba(201,168,76,.3);
+  display:inline-flex;align-items:center;justify-content:center;
+  background:rgba(201,168,76,.04);
+  margin-bottom:16px;
+}
+.auth-wordmark{
+  display:block;
+  font-family:var(--fd);font-weight:300;font-style:italic;
+  font-size:1.8rem;color:#F5F0E8;
+  letter-spacing:.02em;margin-bottom:3px;
+}
+.auth-tagline{
+  display:block;
+  font-family:var(--fb);font-weight:200;
+  font-size:.54rem;letter-spacing:.42em;text-transform:uppercase;
+  color:rgba(201,168,76,.4);margin-bottom:8px;
+}
+.auth-portal-label{
+  display:inline-block;
+  font-family:var(--fb);font-weight:200;
+  font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;
+  border:1px solid rgba(201,168,76,.18);
+  color:rgba(201,168,76,.5);
+  padding:4px 14px;
+}
+.auth-rule{
+  width:40px;height:1px;
+  background:rgba(201,168,76,.22);
+  margin:28px auto;
+}
+.auth-view{display:none;}
+.auth-view.active{display:block;}
+.auth-title{
+  font-family:var(--fd);font-weight:300;font-style:italic;
+  font-size:1.9rem;color:#F5F0E8;
+  margin-bottom:5px;line-height:1.1;
+}
+.auth-hint{
+  font-family:var(--fb);font-weight:200;
+  font-size:.8rem;color:rgba(245,240,232,.42);
+  margin-bottom:28px;line-height:1.85;
+}
+.afield{margin-bottom:20px;}
+.alabel{
+  display:block;font-family:var(--fb);font-weight:200;
+  font-size:.54rem;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(201,168,76,.52);margin-bottom:7px;
+}
+.ainput{
+  width:100%;
+  background:rgba(255,255,255,.04);
+  border:none;
+  border-bottom:1px solid rgba(201,168,76,.2);
+  color:#F5F0E8;
+  padding:12px 0;
+  font-family:var(--fb);font-weight:200;font-size:.9rem;
+  outline:none;
+  transition:border-color .25s;
+}
+.ainput:focus{border-bottom-color:rgba(201,168,76,.6);}
+.ainput::placeholder{color:rgba(245,240,232,.2);}
+.abtn{
+  width:100%;padding:15px;margin-top:4px;
+  font-family:var(--fb);font-weight:400;
+  font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
+  background:var(--gold);color:#060E1A;
+  border:none;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:letter-spacing .3s var(--ease);
+}
+.abtn::before{
+  content:'';position:absolute;inset:0;
+  background:var(--gold-lt);
+  transform:translateX(-101%);
+  transition:transform .45s var(--ease);
+}
+.abtn:hover{letter-spacing:.28em;}
+.abtn:hover::before{transform:translateX(0);}
+.abtn span{position:relative;z-index:1;}
+.abtn:disabled{opacity:.4;cursor:not-allowed;}
+.abtn:disabled::before{display:none;}
+.auth-links{
+  margin-top:18px;text-align:center;
+  font-family:var(--fb);font-weight:200;
+  font-size:.76rem;color:rgba(245,240,232,.28);line-height:2.4;
+}
+.auth-links a{
+  color:rgba(201,168,76,.58);cursor:pointer;
+  text-decoration:none;transition:color .2s;
+}
+.auth-links a:hover{color:var(--gold);}
+.auth-back{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:var(--fb);font-weight:200;font-size:.6rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(245,240,232,.3);cursor:pointer;
+  background:none;border:none;margin-bottom:24px;
+  transition:color .2s;
+}
+.auth-back:hover{color:rgba(245,240,232,.65);}
+.auth-err{
+  font-family:var(--fb);font-weight:200;font-size:.76rem;
+  min-height:16px;margin-top:8px;text-align:center;
+}
+.auth-err-red{color:rgba(220,80,80,.85);}
+.auth-err-ok{color:rgba(40,180,100,.85);}
+.auth-footer{
+  text-align:center;margin-top:40px;
+  font-family:var(--fb);font-weight:200;
+  font-size:.58rem;letter-spacing:.1em;
+  color:rgba(245,240,232,.14);
+}
+@media(max-width:520px){
+  .auth-card{padding:0 20px;}
+}
+
+/* ============================================================
+   PORTAL SHELL -- Premium dark-on-paper aesthetic
+   Background: deep warm paper #E8E3D9
+   Cards: pure white #FFFFFF
+   Text: navy #060E1A, secondary #1B2A3A
+   Accent: gold #C9A84C
+============================================================ */
+:root{
+  --paper:#E8E3D9;
+  --paper-dk:#DDD8CC;
+  --white:#FFFFFF;
+  --navy:#060E1A;
+  --navy-2:#1B2A3A;
+  --navy-3:#2D3E50;
+  --gold:#C9A84C;
+  --gold-dk:#A8882C;
+  --gold-lt:#E2C97E;
+  --gold-pale:rgba(201,168,76,.12);
+  --green:#145C32;
+  --green-bg:rgba(20,92,50,.07);
+  --green-bd:rgba(20,92,50,.22);
+  --red:#991818;
+  --red-bg:rgba(153,24,24,.07);
+  --red-bd:rgba(153,24,24,.2);
+  --amber:#7A5808;
+  --amber-bg:rgba(122,88,8,.08);
+  --amber-bd:rgba(122,88,8,.22);
+  --border:1px solid rgba(6,14,26,.12);
+  --border-gold:1px solid rgba(201,168,76,.4);
+  --border-gold-lt:1px solid rgba(201,168,76,.22);
+  --shadow:0 2px 14px rgba(6,14,26,.08);
+  --shadow-md:0 4px 28px rgba(6,14,26,.13);
+  --fd:'Cormorant Garamond',Georgia,serif;
+  --fb:'Jost',sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+
+#portal{display:none;min-height:100vh;background:var(--paper);}
+
+/* TOP BAR */
+.topbar{
+  position:sticky;top:0;z-index:100;
+  background:var(--navy);
+  border-bottom:1px solid rgba(201,168,76,.15);
+  padding:0 36px;
+  height:60px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.tb-left{display:flex;align-items:center;gap:14px;}
+.tb-emblem{
+  width:32px;height:32px;border-radius:50%;
+  border:1px solid rgba(201,168,76,.3);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fd);font-size:.75rem;color:var(--gold);
+  flex-shrink:0;
+}
+.tb-brand{
+  font-family:var(--fd);font-weight:300;font-style:italic;
+  font-size:1rem;color:#F5F0E8;
+}
+.tb-divider{width:1px;height:20px;background:rgba(255,255,255,.1);}
+.tb-portal-label{
+  font-family:var(--fb);font-weight:200;
+  font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);
+}
+.tb-right{display:flex;align-items:center;gap:16px;}
+.tb-name{
+  font-family:var(--fb);font-weight:200;
+  font-size:.8rem;color:rgba(245,240,232,.7);
+}
+.tb-badge{
+  font-family:var(--fb);font-weight:200;
+  font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;
+  border:1px solid rgba(201,168,76,.3);
+  background:rgba(201,168,76,.1);
+  color:var(--gold);
+  padding:4px 12px;
+}
+.tb-type-badge{
+  font-family:var(--fb);font-weight:200;
+  font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(255,255,255,.05);
+  color:rgba(255,255,255,.45);
+  padding:4px 12px;
+}
+.tb-out{
+  font-family:var(--fb);font-weight:200;
+  font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.3);cursor:pointer;
+  background:none;border:1px solid rgba(255,255,255,.1);
+  padding:6px 12px;
+  transition:all .2s;
+}
+.tb-out:hover{border-color:rgba(201,168,76,.4);color:var(--gold);}
+
+/* LAYOUT */
+.layout{
+  display:grid;
+  grid-template-columns:240px 1fr;
+  min-height:calc(100vh - 60px);
+}
+@media(max-width:900px){.layout{grid-template-columns:1fr;}}
+
+/* SIDEBAR */
+.sidebar{
+  background:var(--white);
+  border-right:var(--border);
+  padding:24px 0;
+  position:sticky;top:60px;
+  height:calc(100vh - 60px);
+  overflow-y:auto;
+}
+.sidebar::-webkit-scrollbar{width:2px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--paper-dk);}
+@media(max-width:900px){.sidebar{position:static;height:auto;border-right:none;border-bottom:var(--border);}}
+
+.nav-sec{
+  font-family:var(--fb);font-weight:500;
+  font-size:.52rem;letter-spacing:.32em;text-transform:uppercase;
+  color:rgba(6,14,26,.25);
+  padding:4px 22px;margin-top:20px;margin-bottom:4px;
+}
+.nav-sec:first-child{margin-top:0;}
+.nav-item{
+  display:flex;align-items:center;gap:9px;
+  padding:10px 22px;cursor:pointer;
+  font-family:var(--fb);font-weight:200;
+  font-size:.82rem;color:var(--navy-3);
+  transition:all .2s;
+  border-left:2px solid transparent;
+}
+.nav-item:hover{color:var(--navy);background:var(--paper);}
+.nav-item.on{
+  color:var(--navy);background:var(--paper);
+  border-left-color:var(--gold);font-weight:400;
+}
+.nav-dot{
+  width:4px;height:4px;border-radius:50%;
+  background:rgba(6,14,26,.15);flex-shrink:0;
+}
+.nav-item.on .nav-dot{background:var(--gold);}
+.nav-badge{
+  margin-left:auto;
+  font-family:var(--fb);font-weight:500;
+  font-size:.58rem;background:var(--red-bg);
+  color:var(--red);border:1px solid var(--red-bd);
+  padding:1px 6px;
+}
+
+/* MAIN */
+.main{padding:36px 44px;max-width:1100px;}
+@media(max-width:700px){.main{padding:22px 18px;}}
+
+/* PANELS */
+.panel{display:none;}
+.panel.on{display:block;animation:panelin .2s ease;}
+@keyframes panelin{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:none;}}
+
+/* LETTERHEAD -- company identity header */
+.letterhead{
+  background:var(--navy);
+  padding:24px 28px 22px;
+  margin-bottom:28px;
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;
+  position:relative;
+  overflow:hidden;
+}
+.letterhead::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;
+  height:2px;
+  background:linear-gradient(90deg,var(--gold) 0%,rgba(201,168,76,.3) 60%,transparent 100%);
+}
+
+
+.lh-company{
+  font-family:var(--fd);font-weight:400;
+  font-size:1.4rem;color:#F5F0E8;
+  letter-spacing:.01em;margin-bottom:4px;
+}
+.lh-address{
+  font-family:var(--fb);font-weight:200;
+  font-size:.76rem;color:rgba(245,240,232,.5);
+  line-height:1.8;
+}
+.lh-type-badge{
+  font-family:var(--fb);font-weight:200;
+  font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;
+  border:1px solid rgba(201,168,76,.3);
+  background:rgba(201,168,76,.08);
+  color:var(--gold);
+  padding:4px 12px;
+  margin-top:8px;
+  display:inline-block;
+}
+.lh-right{
+  display:flex;flex-direction:column;align-items:flex-end;gap:5px;
+  text-align:right;
+}
+.lh-meta{
+  font-family:var(--fb);font-weight:200;
+  font-size:.76rem;color:rgba(245,240,232,.5);
+  line-height:1.8;
+}
+.lh-meta strong{
+  color:rgba(245,240,232,.8);font-weight:400;
+}
+.lh-cred{
+  font-family:var(--fb);font-weight:200;
+  font-size:.62rem;letter-spacing:.1em;
+  color:rgba(201,168,76,.45);line-height:1.7;
+}
+
+/* PAGE HEADER */
+.ph{margin-bottom:24px;}
+.ptag{
+  font-family:var(--fb);font-weight:500;
+  font-size:.56rem;letter-spacing:.36em;text-transform:uppercase;
+  color:var(--gold-dk);margin-bottom:8px;
+  display:flex;align-items:center;gap:10px;
+}
+.ptag::before{
+  content:'';display:block;width:18px;height:1px;background:var(--gold);
+}
+.ph1{
+  font-family:var(--fd);font-weight:300;
+  font-size:clamp(1.6rem,3vw,2.2rem);
+  color:var(--navy);line-height:1.05;margin-bottom:7px;
+}
+.ph2{
+  font-family:var(--fb);font-weight:200;
+  font-size:.86rem;color:var(--navy-3);
+  line-height:1.95;max-width:580px;
+}
+
+/* DIVIDER */
+.div{
+  height:1px;background:var(--paper-dk);
+  margin:28px 0;position:relative;
+}
+.div::after{
+  content:'';position:absolute;
+  left:0;top:0;width:40px;height:1px;
+  background:var(--gold);
+}
+
+/* STAT GRID */
+.sgrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+  gap:2px;margin-bottom:2px;
+}
+.stat{
+  background:var(--white);
+  border:var(--border);
+  padding:20px 22px;
+  transition:border-color .22s,box-shadow .22s;
+}
+.stat:hover{border-color:rgba(201,168,76,.4);box-shadow:var(--shadow);}
+.slabel{
+  font-family:var(--fb);font-weight:500;
+  font-size:.54rem;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(6,14,26,.35);margin-bottom:8px;
+}
+.sval{
+  font-family:var(--fd);font-weight:300;font-style:italic;
+  font-size:1.4rem;color:var(--navy);margin-bottom:3px;
+}
+.smeta{
+  font-family:var(--fb);font-weight:200;
+  font-size:.72rem;color:var(--navy-3);line-height:1.75;
+}
+
+/* SOLICITATION CARDS */
+.sol-card{
+  background:var(--white);
+  border:var(--border);
+  border-left:3px solid var(--paper-dk);
+  padding:18px 22px;
+  cursor:pointer;
+  margin-bottom:2px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:16px;flex-wrap:wrap;
+  transition:all .22s;
+  box-shadow:var(--shadow);
+}
+.sol-card:hover{
+  border-left-color:var(--gold);
+  box-shadow:var(--shadow-md);
+  transform:translateX(3px);
+}
+.sol-card.urgent{border-left-color:var(--red);}
+.sol-card.complete{border-left-color:var(--green);}
+.sol-num{
+  font-family:var(--fb);font-weight:500;
+  font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--navy);margin-bottom:5px;
+  display:flex;align-items:center;gap:8px;
+}
+.sol-title-text{
+  font-family:var(--fd);font-weight:300;
+  font-size:1.05rem;color:var(--navy);
+  margin-bottom:5px;
+}
+.sol-meta{
+  font-family:var(--fb);font-weight:200;
+  font-size:.74rem;color:var(--navy-3);
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.sol-right{
+  display:flex;flex-direction:column;align-items:flex-end;gap:7px;
+  flex-shrink:0;
+}
+.prog-wrap{display:flex;align-items:center;gap:8px;}
+.prog-bar-bg{width:80px;height:3px;background:var(--paper-dk);overflow:hidden;}
+.prog-bar{height:3px;background:var(--gold);transition:width 1s var(--ease);}
+.prog-bar.complete{background:var(--green);}
+.prog-pct{
+  font-family:var(--fb);font-weight:500;
+  font-size:.62rem;color:var(--navy-2);min-width:30px;text-align:right;
+}
+
+/* STAMPS */
+.stamp{
+  display:inline-flex;align-items:center;
+  font-family:var(--fb);font-weight:500;
+  font-size:.54rem;letter-spacing:.16em;text-transform:uppercase;
+  padding:3px 10px;
+}
+.stamp-active{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd);}
+.stamp-submitted{background:var(--gold-pale);color:var(--gold-dk);border:var(--border-gold-lt);}
+.stamp-awarded{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.stamp-missing{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+.stamp-verified{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
+.stamp-expiring{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd);}
+.stamp-draft{background:rgba(6,14,26,.05);color:var(--navy-3);border:var(--border);}
+.stamp-pending{background:rgba(6,14,26,.04);color:var(--navy-3);border:var(--border);}
+.stamp-urgent{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+
+/* REQUIREMENT ROWS */
+.req-section{margin-bottom:24px;}
+.req-section-header{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:12px;padding-bottom:10px;
+  border-bottom:1px solid var(--paper-dk);
+}
+.req-section-title{
+  font-family:var(--fb);font-weight:500;
+  font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--navy);
+}
+.req-row{
+  background:var(--white);
+  border:var(--border);
+  border-left:3px solid var(--paper-dk);
+  padding:14px 18px;
+  margin-bottom:2px;
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:14px;flex-wrap:wrap;
+  transition:border-color .2s;
+}
+.req-row.req-missing{border-left-color:var(--red);}
+.req-row.req-expiring{border-left-color:var(--amber);}
+.req-row.req-verified{border-left-color:var(--green);}
+.req-name{
+  font-family:var(--fb);font-weight:500;
+  font-size:.86rem;color:var(--navy);margin-bottom:4px;
+}
+.req-desc{
+  font-family:var(--fb);font-weight:200;
+  font-size:.78rem;color:var(--navy-3);line-height:1.8;
+}
+.req-note{
+  font-family:var(--fb);font-weight:200;
+  font-size:.74rem;line-height:1.75;
+  margin-top:6px;padding:8px 12px;
+  border-left:2px solid var(--paper-dk);
+}
+.req-note.note-lolo{border-left-color:var(--gold);color:var(--navy-2);}
+.req-note.note-flag{border-left-color:var(--red);color:var(--red);}
+.req-preloaded{
+  font-family:var(--fb);font-weight:200;
+  font-size:.62rem;letter-spacing:.08em;
+  color:var(--green);margin-top:4px;
+}
+
+/* DOCUMENT CARDS */
+.doc-card{
+  background:var(--white);
+  border:var(--border);
+  padding:14px 18px;
+  margin-bottom:2px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:14px;flex-wrap:wrap;
+  transition:box-shadow .2s;
+}
+.doc-card:hover{box-shadow:var(--shadow);}
+.doc-icon{
+  width:36px;height:44px;flex-shrink:0;
+  background:var(--paper);
+  border:var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fb);font-size:.58rem;font-weight:500;
+  color:var(--navy-3);
+  position:relative;
+}
+.doc-icon::before{
+  content:'';position:absolute;top:0;right:0;
+  width:10px;height:10px;
+  background:var(--paper-dk);
+  clip-path:polygon(100% 0,100% 100%,0 100%);
+}
+.doc-name{
+  font-family:var(--fb);font-weight:500;
+  font-size:.86rem;color:var(--navy);margin-bottom:3px;
+}
+.doc-meta{
+  font-family:var(--fb);font-weight:200;
+  font-size:.74rem;color:var(--navy-3);
+}
+.doc-verified-tag{
+  font-family:var(--fb);font-weight:200;
+  font-size:.64rem;color:var(--green);margin-top:3px;
+}
+
+/* FORMS */
+.frm-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:560px){.frm-row{grid-template-columns:1fr;}}
+.ff{margin-bottom:20px;}
+.flabel{
+  display:block;font-family:var(--fb);font-weight:500;
+  font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--navy);margin-bottom:8px;
+}
+.inp,.sel,.txa{
+  width:100%;
+  background:var(--white);
+  border:var(--border);
+  border-bottom:2px solid rgba(6,14,26,.18);
+  color:var(--navy);
+  padding:11px 14px;
+  font-family:var(--fb);font-weight:200;font-size:.9rem;
+  outline:none;
+  transition:border-color .25s,box-shadow .25s;
+}
+.inp:focus,.sel:focus,.txa:focus{
+  border-bottom-color:var(--gold);
+  box-shadow:0 4px 10px rgba(201,168,76,.08);
+}
+.inp::placeholder,.txa::placeholder{color:rgba(6,14,26,.3);}
+.sel{
+  appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(6,14,26,0.4)'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;
+  background-color:var(--white);padding-right:32px;
+}
+.sel option{background:var(--white);}
+.txa{resize:vertical;min-height:84px;line-height:1.75;}
+
+/* BUTTONS */
+.sbtn{
+  padding:13px 36px;
+  font-family:var(--fb);font-weight:500;
+  font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
+  background:var(--navy);color:var(--white);
+  border:none;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:letter-spacing .3s var(--ease);
+}
+.sbtn::before{
+  content:'';position:absolute;inset:0;
+  background:var(--gold);
+  transform:translateX(-101%);
+  transition:transform .45s var(--ease);
+}
+.sbtn:hover{letter-spacing:.26em;color:var(--navy);}
+.sbtn:hover::before{transform:translateX(0);}
+.sbtn span{position:relative;z-index:1;}
+
+.sbtn-outline{
+  padding:11px 28px;
+  font-family:var(--fb);font-weight:400;
+  font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
+  background:transparent;color:var(--navy-2);
+  border:var(--border);cursor:pointer;
+  transition:all .2s;
+}
+.sbtn-outline:hover{border-color:var(--navy);color:var(--navy);}
+
+/* UPLOAD ZONE */
+.upload-zone{
+  border:1px dashed rgba(6,14,26,.22);
+  padding:28px;text-align:center;cursor:pointer;
+  background:var(--white);
+  transition:all .25s;
+}
+.upload-zone:hover{border-color:var(--gold);background:var(--gold-pale);}
+.upload-txt{
+  font-family:var(--fb);font-weight:200;
+  font-size:.82rem;color:var(--navy-3);line-height:1.9;
+}
+.upload-txt strong{font-weight:500;color:var(--navy);}
+
+/* PROGRESS BAR */
+.sol-progress{margin:16px 0 24px;}
+.sol-progress-header{
+  display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;
+}
+.sol-progress-label{
+  font-family:var(--fb);font-weight:500;
+  font-size:.62rem;color:var(--navy-2);letter-spacing:.12em;text-transform:uppercase;
+}
+.sol-progress-pct{
+  font-family:var(--fd);font-weight:300;
+  font-size:1.1rem;color:var(--navy);
+}
+.sol-progress-bg{height:5px;background:var(--paper-dk);overflow:hidden;}
+.sol-progress-fill{
+  height:5px;
+  background:linear-gradient(90deg,var(--gold) 0%,var(--gold-lt) 100%);
+  transition:width 1.2s var(--ease);
+}
+.sol-progress-fill.full{background:linear-gradient(90deg,var(--green) 0%,rgba(20,92,50,.6) 100%);}
+
+/* INFO BLOCKS */
+.info-block{
+  background:var(--gold-pale);
+  border:var(--border-gold-lt);
+  border-left:3px solid var(--gold);
+  padding:14px 18px;margin-bottom:20px;
+  font-family:var(--fb);font-weight:200;
+  font-size:.82rem;color:var(--navy-2);line-height:1.85;
+}
+.alert-block{
+  background:var(--red-bg);
+  border:1px solid var(--red-bd);
+  border-left:3px solid var(--red);
+  padding:14px 18px;margin-bottom:20px;
+  font-family:var(--fb);font-weight:200;
+  font-size:.82rem;color:var(--red);line-height:1.85;
+}
+
+/* PROFILE TABLE */
+.profile-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;border:var(--border);
+}
+@media(max-width:560px){.profile-grid{grid-template-columns:1fr;}}
+.pg-cell{
+  padding:16px 20px;
+  border-right:var(--border);
+  border-bottom:var(--border);
+  background:var(--white);
+}
+.pg-cell:nth-child(even){border-right:none;}
+.pg-label{
+  font-family:var(--fb);font-weight:500;
+  font-size:.54rem;letter-spacing:.22em;text-transform:uppercase;
+  color:rgba(6,14,26,.35);margin-bottom:5px;
+}
+.pg-val{
+  font-family:var(--fb);font-weight:200;
+  font-size:.88rem;color:var(--navy);line-height:1.7;
+}
+
+/* CHAT */
+.chat-box{background:var(--white);border:var(--border);box-shadow:var(--shadow);}
+.chat-header{
+  padding:14px 20px;border-bottom:var(--border);
+  background:var(--navy);
+  font-family:var(--fb);font-weight:200;
+  font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(245,240,232,.5);
+}
+.chat-msgs{min-height:200px;max-height:320px;overflow-y:auto;padding:20px;}
+.chat-msgs::-webkit-scrollbar{width:3px;}
+.chat-msgs::-webkit-scrollbar-thumb{background:var(--paper-dk);}
+.cmsg{display:flex;gap:10px;margin-bottom:14px;align-items:flex-start;}
+.cmsg.user{flex-direction:row-reverse;}
+.cav{
+  width:30px;height:30px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fd);font-size:.7rem;font-weight:500;
+}
+.cav-ai{background:var(--navy);color:var(--gold);}
+.cav-u{background:var(--paper);color:var(--navy);border:var(--border);}
+.cbub{
+  max-width:82%;padding:12px 16px;
+  font-family:var(--fb);font-weight:200;
+  font-size:.84rem;line-height:1.85;
+}
+.cbub-ai{background:var(--paper);border:var(--border);color:var(--navy-2);}
+.cbub-u{background:var(--navy);color:rgba(245,240,232,.9);}
+.typing-d span{
+  display:inline-block;width:4px;height:4px;border-radius:50%;
+  background:rgba(6,14,26,.25);margin:0 2px;
+  animation:tdot .8s ease-in-out infinite;
+}
+.typing-d span:nth-child(2){animation-delay:.15s;}
+.typing-d span:nth-child(3){animation-delay:.3s;}
+@keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-5px);opacity:1;}}
+.chat-input-area{
+  border-top:var(--border);padding:14px 16px;
+  background:var(--paper);display:flex;gap:8px;
+}
+.chat-input{
+  flex:1;background:var(--white);border:var(--border);
+  color:var(--navy);padding:10px 14px;
+  font-family:var(--fb);font-weight:200;font-size:.86rem;
+  outline:none;transition:border-color .25s;
+}
+.chat-input:focus{border-color:var(--gold);}
+.chat-input::placeholder{color:rgba(6,14,26,.3);}
+.chat-send{
+  padding:10px 20px;
+  font-family:var(--fb);font-weight:500;
+  font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
+  background:var(--navy);color:var(--white);
+  border:none;cursor:pointer;transition:background .2s;
+}
+.chat-send:hover{background:var(--gold);color:var(--navy);}
+
+/* FILTER TABS */
+.filter-bar{
+  display:flex;gap:0;margin-bottom:20px;
+  border:var(--border);background:var(--paper);
+  overflow:hidden;
+}
+.filter-tab{
+  flex:1;padding:9px 12px;text-align:center;cursor:pointer;
+  font-family:var(--fb);font-weight:200;
+  font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--navy-3);background:transparent;border:none;
+  border-right:var(--border);
+  transition:all .2s;
+}
+.filter-tab:last-child{border-right:none;}
+.filter-tab.on{background:var(--navy);color:var(--gold);font-weight:500;}
+.filter-tab:hover:not(.on){background:var(--white);color:var(--navy);}
+
+/* EMPTY STATE */
+.empty{padding:48px 0;text-align:center;}
+.empty-icon{
+  font-family:var(--fd);font-weight:300;font-style:italic;
+  font-size:1.4rem;color:rgba(6,14,26,.15);margin-bottom:10px;
+}
+.empty-txt{
+  font-family:var(--fb);font-weight:200;
+  font-size:.84rem;color:var(--navy-3);line-height:2;
+}
+
+/* FOOTER */
+.portal-foot{
+  border-top:var(--border);background:var(--white);
+  padding:16px 44px;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:10px;
+}
+.foot-brand{
+  font-family:var(--fd);font-weight:300;font-style:italic;
+  font-size:.9rem;color:var(--gold-dk);
+}
+.foot-links{display:flex;gap:20px;}
+.foot-link{
+  font-family:var(--fb);font-weight:200;
+  font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--navy-3);text-decoration:none;cursor:pointer;transition:color .2s;
+}
+.foot-link:hover{color:var(--navy);}
+
+@media(max-width:700px){
+  .sgrid{grid-template-columns:1fr 1fr;}
+  .frm-row{grid-template-columns:1fr;}
+  .topbar{padding:0 18px;}
+  .main{padding:20px 16px;}
+}
+</style>
+</head>
+<body>
+
+<!-- ======================================================
+     AUTH GATE
+====================================================== -->
+<div id="auth-gate">
+  <div class="auth-card">
+
+    <div class="auth-brand">
+      <div class="auth-emblem">
+        <svg width="28" height="28" viewBox="0 0 40 40">
+          <circle cx="20" cy="20" r="18.5" fill="none" stroke="rgba(201,168,76,.5)" stroke-width="1"/>
+          <text x="20" y="26" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="13" font-weight="300" fill="#C9A84C" letter-spacing="2">LL</text>
+        </svg>
+      </div>
+      <span class="auth-wordmark">Lolo Travels</span>
+      <span class="auth-tagline">The World Is Yours.</span>
+      <span class="auth-portal-label">Partner Compliance Portal</span>
+    </div>
+
+    <div class="auth-rule"></div>
+
+    <!-- SIGN IN -->
+    <div id="v-signin" class="auth-view active">
+      <h2 class="auth-title">Sign in.</h2>
+      <p class="auth-hint">Access your solicitation compliance dashboard, document library, and payment portal.</p>
+      <div class="afield">
+        <label class="alabel">Email Address</label>
+        <input class="ainput" type="email" id="si-email" placeholder="you@company.com" autocomplete="email" onkeydown="if(event.key==='Enter')signIn()"/>
+      </div>
+      <div class="afield">
+        <label class="alabel">Password</label>
+        <input class="ainput" type="password" id="si-pass" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')signIn()"/>
+      </div>
+      <div class="auth-err auth-err-red" id="si-err"></div>
+      <button class="abtn" id="si-btn" onclick="signIn()"><span>Sign In</span></button>
+      <div class="auth-links"><a onclick="showView('reset')">Forgot password</a></div>
+    </div>
+
+    <!-- RESET -->
+    <div id="v-reset" class="auth-view">
+      <button class="auth-back" onclick="showView('signin')">Back to sign in</button>
+      <h2 class="auth-title">Reset password.</h2>
+      <p class="auth-hint">Enter your email and we will send a reset link to your inbox.</p>
+      <div class="afield">
+        <label class="alabel">Email Address</label>
+        <input class="ainput" type="email" id="re-email" placeholder="you@company.com"/>
+      </div>
+      <div class="auth-err" id="re-err"></div>
+      <button class="abtn" onclick="resetPw()"><span>Send Reset Link</span></button>
+      <div class="auth-links"><a onclick="showView('signin')">Back to sign in</a></div>
+    </div>
+
+    <div class="auth-footer">Lolo Travels LLC &nbsp;&middot;&nbsp; UEI: TKCPDKVVWYG9 &nbsp;&middot;&nbsp; CAGE: 1WR24</div>
+
+  </div>
+</div>
+
+<!-- ======================================================
+     PORTAL
+====================================================== -->
+<div id="portal">
+
+  <div class="topbar">
+    <div class="tb-left">
+      <div class="tb-emblem">LL</div>
+      <div class="tb-brand">Lolo Travels</div>
+      <div class="tb-divider"></div>
+      <div class="tb-portal-label">Partner Compliance Portal</div>
+    </div>
+    <div class="tb-right">
+      <span class="tb-name" id="tb-name"></span>
+      <span class="tb-type-badge" id="tb-type-badge">Partner</span>
+      <span class="tb-badge">Lolo Travels</span>
+      <button class="tb-out" onclick="signOut()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="nav-sec">Overview</div>
+      <div class="nav-item on" id="nav-overview" onclick="nav('overview')"><div class="nav-dot"></div>Solicitations</div>
+      <div class="nav-sec">Documents</div>
+      <div class="nav-item" id="nav-library" onclick="nav('library')"><div class="nav-dot"></div>Document Library</div>
+      <div class="nav-item" id="nav-profile" onclick="nav('profile')"><div class="nav-dot"></div>Company Profile</div>
+      <div class="nav-sec">Payments</div>
+      <div class="nav-item" id="nav-payment" onclick="nav('payment')"><div class="nav-dot"></div>Submit Invoice</div>
+      <div class="nav-item" id="nav-history" onclick="nav('history')"><div class="nav-dot"></div>Payment History</div>
+      <div class="nav-sec">Communication</div>
+      <div class="nav-item" id="nav-messages" onclick="nav('messages')"><div class="nav-dot"></div>Messages</div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main" id="main-area">
+
+      <!-- ============================================
+           OVERVIEW -- Solicitations
+      ============================================ -->
+      <div class="panel on" id="p-overview">
+        <div id="letterhead-block" class="letterhead">
+          <div>
+            <div class="lh-company" id="lh-name">Loading...</div>
+            <div class="lh-address" id="lh-address"></div>
+            <span class="lh-type-badge" id="lh-type-badge"></span>
+          </div>
+          <div class="lh-right">
+            <div class="lh-meta" id="lh-contact"></div>
+            <div class="lh-cred" id="lh-creds"></div>
+          </div>
+        </div>
+
+        <div class="ph">
+          <div class="ptag">Solicitation Management</div>
+          <h2 class="ph1">Your Solicitations</h2>
+          <p class="ph2">Organized by due date. Each solicitation shows compliance completion status and items requiring your action.</p>
+        </div>
+
+        <div class="sgrid" style="margin-bottom:24px;">
+          <div class="stat"><div class="slabel">Active Solicitations</div><div class="sval" id="ov-active">0</div></div>
+          <div class="stat"><div class="slabel">Items Required</div><div class="sval" id="ov-missing" style="color:var(--red);font-style:normal;">0</div><div class="smeta">Require your action</div></div>
+          <div class="stat"><div class="slabel">Documents on File</div><div class="sval" id="ov-docs">0</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('library')"><div class="slabel">Document Library</div><div class="sval" style="font-size:.9rem;font-style:normal;">View All</div></div>
+        </div>
+
+        <div id="sol-list"></div>
+      </div>
+
+      <!-- ============================================
+           SOLICITATION DETAIL
+      ============================================ -->
+      <div class="panel" id="p-solicitation">
+        <div style="margin-bottom:16px;">
+          <button class="sbtn-outline" onclick="nav('overview')" style="font-size:.58rem;">Back to Solicitations</button>
+        </div>
+
+        <div id="sol-letterhead" class="letterhead" style="border-top-color:var(--gold);">
+          <div class="lh-left">
+            <div class="lh-company" id="sol-detail-num" style="font-family:var(--fb);font-weight:500;font-size:1rem;letter-spacing:.08em;"></div>
+            <div class="lh-company" id="sol-detail-title" style="font-size:1.2rem;margin-top:4px;"></div>
+            <div class="lh-address" id="sol-detail-agency" style="margin-top:4px;"></div>
+          </div>
+          <div class="lh-right">
+            <div class="lh-meta" id="sol-detail-dates"></div>
+            <span class="stamp" id="sol-detail-stamp"></span>
+          </div>
+        </div>
+
+        <div class="sol-progress">
+          <div class="sol-progress-header">
+            <span class="sol-progress-label">Compliance Completion</span>
+            <span class="sol-progress-pct" id="sol-detail-pct">0%</span>
+          </div>
+          <div class="sol-progress-bg">
+            <div class="sol-progress-fill" id="sol-progress-bar" style="width:0%;"></div>
+          </div>
+        </div>
+
+        <!-- LOLO NOTES -->
+        <div id="sol-lolo-note" class="info-block" style="display:none;"></div>
+
+        <!-- ACTION REQUIRED -->
+        <div class="req-section" id="req-action-section">
+          <div class="req-section-header">
+            <div class="req-section-title">Action Required</div>
+            <span class="stamp stamp-missing" id="action-count">0 items</span>
+          </div>
+          <div id="reqs-action"></div>
+          <div class="empty" id="reqs-action-empty" style="padding:16px 0;display:none;">
+            <div class="empty-txt" style="color:var(--green);font-size:.82rem;">All required items are complete. Nothing outstanding.</div>
+          </div>
+        </div>
+
+        <div class="div"></div>
+
+        <!-- VERIFIED -->
+        <div class="req-section">
+          <div class="req-section-header">
+            <div class="req-section-title">Verified and Complete</div>
+            <span class="stamp stamp-verified" id="verified-count">0 items</span>
+          </div>
+          <div id="reqs-verified"></div>
+        </div>
+
+        <div class="div"></div>
+
+        <!-- UPLOAD FOR THIS SOLICITATION -->
+        <h3 style="font-family:var(--fd);font-weight:300;font-size:1.2rem;color:var(--navy);margin-bottom:6px;">Upload a Document</h3>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.78rem;color:var(--text-muted);margin-bottom:20px;line-height:1.85;">Documents already in your library are matched automatically. Upload new documents here or save as draft if not yet final.</p>
+
+        <div class="frm-row">
+          <div class="ff">
+            <label class="flabel">Document Type</label>
+            <select class="sel" id="up-type">
+              <option value="">Select type</option>
+              <option value="company_profile">Company Profile</option>
+              <option value="registration_cert">Registration Certificate</option>
+              <option value="tax_id">Tax Identification</option>
+              <option value="tax_clearance">Tax Clearance Certificate</option>
+              <option value="iata_cert">IATA Accreditation Certificate</option>
+              <option value="professional_license">Professional License or Accreditation</option>
+              <option value="gds_confirmation">GDS Platform Confirmation</option>
+              <option value="insurance_cert">Insurance Certificate</option>
+              <option value="capability_statement">Capability Statement or Quotation</option>
+              <option value="past_performance">Past Performance or Reference Letter</option>
+              <option value="signed_agreement">Signed Agreement</option>
+              <option value="bank_details">Bank Details</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="ff">
+            <label class="flabel">Document Name</label>
+            <input class="inp" type="text" id="up-name" placeholder="e.g. IATA Certificate 2026"/>
+          </div>
+          <div class="ff">
+            <label class="flabel">Issue Date</label>
+            <input class="inp" type="date" id="up-issue"/>
+          </div>
+          <div class="ff">
+            <label class="flabel">Expiry Date (if applicable)</label>
+            <input class="inp" type="date" id="up-expiry"/>
+          </div>
+        </div>
+
+        <div class="ff">
+          <label class="flabel">Attach File</label>
+          <div class="upload-zone" id="up-zone" onclick="document.getElementById('up-file').click()">
+            <div class="upload-txt"><strong>Click to attach file</strong><br>PDF, Word, or image accepted. Max 25MB.</div>
+            <input type="file" id="up-file" style="display:none;" accept=".pdf,.doc,.docx,.jpg,.png,.jpeg" onchange="handleUpload(this,'up-zone','up-fname')"/>
+          </div>
+          <div id="up-fname" style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--green);margin-top:6px;"></div>
+        </div>
+
+        <div class="ff">
+          <label class="flabel">Notes for Lolo</label>
+          <textarea class="txa" id="up-notes" placeholder="Any context Lolo should know about this document..."></textarea>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="sbtn" onclick="submitDoc('submit')"><span>Submit Document</span></button>
+          <button class="sbtn-outline" onclick="submitDoc('draft')">Save as Draft</button>
+        </div>
+
+        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--text-dim);margin-top:12px;line-height:1.85;">Lolo reviews all uploads and verifies against solicitation requirements. You will be notified by email when an item is verified or if additional information is needed.</p>
+      </div>
+
+      <!-- ============================================
+           DOCUMENT LIBRARY
+      ============================================ -->
+      <div class="panel" id="p-library">
+        <div class="ph">
+          <div class="ptag">Master Document Vault</div>
+          <h2 class="ph1">Document Library</h2>
+          <p class="ph2">All your compliance documents in one place. Upload once and they are available across every solicitation. Expiry is tracked and flagged automatically.</p>
+        </div>
+
+        <div class="filter-bar">
+          <button class="filter-tab on" onclick="filterLib(this,'all')">All Documents</button>
+          <button class="filter-tab" onclick="filterLib(this,'active')">Active</button>
+          <button class="filter-tab" onclick="filterLib(this,'expiring_soon')">Expiring Soon</button>
+          <button class="filter-tab" onclick="filterLib(this,'expired')">Expired</button>
+          <button class="filter-tab" onclick="filterLib(this,'draft')">Drafts</button>
+        </div>
+
+        <div id="lib-docs"></div>
+        <div class="empty" id="lib-empty"><div class="empty-icon">No documents yet.</div><div class="empty-txt">Upload your first document below. Once added, documents are matched to your solicitations automatically.</div></div>
+
+        <div class="div"></div>
+
+        <h3 style="font-family:var(--fd);font-weight:300;font-size:1.2rem;color:var(--navy);margin-bottom:6px;">Add to Document Library</h3>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.78rem;color:var(--text-muted);margin-bottom:20px;line-height:1.85;">Documents uploaded here are stored permanently and matched to future solicitation requirements automatically.</p>
+
+        <div class="frm-row">
+          <div class="ff">
+            <label class="flabel">Document Type</label>
+            <select class="sel" id="lib-type">
+              <option value="">Select type</option>
+              <option value="company_profile">Company Profile</option>
+              <option value="registration_cert">Registration Certificate</option>
+              <option value="tax_id">Tax Identification</option>
+              <option value="tax_clearance">Tax Clearance Certificate</option>
+              <option value="iata_cert">IATA Accreditation Certificate</option>
+              <option value="professional_license">Professional License or Accreditation</option>
+              <option value="gds_confirmation">GDS Platform Confirmation</option>
+              <option value="insurance_cert">Insurance Certificate</option>
+              <option value="capability_statement">Capability Statement</option>
+              <option value="past_performance">Reference Letter or Past Performance</option>
+              <option value="signed_agreement">Signed Agreement</option>
+              <option value="bank_details">Bank Details</option>
+              <option value="financial_statement">Financial Statement</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="ff">
+            <label class="flabel">Document Name</label>
+            <input class="inp" type="text" id="lib-name" placeholder="Descriptive name"/>
+          </div>
+          <div class="ff">
+            <label class="flabel">Issue Date</label>
+            <input class="inp" type="date" id="lib-issue"/>
+          </div>
+          <div class="ff">
+            <label class="flabel">Expiry Date (if applicable)</label>
+            <input class="inp" type="date" id="lib-expiry"/>
+          </div>
+        </div>
+
+        <div class="ff">
+          <label class="flabel">Attach File</label>
+          <div class="upload-zone" id="lib-zone" onclick="document.getElementById('lib-file').click()">
+            <div class="upload-txt"><strong>Click to attach file</strong><br>PDF, Word, or image. Max 25MB.</div>
+            <input type="file" id="lib-file" style="display:none;" accept=".pdf,.doc,.docx,.jpg,.png" onchange="handleUpload(this,'lib-zone','lib-fname')"/>
+          </div>
+          <div id="lib-fname" style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--green);margin-top:6px;"></div>
+        </div>
+
+        <button class="sbtn" onclick="addToLib()"><span>Add to Library</span></button>
+      </div>
+
+      <!-- ============================================
+           COMPANY PROFILE
+      ============================================ -->
+      <div class="panel" id="p-profile">
+        <div class="ph">
+          <div class="ptag">Official Record</div>
+          <h2 class="ph1">Company Profile on File</h2>
+          <p class="ph2">Your company details as held by Lolo Travels. This information populates compliance packages automatically. Submit an update request below if anything needs to change.</p>
+        </div>
+
+        <div id="profile-data">
+          <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:12px;">Legal Identity</h3>
+          <div class="profile-grid" style="margin-bottom:20px;">
+            <div class="pg-cell"><div class="pg-label">Legal Name</div><div class="pg-val" id="pf-legal">--</div></div>
+            <div class="pg-cell"><div class="pg-label">Entity Type</div><div class="pg-val" id="pf-type">--</div></div>
+            <div class="pg-cell"><div class="pg-label">Registration Number</div><div class="pg-val" id="pf-reg">--</div></div>
+            <div class="pg-cell"><div class="pg-label">Tax Identification</div><div class="pg-val" id="pf-tax">--</div></div>
+            <div class="pg-cell"><div class="pg-label">IATA Code</div><div class="pg-val" id="pf-iata">--</div></div>
+            <div class="pg-cell"><div class="pg-label">GDS Platform</div><div class="pg-val" id="pf-gds">--</div></div>
+          </div>
+
+          <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:12px;">Address and Contact</h3>
+          <div class="profile-grid" style="margin-bottom:20px;">
+            <div class="pg-cell"><div class="pg-label">Registered Address</div><div class="pg-val" id="pf-address">--</div></div>
+            <div class="pg-cell"><div class="pg-label">Office Phone</div><div class="pg-val" id="pf-phone">--</div></div>
+            <div class="pg-cell"><div class="pg-label">24-Hour Emergency Line 1</div><div class="pg-val" id="pf-emerg1">--</div></div>
+            <div class="pg-cell"><div class="pg-label">24-Hour Emergency Line 2</div><div class="pg-val" id="pf-emerg2">--</div></div>
+          </div>
+
+          <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:12px;">Authorized Signatory and Banking</h3>
+          <div class="profile-grid" style="margin-bottom:20px;">
+            <div class="pg-cell"><div class="pg-label">Authorized Signatory</div><div class="pg-val" id="pf-sig">--</div></div>
+            <div class="pg-cell"><div class="pg-label">Signatory Email</div><div class="pg-val" id="pf-sig-email">--</div></div>
+            <div class="pg-cell"><div class="pg-label">Bank Name</div><div class="pg-val" id="pf-bank">--</div></div>
+            <div class="pg-cell"><div class="pg-label">Account and SWIFT</div><div class="pg-val" id="pf-swift">--</div></div>
+          </div>
+
+          <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:12px;">Additional Contacts</h3>
+          <div id="pf-contacts" style="margin-bottom:20px;"></div>
+        </div>
+
+        <div class="div"></div>
+
+        <h3 style="font-family:var(--fd);font-weight:300;font-size:1.1rem;color:var(--navy);margin-bottom:10px;">Request a Profile Update</h3>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.78rem;color:var(--text-muted);margin-bottom:16px;line-height:1.85;">Describe what has changed and Lolo will update your official record and confirm.</p>
+        <div class="ff">
+          <label class="flabel">What needs updating?</label>
+          <textarea class="txa" id="profile-update-text" placeholder="e.g. Our office address has changed to... Our bank account has changed to..."></textarea>
+        </div>
+        <button class="sbtn" onclick="submitAction('profile-update','profile-update-text')"><span>Submit Update Request</span></button>
+      </div>
+
+      <!-- ============================================
+           PAYMENT REQUEST
+      ============================================ -->
+      <div class="panel" id="p-payment">
+        <div class="ph">
+          <div class="ptag">Invoice Submission</div>
+          <h2 class="ph1">Submit Payment Request</h2>
+          <p class="ph2">Upload your invoice and submit for approval. Upon approval, Lolo generates the government-format invoice and processes payment to your bank account on file.</p>
+        </div>
+
+        <div class="info-block">
+          Upon approval, the system automatically generates an IPP-format invoice from Lolo Travels LLC (EIN 41-4888165, CAGE 1WR24) to the contracting agency. Payment is disbursed to your bank account on file in USD wire transfer. Lolo will notify you by email when approved and when payment is processed.
+        </div>
+
+        <div class="frm-row">
+          <div class="ff">
+            <label class="flabel">Solicitation or Contract</label>
+            <select class="sel" id="pay-sol"></select>
+          </div>
+          <div class="ff">
+            <label class="flabel">Your Invoice Number</label>
+            <input class="inp" type="text" id="pay-inv" placeholder="Your internal reference number"/>
+          </div>
+          <div class="ff">
+            <label class="flabel">Amount Requested (USD)</label>
+            <input class="inp" type="text" id="pay-amt" placeholder="e.g. 4,125.00"/>
+          </div>
+          <div class="ff">
+            <label class="flabel">Performance Period</label>
+            <input class="inp" type="text" id="pay-period" placeholder="e.g. April 1 to April 30, 2026"/>
+          </div>
+          <div class="ff">
+            <label class="flabel">CLIN or Contract Line Item</label>
+            <input class="inp" type="text" id="pay-clin" placeholder="If applicable"/>
+          </div>
+          <div class="ff">
+            <label class="flabel">Brief Description of Services</label>
+            <input class="inp" type="text" id="pay-desc" placeholder="Services delivered during this period"/>
+          </div>
+        </div>
+
+        <div class="ff">
+          <label class="flabel">Attach Your Invoice (PDF required)</label>
+          <div class="upload-zone" id="pay-zone" onclick="document.getElementById('pay-file').click()">
+            <div class="upload-txt"><strong>Click to attach invoice PDF</strong><br>PDF format required. Your invoice should include your company letterhead, invoice number, and itemized services.</div>
+            <input type="file" id="pay-file" style="display:none;" accept=".pdf" onchange="handleUpload(this,'pay-zone','pay-fname')"/>
+          </div>
+          <div id="pay-fname" style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--green);margin-top:6px;"></div>
+        </div>
+
+        <div class="ff">
+          <label class="flabel">Additional Notes</label>
+          <textarea class="txa" id="pay-notes" placeholder="Any information Lolo should know before approving this request..."></textarea>
+        </div>
+
+        <button class="sbtn" onclick="submitPayment()"><span>Submit Payment Request</span></button>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--text-dim);margin-top:12px;line-height:1.85;">Lolo reviews payment requests within 2 business days. You will receive email confirmation when approved and when payment is processed.</p>
+      </div>
+
+      <!-- ============================================
+           PAYMENT HISTORY
+      ============================================ -->
+      <div class="panel" id="p-history">
+        <div class="ph">
+          <div class="ptag">Payment Ledger</div>
+          <h2 class="ph1">Payment History</h2>
+          <p class="ph2">Every payment received from Lolo Travels. Download for your accounting records.</p>
+        </div>
+        <div class="empty">
+          <div class="empty-icon">No payment history on file.</div>
+          <div class="empty-txt">Once Lolo approves and processes your first payment request, it will appear here with date, amount, and reference number.</div>
+        </div>
+      </div>
+
+      <!-- ============================================
+           MESSAGES
+      ============================================ -->
+      <div class="panel" id="p-messages">
+        <div class="ph">
+          <div class="ptag">Direct Communication</div>
+          <h2 class="ph1">Messages</h2>
+          <p class="ph2">Direct correspondence with Lolo. All messages are logged against your contract record and available for reference.</p>
+        </div>
+        <div class="chat-box">
+          <div class="chat-header">Lolo Travels Partner Support Thread</div>
+          <div class="chat-msgs" id="chat-msgs">
+            <div class="cmsg">
+              <div class="cav cav-ai">LL</div>
+              <div class="cbub cbub-ai">Welcome to your Lolo partner support thread. I can assist with solicitation compliance questions, document requirements, payment process guidance, and anything related to your contract. What do you need today?</div>
+            </div>
+          </div>
+          <div class="chat-input-area">
+            <input class="chat-input" id="chat-in" placeholder="Type your message to Lolo..." onkeydown="if(event.key==='Enter')sendMsg()"/>
+            <button class="chat-send" onclick="sendMsg()">Send</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="portal-foot">
+    <div class="foot-brand">Lolo Travels</div>
+    <div class="foot-links">
+      <a class="foot-link" href="/">Home</a>
+      <a class="foot-link" href="/government">Government</a>
+      <a class="foot-link" href="/contact">Contact</a>
+    </div>
+  </div>
+</div>
+
+<form name="lolo-contractor" data-netlify="true" style="display:none;">
+  <input type="text" name="type"/>
+  <input type="text" name="details"/>
+  <input type="email" name="user_email"/>
+</form>
+
+<script>
+var SB = 'https://hktntiamtpptcagnohnn.supabase.co';
+var SK = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
+var sb = null;
+var currentUser = null;
+var companyId = null;
+var activesolId = null;
+var libFilter = 'all';
+var chatHistory = [];
+
+var chatSystem = 'You are the Lolo Partner Support assistant. Help government contract partners (subcontractors and teaming partners) with: solicitation compliance requirements, document upload guidance, payment request process, onboarding checklist items, and contract questions. Be professional, precise, and helpful. Under 160 words per response. No bullet points.';
+
+(function loadSB(){
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  s.onload = function(){
+    sb = supabase.createClient(SB, SK);
+    initSession();
+  };
+  document.head.appendChild(s);
+})();
+
+async function initSession(){
+  try{
+    var r = await sb.auth.getSession();
+    if(r.data && r.data.session) loadPortal(r.data.session.user);
+  }catch(e){}
+}
+
+function showView(v){
+  document.querySelectorAll('.auth-view').forEach(function(el){el.classList.remove('active');});
+  var el = document.getElementById('v-'+v);
+  if(el) el.classList.add('active');
+}
+
+async function signIn(){
+  var email = document.getElementById('si-email').value.trim();
+  var pass = document.getElementById('si-pass').value;
+  var err = document.getElementById('si-err');
+  var btn = document.getElementById('si-btn');
+  err.textContent='';
+  if(!email||!pass){err.textContent='Please fill in all fields.';return;}
+  btn.disabled=true; btn.querySelector('span').textContent='Signing in...';
+  try{
+    var r = await sb.auth.signInWithPassword({email:email,password:pass});
+    if(r.error){
+      err.textContent = r.error.message==='Invalid login credentials' ? 'Email or password is incorrect.' : r.error.message;
+      btn.disabled=false; btn.querySelector('span').textContent='Sign In';
+      return;
+    }
+    loadPortal(r.data.user);
+  }catch(e){
+    err.textContent='Connection error. Please try again.';
+    btn.disabled=false; btn.querySelector('span').textContent='Sign In';
+  }
+}
+
+async function resetPw(){
+  var email = document.getElementById('re-email').value.trim();
+  var err = document.getElementById('re-err');
+  err.textContent='';
+  if(!email){err.textContent='Please enter your email.';return;}
+  try{
+    var r = await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+'/contractor'});
+    if(r.error){err.textContent=r.error.message;return;}
+    err.className='auth-err auth-err-ok';
+    err.textContent='Reset link sent. Check your inbox.';
+  }catch(e){err.textContent='Connection error.';}
+}
+
+async function signOut(){
+  await sb.auth.signOut();
+  document.getElementById('portal').style.display='none';
+  document.getElementById('auth-gate').style.display='flex';
+  currentUser=null; companyId=null;
+}
+
+async function loadPortal(user){
+  currentUser=user;
+  document.getElementById('auth-gate').style.display='none';
+  document.getElementById('portal').style.display='block';
+  var meta = user.user_metadata||{};
+  var name = meta.full_name ? meta.full_name.split(' ')[0] : user.email.split('@')[0];
+  document.getElementById('tb-name').textContent = name;
+  try{
+    var r = await sb.from('profiles').select('company_id').eq('id',user.id).single();
+    if(r.data && r.data.company_id){
+      companyId = r.data.company_id;
+      loadCompany();
+      loadSolicitations();
+      loadDocLibrary();
+    }
+  }catch(e){
+    loadSolicitations();
+  }
+  nav('overview');
+}
+
+async function loadCompany(){
+  if(!companyId||!sb) return;
+  try{
+    var r = await sb.from('partner_profiles').select('*').eq('company_id',companyId).single();
+    if(!r.data) return;
+    var d = r.data;
+    var addr = [d.address_line1,d.address_city,d.address_country].filter(Boolean).join(', ');
+    setText('lh-name', d.legal_name||'');
+    setText('lh-address', addr||'');
+    // Partner type badge
+    var partnerType = resolvePartnerType(d.service_types);
+    var typeEl = document.getElementById('lh-type-badge');
+    if(typeEl) typeEl.textContent = partnerType;
+    // Update topbar type badge
+    var tbType = document.getElementById('tb-type-badge');
+    if(tbType) tbType.textContent = partnerType;
+
+    var contactHtml = '';
+    if(d.signatory_name) contactHtml += '<strong>'+escHtml(d.signatory_name)+'</strong>'+(d.signatory_title?', '+escHtml(d.signatory_title):'')+'<br>';
+    if(d.signatory_email) contactHtml += escHtml(d.signatory_email)+'<br>';
+    if(d.signatory_phone) contactHtml += escHtml(d.signatory_phone);
+    document.getElementById('lh-contact').innerHTML = contactHtml;
+    var credsHtml = '';
+    if(d.iata_code) credsHtml += 'IATA: '+escHtml(d.iata_code)+'<br>';
+    if(d.registration_number) credsHtml += 'Reg: '+escHtml(d.registration_number);
+    if(d.tax_id) credsHtml += '<br>TIN: '+escHtml(d.tax_id);
+    document.getElementById('lh-creds').innerHTML = credsHtml;
+    setText('pf-legal', d.legal_name||'--');
+    setText('pf-type', d.entity_type||'--');
+    setText('pf-reg', d.registration_number||'--');
+    setText('pf-tax', d.tax_id||'--');
+    setText('pf-iata', d.iata_code ? d.iata_code+(d.iata_expiry?' (exp '+d.iata_expiry+')':'') : '--');
+    setText('pf-gds', d.gds_platform||'--');
+    setText('pf-address', addr||'--');
+    setText('pf-phone', d.office_phone||'--');
+    setText('pf-emerg1', d.emergency_line_1||'--');
+    setText('pf-emerg2', d.emergency_line_2||'--');
+    var sigText = d.signatory_name||'--';
+    if(d.signatory_title) sigText += ', '+d.signatory_title;
+    setText('pf-sig', sigText);
+    setText('pf-sig-email', d.signatory_email||'--');
+    setText('pf-bank', d.bank_name||'--');
+    var swiftText = d.bank_account_number ? d.bank_account_number+(d.bank_swift?' / '+d.bank_swift:'') : '--';
+    setText('pf-swift', swiftText);
+    if(d.additional_contacts){
+      var contacts = typeof d.additional_contacts === 'string' ? JSON.parse(d.additional_contacts) : d.additional_contacts;
+      var ch = document.getElementById('pf-contacts');
+      if(ch && contacts && contacts.length){
+        ch.innerHTML = '<div class="profile-grid">' +
+          contacts.map(function(c){
+            return '<div class="pg-cell"><div class="pg-label">'+escHtml(c.role||c.title||'Contact')+'</div><div class="pg-val">'+escHtml(c.name||'')+'<br><span style="color:var(--text-muted);font-size:.75rem;">'+escHtml(c.email||'')+(c.phone?' &nbsp;|&nbsp; '+escHtml(c.phone):'')+'</span></div></div>';
+          }).join('') +
+        '</div>';
+      }
+    }
+  }catch(e){}
+}
+
+async function loadSolicitations(){
+  if(!companyId||!sb){
+    document.getElementById('sol-list').innerHTML = '<div class="empty"><div class="empty-icon">No solicitations on file.</div><div class="empty-txt">Lolo will add your solicitations here once active.</div></div>';
+    return;
+  }
+  try{
+    var r = await sb.from('solicitations').select('*').eq('company_id',companyId).order('due_date',{ascending:false});
+    var sols = r.data||[];
+    var list = document.getElementById('sol-list');
+    if(!list) return;
+    var docR = await sb.from('partner_documents').select('id',{count:'exact'}).eq('company_id',companyId).eq('is_current',true);
+    setText('ov-docs', docR.count||0);
+    if(!sols.length){
+      list.innerHTML='<div class="empty"><div class="empty-icon">No solicitations on file.</div><div class="empty-txt">Lolo will add your solicitations here once active. Check back after your next proposal submission.</div></div>';
+      return;
+    }
+    var active=0, missing=0;
+    var payOpts = '';
+    var html='';
+    sols.forEach(function(s){
+      var status = s.status||'active';
+      if(['submitted','active','pending_award'].indexOf(status)>-1) active++;
+      missing += (s.docs_missing||0);
+      payOpts += '<option value="'+s.id+'">'+s.solicitation_number+' - '+s.agency_location+'</option>';
+      var pct = s.completion_pct||0;
+      var complete = pct===100;
+      var urgentClass = s.priority==='urgent' ? 'urgent' : complete ? 'complete' : '';
+      var stampClass = status==='submitted'?'stamp-submitted':status==='awarded'?'stamp-awarded':status==='not_awarded'?'stamp-missing':'stamp-active';
+      var stampLabel = status.replace(/_/g,' ');
+      var missingHtml = '';
+      if(s.docs_missing>0){
+        missingHtml = '<span class="stamp stamp-missing">'+s.docs_missing+' item'+(s.docs_missing!==1?'s':'')+' required</span>';
+      }
+      html += '<div class="sol-card '+urgentClass+'" data-sol="'+s.id+'" onclick="openSolicitation(this.dataset.sol)">' +
+        '<div style="flex:1;">' +
+          '<div class="sol-num">'+escHtml(s.solicitation_number)+(s.priority==='urgent'?'<span class="stamp stamp-urgent" style="padding:2px 7px;font-size:.52rem;">Urgent</span>':'')+'</div>' +
+          '<div class="sol-title-text">'+escHtml(s.title)+'</div>' +
+          '<div class="sol-meta">' +
+            '<span>'+escHtml(s.agency_location||'')+'</span>' +
+            (s.submittal_date?'<span class="sol-date-chip">Submitted: '+s.submittal_date+'</span>':'') +
+            (s.due_date?'<span class="sol-date-chip">Due: '+s.due_date+'</span>':'') +
+          '</div>' +
+        '</div>' +
+        '<div class="sol-right">' +
+          '<span class="stamp '+stampClass+'">'+stampLabel+'</span>' +
+          missingHtml +
+          '<div class="prog-wrap">' +
+            '<div class="prog-bar-bg"><div class="prog-bar'+(complete?' complete':'')+'" style="width:'+pct+'%"></div></div>' +
+            '<span class="prog-pct">'+pct+'%</span>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    });
+    list.innerHTML=html;
+    setText('ov-active',active);
+    setText('ov-missing',missing);
+    var payEl = document.getElementById('pay-sol');
+    if(payEl) payEl.innerHTML = payOpts;
+  }catch(e){}
+}
+
+async function openSolicitation(solId){
+  activesolId=solId;
+  if(!sb) return;
+  try{
+    var r = await sb.from('solicitations').select('*').eq('id',solId).single();
+    var s = r.data; if(!s) return;
+    setText('sol-detail-num', s.solicitation_number||'');
+    setText('sol-detail-title', s.title||'');
+    setText('sol-detail-agency', (s.agency_name||'')+' - '+(s.agency_location||''));
+    var datesText = '';
+    if(s.submittal_date) datesText += 'Submitted: '+s.submittal_date+' ';
+    if(s.due_date) datesText += ' | Due: '+s.due_date;
+    setText('sol-detail-dates', datesText.trim());
+    var stamp = document.getElementById('sol-detail-stamp');
+    if(stamp){
+      var sc = s.status==='submitted'?'stamp-submitted':s.status==='awarded'?'stamp-awarded':s.status==='not_awarded'?'stamp-missing':'stamp-active';
+      stamp.className='stamp '+sc;
+      stamp.textContent=(s.status||'').replace(/_/g,' ');
+    }
+    var pct = s.completion_pct||0;
+    setText('sol-detail-pct', pct+'%');
+    var bar = document.getElementById('sol-progress-bar');
+    if(bar){bar.style.width=pct+'%'; if(pct===100) bar.classList.add('full'); else bar.classList.remove('full');}
+    var noteEl = document.getElementById('sol-lolo-note');
+    if(noteEl){
+      if(s.lolo_notes){noteEl.textContent=s.lolo_notes;noteEl.style.display='block';}
+      else noteEl.style.display='none';
+    }
+    var rr = await sb.from('solicitation_requirements').select('*').eq('solicitation_id',solId).order('sort_order');
+    var reqs = rr.data||[];
+    var action = reqs.filter(function(r){return r.status==='missing'||r.status==='expired'||r.status==='expiring_soon';});
+    var verified = reqs.filter(function(r){return r.status==='verified';});
+    setText('action-count', action.length+' item'+(action.length!==1?'s':''));
+    var ae = document.getElementById('reqs-action');
+    var aem = document.getElementById('reqs-action-empty');
+    if(ae){
+      if(!action.length){ae.innerHTML='';if(aem)aem.style.display='block';}
+      else{
+        if(aem)aem.style.display='none';
+        ae.innerHTML=action.map(function(r){
+          var rowClass = r.status==='verified'?'req-verified':r.status==='expiring_soon'?'req-expiring':'req-missing';
+          var stampClass = r.status==='missing'?'stamp-missing':r.status==='expired'?'stamp-missing':'stamp-expiring';
+          var stampLabel = r.status==='missing'?'Required':r.status==='expired'?'Expired':'Expiring Soon';
+          return '<div class="req-row '+rowClass+'">' +
+            '<div style="flex:1;">' +
+              '<div class="req-name">'+escHtml(r.req_name)+'</div>' +
+              (r.req_description?'<div class="req-desc">'+escHtml(r.req_description)+'</div>':'') +
+              (r.lolo_notes?'<div class="req-note note-lolo">Lolo: '+escHtml(r.lolo_notes)+'</div>':'') +
+              (r.flag_message?'<div class="req-note note-flag">'+escHtml(r.flag_message)+'</div>':'') +
+            '</div>' +
+            '<div style="flex-shrink:0;"><span class="stamp '+stampClass+'">'+stampLabel+'</span></div>' +
+          '</div>';
+        }).join('');
+      }
+    }
+    setText('verified-count', verified.length+' item'+(verified.length!==1?'s':''));
+    var ve = document.getElementById('reqs-verified');
+    if(ve){
+      ve.innerHTML=verified.map(function(r){
+        return '<div class="req-row req-verified">' +
+          '<div style="flex:1;">' +
+            '<div class="req-name">'+escHtml(r.req_name)+'</div>' +
+            (r.lolo_notes?'<div class="req-desc">'+escHtml(r.lolo_notes)+'</div>':'') +
+            (r.lolo_preselected?'<div class="req-preloaded">Pre-loaded by Lolo from your submitted documents</div>':'') +
+          '</div>' +
+          '<div style="flex-shrink:0;"><span class="stamp stamp-verified">Verified</span></div>' +
+        '</div>';
+      }).join('');
+    }
+    nav('solicitation');
+  }catch(e){nav('solicitation');}
+}
+
+async function loadDocLibrary(){
+  if(!companyId||!sb) return;
+  try{
+    var r = await sb.from('partner_documents').select('*').eq('company_id',companyId).eq('is_current',true).order('created_at',{ascending:false});
+    var docs = r.data||[];
+    renderDocs(docs);
+  }catch(e){}
+}
+
+function renderDocs(docs){
+  var filtered = libFilter==='all' ? docs :
+    libFilter==='draft' ? docs.filter(function(d){return d.is_draft;}) :
+    docs.filter(function(d){return d.status===libFilter;});
+  var el = document.getElementById('lib-docs');
+  var empty = document.getElementById('lib-empty');
+  if(!el) return;
+  if(!filtered.length){
+    el.innerHTML='';
+    if(empty) empty.style.display='block';
+    return;
+  }
+  if(empty) empty.style.display='none';
+  el.innerHTML=filtered.map(function(d){
+    var sc = d.status==='active'?'stamp-verified':d.status==='expiring_soon'?'stamp-expiring':d.status==='expired'?'stamp-missing':d.is_draft?'stamp-draft':'stamp-pending';
+    var sl = d.status==='active'?'Active':d.status==='expiring_soon'?'Expiring Soon':d.status==='expired'?'Expired':d.is_draft?'Draft':'Pending Review';
+    var ext = (d.file_name||'').split('.').pop().toUpperCase().substring(0,3)||'DOC';
+    return '<div class="doc-card">' +
+      '<div class="doc-icon">'+ext+'</div>' +
+      '<div style="flex:1;">' +
+        '<div class="doc-name">'+escHtml(d.doc_name)+'</div>' +
+        '<div class="doc-meta">'+(d.doc_type||'').replace(/_/g,' ')+(d.issue_date?' &nbsp;|&nbsp; Issued: '+d.issue_date:'')+(d.expiry_date?' &nbsp;|&nbsp; Expires: '+d.expiry_date:'')+'</div>' +
+        (d.verified?'<div class="doc-verified-tag">Verified by Lolo</div>':'<div style="font-family:var(--fb);font-weight:200;font-size:.65rem;color:var(--text-dim);margin-top:2px;">Pending Lolo review</div>') +
+      '</div>' +
+      '<span class="stamp '+sc+'">'+sl+'</span>' +
+    '</div>';
+  }).join('');
+}
+
+async function filterLib(btn, filter){
+  libFilter = filter;
+  document.querySelectorAll('.filter-tab').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  if(companyId && sb){
+    var r = await sb.from('partner_documents').select('*').eq('company_id',companyId).eq('is_current',true).order('created_at',{ascending:false});
+    renderDocs(r.data||[]);
+  }
+}
+
+function handleUpload(input, zoneId, fnameId){
+  if(input.files && input.files[0]){
+    var f = input.files[0];
+    var zone = document.getElementById(zoneId);
+    if(zone) zone.querySelector('.upload-txt').innerHTML='<strong>'+escHtml(f.name)+'</strong><br>'+formatBytes(f.size)+' - Ready to upload';
+    setText(fnameId, f.name+' attached');
+  }
+}
+
+function formatBytes(b){ return b>1048576 ? (b/1048576).toFixed(1)+' MB' : (b/1024).toFixed(0)+' KB'; }
+
+function submitDoc(mode){
+  var btns = document.querySelectorAll('#p-solicitation .sbtn, #p-solicitation .sbtn-outline');
+  var btn = mode==='submit' ? btns[0] : btns[1];
+  if(btn){
+    var o=btn.innerHTML||btn.textContent;
+    if(btn.classList.contains('sbtn')){
+      btn.innerHTML='<span>'+(mode==='draft'?'Draft Saved':'Submitted to Lolo')+'</span>';
+      btn.style.background=mode==='draft'?'var(--text-muted)':'var(--green)';
+      setTimeout(function(){btn.innerHTML='<span>Submit Document</span>';btn.style.background='';},3200);
+    } else {
+      btn.textContent='Draft Saved';
+      btn.style.color='var(--green)';
+      setTimeout(function(){btn.textContent='Save as Draft';btn.style.color='';},3200);
+    }
+    submitForm('document-upload');
+  }
+}
+
+function addToLib(){
+  var btn = document.querySelector('#p-library .sbtn');
+  if(btn){var o=btn.innerHTML;btn.innerHTML='<span>Added to Library</span>';btn.style.background='var(--green)';setTimeout(function(){btn.innerHTML=o;btn.style.background='';},3000);}
+  submitForm('library-upload');
+}
+
+function submitPayment(){
+  var btn = document.querySelector('#p-payment .sbtn');
+  if(btn){var o=btn.innerHTML;btn.innerHTML='<span>Payment Request Submitted</span>';btn.style.background='var(--green)';setTimeout(function(){btn.innerHTML=o;btn.style.background='';},3500);}
+  submitForm('payment-request');
+}
+
+function submitAction(type, fieldId){
+  var btn = event.target;
+  if(btn){var o=btn.innerHTML;btn.innerHTML='<span>Request Submitted</span>';btn.style.background='var(--green)';setTimeout(function(){btn.innerHTML=o;btn.style.background='';},3000);}
+  submitForm(type);
+}
+
+function submitForm(type){
+  var email = currentUser ? currentUser.email : '';
+  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body:new URLSearchParams({'form-name':'lolo-contractor','type':type,'user_email':email}).toString()
+  });
+}
+
+function resolvePartnerType(serviceTypes) {
+  if(!serviceTypes) return 'Partner';
+  var types = Array.isArray(serviceTypes) ? serviceTypes : [serviceTypes];
+  var typeStr = types.join(',').toLowerCase();
+  if(typeStr.indexOf('insurance') > -1) return 'Insurance Partner';
+  if(typeStr.indexOf('air') > -1 || typeStr.indexOf('hotel') > -1 || typeStr.indexOf('ground') > -1) return 'Travel Management Partner';
+  if(typeStr.indexOf('cargo') > -1) return 'Cargo Partner';
+  if(typeStr.indexOf('visa') > -1) return 'Visa Services Partner';
+  return 'Partner';
+}
+
+async function sendMsg(){
+  var inp = document.getElementById('chat-in');
+  var msgs = document.getElementById('chat-msgs');
+  if(!inp||!msgs) return;
+  var msg = inp.value.trim();
+  if(!msg) return;
+  inp.value='';
+  msgs.innerHTML += '<div class="cmsg user"><div class="cav cav-u">You</div><div class="cbub cbub-u">'+escHtml(msg)+'</div></div>';
+  var tid='t'+Date.now();
+  msgs.innerHTML += '<div class="cmsg" id="'+tid+'"><div class="cav cav-ai">LL</div><div class="cbub cbub-ai"><div class="typing-d"><span></span><span></span><span></span></div></div></div>';
+  msgs.scrollTop=msgs.scrollHeight;
+  chatHistory.push({role:'user',content:msg});
+  try{
+    var resp = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:chatSystem,messages:chatHistory})
+    });
+    var data = await resp.json();
+    var reply = data.content&&data.content[0] ? data.content[0].text : 'Please try again.';
+    chatHistory.push({role:'assistant',content:reply});
+    var el=document.getElementById(tid);
+    if(el) el.querySelector('.cbub').textContent=reply;
+  }catch(e){
+    var el=document.getElementById(tid);
+    if(el) el.querySelector('.cbub').textContent='Connection issue. Please try again.';
+  }
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function nav(id){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('on');});
+  var panel=document.getElementById('p-'+id);
+  var navEl=document.getElementById('nav-'+id);
+  if(panel) panel.classList.add('on');
+  if(navEl) navEl.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='library') loadDocLibrary();
+}
+
+function setText(id,val){var el=document.getElementById(id);if(el)el.textContent=val;}
+
+function escHtml(s){
+  if(!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>
