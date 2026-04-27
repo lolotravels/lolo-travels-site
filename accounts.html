@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lolo Travels - Business Accounts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#060E1A;
+  --gold:#C9A84C;
+  --gold-lt:#E2C97E;
+  --cream:#F5F0E8;
+  --muted:rgba(245,240,232,.55);
+  --dim:rgba(245,240,232,.3);
+  --green:rgba(40,180,100,.85);
+  --red:rgba(220,70,70,.85);
+  --amber:rgba(220,160,40,.85);
+  --fd:'Cormorant Garamond',Georgia,serif;
+  --fb:'Jost',sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --bdr:1px solid rgba(255,255,255,.07);
+  --bdrg:1px solid rgba(201,168,76,.22);
+}
+html,body{background:var(--navy);color:var(--cream);font-family:var(--fb);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+#auth-gate{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(201,168,76,.07) 0%,transparent 70%),var(--navy);}
+.auth-wrap{width:100%;max-width:420px;padding:0 28px;}
+.auth-brand{text-align:center;margin-bottom:44px;}
+.auth-emblem{width:48px;height:48px;border-radius:50%;border:1px solid rgba(201,168,76,.3);display:inline-flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.85rem;color:var(--gold);margin-bottom:12px;}
+.auth-name{display:block;font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.5rem;color:var(--cream);margin-bottom:3px;}
+.auth-tag{display:block;font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(201,168,76,.45);}
+.auth-view{display:none;}
+.auth-view.active{display:block;}
+.auth-h{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.7rem;color:var(--cream);margin-bottom:5px;}
+.auth-hint{font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--muted);margin-bottom:28px;line-height:1.85;}
+.fld{margin-bottom:20px;}
+.flabel{display:block;font-family:var(--fb);font-weight:200;font-size:.54rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:7px;}
+.finput,.fselect{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,.2);color:var(--cream);padding:11px 0;font-family:var(--fb);font-weight:200;font-size:.88rem;outline:none;transition:border-color .25s;}
+.finput:focus,.fselect:focus{border-bottom-color:rgba(201,168,76,.55);}
+.finput::placeholder{color:rgba(245,240,232,.2);}
+.fselect{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(201,168,76,.4)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center;background-color:transparent;padding-right:20px;}
+.fselect option{background:#060E1A;}
+.abtn{width:100%;padding:14px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;background:var(--gold);color:var(--navy);border:none;cursor:pointer;position:relative;overflow:hidden;transition:letter-spacing .3s var(--ease);margin-top:4px;}
+.abtn::before{content:'';position:absolute;inset:0;background:var(--gold-lt);transform:translateX(-101%);transition:transform .45s var(--ease);}
+.abtn:hover{letter-spacing:.28em;}
+.abtn:hover::before{transform:translateX(0);}
+.abtn span{position:relative;z-index:1;}
+.abtn:disabled{opacity:.4;cursor:not-allowed;}
+.abtn:disabled::before{display:none;}
+.auth-links{margin-top:18px;text-align:center;font-family:var(--fb);font-weight:200;font-size:.76rem;color:var(--dim);line-height:2.2;}
+.auth-links a{color:rgba(201,168,76,.65);cursor:pointer;transition:color .2s;text-decoration:none;}
+.auth-links a:hover{color:var(--gold);}
+.auth-back{display:inline-flex;align-items:center;gap:6px;font-family:var(--fb);font-weight:200;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);cursor:pointer;margin-bottom:28px;background:none;border:none;}
+.auth-back:hover{color:var(--muted);}
+.amsg{font-family:var(--fb);font-weight:200;font-size:.76rem;min-height:16px;margin-top:8px;text-align:center;}
+.amsg-err{color:var(--red);}
+.amsg-ok{color:var(--green);}
+.acct-types{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:24px;}
+.acct-type{border:var(--bdr);padding:18px 14px;cursor:pointer;text-align:center;transition:border-color .25s,background .25s;}
+.acct-type:hover{border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.03);}
+.acct-type.sel{border-color:rgba(201,168,76,.5);background:rgba(201,168,76,.06);}
+.acct-type-icon{font-family:var(--fd);font-size:1.4rem;font-style:italic;color:rgba(201,168,76,.3);margin-bottom:8px;}
+.acct-type-name{font-family:var(--fb);font-weight:400;font-size:.58rem;letter-spacing:.16em;text-transform:uppercase;color:var(--cream);margin-bottom:4px;}
+.acct-type-desc{font-family:var(--fb);font-weight:200;font-size:.68rem;color:var(--dim);line-height:1.7;}
+#portal{display:none;min-height:100vh;}
+.topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:15px 36px;background:rgba(6,14,26,.93);backdrop-filter:blur(14px);border-bottom:var(--bdr);}
+.tb-left{display:flex;align-items:center;gap:12px;}
+.tb-emblem{width:28px;height:28px;border-radius:50%;border:1px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.65rem;color:var(--gold);}
+.tb-brand{font-family:var(--fd);font-weight:300;font-style:italic;font-size:.95rem;color:var(--cream);}
+.tb-right{display:flex;align-items:center;gap:14px;}
+.tb-name{font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--muted);}
+.tb-tier{font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;border:var(--bdrg);color:rgba(201,168,76,.7);padding:3px 10px;}
+.tb-switch{font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(201,168,76,.55);cursor:pointer;background:none;border:var(--bdrg);padding:4px 10px;transition:color .2s,border-color .2s;}
+.tb-switch:hover{color:var(--gold);border-color:rgba(201,168,76,.4);}
+.tb-out{font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);cursor:pointer;background:none;border:none;transition:color .2s;}
+.tb-out:hover{color:var(--muted);}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 57px);}
+@media(max-width:880px){.layout{grid-template-columns:1fr;}}
+.sidebar{background:rgba(255,255,255,.015);border-right:var(--bdr);padding:28px 0;position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto;}
+.sidebar::-webkit-scrollbar{width:2px;}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(201,168,76,.12);}
+@media(max-width:880px){.sidebar{position:static;height:auto;border-right:none;border-bottom:var(--bdr);padding:10px 0;}}
+.nav-sec{font-family:var(--fb);font-weight:200;font-size:.5rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(201,168,76,.32);padding:5px 20px;margin-top:18px;margin-bottom:3px;}
+.nav-sec:first-child{margin-top:0;}
+.nav-item{display:flex;align-items:center;gap:8px;padding:9px 20px;cursor:pointer;font-family:var(--fb);font-weight:200;font-size:.76rem;color:var(--muted);transition:color .2s,background .2s;border-left:2px solid transparent;}
+.nav-item:hover{color:rgba(245,240,232,.8);background:rgba(255,255,255,.025);}
+.nav-item.on{color:var(--cream);background:rgba(201,168,76,.04);border-left-color:var(--gold);}
+.nav-dot{width:3px;height:3px;border-radius:50%;background:rgba(201,168,76,.28);flex-shrink:0;}
+.nav-item.on .nav-dot{background:var(--gold);}
+.main{padding:40px 44px;max-width:1080px;}
+@media(max-width:700px){.main{padding:24px 18px;}}
+.panel{display:none;}
+.panel.on{display:block;animation:pin .2s ease;}
+@keyframes pin{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+.ph{margin-bottom:26px;}
+.ptag{font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(201,168,76,.48);margin-bottom:8px;}
+.ph1{font-family:var(--fd);font-weight:300;font-style:italic;font-size:clamp(1.5rem,3vw,2.2rem);color:var(--cream);line-height:1.05;margin-bottom:7px;}
+.ph2{font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--muted);line-height:1.9;max-width:580px;}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:2px;margin-bottom:2px;}
+.stat{background:rgba(255,255,255,.022);border:var(--bdr);padding:22px;transition:border-color .25s;}
+.stat:hover{border-color:rgba(201,168,76,.14);}
+.slabel{font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,168,76,.42);margin-bottom:9px;}
+.sval{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.35rem;color:var(--cream);margin-bottom:4px;}
+.smeta{font-family:var(--fb);font-weight:200;font-size:.68rem;color:var(--dim);line-height:1.75;}
+.div{height:1px;background:rgba(255,255,255,.05);margin:26px 0;}
+.tl{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+@media(max-width:640px){.tl{grid-template-columns:1fr;}}
+.tls{background:rgba(255,255,255,.022);border:var(--bdr);padding:24px 20px;}
+.tls.lit{border-color:rgba(201,168,76,.28);background:rgba(201,168,76,.03);}
+.tlnum{font-family:var(--fd);font-size:2.2rem;font-style:italic;color:rgba(201,168,76,.1);line-height:1;margin-bottom:9px;}
+.tlttl{font-family:var(--fb);font-weight:300;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cream);margin-bottom:7px;}
+.tldesc{font-family:var(--fb);font-weight:200;font-size:.76rem;color:var(--muted);line-height:1.85;}
+.tlstat{margin-top:13px;}
+.badge{display:inline-block;font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;padding:3px 9px;}
+.badge-g{border:1px solid rgba(40,180,100,.25);background:rgba(40,180,100,.07);color:var(--green);}
+.badge-a{border:var(--bdrg);background:rgba(201,168,76,.07);color:rgba(201,168,76,.8);}
+.badge-d{border:var(--bdr);background:rgba(255,255,255,.03);color:var(--dim);}
+.badge-r{border:1px solid rgba(220,70,70,.25);background:rgba(220,70,70,.07);color:var(--red);}
+.frm-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:560px){.frm-row{grid-template-columns:1fr;}}
+.ff{margin-bottom:18px;}
+.inp,.sel,.txa{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,.18);color:var(--cream);padding:10px 0;font-family:var(--fb);font-weight:200;font-size:.86rem;outline:none;transition:border-color .25s;}
+.inp:focus,.sel:focus,.txa:focus{border-bottom-color:rgba(201,168,76,.5);}
+.inp::placeholder,.txa::placeholder{color:rgba(245,240,232,.18);}
+.sel{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(201,168,76,.4)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center;background-color:transparent;padding-right:20px;}
+.sel option{background:#060E1A;}
+.txa{border:var(--bdr);border-bottom:1px solid rgba(201,168,76,.18);padding:10px;resize:vertical;min-height:76px;line-height:1.7;}
+.sbtn{padding:13px 36px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;background:var(--gold);color:var(--navy);border:none;cursor:pointer;position:relative;overflow:hidden;transition:letter-spacing .3s var(--ease);}
+.sbtn::before{content:'';position:absolute;inset:0;background:var(--gold-lt);transform:translateX(-101%);transition:transform .45s var(--ease);}
+.sbtn:hover{letter-spacing:.25em;}
+.sbtn:hover::before{transform:translateX(0);}
+.sbtn span{position:relative;z-index:1;}
+.empty{padding:48px 0;text-align:center;}
+.empty-icon{font-family:var(--fd);font-size:1.6rem;font-style:italic;color:rgba(201,168,76,.1);margin-bottom:10px;}
+.empty-txt{font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--dim);line-height:2;}
+.chat-box{background:rgba(255,255,255,.018);border:var(--bdr);padding:24px;}
+.chat-msgs{min-height:160px;max-height:280px;overflow-y:auto;margin-bottom:14px;}
+.chat-msgs::-webkit-scrollbar{width:2px;}
+.chat-msgs::-webkit-scrollbar-thumb{background:rgba(201,168,76,.12);}
+.cmsg{display:flex;gap:9px;margin-bottom:12px;align-items:flex-start;}
+.cmsg.user{flex-direction:row-reverse;}
+.cav{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.58rem;}
+.cav-ai{background:rgba(201,168,76,.08);border:var(--bdrg);color:var(--gold);}
+.cav-u{background:rgba(255,255,255,.05);color:var(--dim);}
+.cbub{max-width:86%;padding:10px 13px;font-family:var(--fb);font-weight:200;font-size:.79rem;line-height:1.85;}
+.cbub-ai{background:rgba(201,168,76,.04);border:var(--bdrg);color:rgba(245,240,232,.85);}
+.cbub-u{background:rgba(255,255,255,.04);border:var(--bdr);color:rgba(245,240,232,.6);}
+.typing-d span{display:inline-block;width:4px;height:4px;border-radius:50%;background:rgba(201,168,76,.4);margin:0 2px;animation:bounce .8s ease-in-out infinite;}
+.typing-d span:nth-child(2){animation-delay:.15s;}
+.typing-d span:nth-child(3){animation-delay:.3s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-5px);opacity:1;}}
+.chat-row{display:flex;gap:7px;}
+.chat-inp{flex:1;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,.18);color:var(--cream);padding:10px 0;font-family:var(--fb);font-weight:200;font-size:.84rem;outline:none;transition:border-color .25s;}
+.chat-inp:focus{border-bottom-color:rgba(201,168,76,.5);}
+.chat-inp::placeholder{color:rgba(245,240,232,.18);}
+.chat-send{padding:10px 18px;font-family:var(--fb);font-weight:400;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;background:var(--gold);color:var(--navy);border:none;cursor:pointer;transition:background .2s;}
+.chat-send:hover{background:var(--gold-lt);}
+.trav-row{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;padding:12px 16px;background:rgba(255,255,255,.02);border:var(--bdr);margin-bottom:2px;font-family:var(--fb);font-weight:200;font-size:.78rem;}
+.trav-name{color:var(--cream);}
+.trav-dest{color:var(--muted);}
+.risk-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.risk-g{background:var(--green);}
+.risk-a{background:var(--amber);}
+.risk-r{background:var(--red);}
+.deliv-row{background:rgba(255,255,255,.02);border:var(--bdr);padding:14px 18px;margin-bottom:2px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.deliv-title{font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--cream);margin-bottom:3px;}
+.deliv-meta{font-family:var(--fb);font-weight:200;font-size:.68rem;color:var(--dim);}
+.upload-zone{border:1px dashed rgba(201,168,76,.25);padding:28px;text-align:center;cursor:pointer;transition:border-color .25s;}
+.upload-zone:hover{border-color:rgba(201,168,76,.45);}
+.upload-txt{font-family:var(--fb);font-weight:200;font-size:.76rem;color:var(--dim);line-height:1.9;}
+.portal-foot{border-top:var(--bdr);padding:18px 44px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.foot-brand{font-family:var(--fd);font-weight:300;font-style:italic;font-size:.85rem;color:rgba(201,168,76,.28);}
+.foot-links{display:flex;gap:18px;}
+.foot-link{font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .2s;}
+.foot-link:hover{color:rgba(201,168,76,.55);}
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="auth-gate">
+<div class="auth-wrap">
+  <div class="auth-brand">
+    <div class="auth-emblem">LL</div>
+    <span class="auth-name">Lolo Travels</span>
+    <span class="auth-tag">Business Accounts</span>
+  </div>
+
+  <!-- ACCOUNT TYPE SELECT -->
+  <div id="v-select" class="auth-view active">
+    <h2 class="auth-h">How are you working with Lolo?</h2>
+    <p class="auth-hint">Select your account type to access the right dashboard.</p>
+    <div class="acct-types">
+      <div class="acct-type" id="at-corp" onclick="selectType('corp')">
+        <div class="acct-type-icon">C</div>
+        <div class="acct-type-name">Corporate</div>
+        <div class="acct-type-desc">Company travel management and duty of care</div>
+      </div>
+      <div class="acct-type" id="at-advisor" onclick="selectType('advisor')">
+        <div class="acct-type-icon">A</div>
+        <div class="acct-type-name">Advisor</div>
+        <div class="acct-type-desc">Travel advisor managing client protection</div>
+      </div>
+      <div class="acct-type" id="at-contractor" onclick="selectType('contractor')">
+        <div class="acct-type-icon">P</div>
+        <div class="acct-type-name">Partner</div>
+        <div class="acct-type-desc">Sub or teaming partner on a Lolo contract</div>
+      </div>
+    </div>
+    <button class="abtn" id="sel-continue" onclick="showView('signin')" disabled><span>Continue</span></button>
+  </div>
+
+  <!-- SIGN IN -->
+  <div id="v-signin" class="auth-view">
+    <button class="auth-back" onclick="showView('select')">Back</button>
+    <h2 class="auth-h">Sign in.</h2>
+    <p class="auth-hint" id="si-hint">Signing in to your account.</p>
+    <div class="fld"><label class="flabel">Email</label><input class="finput" type="email" id="si-email" placeholder="you@company.com" autocomplete="email" onkeydown="if(event.key==='Enter')signIn()"/></div>
+    <div class="fld"><label class="flabel">Password</label><input class="finput" type="password" id="si-pass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')signIn()"/></div>
+    <div class="amsg amsg-err" id="si-err"></div>
+    <button class="abtn" id="si-btn" onclick="signIn()"><span>Sign In</span></button>
+    <div class="auth-links"><a onclick="showView('reset')">Forgot password</a><br>New account? <a onclick="showView('signup')">Register</a></div>
+  </div>
+
+  <!-- SIGN UP -->
+  <div id="v-signup" class="auth-view">
+    <button class="auth-back" onclick="showView('signin')">Back to sign in</button>
+    <h2 class="auth-h">Create account.</h2>
+    <div class="fld"><label class="flabel">Full Name</label><input class="finput" type="text" id="su-name" placeholder="First and Last Name"/></div>
+    <div class="fld"><label class="flabel">Company Name</label><input class="finput" type="text" id="su-company" placeholder="Your organization"/></div>
+    <div class="fld"><label class="flabel">Email</label><input class="finput" type="email" id="su-email" placeholder="you@company.com"/></div>
+    <div class="fld"><label class="flabel">Password</label><input class="finput" type="password" id="su-pass" placeholder="Minimum 8 characters"/></div>
+    <div class="amsg amsg-err" id="su-err"></div>
+    <button class="abtn" id="su-btn" onclick="signUp()"><span>Create Account</span></button>
+  </div>
+
+  <!-- RESET -->
+  <div id="v-reset" class="auth-view">
+    <button class="auth-back" onclick="showView('signin')">Back to sign in</button>
+    <h2 class="auth-h">Reset password.</h2>
+    <div class="fld"><label class="flabel">Email</label><input class="finput" type="email" id="re-email" placeholder="you@company.com"/></div>
+    <div class="amsg amsg-err" id="re-err"></div>
+    <button class="abtn" onclick="resetPw()"><span>Send Reset Link</span></button>
+  </div>
+</div>
+</div>
+
+<!-- PORTAL -->
+<div id="portal">
+  <div class="topbar">
+    <div class="tb-left">
+      <div class="tb-emblem">LL</div>
+      <div class="tb-brand">Lolo Travels</div>
+    </div>
+    <div class="tb-right">
+      <span class="tb-name" id="tb-name"></span>
+      <span class="tb-tier" id="tb-tier">Account</span>
+      <button class="tb-switch" onclick="switchAccount()">Switch Account</button>
+      <button class="tb-out" onclick="signOut()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar" id="sidebar"></aside>
+    <main class="main" id="main-panels">
+
+      <!-- ======= CORPORATE PANELS ======= -->
+
+      <div class="panel" id="p-corp-overview">
+        <div class="ph"><div class="ptag">Corporate Account</div><h2 class="ph1" id="corp-greet">Company Overview</h2><p class="ph2">Your duty of care and travel protection dashboard. Real-time visibility across your entire team.</p></div>
+        <div class="sgrid">
+          <div class="stat"><div class="slabel">Active Travelers</div><div class="sval">0</div><div class="smeta">Currently under Lolo protection</div></div>
+          <div class="stat"><div class="slabel">Open Incidents</div><div class="sval">0</div><div class="smeta">No active incidents</div></div>
+          <div class="stat"><div class="slabel">Open Claims</div><div class="sval">0</div><div class="smeta">Being managed by Lolo</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('corp-travelers')"><div class="slabel">Register Traveler</div><div class="sval" style="font-size:1rem;">Add</div><div class="smeta">Activate protection before departure</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('corp-incident')"><div class="slabel">Report Incident</div><div class="sval" style="font-size:1rem;">Report</div><div class="smeta">For active situations requiring Lolo response</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('corp-doc')"><div class="slabel">Duty of Care</div><div class="sval" style="font-size:1rem;">View Framework</div><div class="smeta">Compliance documentation on demand</div></div>
+        </div>
+      </div>
+
+      <div class="panel" id="p-corp-travelers">
+        <div class="ph"><div class="ptag">Team Management</div><h2 class="ph1">Traveler Registration</h2><p class="ph2">Register travelers to activate Lolo protection and pre-trip briefing for every departure.</p></div>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Traveler Full Name</label><input class="inp" type="text" placeholder="Name"/></div>
+          <div class="ff"><label class="flabel">Traveler Email</label><input class="inp" type="email" placeholder="Email address"/></div>
+          <div class="ff"><label class="flabel">Destination</label><input class="inp" type="text" placeholder="City and country"/></div>
+          <div class="ff"><label class="flabel">Travel Dates</label><input class="inp" type="text" placeholder="Depart and return"/></div>
+          <div class="ff"><label class="flabel">Trip Purpose</label><input class="inp" type="text" placeholder="Conference, client meeting, site visit..."/></div>
+          <div class="ff"><label class="flabel">Project or Cost Code</label><input class="inp" type="text" placeholder="For expense mapping"/></div>
+        </div>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Bleisure Extension?</label><select class="sel"><option>No personal extension</option><option>Yes. Traveler is extending for personal time.</option></select></div>
+          <div class="ff"><label class="flabel">Family Accompanying?</label><select class="sel"><option>No</option><option>Yes. Family traveling with them.</option></select></div>
+        </div>
+        <div class="ff"><label class="flabel">Special Requirements or Risk Notes</label><textarea class="txa" placeholder="Medical needs, high-risk destination notes, or anything Lolo should know..."></textarea></div>
+        <button class="sbtn" onclick="submit('register-traveler')"><span>Register and Activate Protection</span></button>
+        <div class="div"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <span style="font-family:var(--fb);font-weight:200;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.42);">Registered Travelers</span>
+        </div>
+        <div class="empty"><div class="empty-icon">No travelers registered.</div><div class="empty-txt">Register your first traveler above to activate protection.</div></div>
+      </div>
+
+      <div class="panel" id="p-corp-status">
+        <div class="ph"><div class="ptag">Live View</div><h2 class="ph1">Traveler Status</h2><p class="ph2">Real-time view of every registered traveler. Lolo Shield risk indicator updates as destinations change.</p></div>
+        <div class="empty"><div class="empty-icon">No active travelers.</div><div class="empty-txt">Registered travelers appear here with live Shield status once travel begins.</div></div>
+      </div>
+
+      <div class="panel" id="p-corp-doc">
+        <div class="ph"><div class="ptag">Compliance</div><h2 class="ph1">Duty of Care</h2><p class="ph2">Your documented framework for audits, compliance, and the protection of your people abroad.</p></div>
+        <div class="tl">
+          <div class="tls lit"><div class="tlnum">01</div><div class="tlttl">Pre-Deployment</div><p class="tldesc">Destination risk assessment, traveler briefing, coverage confirmation, and Shield briefing before every departure.</p><div class="tlstat"><span class="badge badge-g">Active</span></div></div>
+          <div class="tls"><div class="tlnum">02</div><div class="tlttl">In-Country Support</div><p class="tldesc">24-hour monitoring, real-time advisory, emergency coordination, and documented response log for every traveler.</p><div class="tlstat"><span class="badge badge-d">On departure</span></div></div>
+          <div class="tls"><div class="tlnum">03</div><div class="tlttl">Post-Trip Recovery</div><p class="tldesc">Claims managed to resolution, incident documentation packaged for compliance, full audit trail available.</p><div class="tlstat"><span class="badge badge-d">Post-travel</span></div></div>
+        </div>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--cream);margin-bottom:14px;">Request Documentation</h3>
+        <div class="ff"><label class="flabel">Document Type</label><select class="sel"><option>Duty of Care Framework Summary</option><option>Traveler Risk Assessment</option><option>Incident Report Package</option><option>Compliance Audit Report</option><option>Coverage Confirmation Letter</option></select></div>
+        <div class="ff"><label class="flabel">Notes</label><textarea class="txa" placeholder="Specific time period, traveler, or any other details..."></textarea></div>
+        <button class="sbtn" onclick="submit('duty-of-care-doc')"><span>Request Document</span></button>
+      </div>
+
+      <div class="panel" id="p-corp-meeting">
+        <div class="ph"><div class="ptag">Group Travel</div><h2 class="ph1">Meeting and Event Coordination</h2><p class="ph2">Lolo coordinates your group travel and meeting logistics. Submit your requirements and we handle the rest.</p></div>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Event Type</label><select class="sel"><option>Company Offsite</option><option>Client Conference</option><option>Team Retreat</option><option>Board Meeting</option><option>Training Event</option><option>Other</option></select></div>
+          <div class="ff"><label class="flabel">Group Size</label><input class="inp" type="text" placeholder="Number of attendees"/></div>
+          <div class="ff"><label class="flabel">Destination</label><input class="inp" type="text" placeholder="City or region preference"/></div>
+          <div class="ff"><label class="flabel">Dates</label><input class="inp" type="text" placeholder="Start and end dates"/></div>
+          <div class="ff"><label class="flabel">Room Blocks Needed</label><select class="sel"><option>Yes</option><option>No</option><option>Unsure</option></select></div>
+          <div class="ff"><label class="flabel">Meeting Room Requirements</label><select class="sel"><option>Standard conference room</option><option>Theater style</option><option>Classroom style</option><option>Breakout rooms needed</option><option>Full venue buyout</option></select></div>
+        </div>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">AV Requirements</label><input class="inp" type="text" placeholder="Screens, mics, streaming..."/></div>
+          <div class="ff"><label class="flabel">Catering</label><select class="sel"><option>No catering needed</option><option>Light refreshments</option><option>Breakfast and lunch</option><option>Full day catering</option><option>Evening reception</option></select></div>
+        </div>
+        <div class="ff"><label class="flabel">Additional Requirements</label><textarea class="txa" placeholder="Budget parameters, specific venue preferences, accessibility needs, or anything else..."></textarea></div>
+        <button class="sbtn" onclick="submit('meeting-coordination')"><span>Submit Event Request</span></button>
+      </div>
+
+      <div class="panel" id="p-corp-bleisure">
+        <div class="ph"><div class="ptag">Bleisure Travel</div><h2 class="ph1">Bleisure Support</h2><p class="ph2">When a business trip extends into personal time, Lolo handles the split cleanly at the source. No manual sorting after the fact.</p></div>
+        <div class="sgrid" style="margin-bottom:20px;">
+          <div class="stat"><div class="slabel">How it Works</div><div class="sval" style="font-size:.9rem;">Clean Split</div><div class="smeta">Business days billed to company. Personal days coded to traveler. Separated at registration, not after return.</div></div>
+          <div class="stat"><div class="slabel">Family Coordination</div><div class="sval" style="font-size:.9rem;">Included</div><div class="smeta">Family activities scheduled around confirmed meeting blocks. Lolo coordinates both tracks.</div></div>
+          <div class="stat"><div class="slabel">Personal Protection</div><div class="sval" style="font-size:.9rem;">Optional</div><div class="smeta">Lolo offers personal protection for the leisure extension. Traveler opts in during registration.</div></div>
+        </div>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--cream);margin-bottom:14px;">Register a Bleisure Trip</h3>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Traveler Name</label><input class="inp" type="text" placeholder="Name"/></div>
+          <div class="ff"><label class="flabel">Destination</label><input class="inp" type="text" placeholder="City and country"/></div>
+          <div class="ff"><label class="flabel">Business Dates</label><input class="inp" type="text" placeholder="First and last day of business travel"/></div>
+          <div class="ff"><label class="flabel">Leisure Extension Dates</label><input class="inp" type="text" placeholder="Personal travel start and end"/></div>
+          <div class="ff"><label class="flabel">Family Members Joining</label><input class="inp" type="text" placeholder="Names and ages if applicable"/></div>
+          <div class="ff"><label class="flabel">Personal Protection for Extension?</label><select class="sel"><option>Yes. Add Lolo protection for leisure days.</option><option>No thanks</option></select></div>
+        </div>
+        <button class="sbtn" onclick="submit('bleisure-registration')"><span>Register Bleisure Trip</span></button>
+      </div>
+
+      <div class="panel" id="p-corp-incident">
+        <div class="ph"><div class="ptag">Incident Response</div><h2 class="ph1">Report an Incident</h2><p class="ph2">Lolo coordinates response and maintains the documentation record. For critical emergencies call +1 612-429-4943 immediately.</p></div>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Incident Type</label><select class="sel"><option>Medical Emergency</option><option>Security Incident</option><option>Travel Disruption</option><option>Natural Disaster or Civil Unrest</option><option>Lost or Stolen Documents</option><option>Accident</option><option>Other</option></select></div>
+          <div class="ff"><label class="flabel">Severity</label><select class="sel"><option>Critical. Immediate response needed.</option><option>High. Response needed today.</option><option>Medium. Within 48 hours.</option><option>Low. Documentation only.</option></select></div>
+          <div class="ff"><label class="flabel">Affected Traveler(s)</label><input class="inp" type="text" placeholder="Name(s)"/></div>
+          <div class="ff"><label class="flabel">Current Location</label><input class="inp" type="text" placeholder="City and country"/></div>
+        </div>
+        <div class="ff"><label class="flabel">What happened?</label><textarea class="txa" style="min-height:90px;" placeholder="Describe the incident and current situation..."></textarea></div>
+        <button class="sbtn" onclick="submit('incident-report')"><span>Submit Incident Report</span></button>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--red);margin-top:10px;">For critical emergencies call +1 612-429-4943 directly. Do not wait for a form response.</p>
+      </div>
+
+      <div class="panel" id="p-corp-claims">
+        <div class="ph"><div class="ptag">Claims</div><h2 class="ph1">Claims Management</h2><p class="ph2">Corporate claims submitted and managed by Lolo. Your team focuses on operations.</p></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+          <span style="font-family:var(--fb);font-weight:200;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.42);">Active Claims</span>
+          <button class="sbtn" style="padding:8px 20px;" onclick="nav('corp-newclaim')"><span>Submit Claim</span></button>
+        </div>
+        <div class="empty"><div class="empty-icon">No active claims.</div></div>
+      </div>
+
+      <div class="panel" id="p-corp-newclaim">
+        <div class="ph"><div class="ptag">Submit a Claim</div><h2 class="ph1">File a Corporate Claim</h2><p class="ph2">Lolo manages the full process. Provide the details and we handle everything from here.</p></div>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Affected Traveler</label><input class="inp" type="text" placeholder="Name"/></div>
+          <div class="ff"><label class="flabel">Claim Type</label><select class="sel"><option>Trip Cancellation</option><option>Medical Expense</option><option>Baggage Loss or Damage</option><option>Flight Delay or Missed Connection</option><option>Hotel Dispute</option><option>Medical Evacuation</option><option>Other</option></select></div>
+          <div class="ff"><label class="flabel">Estimated Amount</label><input class="inp" type="text" placeholder="Dollar amount"/></div>
+          <div class="ff"><label class="flabel">Travel Dates</label><input class="inp" type="text" placeholder="When did travel occur?"/></div>
+          <div class="ff"><label class="flabel">Insurance Carrier</label><input class="inp" type="text" placeholder="Which carrier?"/></div>
+          <div class="ff"><label class="flabel">Policy Number</label><input class="inp" type="text" placeholder="If known"/></div>
+        </div>
+        <div class="ff"><label class="flabel">What happened?</label><textarea class="txa" style="min-height:90px;" placeholder="Describe the incident..."></textarea></div>
+        <button class="sbtn" onclick="submit('corporate-claim')"><span>Submit Claim</span></button>
+      </div>
+
+      <div class="panel" id="p-corp-concierge">
+        <div class="ph"><div class="ptag">Intelligence</div><h2 class="ph1">Corporate Concierge</h2><p class="ph2">Duty of care questions, destination risk, compliance guidance, and claims support for your team.</p></div>
+        <div class="chat-box">
+          <div class="chat-msgs" id="chat-corp">
+            <div class="cmsg"><div class="cav cav-ai">LL</div><div class="cbub cbub-ai">Welcome to Lolo Corporate Concierge. I can assist with duty of care questions, destination risk assessments, traveler preparation, compliance guidance, and claims support. What does your team need today?</div></div>
+          </div>
+          <div class="chat-row">
+            <input class="chat-inp" id="ci-corp" placeholder="Ask about risk, compliance, destinations, claims..." onkeydown="if(event.key==='Enter')chat('corp')"/>
+            <button class="chat-send" onclick="chat('corp')">Send</button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ======= RELOCATION PANELS ======= -->
+
+      <div class="panel" id="p-corp-relocation">
+        <div class="ph"><div class="ptag">Relocation Management</div><h2 class="ph1">Employee Relocation</h2><p class="ph2">Full lifecycle relocation management. Budget tracking, family coordination, and 30/60/90 day support built in from day one.</p></div>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Employee Name</label><input class="inp" type="text" placeholder="Name"/></div>
+          <div class="ff"><label class="flabel">Employee Email</label><input class="inp" type="email" placeholder="Work email"/></div>
+          <div class="ff"><label class="flabel">Current Location</label><input class="inp" type="text" placeholder="City and country"/></div>
+          <div class="ff"><label class="flabel">Destination</label><input class="inp" type="text" placeholder="Where are they relocating to?"/></div>
+          <div class="ff"><label class="flabel">Move Date</label><input class="inp" type="text" placeholder="Target move date"/></div>
+          <div class="ff"><label class="flabel">Move Type</label><select class="sel"><option>Permanent</option><option>Temporary Assignment</option><option>Extended Assignment</option><option>International</option></select></div>
+          <div class="ff"><label class="flabel">Package Type</label><select class="sel"><option>Managed. Lolo coordinates everything.</option><option>Lump Sum with Lolo Guidance</option><option>Reimbursement with Lolo Tracking</option><option>Executive Package</option></select></div>
+          <div class="ff"><label class="flabel">Family Size</label><input class="inp" type="text" placeholder="Total number relocating including employee"/></div>
+          <div class="ff"><label class="flabel">Children?</label><select class="sel"><option>No children</option><option>Yes. School placement needed.</option></select></div>
+          <div class="ff"><label class="flabel">Partner Employed?</label><select class="sel"><option>No</option><option>Yes. Spouse employment support needed.</option></select></div>
+          <div class="ff"><label class="flabel">Visa or Immigration Required?</label><select class="sel"><option>No</option><option>Yes. Need coordination.</option><option>Unsure</option></select></div>
+          <div class="ff"><label class="flabel">International Move?</label><select class="sel"><option>No. Domestic relocation.</option><option>Yes. International.</option></select></div>
+        </div>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--cream);margin-bottom:14px;">Relocation Budget</h3>
+        <div style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--muted);margin-bottom:16px;line-height:1.85;">Enter the company allocation for each category. Lolo tracks actual spend against each line in real time.</div>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Moving and Shipping</label><input class="inp" type="text" placeholder="$ budget"/></div>
+          <div class="ff"><label class="flabel">Temporary Housing</label><input class="inp" type="text" placeholder="$ budget"/></div>
+          <div class="ff"><label class="flabel">House-Hunting Trips</label><input class="inp" type="text" placeholder="$ budget"/></div>
+          <div class="ff"><label class="flabel">School Enrollment</label><input class="inp" type="text" placeholder="$ budget"/></div>
+          <div class="ff"><label class="flabel">Visa and Immigration</label><input class="inp" type="text" placeholder="$ budget"/></div>
+          <div class="ff"><label class="flabel">Spouse Employment Support</label><input class="inp" type="text" placeholder="$ budget"/></div>
+          <div class="ff"><label class="flabel">Cost of Living Adjustment</label><input class="inp" type="text" placeholder="$ budget"/></div>
+          <div class="ff"><label class="flabel">Tax Gross-Up</label><input class="inp" type="text" placeholder="$ budget if provided"/></div>
+          <div class="ff"><label class="flabel">Miscellaneous</label><input class="inp" type="text" placeholder="$ budget"/></div>
+          <div class="ff"><label class="flabel">Total Package Value</label><input class="inp" type="text" placeholder="$ total authorized"/></div>
+        </div>
+        <div class="ff"><label class="flabel">Special Instructions or Notes for Lolo</label><textarea class="txa" placeholder="Sensitivity factors, employee concerns, executive handling, or anything Lolo should know before first contact..."></textarea></div>
+        <button class="sbtn" onclick="submit('relocation-registration')"><span>Register Relocation</span></button>
+      </div>
+
+      <div class="panel" id="p-corp-reloc-checklist">
+        <div class="ph"><div class="ptag">Relocation Progress</div><h2 class="ph1">Relocation Checklist</h2><p class="ph2">Every item required across the full relocation lifecycle. Lolo flags gaps and coordinates resolution.</p></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-bottom:20px;">
+          <div class="stat"><div class="slabel">Phase</div><div class="sval" style="font-size:1rem;">Planning</div><div class="smeta">Pre-move activities in progress</div></div>
+          <div class="stat"><div class="slabel">Check-ins</div><div class="sval" style="font-size:1rem;">30 / 60 / 90</div><div class="smeta">Auto-scheduled from move date</div></div>
+        </div>
+        <div class="div"></div>
+        <div style="font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,168,76,.4);margin-bottom:12px;">Pre-Move</div>
+        <div class="cards">
+          <div class="deliv-row"><div><div class="deliv-title">Housing Search</div><div class="deliv-meta">Destination neighborhood identification and property search</div></div><span class="badge badge-a">In Progress</span></div>
+          <div class="deliv-row"><div><div class="deliv-title">School Placement</div><div class="deliv-meta">Options reviewed and enrollment initiated</div></div><span class="badge badge-a">Pending</span></div>
+          <div class="deliv-row"><div><div class="deliv-title">Temporary Housing Confirmed</div><div class="deliv-meta">30-90 day bridge accommodation secured</div></div><span class="badge badge-a">Pending</span></div>
+          <div class="deliv-row"><div><div class="deliv-title">Visa and Immigration</div><div class="deliv-meta">Applications filed and status confirmed</div></div><span class="badge badge-d">Not Required</span></div>
+          <div class="deliv-row"><div><div class="deliv-title">Moving Vendor Confirmed</div><div class="deliv-meta">Household goods carrier booked</div></div><span class="badge badge-a">Pending</span></div>
+          <div class="deliv-row"><div><div class="deliv-title">Spouse Employment Support</div><div class="deliv-meta">Contacts identified in destination industry</div></div><span class="badge badge-a">Pending</span></div>
+          <div class="deliv-row"><div><div class="deliv-title">Lolo Shield Destination Brief</div><div class="deliv-meta">Neighborhood-level safety and community intelligence</div></div><span class="badge badge-a">Requested</span></div>
+        </div>
+        <div class="div"></div>
+        <div style="font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,168,76,.4);margin-bottom:12px;">Post-Move Check-ins</div>
+        <div class="cards">
+          <div class="deliv-row"><div><div class="deliv-title">30-Day Check-in</div><div class="deliv-meta">Housing, schools, and family settled. Open items flagged.</div></div><span class="badge badge-d">Scheduled</span></div>
+          <div class="deliv-row"><div><div class="deliv-title">60-Day Check-in</div><div class="deliv-meta">Unresolved expenses, claims, and family integration review.</div></div><span class="badge badge-d">Scheduled</span></div>
+          <div class="deliv-row"><div><div class="deliv-title">90-Day Debrief</div><div class="deliv-meta">Full relocation review. Cost vs budget. Claims closed. Program recommendations.</div></div><span class="badge badge-d">Scheduled</span></div>
+        </div>
+        <div class="div"></div>
+        <div style="font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,168,76,.4);margin-bottom:12px;">Tax Summary</div>
+        <div style="background:rgba(255,255,255,.02);border:var(--bdr);padding:16px;font-family:var(--fb);font-weight:200;font-size:.78rem;color:var(--muted);line-height:1.9;">
+          Lolo tracks all relocation expenses as taxable or non-taxable under current U.S. tax law. At year-end, a tax summary document is generated for the employee and their accountant. For international relocations, dual-jurisdiction flags are applied automatically. Tax gross-up amounts are tracked separately if the company provides them.
+        </div>
+        <div class="div"></div>
+        <button class="sbtn" onclick="submit('relocation-update')"><span>Send Update to Lolo</span></button>
+      </div>
+
+      <!-- ======= ADVISOR PANELS ======= -->
+
+      <div class="panel" id="p-adv-overview">
+        <div class="ph"><div class="ptag">Advisor Account</div><h2 class="ph1" id="adv-greet">Advisor Overview</h2><p class="ph2">Your client protection portfolio and commission dashboard. Lolo handles the protection layer so you can focus on the relationship.</p></div>
+        <div class="sgrid">
+          <div class="stat"><div class="slabel">Active Clients</div><div class="sval">0</div><div class="smeta">Under Lolo protection</div></div>
+          <div class="stat"><div class="slabel">Open Claims</div><div class="sval">0</div><div class="smeta">Being managed for your clients</div></div>
+          <div class="stat"><div class="slabel">Commission YTD</div><div class="sval">$0</div><div class="smeta">Year to date earnings</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('adv-clients')"><div class="slabel">Register Client</div><div class="sval" style="font-size:1rem;">Add</div><div class="smeta">Place a client under Lolo protection</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('adv-commission')"><div class="slabel">Commission</div><div class="sval" style="font-size:1rem;">View</div><div class="smeta">Placements and earnings detail</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('adv-concierge')"><div class="slabel">Concierge</div><div class="sval" style="font-size:1rem;">Ask</div><div class="smeta">Product guidance and client support</div></div>
+        </div>
+      </div>
+
+      <div class="panel" id="p-adv-clients">
+        <div class="ph"><div class="ptag">Client Portfolio</div><h2 class="ph1">My Clients</h2><p class="ph2">Register clients to place them under Lolo protection. We handle the protection layer. You maintain the relationship.</p></div>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Client Full Name</label><input class="inp" type="text" placeholder="Name"/></div>
+          <div class="ff"><label class="flabel">Client Email</label><input class="inp" type="email" placeholder="Client email"/></div>
+          <div class="ff"><label class="flabel">Destination</label><input class="inp" type="text" placeholder="Where are they traveling?"/></div>
+          <div class="ff"><label class="flabel">Travel Dates</label><input class="inp" type="text" placeholder="Depart and return"/></div>
+        </div>
+        <div class="ff"><label class="flabel">Protection Level</label><select class="sel"><option>Pre-trip readiness only</option><option>Pre-trip plus in-trip support</option><option>Full protection. Pre, in, and post-trip.</option><option>Claims recovery only</option></select></div>
+        <div class="ff"><label class="flabel">Notes</label><textarea class="txa" placeholder="Special requirements or risk factors for this client..."></textarea></div>
+        <button class="sbtn" onclick="submit('register-client')"><span>Register Client</span></button>
+        <div class="div"></div>
+        <div class="empty"><div class="empty-icon">No clients registered yet.</div><div class="empty-txt">Registered clients appear here with live protection status.</div></div>
+      </div>
+
+      <div class="panel" id="p-adv-claims">
+        <div class="ph"><div class="ptag">Client Claims</div><h2 class="ph1">Client Claims</h2><p class="ph2">Submit and track claims on behalf of your clients. Lolo manages the full process.</p></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+          <span style="font-family:var(--fb);font-weight:200;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.42);">Active Client Claims</span>
+          <button class="sbtn" style="padding:8px 20px;" onclick="submit('client-claim-request')"><span>File Claim for Client</span></button>
+        </div>
+        <div class="empty"><div class="empty-icon">No active client claims.</div></div>
+      </div>
+
+      <div class="panel" id="p-adv-commission">
+        <div class="ph"><div class="ptag">Earnings</div><h2 class="ph1">Commission Tracker</h2><p class="ph2">Earnings from protection placements and claims recovery referrals.</p></div>
+        <div class="sgrid">
+          <div class="stat"><div class="slabel">Total Placements</div><div class="sval">0</div><div class="smeta">Policies placed through your account</div></div>
+          <div class="stat"><div class="slabel">Commission Earned</div><div class="sval">$0</div><div class="smeta">Total to date</div></div>
+          <div class="stat"><div class="slabel">Pending Payment</div><div class="sval">$0</div><div class="smeta">Next payment cycle</div></div>
+        </div>
+        <div class="div"></div>
+        <div class="empty"><div class="empty-icon">No commission history yet.</div><div class="empty-txt">Commission is generated when clients are registered<br>and protection is placed.</div></div>
+      </div>
+
+      <div class="panel" id="p-adv-services">
+        <div class="ph"><div class="ptag">Client Services</div><h2 class="ph1">Concierge Requests</h2><p class="ph2">Request concierge and shipping services on behalf of your clients. Lolo coordinates everything.</p></div>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Client Name</label><input class="inp" type="text" placeholder="Which client is this for?"/></div>
+          <div class="ff"><label class="flabel">Service Type</label><select class="sel"><option>Luggage Forward</option><option>Item Retrieval</option><option>White-Glove Request</option><option>Packing Coordination</option></select></div>
+          <div class="ff"><label class="flabel">Pickup Location</label><input class="inp" type="text" placeholder="Address or hotel"/></div>
+          <div class="ff"><label class="flabel">Delivery Location</label><input class="inp" type="text" placeholder="Destination address"/></div>
+          <div class="ff"><label class="flabel">Date Needed</label><input class="inp" type="text" placeholder="When?"/></div>
+          <div class="ff"><label class="flabel">Items or Bags</label><input class="inp" type="text" placeholder="How many and any special items?"/></div>
+        </div>
+        <div class="ff"><label class="flabel">Special Instructions</label><textarea class="txa" placeholder="Anything Lolo should know..."></textarea></div>
+        <button class="sbtn" onclick="submit('advisor-concierge-request')"><span>Submit Request</span></button>
+      </div>
+
+      <div class="panel" id="p-adv-concierge">
+        <div class="ph"><div class="ptag">Partner Intelligence</div><h2 class="ph1">Advisor Concierge</h2><p class="ph2">Client protection guidance, destination risk, and claims process support.</p></div>
+        <div class="chat-box">
+          <div class="chat-msgs" id="chat-adv">
+            <div class="cmsg"><div class="cav cav-ai">LL</div><div class="cbub cbub-ai">Welcome to Lolo Advisor Concierge. I can assist with client protection guidance, destination risk assessments, claims process questions, and product support. What do you need today?</div></div>
+          </div>
+          <div class="chat-row">
+            <input class="chat-inp" id="ci-adv" placeholder="Ask about client protection, risk, claims, products..." onkeydown="if(event.key==='Enter')chat('adv')"/>
+            <button class="chat-send" onclick="chat('adv')">Send</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======= CONTRACTOR PANELS ======= -->
+
+      <div class="panel" id="p-con-overview">
+        <div class="ph"><div class="ptag">Partner Account</div><h2 class="ph1" id="con-greet">Contract Overview</h2><p class="ph2">Your contracts with Lolo Travels. Deliverables, payment requests, and documents all in one place.</p></div>
+        <div class="sgrid">
+          <div class="stat"><div class="slabel">Active Contracts</div><div class="sval">0</div><div class="smeta">Currently in performance period</div></div>
+          <div class="stat"><div class="slabel">Pending Deliverables</div><div class="sval">0</div><div class="smeta">Due within the next 30 days</div></div>
+          <div class="stat"><div class="slabel">Payments Pending</div><div class="sval">$0</div><div class="smeta">Submitted and awaiting approval</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('con-payment')"><div class="slabel">Request Payment</div><div class="sval" style="font-size:1rem;">Submit</div><div class="smeta">Upload invoice and submit for approval</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('con-docs')"><div class="slabel">Document Vault</div><div class="sval" style="font-size:1rem;">View</div><div class="smeta">Upload and access contract documents</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('con-messages')"><div class="slabel">Messages</div><div class="sval" style="font-size:1rem;">Open</div><div class="smeta">Direct thread with Lolo</div></div>
+        </div>
+      </div>
+
+      <div class="panel" id="p-con-deliverables">
+        <div class="ph"><div class="ptag">Contract Performance</div><h2 class="ph1">Deliverable Timeline</h2><p class="ph2">Every deliverable on your contract with current status. Submit completed work directly from this panel.</p></div>
+        <div class="empty"><div class="empty-icon">No deliverables on file.</div><div class="empty-txt">Once your contract is set up by Lolo, deliverables<br>appear here with due dates and submission instructions.</div></div>
+      </div>
+
+      <div class="panel" id="p-con-checklist">
+        <div class="ph"><div class="ptag">Onboarding</div><h2 class="ph1">Onboarding Checklist</h2><p class="ph2">Every item required to complete your onboarding. Lolo flags gaps automatically.</p></div>
+        <div class="cards" id="checklist-items">
+          <div class="deliv-row"><div><div class="deliv-title">Signed Partnership Agreement</div><div class="deliv-meta">Required before contract activation</div></div><span class="badge badge-a">Pending</span></div>
+          <div class="deliv-row"><div><div class="deliv-title">Company Registration Documents</div><div class="deliv-meta">Business license or incorporation certificate</div></div><span class="badge badge-a">Pending</span></div>
+          <div class="deliv-row"><div><div class="deliv-title">Tax Identification</div><div class="deliv-meta">EIN or local equivalent</div></div><span class="badge badge-a">Pending</span></div>
+          <div class="deliv-row"><div><div class="deliv-title">Bank Account Details</div><div class="deliv-meta">For payment processing</div></div><span class="badge badge-a">Pending</span></div>
+          <div class="deliv-row"><div><div class="deliv-title">Insurance Certificates</div><div class="deliv-meta">Required for government contracts</div></div><span class="badge badge-a">Pending</span></div>
+          <div class="deliv-row"><div><div class="deliv-title">Professional Licenses or Accreditations</div><div class="deliv-meta">IATA, NANTA, or other applicable credentials</div></div><span class="badge badge-a">Pending</span></div>
+          <div class="deliv-row"><div><div class="deliv-title">24-Hour Emergency Contact</div><div class="deliv-meta">Required for Embassy and government contracts</div></div><span class="badge badge-a">Pending</span></div>
+        </div>
+        <div class="div"></div>
+        <button class="sbtn" onclick="nav('con-docs')"><span>Upload Documents</span></button>
+      </div>
+
+      <div class="panel" id="p-con-docs">
+        <div class="ph"><div class="ptag">Document Vault</div><h2 class="ph1">Documents</h2><p class="ph2">Upload and access all contract-related documents. Every upload is logged with an audit trail.</p></div>
+        <div class="upload-zone" onclick="document.getElementById('doc-upload').click()">
+          <div class="upload-txt">Click to upload a document<br>PDF, Word, or image files accepted</div>
+          <input type="file" id="doc-upload" style="display:none;" accept=".pdf,.doc,.docx,.jpg,.png" onchange="handleUpload(this)"/>
+        </div>
+        <div class="div"></div>
+        <div class="empty"><div class="empty-icon">No documents uploaded.</div><div class="empty-txt">Upload your first document above.</div></div>
+      </div>
+
+      <div class="panel" id="p-con-payment">
+        <div class="ph"><div class="ptag">Payment Request</div><h2 class="ph1">Submit Payment Request</h2><p class="ph2">Upload your invoice and submit for Lolo approval. Once approved, Lolo generates the government invoice automatically.</p></div>
+        <div style="background:rgba(201,168,76,.04);border:var(--bdrg);padding:16px;margin-bottom:22px;">
+          <div style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:rgba(201,168,76,.75);line-height:1.85;">When you submit a payment request, Lolo reviews and approves it. Upon approval, the system automatically generates an IPP-format invoice from Lolo Travels LLC to the contracting agency using your deliverable details and Lolo credentials (EIN 41-4888165, CAGE 1WR24). You receive payment to your bank account on file.</div>
+        </div>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Invoice Number</label><input class="inp" type="text" placeholder="Your invoice reference number"/></div>
+          <div class="ff"><label class="flabel">Amount Requested</label><input class="inp" type="text" placeholder="Dollar amount"/></div>
+          <div class="ff"><label class="flabel">Performance Period</label><input class="inp" type="text" placeholder="Start and end dates covered"/></div>
+          <div class="ff"><label class="flabel">CLIN or Deliverable</label><input class="inp" type="text" placeholder="Which contract line item?"/></div>
+        </div>
+        <div class="ff"><label class="flabel">Description of Work</label><textarea class="txa" placeholder="Brief description of services delivered during this period..."></textarea></div>
+        <div class="ff">
+          <label class="flabel">Upload Your Invoice</label>
+          <div class="upload-zone" onclick="document.getElementById('inv-upload').click()">
+            <div class="upload-txt">Click to attach your invoice (PDF required)</div>
+            <input type="file" id="inv-upload" style="display:none;" accept=".pdf" onchange="handleInvoice(this)"/>
+          </div>
+          <div id="inv-name" style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--green);margin-top:7px;"></div>
+        </div>
+        <button class="sbtn" onclick="submit('payment-request')"><span>Submit Payment Request</span></button>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--dim);margin-top:10px;line-height:1.85;">Lolo will review within 2 business days and notify you by email upon approval.</p>
+      </div>
+
+      <div class="panel" id="p-con-history">
+        <div class="ph"><div class="ptag">Payment History</div><h2 class="ph1">Payment History</h2><p class="ph2">Every payment received from Lolo. Downloadable for your accounting records.</p></div>
+        <div class="empty"><div class="empty-icon">No payment history yet.</div><div class="empty-txt">Approved and paid requests appear here with<br>date, amount, and reference number.</div></div>
+      </div>
+
+      <div class="panel" id="p-con-messages">
+        <div class="ph"><div class="ptag">Communication</div><h2 class="ph1">Messages</h2><p class="ph2">Direct thread with Lolo. All messages are logged against your contract record.</p></div>
+        <div class="chat-box">
+          <div class="chat-msgs" id="chat-con">
+            <div class="cmsg"><div class="cav cav-ai">LL</div><div class="cbub cbub-ai">Welcome to your Lolo partner message thread. I can help with contract questions, deliverable guidance, payment process questions, and document requirements. What do you need today?</div></div>
+          </div>
+          <div class="chat-row">
+            <input class="chat-inp" id="ci-con" placeholder="Ask about your contract, deliverables, or payments..." onkeydown="if(event.key==='Enter')chat('con')"/>
+            <button class="chat-send" onclick="chat('con')">Send</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="portal-foot">
+    <div class="foot-brand">Lolo Travels</div>
+    <div class="foot-links">
+      <a class="foot-link" href="/">Home</a>
+      <a class="foot-link" href="/government">Government</a>
+      <a class="foot-link" href="/contact">Contact</a>
+    </div>
+  </div>
+</div>
+
+<form name="lolo-accounts" data-netlify="true" style="display:none;">
+  <input type="text" name="type"/>
+  <input type="text" name="details"/>
+  <input type="email" name="user_email"/>
+</form>
+
+<script>
+var SB = 'https://hktntiamtpptcagnohnn.supabase.co';
+var SK = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
+var sb = null;
+var currentUser = null;
+var currentType = null;
+var chatHist = {corp:[], adv:[], con:[]};
+
+var NAV = {
+  corp:[
+    {sec:'Overview', items:[{id:'corp-overview',label:'Company Overview'}]},
+    {sec:'Duty of Care', items:[
+      {id:'corp-travelers',label:'Traveler Registration'},
+      {id:'corp-status',label:'Live Traveler Status'},
+      {id:'corp-doc',label:'Duty of Care'},
+      {id:'corp-incident',label:'Incident Reporting'}
+    ]},
+    {sec:'Events', items:[
+      {id:'corp-meeting',label:'Meeting and Events'},
+      {id:'corp-bleisure',label:'Bleisure Support'}
+    ]},
+    {sec:'Relocation', items:[
+      {id:'corp-relocation',label:'Relocation Management'},
+      {id:'corp-reloc-checklist',label:'Relocation Checklist'}
+    ]},
+    {sec:'Claims', items:[
+      {id:'corp-claims',label:'Claims Management'}
+    ]},
+    {sec:'Support', items:[
+      {id:'corp-concierge',label:'Lolo Concierge'}
+    ]}
+  ],
+  advisor:[
+    {sec:'Overview', items:[{id:'adv-overview',label:'Advisor Overview'}]},
+    {sec:'Clients', items:[
+      {id:'adv-clients',label:'My Clients'},
+      {id:'adv-claims',label:'Client Claims'}
+    ]},
+    {sec:'Business', items:[
+      {id:'adv-commission',label:'Commission Tracker'},
+      {id:'adv-services',label:'Concierge Requests'}
+    ]},
+    {sec:'Support', items:[
+      {id:'adv-concierge',label:'Advisor Concierge'}
+    ]}
+  ],
+  contractor:[
+    {sec:'Overview', items:[{id:'con-overview',label:'Contract Overview'}]},
+    {sec:'Contract', items:[
+      {id:'con-deliverables',label:'Deliverable Timeline'},
+      {id:'con-checklist',label:'Onboarding Checklist'}
+    ]},
+    {sec:'Payments', items:[
+      {id:'con-payment',label:'Submit Payment Request'},
+      {id:'con-history',label:'Payment History'}
+    ]},
+    {sec:'Documents', items:[
+      {id:'con-docs',label:'Document Vault'}
+    ]},
+    {sec:'Communication', items:[
+      {id:'con-messages',label:'Messages'}
+    ]}
+  ]
+};
+
+var TIERS = {corp:'Corporate', advisor:'Travel Advisor', contractor:'Partner'};
+var GREETS = {corp:'corp-greet', advisor:'adv-greet', contractor:'con-greet'};
+var FIRST = {corp:'corp-overview', advisor:'adv-overview', contractor:'con-overview'};
+
+var chatSystems = {
+  corp:'You are the Lolo Corporate Concierge. Help with duty of care questions, destination risk, traveler preparation, incident guidance, compliance documentation, and claims process. Professional and concise. Under 160 words. No bullet points.',
+  adv:'You are the Lolo Advisor Concierge. Help travel advisors with client protection placements, protection product questions, claims processes, and commission questions. Knowledgeable partner tone. Under 160 words. No bullet points.',
+  con:'You are the Lolo Partner Concierge, helping subcontractors and teaming partners. Only discuss contract deliverables, payment request process, document requirements, and onboarding steps. Do not discuss unrelated topics. Under 160 words. No bullet points.'
+};
+
+(function loadSB(){
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  s.onload = function(){
+    sb = supabase.createClient(SB, SK);
+    initSession();
+  };
+  s.onerror = function(){
+    document.getElementById('auth-gate').innerHTML = '<div style="text-align:center;padding:60px 24px;font-family:Jost,sans-serif;font-weight:200;color:rgba(245,240,232,.4);">Connection error. Please refresh.</div>';
+  };
+  document.head.appendChild(s);
+})();
+
+async function initSession(){
+  try{
+    var r = await sb.auth.getSession();
+    if(r.data && r.data.session){
+      var t = r.data.session.user.user_metadata.account_type || null;
+      if(t){currentType = t; loadPortal(r.data.session.user);}
+    }
+  }catch(e){}
+}
+
+function selectType(t){
+  currentType = t;
+  document.querySelectorAll('.acct-type').forEach(function(el){el.classList.remove('sel');});
+  var el = document.getElementById('at-'+t);
+  if(el) el.classList.add('sel');
+  document.getElementById('sel-continue').disabled = false;
+  var hints = {corp:'Signing in to your corporate account.',advisor:'Signing in to your advisor account.',contractor:'Signing in to your partner account.'};
+  var hint = document.getElementById('si-hint');
+  if(hint) hint.textContent = hints[t] || '';
+}
+
+function showView(v){
+  document.querySelectorAll('.auth-view').forEach(function(el){el.classList.remove('active');});
+  var el = document.getElementById('v-'+v);
+  if(el) el.classList.add('active');
+}
+
+async function signIn(){
+  var email = document.getElementById('si-email').value.trim();
+  var pass = document.getElementById('si-pass').value;
+  var err = document.getElementById('si-err');
+  var btn = document.getElementById('si-btn');
+  err.textContent = '';
+  if(!email || !pass){err.textContent='Please fill in all fields.';return;}
+  if(!currentType){err.textContent='Please go back and select your account type.';return;}
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'Signing in...';
+  try{
+    var r = await sb.auth.signInWithPassword({email:email, password:pass});
+    if(r.error){
+      err.textContent = r.error.message === 'Invalid login credentials' ? 'Email or password is incorrect.' : r.error.message;
+      btn.disabled = false;
+      btn.querySelector('span').textContent = 'Sign In';
+      return;
+    }
+    loadPortal(r.data.user);
+  }catch(e){
+    err.textContent = 'Connection error. Please try again.';
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Sign In';
+  }
+}
+
+async function signUp(){
+  var name = document.getElementById('su-name').value.trim();
+  var company = document.getElementById('su-company').value.trim();
+  var email = document.getElementById('su-email').value.trim();
+  var pass = document.getElementById('su-pass').value;
+  var err = document.getElementById('su-err');
+  var btn = document.getElementById('su-btn');
+  err.textContent = '';
+  if(!name || !email || !pass){err.textContent='Please fill in all required fields.';return;}
+  if(pass.length < 8){err.textContent='Password must be at least 8 characters.';return;}
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'Creating account...';
+  try{
+    var r = await sb.auth.signUp({email:email, password:pass, options:{data:{full_name:name, company_name:company, account_type:currentType||'corp'}}});
+    if(r.error){
+      err.textContent = r.error.message;
+      btn.disabled = false;
+      btn.querySelector('span').textContent = 'Create Account';
+      return;
+    }
+    err.className = 'amsg amsg-ok';
+    err.textContent = 'Account created. Check your email to confirm, then sign in.';
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Create Account';
+  }catch(e){
+    err.textContent = 'Connection error.';
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Create Account';
+  }
+}
+
+async function resetPw(){
+  var email = document.getElementById('re-email').value.trim();
+  var err = document.getElementById('re-err');
+  err.textContent = '';
+  if(!email){err.textContent='Please enter your email.';return;}
+  try{
+    var r = await sb.auth.resetPasswordForEmail(email, {redirectTo: window.location.origin + '/accounts'});
+    if(r.error){err.textContent = r.error.message;return;}
+    err.className = 'amsg amsg-ok';
+    err.textContent = 'Reset link sent. Check your inbox.';
+  }catch(e){err.textContent = 'Connection error.';}
+}
+
+async function signOut(){
+  await sb.auth.signOut();
+  document.getElementById('portal').style.display = 'none';
+  document.getElementById('auth-gate').style.display = 'flex';
+  currentUser = null;
+  currentType = null;
+}
+
+function switchAccount(){
+  signOut();
+}
+
+function loadPortal(user){
+  currentUser = user;
+  var meta = user.user_metadata || {};
+  if(!currentType) currentType = meta.account_type || 'corp';
+  document.getElementById('auth-gate').style.display = 'none';
+  document.getElementById('portal').style.display = 'block';
+  var name = meta.full_name ? meta.full_name.split(' ')[0] : user.email.split('@')[0];
+  document.getElementById('tb-name').textContent = name;
+  document.getElementById('tb-tier').textContent = TIERS[currentType] || 'Account';
+  buildSidebar(currentType);
+  var greetId = GREETS[currentType];
+  if(greetId){
+    var g = document.getElementById(greetId);
+    if(g) g.textContent = 'Welcome, ' + name + '.';
+  }
+  nav(FIRST[currentType] || 'corp-overview');
+}
+
+function buildSidebar(type){
+  var sb2 = document.getElementById('sidebar');
+  var sections = NAV[type] || [];
+  var html = '';
+  sections.forEach(function(sec){
+    html += '<div class="nav-sec">' + sec.sec + '</div>';
+    sec.items.forEach(function(item){
+      html += '<div class="nav-item" id="nav-' + item.id + '" onclick="nav(\'' + item.id + '\')"><div class="nav-dot"></div>' + item.label + '</div>';
+    });
+  });
+  sb2.innerHTML = html;
+}
+
+function nav(id){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('on');});
+  var panel = document.getElementById('p-' + id);
+  var navEl = document.getElementById('nav-' + id);
+  if(panel) panel.classList.add('on');
+  if(navEl) navEl.classList.add('on');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function submit(type){
+  var active = document.querySelector('.panel.on');
+  var fields = {};
+  if(active){
+    active.querySelectorAll('input[type="text"],input[type="email"],select,textarea').forEach(function(el,i){
+      if(el.value) fields['f'+i] = el.value;
+    });
+  }
+  var email = currentUser ? currentUser.email : '';
+  fetch('/', {
+    method:'POST',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body: new URLSearchParams(Object.assign({'form-name':'lolo-accounts','type':type,'user_email':email,'details':JSON.stringify(fields)})).toString()
+  });
+  var btn = active ? active.querySelector('.sbtn') : null;
+  if(btn){
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<span>Submitted. Lolo will follow up shortly.</span>';
+    btn.style.background = 'rgba(40,180,100,.8)';
+    setTimeout(function(){btn.innerHTML = orig; btn.style.background='';}, 3500);
+  }
+}
+
+function handleUpload(input){
+  if(input.files && input.files[0]){
+    var name = input.files[0].name;
+    var zone = input.parentElement;
+    zone.querySelector('.upload-txt').textContent = name + ' ready to upload';
+    zone.style.borderColor = 'rgba(40,180,100,.4)';
+  }
+}
+
+function handleInvoice(input){
+  if(input.files && input.files[0]){
+    document.getElementById('inv-name').textContent = input.files[0].name + ' attached';
+  }
+}
+
+async function chat(role){
+  var inp = document.getElementById('ci-' + role);
+  var msgs = document.getElementById('chat-' + role);
+  if(!inp || !msgs) return;
+  var msg = inp.value.trim();
+  if(!msg) return;
+  inp.value = '';
+  msgs.innerHTML += '<div class="cmsg user"><div class="cav cav-u">you</div><div class="cbub cbub-u">' + msg + '</div></div>';
+  var tid = 't' + Date.now();
+  msgs.innerHTML += '<div class="cmsg" id="' + tid + '"><div class="cav cav-ai">LL</div><div class="cbub cbub-ai"><div class="typing-d"><span></span><span></span><span></span></div></div></div>';
+  msgs.scrollTop = msgs.scrollHeight;
+  chatHist[role].push({role:'user', content:msg});
+  try{
+    var resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system: chatSystems[role] || chatSystems.corp,
+        messages: chatHist[role]
+      })
+    });
+    var data = await resp.json();
+    var reply = data.content && data.content[0] ? data.content[0].text : 'Please try again.';
+    chatHist[role].push({role:'assistant', content:reply});
+    var el = document.getElementById(tid);
+    if(el) el.querySelector('.cbub').textContent = reply;
+  }catch(e){
+    var el = document.getElementById(tid);
+    if(el) el.querySelector('.cbub').textContent = 'Connection issue. Please try again.';
+  }
+  msgs.scrollTop = msgs.scrollHeight;
+}
+</script>
+</body>
+</html>
