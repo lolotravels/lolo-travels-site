@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Lolo Travels - Member Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#060E1A;
+  --navy2:#0A1628;
+  --gold:#C9A84C;
+  --gold-lt:#E2C97E;
+  --cream:#F5F0E8;
+  --muted:rgba(245,240,232,.55);
+  --dim:rgba(245,240,232,.3);
+  --green:rgba(40,180,100,.85);
+  --red:rgba(220,70,70,.85);
+  --amber:rgba(220,160,40,.85);
+  --fd:'Cormorant Garamond',Georgia,serif;
+  --fb:'Jost',sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+  --bdr:1px solid rgba(255,255,255,.07);
+  --bdrg:1px solid rgba(201,168,76,.22);
+}
+html,body{background:var(--navy);color:var(--cream);font-family:var(--fb);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+
+/* AUTH */
+#auth-gate{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(201,168,76,.07) 0%,transparent 70%),var(--navy);}
+.auth-wrap{width:100%;max-width:400px;padding:0 28px;}
+.auth-brand{text-align:center;margin-bottom:44px;}
+.auth-emblem{width:48px;height:48px;border-radius:50%;border:1px solid rgba(201,168,76,.3);display:inline-flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.85rem;color:var(--gold);margin-bottom:12px;}
+.auth-name{display:block;font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.5rem;color:var(--cream);margin-bottom:3px;}
+.auth-tag{display:block;font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(201,168,76,.45);}
+.auth-view{display:none;}
+.auth-view.active{display:block;}
+.auth-h{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.7rem;color:var(--cream);margin-bottom:5px;}
+.auth-hint{font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--muted);margin-bottom:28px;line-height:1.85;}
+.fld{margin-bottom:20px;}
+.flabel{display:block;font-family:var(--fb);font-weight:200;font-size:.54rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:7px;}
+.finput,.fselect{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,.2);color:var(--cream);padding:11px 0;font-family:var(--fb);font-weight:200;font-size:.88rem;outline:none;transition:border-color .25s;}
+.finput:focus,.fselect:focus{border-bottom-color:rgba(201,168,76,.55);}
+.finput::placeholder{color:rgba(245,240,232,.2);}
+.fselect{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(201,168,76,.4)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center;background-color:transparent;padding-right:20px;}
+.fselect option{background:#060E1A;}
+.abtn{width:100%;padding:14px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;background:var(--gold);color:var(--navy);border:none;cursor:pointer;position:relative;overflow:hidden;transition:letter-spacing .3s var(--ease);margin-top:4px;}
+.abtn::before{content:'';position:absolute;inset:0;background:var(--gold-lt);transform:translateX(-101%);transition:transform .45s var(--ease);}
+.abtn:hover{letter-spacing:.28em;}
+.abtn:hover::before{transform:translateX(0);}
+.abtn span{position:relative;z-index:1;}
+.abtn:disabled{opacity:.4;cursor:not-allowed;}
+.abtn:disabled::before{display:none;}
+.auth-links{margin-top:18px;text-align:center;font-family:var(--fb);font-weight:200;font-size:.76rem;color:var(--dim);line-height:2.2;}
+.auth-links a{color:rgba(201,168,76,.65);cursor:pointer;transition:color .2s;text-decoration:none;}
+.auth-links a:hover{color:var(--gold);}
+.auth-back{display:inline-flex;align-items:center;gap:6px;font-family:var(--fb);font-weight:200;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);cursor:pointer;margin-bottom:28px;background:none;border:none;text-decoration:none;}
+.auth-back:hover{color:var(--muted);}
+.msg{font-family:var(--fb);font-weight:200;font-size:.76rem;min-height:16px;margin-top:8px;text-align:center;}
+.msg-err{color:var(--red);}
+.msg-ok{color:var(--green);}
+
+/* PORTAL SHELL */
+#portal{display:none;min-height:100vh;}
+.topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:15px 36px;background:rgba(6,14,26,.93);backdrop-filter:blur(14px);border-bottom:var(--bdr);}
+.tb-left{display:flex;align-items:center;gap:12px;}
+.tb-emblem{width:28px;height:28px;border-radius:50%;border:1px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.65rem;color:var(--gold);}
+.tb-brand{font-family:var(--fd);font-weight:300;font-style:italic;font-size:.95rem;color:var(--cream);}
+.tb-right{display:flex;align-items:center;gap:14px;}
+.tb-name{font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--muted);}
+.tb-tier{font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;border:var(--bdrg);color:rgba(201,168,76,.7);padding:3px 10px;}
+.tb-out{font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);cursor:pointer;background:none;border:none;transition:color .2s;}
+.tb-out:hover{color:var(--muted);}
+.layout{display:grid;grid-template-columns:210px 1fr;min-height:calc(100vh - 57px);}
+@media(max-width:860px){.layout{grid-template-columns:1fr;}}
+.sidebar{background:rgba(255,255,255,.015);border-right:var(--bdr);padding:28px 0;position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto;}
+.sidebar::-webkit-scrollbar{width:2px;}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(201,168,76,.12);}
+@media(max-width:860px){.sidebar{position:static;height:auto;border-right:none;border-bottom:var(--bdr);padding:10px 0;}}
+.nav-sec{font-family:var(--fb);font-weight:200;font-size:.5rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(201,168,76,.32);padding:5px 20px;margin-top:18px;margin-bottom:3px;}
+.nav-sec:first-child{margin-top:0;}
+.nav-item{display:flex;align-items:center;gap:8px;padding:9px 20px;cursor:pointer;font-family:var(--fb);font-weight:200;font-size:.76rem;color:var(--muted);transition:color .2s,background .2s;border-left:2px solid transparent;}
+.nav-item:hover{color:rgba(245,240,232,.8);background:rgba(255,255,255,.025);}
+.nav-item.on{color:var(--cream);background:rgba(201,168,76,.04);border-left-color:var(--gold);}
+.nav-dot{width:3px;height:3px;border-radius:50%;background:rgba(201,168,76,.28);flex-shrink:0;}
+.nav-item.on .nav-dot{background:var(--gold);}
+.main{padding:40px 44px;max-width:1080px;}
+@media(max-width:700px){.main{padding:24px 18px;}}
+.panel{display:none;}
+.panel.on{display:block;animation:pin .2s ease;}
+@keyframes pin{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+.ph{margin-bottom:26px;}
+.ptag{font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(201,168,76,.48);margin-bottom:8px;}
+.ph1{font-family:var(--fd);font-weight:300;font-style:italic;font-size:clamp(1.5rem,3vw,2.2rem);color:var(--cream);line-height:1.05;margin-bottom:7px;}
+.ph2{font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--muted);line-height:1.9;max-width:580px;}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:2px;margin-bottom:2px;}
+.stat{background:rgba(255,255,255,.022);border:var(--bdr);padding:22px;transition:border-color .25s;}
+.stat:hover{border-color:rgba(201,168,76,.14);}
+.slabel{font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,168,76,.42);margin-bottom:9px;}
+.sval{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.35rem;color:var(--cream);margin-bottom:4px;}
+.smeta{font-family:var(--fb);font-weight:200;font-size:.68rem;color:var(--dim);line-height:1.75;}
+.div{height:1px;background:rgba(255,255,255,.05);margin:26px 0;}
+.tl{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+@media(max-width:640px){.tl{grid-template-columns:1fr;}}
+.tls{background:rgba(255,255,255,.022);border:var(--bdr);padding:24px 20px;transition:border-color .25s;}
+.tls.lit{border-color:rgba(201,168,76,.28);background:rgba(201,168,76,.03);}
+.tlnum{font-family:var(--fd);font-size:2.2rem;font-style:italic;color:rgba(201,168,76,.1);line-height:1;margin-bottom:9px;}
+.tlttl{font-family:var(--fb);font-weight:300;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cream);margin-bottom:7px;}
+.tldesc{font-family:var(--fb);font-weight:200;font-size:.76rem;color:var(--muted);line-height:1.85;}
+.tlstat{margin-top:13px;}
+.badge{display:inline-block;font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;padding:3px 9px;}
+.badge-g{border:1px solid rgba(40,180,100,.25);background:rgba(40,180,100,.07);color:var(--green);}
+.badge-a{border:var(--bdrg);background:rgba(201,168,76,.07);color:rgba(201,168,76,.8);}
+.badge-d{border:var(--bdr);background:rgba(255,255,255,.03);color:var(--dim);}
+.badge-r{border:1px solid rgba(220,70,70,.25);background:rgba(220,70,70,.07);color:var(--red);}
+.cards{display:flex;flex-direction:column;gap:2px;}
+.card{background:rgba(255,255,255,.018);border:var(--bdr);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;cursor:pointer;transition:border-color .22s;}
+.card:hover{border-color:rgba(201,168,76,.16);}
+.card-t{font-family:var(--fd);font-weight:300;font-size:.95rem;color:var(--cream);margin-bottom:3px;}
+.card-m{font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--dim);line-height:1.75;}
+.frm-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:560px){.frm-row{grid-template-columns:1fr;}}
+.ff{margin-bottom:18px;}
+.inp,.sel,.txa{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,.18);color:var(--cream);padding:10px 0;font-family:var(--fb);font-weight:200;font-size:.86rem;outline:none;transition:border-color .25s;}
+.inp:focus,.sel:focus,.txa:focus{border-bottom-color:rgba(201,168,76,.5);}
+.inp::placeholder,.txa::placeholder{color:rgba(245,240,232,.18);}
+.sel{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(201,168,76,.4)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center;background-color:transparent;padding-right:20px;}
+.sel option{background:#060E1A;}
+.txa{border:var(--bdr);border-bottom:1px solid rgba(201,168,76,.18);padding:10px;resize:vertical;min-height:76px;line-height:1.7;}
+.sbtn{padding:13px 36px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;background:var(--gold);color:var(--navy);border:none;cursor:pointer;position:relative;overflow:hidden;transition:letter-spacing .3s var(--ease);}
+.sbtn::before{content:'';position:absolute;inset:0;background:var(--gold-lt);transform:translateX(-101%);transition:transform .45s var(--ease);}
+.sbtn:hover{letter-spacing:.25em;}
+.sbtn:hover::before{transform:translateX(0);}
+.sbtn span{position:relative;z-index:1;}
+.empty{padding:50px 0;text-align:center;}
+.empty-icon{font-family:var(--fd);font-size:1.8rem;font-style:italic;color:rgba(201,168,76,.1);margin-bottom:12px;}
+.empty-txt{font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--dim);line-height:2;}
+.chat-box{background:rgba(255,255,255,.018);border:var(--bdr);padding:24px;}
+.chat-msgs{min-height:160px;max-height:300px;overflow-y:auto;margin-bottom:14px;}
+.chat-msgs::-webkit-scrollbar{width:2px;}
+.chat-msgs::-webkit-scrollbar-thumb{background:rgba(201,168,76,.12);}
+.cmsg{display:flex;gap:9px;margin-bottom:12px;align-items:flex-start;}
+.cmsg.user{flex-direction:row-reverse;}
+.cav{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.58rem;}
+.cav-ai{background:rgba(201,168,76,.08);border:var(--bdrg);color:var(--gold);}
+.cav-u{background:rgba(255,255,255,.05);color:var(--dim);}
+.cbub{max-width:86%;padding:10px 13px;font-family:var(--fb);font-weight:200;font-size:.79rem;line-height:1.85;}
+.cbub-ai{background:rgba(201,168,76,.04);border:var(--bdrg);color:rgba(245,240,232,.85);}
+.cbub-u{background:rgba(255,255,255,.04);border:var(--bdr);color:rgba(245,240,232,.6);}
+.typing-d span{display:inline-block;width:4px;height:4px;border-radius:50%;background:rgba(201,168,76,.4);margin:0 2px;animation:bounce .8s ease-in-out infinite;}
+.typing-d span:nth-child(2){animation-delay:.15s;}
+.typing-d span:nth-child(3){animation-delay:.3s;}
+@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-5px);opacity:1;}}
+.chat-row{display:flex;gap:7px;}
+.chat-inp{flex:1;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,.18);color:var(--cream);padding:10px 0;font-family:var(--fb);font-weight:200;font-size:.84rem;outline:none;transition:border-color .25s;}
+.chat-inp:focus{border-bottom-color:rgba(201,168,76,.5);}
+.chat-inp::placeholder{color:rgba(245,240,232,.18);}
+.chat-send{padding:10px 18px;font-family:var(--fb);font-weight:400;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;background:var(--gold);color:var(--navy);border:none;cursor:pointer;transition:background .2s;}
+.chat-send:hover{background:var(--gold-lt);}
+.shield-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:14px;}
+@media(max-width:560px){.shield-grid{grid-template-columns:1fr;}}
+.sg-item{background:rgba(255,255,255,.022);border:var(--bdr);padding:13px;}
+.sg-label{font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(201,168,76,.38);margin-bottom:5px;}
+.sg-val{font-family:var(--fb);font-weight:200;font-size:.78rem;color:var(--muted);line-height:1.75;}
+.pk-cat{margin-bottom:18px;}
+.pk-cat-title{font-family:var(--fb);font-weight:200;font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:10px;padding-bottom:7px;border-bottom:var(--bdr);}
+.pk-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);}
+.pk-item:last-child{border-bottom:none;}
+.pk-check{width:16px;height:16px;border:1px solid rgba(201,168,76,.3);background:transparent;cursor:pointer;accent-color:var(--gold);flex-shrink:0;}
+.pk-name{font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--muted);flex:1;}
+.pk-item.done .pk-name{text-decoration:line-through;color:var(--dim);}
+.emerg-btn{width:100%;padding:20px;font-family:var(--fb);font-weight:400;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;background:rgba(220,70,70,.15);color:var(--red);border:1px solid rgba(220,70,70,.3);cursor:pointer;transition:background .25s,border-color .25s;margin-bottom:20px;}
+.emerg-btn:hover{background:rgba(220,70,70,.25);border-color:rgba(220,70,70,.5);}
+.portal-foot{border-top:var(--bdr);padding:18px 44px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.foot-brand{font-family:var(--fd);font-weight:300;font-style:italic;font-size:.85rem;color:rgba(201,168,76,.28);}
+.foot-links{display:flex;gap:18px;}
+.foot-link{font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;cursor:pointer;transition:color .2s;}
+.foot-link:hover{color:rgba(201,168,76,.55);}
+</style>
+</head>
+<body>
+
+<!-- AUTH -->
+<div id="auth-gate">
+<div class="auth-wrap">
+  <div class="auth-brand">
+    <div class="auth-emblem">LL</div>
+    <span class="auth-name">Lolo Travels</span>
+    <span class="auth-tag">Member Portal</span>
+  </div>
+
+  <!-- SIGN IN -->
+  <div id="v-signin" class="auth-view active">
+    <h2 class="auth-h">Welcome back.</h2>
+    <p class="auth-hint">Sign in to access your protection and concierge.</p>
+    <div class="fld"><label class="flabel">Email</label><input class="finput" type="email" id="si-email" placeholder="you@email.com" autocomplete="email" onkeydown="if(event.key==='Enter')signIn()"/></div>
+    <div class="fld"><label class="flabel">Password</label><input class="finput" type="password" id="si-pass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')signIn()"/></div>
+    <div class="msg msg-err" id="si-err"></div>
+    <button class="abtn" id="si-btn" onclick="signIn()"><span>Sign In</span></button>
+    <div class="auth-links">New member? <a onclick="showView('signup')">Create account</a><br><a onclick="showView('reset')">Forgot password</a></div>
+  </div>
+
+  <!-- SIGN UP -->
+  <div id="v-signup" class="auth-view">
+    <button class="auth-back" onclick="showView('signin')">Back to sign in</button>
+    <h2 class="auth-h">Create account.</h2>
+    <div class="fld"><label class="flabel">Full Name</label><input class="finput" type="text" id="su-name" placeholder="First and Last Name"/></div>
+    <div class="fld"><label class="flabel">Email</label><input class="finput" type="email" id="su-email" placeholder="you@email.com"/></div>
+    <div class="fld"><label class="flabel">Password</label><input class="finput" type="password" id="su-pass" placeholder="Minimum 8 characters"/></div>
+    <div class="msg msg-err" id="su-err"></div>
+    <button class="abtn" id="su-btn" onclick="signUp()"><span>Create Account</span></button>
+  </div>
+
+  <!-- RESET -->
+  <div id="v-reset" class="auth-view">
+    <button class="auth-back" onclick="showView('signin')">Back to sign in</button>
+    <h2 class="auth-h">Reset password.</h2>
+    <div class="fld"><label class="flabel">Email</label><input class="finput" type="email" id="re-email" placeholder="you@email.com"/></div>
+    <div class="msg msg-err" id="re-err"></div>
+    <button class="abtn" onclick="resetPw()"><span>Send Reset Link</span></button>
+  </div>
+</div>
+</div>
+
+<!-- PORTAL -->
+<div id="portal">
+  <div class="topbar">
+    <div class="tb-left">
+      <div class="tb-emblem">LL</div>
+      <div class="tb-brand">Lolo Travels</div>
+    </div>
+    <div class="tb-right">
+      <span class="tb-name" id="tb-name"></span>
+      <span class="tb-tier">Member</span>
+      <button class="tb-out" onclick="signOut()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="nav-sec">Overview</div>
+      <div class="nav-item on" id="nav-dash" onclick="nav('dash')"><div class="nav-dot"></div>Dashboard</div>
+      <div class="nav-sec">Protection</div>
+      <div class="nav-item" id="nav-protection" onclick="nav('protection')"><div class="nav-dot"></div>My Protection</div>
+      <div class="nav-item" id="nav-claims" onclick="nav('claims')"><div class="nav-dot"></div>My Claims</div>
+      <div class="nav-item" id="nav-shield" onclick="nav('shield')"><div class="nav-dot"></div>Lolo Shield</div>
+      <div class="nav-sec">Travel</div>
+      <div class="nav-item" id="nav-packing" onclick="nav('packing')"><div class="nav-dot"></div>Packing List</div>
+      <div class="nav-item" id="nav-services" onclick="nav('services')"><div class="nav-dot"></div>Concierge and Services</div>
+      <div class="nav-sec">My Account</div>
+      <div class="nav-item" id="nav-advisor" onclick="nav('advisor')"><div class="nav-dot"></div>My Advisor</div>
+      <div class="nav-item" id="nav-documents" onclick="nav('documents')"><div class="nav-dot"></div>My Documents</div>
+      <div class="nav-item" id="nav-concierge" onclick="nav('concierge')"><div class="nav-dot"></div>Lolo Concierge</div>
+      <div class="nav-item" id="nav-support" onclick="nav('support')"><div class="nav-dot"></div>Emergency Support</div>
+      <div class="nav-item" id="nav-prefs" onclick="nav('prefs')"><div class="nav-dot"></div>Preferences</div>
+    </aside>
+
+    <main class="main">
+
+      <!-- DASHBOARD -->
+      <div class="panel on" id="p-dash">
+        <div class="ph">
+          <div class="ptag">Overview</div>
+          <h2 class="ph1" id="dash-greet">Good to have you back.</h2>
+          <p class="ph2">Your protection is active. Here is your current status at a glance.</p>
+        </div>
+        <div class="sgrid">
+          <div class="stat"><div class="slabel">Protection</div><div class="sval">Active</div><div class="smeta">Pre-trip, In-trip, Post-trip</div></div>
+          <div class="stat"><div class="slabel">Open Claims</div><div class="sval">0</div><div class="smeta">No active claims on file</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('concierge')"><div class="slabel">Lolo Concierge</div><div class="sval" style="font-size:1rem;">Ask anything</div><div class="smeta">Available now</div></div>
+        </div>
+        <div class="div"></div>
+        <div class="sgrid">
+          <div class="stat" style="cursor:pointer;" onclick="nav('claims')"><div class="slabel">File a Claim</div><div class="sval" style="font-size:1rem;">Submit</div><div class="smeta">Lolo manages the full process</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('shield')"><div class="slabel">Lolo Shield</div><div class="sval" style="font-size:1rem;">Check Destination</div><div class="smeta">Safety intelligence before you go</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('packing')"><div class="slabel">Packing List</div><div class="sval" style="font-size:1rem;">Build List</div><div class="smeta">AI-generated for your destination</div></div>
+        </div>
+      </div>
+
+      <!-- PROTECTION -->
+      <div class="panel" id="p-protection">
+        <div class="ph"><div class="ptag">Coverage</div><h2 class="ph1">My Protection</h2><p class="ph2">Before, during, and after every trip. Lolo is with you at every stage.</p></div>
+        <div class="tl">
+          <div class="tls lit"><div class="tlnum">01</div><div class="tlttl">Pre-Trip Readiness</div><p class="tldesc">Risk assessment, coverage review, destination brief, documentation check, and Lolo Shield briefing before you leave.</p><div class="tlstat"><span class="badge badge-a">Available now</span></div></div>
+          <div class="tls"><div class="tlnum">02</div><div class="tlttl">In-Trip Support</div><p class="tldesc">Real-time advisory, emergency coordination, Lolo Shield active, and access to vetted local contacts 24 hours a day.</p><div class="tlstat"><span class="badge badge-d">Activates on departure</span></div></div>
+          <div class="tls"><div class="tlnum">03</div><div class="tlttl">Post-Trip Recovery</div><p class="tldesc">Lolo manages the full claims process. We do not just file. We manage, escalate, and ensure resolution.</p><div class="tlstat"><span class="badge badge-d">Available after travel</span></div></div>
+        </div>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.15rem;color:var(--cream);margin-bottom:16px;">Request a Coverage Review</h3>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Destination</label><input class="inp" type="text" placeholder="Where are you traveling?"/></div>
+          <div class="ff"><label class="flabel">Travel Dates</label><input class="inp" type="text" placeholder="Depart and return dates"/></div>
+        </div>
+        <div class="ff"><label class="flabel">What do you need covered?</label><textarea class="txa" placeholder="Medical, cancellation, baggage, delays..."></textarea></div>
+        <button class="sbtn" onclick="submit('coverage-review')"><span>Request Review</span></button>
+      </div>
+
+      <!-- CLAIMS -->
+      <div class="panel" id="p-claims">
+        <div class="ph"><div class="ptag">Claims Management</div><h2 class="ph1">My Claims</h2><p class="ph2">We manage the full process from filing to resolution. You pay only on recovery.</p></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
+          <span style="font-family:var(--fb);font-weight:200;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.42);">Active Claims</span>
+          <button class="sbtn" style="padding:8px 20px;" onclick="nav('newclaim')"><span>File New Claim</span></button>
+        </div>
+        <div class="empty"><div class="empty-icon">No open claims.</div><div class="empty-txt">If something went wrong on a trip, file a claim<br>and Lolo handles everything from here.</div></div>
+      </div>
+
+      <!-- NEW CLAIM -->
+      <div class="panel" id="p-newclaim">
+        <div class="ph"><div class="ptag">Submit a Claim</div><h2 class="ph1">File a Claim</h2><p class="ph2">Provide the details below. Lolo builds your case, manages the process, and fights for your recovery.</p></div>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Claim Type</label><select class="sel"><option>Trip Cancellation</option><option>Medical Expense</option><option>Baggage Loss or Damage</option><option>Flight Delay or Missed Connection</option><option>Hotel or Accommodation Dispute</option><option>Medical Evacuation</option><option>Emergency Assistance</option><option>Other</option></select></div>
+          <div class="ff"><label class="flabel">Estimated Amount Owed</label><input class="inp" type="text" placeholder="Dollar amount you believe is owed"/></div>
+          <div class="ff"><label class="flabel">Destination</label><input class="inp" type="text" placeholder="Where were you?"/></div>
+          <div class="ff"><label class="flabel">Travel Dates</label><input class="inp" type="text" placeholder="Departure and return"/></div>
+          <div class="ff"><label class="flabel">Insurance Carrier</label><input class="inp" type="text" placeholder="Which insurance company?"/></div>
+          <div class="ff"><label class="flabel">Policy Number</label><input class="inp" type="text" placeholder="If known"/></div>
+        </div>
+        <div class="ff"><label class="flabel">What happened?</label><textarea class="txa" style="min-height:90px;" placeholder="Describe the incident and what you have been told so far..."></textarea></div>
+        <div class="ff"><label class="flabel">Current Status</label><select class="sel"><option>Not yet submitted. Lolo will handle from the start.</option><option>Submitted but no response received</option><option>Denied. I need help appealing.</option><option>Partially paid. Remainder is disputed.</option></select></div>
+        <button class="sbtn" onclick="submit('new-claim')"><span>Submit Claim to Lolo</span></button>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--dim);margin-top:11px;line-height:1.85;">Fees are disclosed before work begins. You pay nothing if Lolo does not recover.</p>
+      </div>
+
+      <!-- SHIELD -->
+      <div class="panel" id="p-shield">
+        <div class="ph"><div class="ptag">Safety Intelligence</div><h2 class="ph1">Lolo Shield</h2><p class="ph2">Destination-level safety intelligence, emergency contacts, and real-time guidance. Before you arrive, not after.</p></div>
+        <div class="frm-row" style="margin-bottom:16px;">
+          <div class="ff"><label class="flabel">Destination</label><input class="inp" type="text" id="shield-dest" placeholder="City or country"/></div>
+          <div class="ff" style="display:flex;align-items:flex-end;"><button class="sbtn" style="width:100%;" onclick="shieldCheck()"><span>Check Destination</span></button></div>
+        </div>
+        <div id="shield-result" style="display:none;">
+          <div style="background:rgba(255,255,255,.02);border:var(--bdr);padding:22px;margin-bottom:2px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
+              <div style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.15rem;color:var(--cream);" id="shield-name"></div>
+              <span class="badge" id="shield-badge"></span>
+            </div>
+            <div id="shield-summary" style="font-family:var(--fb);font-weight:200;font-size:.79rem;color:var(--muted);line-height:1.9;margin-bottom:14px;"></div>
+            <div class="shield-grid">
+              <div class="sg-item"><div class="sg-label">Emergency Number</div><div class="sg-val" id="sh-emerg"></div></div>
+              <div class="sg-item"><div class="sg-label">U.S. Embassy</div><div class="sg-val" id="sh-embassy"></div></div>
+              <div class="sg-item"><div class="sg-label">Lolo Emergency</div><div class="sg-val">+1 612-429-4943</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--cream);margin-bottom:12px;">Always Available</h3>
+        <div class="shield-grid">
+          <div class="sg-item"><div class="sg-label">Lolo Emergency</div><div class="sg-val">+1 612-429-4943</div></div>
+          <div class="sg-item"><div class="sg-label">Email</div><div class="sg-val">hello@lolotravels.com</div></div>
+          <div class="sg-item"><div class="sg-label">STEP Program</div><div class="sg-val">travel.state.gov. Register before every trip.</div></div>
+        </div>
+      </div>
+
+      <!-- PACKING LIST -->
+      <div class="panel" id="p-packing">
+        <div class="ph"><div class="ptag">Trip Prep</div><h2 class="ph1">Packing List</h2><p class="ph2">AI-generated by destination, duration, and purpose. Check off as you pack. If luggage is lost, the list pre-populates your claim.</p></div>
+        <div class="frm-row" style="margin-bottom:18px;">
+          <div class="ff"><label class="flabel">Destination</label><input class="inp" type="text" id="pk-dest" placeholder="Where are you going?"/></div>
+          <div class="ff"><label class="flabel">Trip Duration</label><input class="inp" type="text" id="pk-days" placeholder="How many days?"/></div>
+          <div class="ff"><label class="flabel">Trip Purpose</label><select class="sel" id="pk-type"><option>Business</option><option>Leisure</option><option>Bleisure</option><option>Conference</option></select></div>
+          <div class="ff" style="display:flex;align-items:flex-end;"><button class="sbtn" style="width:100%;" onclick="buildPacking()"><span>Generate List</span></button></div>
+        </div>
+        <div id="pk-result" style="display:none;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
+            <span style="font-family:var(--fb);font-weight:200;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.42);">Your Packing List</span>
+            <button class="sbtn" style="padding:7px 18px;font-size:.55rem;" onclick="saveList()"><span>Save List</span></button>
+          </div>
+          <div id="pk-lists"></div>
+        </div>
+        <div id="pk-empty" class="empty"><div class="empty-icon">No list yet.</div><div class="empty-txt">Enter your destination and trip details above<br>and Lolo will generate your packing list.</div></div>
+      </div>
+
+      <!-- CONCIERGE SERVICES -->
+      <div class="panel" id="p-services">
+        <div class="ph"><div class="ptag">White-Glove Services</div><h2 class="ph1">Concierge and Services</h2><p class="ph2">Lolo coordinates so you do not have to. Luggage, shipping, retrieval, and anything else your journey requires.</p></div>
+        <div class="sgrid" style="margin-bottom:20px;">
+          <div class="stat" style="cursor:pointer;" onclick="showService('forward')"><div class="slabel">Luggage Forward</div><div class="sval" style="font-size:1rem;">From $175</div><div class="smeta">Domestic. $250 international. $399 round trip.</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="showService('retrieval')"><div class="slabel">Item Retrieval</div><div class="sval" style="font-size:1rem;">From $200</div><div class="smeta">Left something behind? Lolo recovers and ships it.</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="showService('whiteglove')"><div class="slabel">White-Glove Request</div><div class="sval" style="font-size:1rem;">Custom</div><div class="smeta">Anything else your trip requires. Ask and we coordinate.</div></div>
+        </div>
+        <div id="svc-form" style="display:none;">
+          <div class="div"></div>
+          <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--cream);margin-bottom:14px;" id="svc-title">Request Service</h3>
+          <div class="frm-row">
+            <div class="ff"><label class="flabel">Pickup Location</label><input class="inp" type="text" placeholder="Address or hotel name"/></div>
+            <div class="ff"><label class="flabel">Delivery Location</label><input class="inp" type="text" placeholder="Destination address"/></div>
+            <div class="ff"><label class="flabel">Requested Date</label><input class="inp" type="text" placeholder="When do you need this?"/></div>
+            <div class="ff"><label class="flabel">Number of Items or Bags</label><input class="inp" type="text" placeholder="How many?"/></div>
+          </div>
+          <div class="ff"><label class="flabel">Special Instructions</label><textarea class="txa" placeholder="Fragile items, specific handling needs, or any other details..."></textarea></div>
+          <button class="sbtn" onclick="submit('concierge-service')"><span>Submit Request</span></button>
+        </div>
+      </div>
+
+      <!-- ADVISOR -->
+      <div class="panel" id="p-advisor">
+        <div class="ph"><div class="ptag">Your Advisor</div><h2 class="ph1">My Advisor</h2><p class="ph2">Direct access, your personal file, and a relationship that carries through every trip.</p></div>
+        <div class="sgrid" style="margin-bottom:2px;">
+          <div class="stat"><div class="slabel">Your Advisor</div><div class="sval" style="font-size:1rem;">Lolo Travels</div><div class="smeta">Founder, Shana London</div></div>
+          <div class="stat"><div class="slabel">Email</div><div class="sval" style="font-size:.88rem;">hello@lolotravels.com</div><div class="smeta">Response within 24 to 48 hours</div></div>
+          <div class="stat"><div class="slabel">Emergency Line</div><div class="sval" style="font-size:.88rem;">+1 612-429-4943</div><div class="smeta">Active trip emergencies only</div></div>
+        </div>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--cream);margin-bottom:16px;">Send a Message</h3>
+        <div class="ff"><label class="flabel">Subject</label><input class="inp" type="text" placeholder="What is this regarding?"/></div>
+        <div class="ff"><label class="flabel">Message</label><textarea class="txa" style="min-height:90px;" placeholder="Your message to your advisor..."></textarea></div>
+        <button class="sbtn" onclick="submit('advisor-message')"><span>Send Message</span></button>
+      </div>
+
+      <!-- DOCUMENTS -->
+      <div class="panel" id="p-documents">
+        <div class="ph"><div class="ptag">Document Vault</div><h2 class="ph1">My Documents</h2><p class="ph2">Itineraries, insurance policies, booking confirmations, and claim documents, all in one place.</p></div>
+        <div class="empty"><div class="empty-icon">No documents yet.</div><div class="empty-txt">Once Lolo confirms your bookings or protection, documents appear here.<br>You can also request documents by messaging your advisor.</div></div>
+      </div>
+
+      <!-- AI CONCIERGE -->
+      <div class="panel" id="p-concierge">
+        <div class="ph"><div class="ptag">AI Concierge</div><h2 class="ph1">Lolo Concierge</h2><p class="ph2">Ask anything. Destinations, protection, claims, safety, or what to pack.</p></div>
+        <div class="chat-box">
+          <div class="chat-msgs" id="chat-c">
+            <div class="cmsg"><div class="cav cav-ai">LL</div><div class="cbub cbub-ai">Welcome to Lolo Concierge. I can help with destination intelligence, travel protection questions, claim guidance, packing recommendations, and anything your journey requires. What can I assist you with today?</div></div>
+          </div>
+          <div class="chat-row">
+            <input class="chat-inp" id="ci-c" placeholder="Ask about protection, destinations, claims, safety..." onkeydown="if(event.key==='Enter')chat('c')"/>
+            <button class="chat-send" onclick="chat('c')">Send</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- EMERGENCY SUPPORT -->
+      <div class="panel" id="p-support">
+        <div class="ph"><div class="ptag">Emergency</div><h2 class="ph1">Emergency Support</h2><p class="ph2">For urgent situations while traveling. Lolo responds immediately.</p></div>
+        <button class="emerg-btn" onclick="submit('emergency')">I Need Help Right Now</button>
+        <div class="sgrid" style="margin-bottom:20px;">
+          <div class="stat"><div class="slabel">Lolo Emergency</div><div class="sval" style="font-size:.9rem;">+1 612-429-4943</div><div class="smeta">Call directly for active emergencies</div></div>
+          <div class="stat"><div class="slabel">Email</div><div class="sval" style="font-size:.9rem;">hello@lolotravels.com</div><div class="smeta">For non-urgent support requests</div></div>
+          <div class="stat"><div class="slabel">STEP Program</div><div class="sval" style="font-size:.9rem;">travel.state.gov</div><div class="smeta">Register every trip with the U.S. State Dept.</div></div>
+        </div>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--cream);margin-bottom:14px;">Submit a Support Request</h3>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Request Type</label><select class="sel"><option>Emergency. I am currently traveling.</option><option>Pre-trip readiness review</option><option>Claims assistance</option><option>Shipping or retrieval coordination</option><option>Lolo Shield destination briefing</option><option>General question</option></select></div>
+          <div class="ff"><label class="flabel">Best Way to Reach You</label><input class="inp" type="text" placeholder="Email or phone number"/></div>
+        </div>
+        <div class="ff"><label class="flabel">What do you need?</label><textarea class="txa" style="min-height:90px;" placeholder="Be as specific as possible so we can respond quickly..."></textarea></div>
+        <button class="sbtn" onclick="submit('support-request')"><span>Submit Request</span></button>
+      </div>
+
+      <!-- PREFERENCES -->
+      <div class="panel" id="p-prefs">
+        <div class="ph"><div class="ptag">Your Profile</div><h2 class="ph1">Preferences</h2><p class="ph2">Your advisor reads this before every trip. The more we know, the better we serve you.</p></div>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Preferred Seat</label><select class="sel"><option>No preference</option><option>Aisle</option><option>Window</option><option>Extra legroom</option></select></div>
+          <div class="ff"><label class="flabel">Preferred Room Type</label><select class="sel"><option>No preference</option><option>King bed</option><option>Two beds</option><option>Suite</option><option>High floor</option></select></div>
+          <div class="ff"><label class="flabel">Dietary Restrictions</label><input class="inp" type="text" placeholder="Allergies, dietary needs, or preferences"/></div>
+          <div class="ff"><label class="flabel">Airline Loyalty Numbers</label><input class="inp" type="text" placeholder="Airline and number. e.g. Delta SkyMiles 123456789"/></div>
+          <div class="ff"><label class="flabel">Hotel Loyalty Numbers</label><input class="inp" type="text" placeholder="Hotel program and number"/></div>
+          <div class="ff"><label class="flabel">Special Occasions</label><input class="inp" type="text" placeholder="Birthdays, anniversaries, milestones during travel"/></div>
+        </div>
+        <div class="ff"><label class="flabel">Anything else your advisor should know?</label><textarea class="txa" placeholder="Travel style, things you love, things to avoid, accessibility needs..."></textarea></div>
+        <button class="sbtn" onclick="submit('preferences')"><span>Save Preferences</span></button>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="portal-foot">
+    <div class="foot-brand">Lolo Travels</div>
+    <div class="foot-links">
+      <a class="foot-link" href="/">Home</a>
+      <a class="foot-link" href="/insurance">Protection</a>
+      <a class="foot-link" href="/contact">Contact</a>
+    </div>
+  </div>
+</div>
+
+<form name="lolo-portal" data-netlify="true" style="display:none;">
+  <input type="text" name="type"/>
+  <input type="text" name="details"/>
+  <input type="email" name="user_email"/>
+</form>
+
+<script>
+var SB = 'https://hktntiamtpptcagnohnn.supabase.co';
+var SK = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
+var sb = null;
+var chatHist = {c:[]};
+var currentUser = null;
+var pkItems = [];
+
+(function loadSB(){
+  var s = document.createElement('script');
+  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  s.onload = function(){
+    sb = supabase.createClient(SB, SK);
+    initSession();
+  };
+  s.onerror = function(){
+    document.getElementById('auth-gate').innerHTML = '<div style="text-align:center;padding:60px 24px;font-family:Jost,sans-serif;font-weight:200;color:rgba(245,240,232,.4);">Connection error. Please refresh the page.</div>';
+  };
+  document.head.appendChild(s);
+})();
+
+async function initSession(){
+  try{
+    var r = await sb.auth.getSession();
+    if(r.data && r.data.session){
+      loadPortal(r.data.session.user);
+    }
+  }catch(e){}
+}
+
+function showView(v){
+  document.querySelectorAll('.auth-view').forEach(function(el){el.classList.remove('active');});
+  var el = document.getElementById('v-'+v);
+  if(el) el.classList.add('active');
+}
+
+async function signIn(){
+  var email = document.getElementById('si-email').value.trim();
+  var pass = document.getElementById('si-pass').value;
+  var err = document.getElementById('si-err');
+  var btn = document.getElementById('si-btn');
+  err.textContent = '';
+  if(!email || !pass){err.textContent='Please fill in all fields.';return;}
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'Signing in...';
+  try{
+    var r = await sb.auth.signInWithPassword({email:email, password:pass});
+    if(r.error){
+      err.textContent = r.error.message === 'Invalid login credentials' ? 'Email or password is incorrect.' : r.error.message;
+      btn.disabled = false;
+      btn.querySelector('span').textContent = 'Sign In';
+      return;
+    }
+    loadPortal(r.data.user);
+  }catch(e){
+    err.textContent = 'Connection error. Please try again.';
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Sign In';
+  }
+}
+
+async function signUp(){
+  var name = document.getElementById('su-name').value.trim();
+  var email = document.getElementById('su-email').value.trim();
+  var pass = document.getElementById('su-pass').value;
+  var err = document.getElementById('su-err');
+  var btn = document.getElementById('su-btn');
+  err.textContent = '';
+  if(!name || !email || !pass){err.textContent='Please fill in all fields.';return;}
+  if(pass.length < 8){err.textContent='Password must be at least 8 characters.';return;}
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'Creating account...';
+  try{
+    var r = await sb.auth.signUp({email:email, password:pass, options:{data:{full_name:name, account_type:'consumer'}}});
+    if(r.error){
+      err.textContent = r.error.message;
+      btn.disabled = false;
+      btn.querySelector('span').textContent = 'Create Account';
+      return;
+    }
+    err.className = 'msg msg-ok';
+    err.textContent = 'Account created. Check your email to confirm, then sign in.';
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Create Account';
+  }catch(e){
+    err.textContent = 'Connection error. Please try again.';
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Create Account';
+  }
+}
+
+async function resetPw(){
+  var email = document.getElementById('re-email').value.trim();
+  var err = document.getElementById('re-err');
+  err.textContent = '';
+  if(!email){err.textContent='Please enter your email.';return;}
+  try{
+    var r = await sb.auth.resetPasswordForEmail(email, {redirectTo: window.location.origin + '/member'});
+    if(r.error){err.textContent = r.error.message;return;}
+    err.className = 'msg msg-ok';
+    err.textContent = 'Reset link sent. Check your inbox.';
+  }catch(e){err.textContent = 'Connection error.';}
+}
+
+async function signOut(){
+  await sb.auth.signOut();
+  document.getElementById('portal').style.display = 'none';
+  document.getElementById('auth-gate').style.display = 'flex';
+  currentUser = null;
+}
+
+function loadPortal(user){
+  currentUser = user;
+  document.getElementById('auth-gate').style.display = 'none';
+  document.getElementById('portal').style.display = 'block';
+  var meta = user.user_metadata || {};
+  var name = meta.full_name ? meta.full_name.split(' ')[0] : user.email.split('@')[0];
+  document.getElementById('tb-name').textContent = name;
+  var greet = document.getElementById('dash-greet');
+  if(greet) greet.textContent = 'Good to have you back, ' + name + '.';
+  nav('dash');
+}
+
+function nav(id){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('on');});
+  var panel = document.getElementById('p-'+id);
+  var navEl = document.getElementById('nav-'+id);
+  if(panel) panel.classList.add('on');
+  if(navEl) navEl.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function submit(type){
+  var active = document.querySelector('.panel.on');
+  var fields = {};
+  if(active){
+    active.querySelectorAll('input,select,textarea').forEach(function(el,i){
+      if(el.value) fields['f'+i] = el.value;
+    });
+  }
+  var email = currentUser ? currentUser.email : '';
+  fetch('/',{
+    method:'POST',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body: new URLSearchParams(Object.assign({'form-name':'lolo-portal','type':type,'user_email':email,'details':JSON.stringify(fields)})).toString()
+  });
+  var btn = active ? active.querySelector('.sbtn') : null;
+  if(btn){
+    var orig = btn.innerHTML;
+    btn.innerHTML = '<span>Sent. Lolo will be in touch.</span>';
+    btn.style.background = 'rgba(40,180,100,.8)';
+    setTimeout(function(){btn.innerHTML = orig; btn.style.background='';}, 3500);
+  }
+}
+
+function showService(type){
+  var titles = {forward:'Luggage Forward Request', retrieval:'Item Retrieval Request', whiteglove:'White-Glove Request'};
+  document.getElementById('svc-title').textContent = titles[type] || 'Service Request';
+  document.getElementById('svc-form').style.display = 'block';
+  document.getElementById('svc-form').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+async function shieldCheck(){
+  var dest = document.getElementById('shield-dest').value.trim();
+  if(!dest) return;
+  document.getElementById('shield-result').style.display = 'none';
+  try{
+    var r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:350,
+        system:'Return ONLY valid JSON with keys: status (one of: All Clear, Advisory Active, Exercise Caution, High Risk), summary (2 sentences of current safety context), emergency (local emergency number), embassy (US Embassy phone or see travel.state.gov). No other text.',
+        messages:[{role:'user',content:'Destination: ' + dest}]
+      })
+    });
+    var d = await r.json();
+    var txt = d.content && d.content[0] ? d.content[0].text : '{}';
+    var info = JSON.parse(txt.replace(/```json|```/g,'').trim());
+    document.getElementById('shield-name').textContent = dest;
+    document.getElementById('shield-summary').textContent = info.summary || '';
+    document.getElementById('sh-emerg').textContent = info.emergency || 'Check local listings';
+    document.getElementById('sh-embassy').textContent = info.embassy || 'travel.state.gov';
+    var badge = document.getElementById('shield-badge');
+    badge.textContent = info.status || 'Advisory Active';
+    var cls = 'badge-a';
+    if((info.status||'').indexOf('Clear') > -1) cls = 'badge-g';
+    else if((info.status||'').indexOf('High') > -1) cls = 'badge-r';
+    badge.className = 'badge ' + cls;
+    document.getElementById('shield-result').style.display = 'block';
+  }catch(e){
+    document.getElementById('shield-name').textContent = dest;
+    document.getElementById('shield-summary').textContent = 'Intelligence unavailable. Contact Lolo directly for a destination briefing.';
+    document.getElementById('shield-result').style.display = 'block';
+  }
+}
+
+async function buildPacking(){
+  var dest = document.getElementById('pk-dest').value.trim();
+  var days = document.getElementById('pk-days').value.trim();
+  var type = document.getElementById('pk-type').value;
+  if(!dest) return;
+  document.getElementById('pk-empty').style.display = 'none';
+  document.getElementById('pk-result').style.display = 'none';
+  var btn = document.querySelector('#p-packing .sbtn');
+  if(btn){var ob = btn.innerHTML; btn.innerHTML = '<span>Building your list...</span>'; btn.disabled = true;}
+  try{
+    var r = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:800,
+        system:'Return ONLY valid JSON: an object with keys being category names (Documents, Clothing, Tech, Health, Toiletries, Valuables, Misc) and values being arrays of item name strings. Tailor to the destination, duration, and trip type. No other text.',
+        messages:[{role:'user',content:'Destination: ' + dest + '. Duration: ' + days + ' days. Type: ' + type}]
+      })
+    });
+    var d = await r.json();
+    var txt = d.content && d.content[0] ? d.content[0].text : '{}';
+    var lists = JSON.parse(txt.replace(/```json|```/g,'').trim());
+    var html = '';
+    Object.keys(lists).forEach(function(cat){
+      html += '<div class="pk-cat"><div class="pk-cat-title">' + cat + '</div>';
+      (lists[cat]||[]).forEach(function(item, i){
+        var id = 'pk-' + cat.replace(/\s/g,'') + '-' + i;
+        html += '<div class="pk-item" id="pi-'+id+'"><input type="checkbox" class="pk-check" id="'+id+'" onchange="togglePk(\''+id+'\')"/><label class="pk-name" for="'+id+'">'+item+'</label></div>';
+      });
+      html += '</div>';
+    });
+    document.getElementById('pk-lists').innerHTML = html;
+    document.getElementById('pk-result').style.display = 'block';
+  }catch(e){
+    document.getElementById('pk-empty').style.display = 'block';
+    document.getElementById('pk-empty').querySelector('.empty-txt').textContent = 'Could not generate list. Please try again.';
+  }
+  if(btn){btn.innerHTML = ob; btn.disabled = false;}
+}
+
+function togglePk(id){
+  var row = document.getElementById('pi-'+id);
+  var cb = document.getElementById(id);
+  if(row && cb) row.classList.toggle('done', cb.checked);
+}
+
+function saveList(){
+  var btn = document.querySelector('#pk-result .sbtn');
+  if(btn){
+    var ob = btn.innerHTML;
+    btn.innerHTML = '<span>List Saved</span>';
+    btn.style.background = 'rgba(40,180,100,.8)';
+    setTimeout(function(){btn.innerHTML=ob;btn.style.background='';},2500);
+  }
+}
+
+var chatSys = {
+  c: 'You are the Lolo Concierge, a sophisticated and warm travel protection advisor for Lolo Travels LLC. Help with: travel protection questions, coverage before during and after trips, claim guidance, destination safety via Lolo Shield, packing, shipping services, and travel intelligence. You do not book trips. Speak with elegant brevity. Under 160 words. No bullet points.'
+};
+
+async function chat(role){
+  var inp = document.getElementById('ci-'+role);
+  var msgs = document.getElementById('chat-'+role);
+  if(!inp||!msgs) return;
+  var msg = inp.value.trim();
+  if(!msg) return;
+  inp.value = '';
+  msgs.innerHTML += '<div class="cmsg user"><div class="cav cav-u">you</div><div class="cbub cbub-u">'+msg+'</div></div>';
+  var tid = 't'+Date.now();
+  msgs.innerHTML += '<div class="cmsg" id="'+tid+'"><div class="cav cav-ai">LL</div><div class="cbub cbub-ai"><div class="typing-d"><span></span><span></span><span></span></div></div></div>';
+  msgs.scrollTop = msgs.scrollHeight;
+  chatHist[role].push({role:'user',content:msg});
+  try{
+    var resp = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system: chatSys[role] || chatSys.c,
+        messages: chatHist[role]
+      })
+    });
+    var data = await resp.json();
+    var reply = data.content && data.content[0] ? data.content[0].text : 'Please try again.';
+    chatHist[role].push({role:'assistant',content:reply});
+    var el = document.getElementById(tid);
+    if(el) el.querySelector('.cbub').textContent = reply;
+  }catch(e){
+    var el = document.getElementById(tid);
+    if(el) el.querySelector('.cbub').textContent = 'Connection issue. Please try again.';
+  }
+  msgs.scrollTop = msgs.scrollHeight;
+}
+</script>
+</body>
+</html>
