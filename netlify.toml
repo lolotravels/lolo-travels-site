@@ -4,6 +4,20 @@
   status = 200
 
 [[redirects]]
+  from = "/member"
+  to = "/member-portal.html"
+  status = 200
+
+[[redirects]]
+  from = "/business"
+  to = "/business-portal.html"
+  status = 200
+[[redirects]]
+  from = "/finance"
+  to = "/lolo-coa-system.html"
+  status = 200
+
+[[redirects]]
   from = "/portal"
   to = "/portal.html"
   status = 200
