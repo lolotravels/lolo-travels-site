@@ -273,7 +273,7 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
 <body>
 
 <!-- AUTH -->
-<div id="auth">
+<div id="auth" style="display:flex;">
 <div class="acard">
   <div class="abrand">
     <div class="abrand-em">LL</div>
@@ -321,7 +321,7 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
 </div>
 
 <!-- PORTAL -->
-<div id="portal">
+<div id="portal" style="display:none;">
 <div class="topbar">
   <div class="tb-l">
     <div class="tb-em" id="tb-em">LL</div>
@@ -389,10 +389,10 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
       </div>
     </div>
   </div>
-  <div class="shieldbar" id="shieldbar" onclick="nav('shield')" style="cursor:pointer;">
+  <div class="shieldbar" id="shieldbar">
     <div class="sb-dot"></div>
     <div class="sb-txt" id="sb-txt">Lolo Shield &nbsp;&middot;&nbsp; Loading destination intelligence...</div>
-    <div class="sb-cta">View brief &rsaquo;</div>
+    <div class="sb-cta" onclick="nav('shield')" style="cursor:pointer;">View brief &rsaquo;</div>
   </div>
   <div class="pbody">
     <div class="slbl">Quick actions</div>
