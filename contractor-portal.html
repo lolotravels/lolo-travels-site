@@ -437,6 +437,35 @@ html,body{background:var(--paper);color:var(--navy);font-family:var(--fb);-webki
           <button class="sbtn-o" id="up-btn-draft" onclick="uploadDoc('draft')">Save as Draft</button>
         </div>
         <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--navy3);margin-top:10px;line-height:1.85;">Lolo reviews all uploads and notifies you when verified or if additional information is needed.</p>
+
+        <div class="div"></div>
+
+        <h3 style="font-family:var(--fd);font-weight:300;font-size:1.15rem;color:var(--navy);margin-bottom:5px;">Government Communications</h3>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy2);margin-bottom:14px;line-height:1.85;">Log any communication received from the Contracting Officer or agency. This creates a record Lolo can reference when managing your solicitation.</p>
+        <div id="gov-comms-list" style="margin-bottom:16px;"></div>
+        <div class="frow">
+          <div class="ff"><label class="flbl">Communication Date</label><input class="inp" type="date" id="gc-date"/></div>
+          <div class="ff"><label class="flbl">Type</label><select class="sel" id="gc-type"><option value="email">Email from CO</option><option value="amendment">Amendment or Modification</option><option value="question">Questions and Answers</option><option value="award">Award Notice</option><option value="denial">Not Awarded Notice</option><option value="other">Other</option></select></div>
+          <div class="ff full"><label class="flbl">Summary</label><textarea class="txa" id="gc-summary" style="min-height:70px;" placeholder="Summarize the communication. What did they say or request?"></textarea></div>
+        </div>
+        <button class="sbtn-o" onclick="addGovComm()" style="margin-bottom:24px;">Add Communication Record</button>
+
+        <div class="div"></div>
+
+        <h3 style="font-family:var(--fd);font-weight:300;font-size:1.15rem;color:var(--navy);margin-bottom:5px;">Voice Notes</h3>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy2);margin-bottom:14px;line-height:1.85;">Record a voice note about this solicitation. Tap the microphone to start recording. Notes are saved and transcribed automatically.</p>
+        <div id="voice-notes-list" style="margin-bottom:16px;"></div>
+        <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <button id="voice-btn" class="sbtn" onclick="toggleVoice()" style="display:flex;align-items:center;gap:8px;">
+            <span id="voice-btn-txt">Start Recording</span>
+          </button>
+          <div id="voice-status" style="font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy3);"></div>
+        </div>
+        <div id="voice-transcript" style="margin-top:14px;display:none;">
+          <label class="flbl">Transcription</label>
+          <div id="voice-text" style="background:var(--white);border:var(--bdr);padding:12px 16px;font-family:var(--fb);font-weight:200;font-size:.88rem;color:var(--navy);line-height:1.85;min-height:60px;"></div>
+          <button class="sbtn" onclick="saveVoiceNote()" style="margin-top:10px;"><span>Save Voice Note</span></button>
+        </div>
       </div>
 
       <!-- DOCUMENT LIBRARY -->
@@ -1047,6 +1076,8 @@ async function openSol(solId){
       return '<div class="req-row rr-ok"><div style="flex:1;"><div class="rname">'+esc(r.req_name)+'</div>'+(r.lolo_notes?'<div class="rdesc">'+esc(r.lolo_notes)+'</div>':'')+(r.lolo_preselected?'<div class="rpreload">Pre-loaded by Lolo</div>':'')+'</div><span class="stamp stamp-ok">Verified</span></div>';
     }).join('');
     nav('solicitation');
+    loadVoiceNotes(solId);
+    loadGovComms(solId);
   }catch(e){nav('solicitation');}
 }
 
@@ -1186,6 +1217,116 @@ async function submitClaim(){
     if(btn){btn.querySelector('span').textContent='Claim Submitted - Case '+caseNum;btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Submit Claim Referral';btn.style.background='';btn.disabled=false;},4000);}
     setVal('cl-name','');setVal('cl-email','');setVal('cl-type','');setVal('cl-party','');setVal('cl-amt','');setVal('cl-date','');setVal('cl-desc','');
   }catch(e){if(btn){btn.querySelector('span').textContent='Submit Claim Referral';btn.disabled=false;}alert('Submission failed. Please try again.');}
+}
+
+var mediaRecorder=null, audioChunks=[], isRecording=false, recognition=null;
+
+function toggleVoice(){
+  if(isRecording){stopVoice();}else{startVoice();}
+}
+
+function startVoice(){
+  var btn=document.getElementById('voice-btn');
+  var status=document.getElementById('voice-status');
+  var transcript=document.getElementById('voice-transcript');
+  var text=document.getElementById('voice-text');
+  // Use Web Speech API for transcription
+  if('webkitSpeechRecognition' in window||'SpeechRecognition' in window){
+    var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+    recognition=new SR();
+    recognition.continuous=true;
+    recognition.interimResults=true;
+    recognition.lang='en-US';
+    recognition.onresult=function(e){
+      var interim='',final='';
+      for(var i=e.resultIndex;i<e.results.length;i++){
+        if(e.results[i].isFinal)final+=e.results[i][0].transcript;
+        else interim+=e.results[i][0].transcript;
+      }
+      text.textContent=(text.textContent||'')+final;
+      status.textContent=interim?'Hearing: '+interim:'Listening...';
+    };
+    recognition.onerror=function(e){status.textContent='Error: '+e.error+'. Try again.';stopVoice();};
+    recognition.onend=function(){if(isRecording)recognition.start();};
+    recognition.start();
+    isRecording=true;
+    setText('voice-btn-txt','Stop Recording');
+    btn.style.background='var(--red)';
+    status.textContent='Listening... speak now.';
+    transcript.style.display='block';
+  } else {
+    status.textContent='Voice recording not supported in this browser. Try Chrome.';
+  }
+}
+
+function stopVoice(){
+  if(recognition){recognition.stop();recognition=null;}
+  isRecording=false;
+  setText('voice-btn-txt','Start Recording');
+  var btn=document.getElementById('voice-btn');
+  if(btn) btn.style.background='';
+  setText('voice-status','Recording stopped.');
+}
+
+async function saveVoiceNote(){
+  if(!activeSolId||!sb)return;
+  var text=document.getElementById('voice-text');
+  var content=text?text.textContent.trim():'';
+  if(!content){alert('No voice note to save.');return;}
+  var btn=document.querySelector('#p-solicitation .sbtn:last-of-type');
+  if(btn){btn.querySelector('span').textContent='Saving...';btn.disabled=true;}
+  try{
+    var r=await sb.from('solicitations').select('voice_notes').eq('id',activeSolId).single();
+    var notes=[];
+    try{notes=JSON.parse(r.data.voice_notes||'[]');}catch(e){}
+    notes.push({date:new Date().toISOString(),content:content,user:currentUser.email});
+    await sb.from('solicitations').update({voice_notes:JSON.stringify(notes)}).eq('id',activeSolId);
+    if(btn){btn.querySelector('span').textContent='Saved';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Save Voice Note';btn.style.background='';btn.disabled=false;},2500);}
+    if(text) text.textContent='';
+    document.getElementById('voice-transcript').style.display='none';
+    setText('voice-status','Voice note saved.');
+    loadVoiceNotes(activeSolId);
+  }catch(e){if(btn){btn.querySelector('span').textContent='Save Voice Note';btn.disabled=false;}}
+}
+
+async function loadVoiceNotes(solId){
+  var el=document.getElementById('voice-notes-list');if(!el)return;
+  try{
+    var r=await sb.from('solicitations').select('voice_notes').eq('id',solId).single();
+    var notes=[];try{notes=JSON.parse(r.data.voice_notes||'[]');}catch(e){}
+    if(!notes.length){el.innerHTML='';return;}
+    el.innerHTML=notes.map(function(n){
+      var dt=new Date(n.date).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'});
+      return '<div style="background:var(--white);border:var(--bdr);border-left:3px solid var(--gold);padding:12px 16px;margin-bottom:2px;"><div style="font-family:var(--fb);font-weight:500;font-size:.66rem;color:var(--navy3);margin-bottom:5px;">'+dt+' - '+esc(n.user)+'</div><div style="font-family:var(--fb);font-weight:200;font-size:.86rem;color:var(--navy);line-height:1.8;">'+esc(n.content)+'</div></div>';
+    }).reverse().join('');
+  }catch(e){}
+}
+
+async function addGovComm(){
+  if(!activeSolId||!sb)return;
+  var date=getVal('gc-date'),type=getVal('gc-type'),summary=getVal('gc-summary');
+  if(!summary){alert('Please enter a summary of the communication.');return;}
+  try{
+    var r=await sb.from('solicitations').select('government_communications').eq('id',activeSolId).single();
+    var comms=[];try{comms=JSON.parse(r.data.government_communications||'[]');}catch(e){}
+    comms.push({date:date||new Date().toISOString().split('T')[0],type:type,summary:summary,logged_by:currentUser.email,logged_at:new Date().toISOString()});
+    await sb.from('solicitations').update({government_communications:JSON.stringify(comms)}).eq('id',activeSolId);
+    setVal('gc-date','');setVal('gc-summary','');
+    loadGovComms(activeSolId);
+  }catch(e){alert('Error saving communication.');}
+}
+
+async function loadGovComms(solId){
+  var el=document.getElementById('gov-comms-list');if(!el)return;
+  try{
+    var r=await sb.from('solicitations').select('government_communications').eq('id',solId).single();
+    var comms=[];try{comms=JSON.parse(r.data.government_communications||'[]');}catch(e){}
+    if(!comms.length){el.innerHTML='<div style="font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy3);">No communications logged yet.</div>';return;}
+    var typeLabels={email:'Email from CO',amendment:'Amendment',question:'Q&A',award:'Award Notice',denial:'Not Awarded Notice',other:'Other'};
+    el.innerHTML=comms.map(function(c){
+      return '<div style="background:var(--white);border:var(--bdr);border-left:3px solid var(--navy2);padding:12px 16px;margin-bottom:2px;"><div style="display:flex;justify-content:space-between;margin-bottom:5px;"><span style="font-family:var(--fb);font-weight:500;font-size:.72rem;color:var(--navy);">'+(typeLabels[c.type]||c.type)+'</span><span style="font-family:var(--fb);font-weight:200;font-size:.66rem;color:var(--navy3);">'+esc(c.date)+'</span></div><div style="font-family:var(--fb);font-weight:200;font-size:.86rem;color:var(--navy2);line-height:1.8;">'+esc(c.summary)+'</div></div>';
+    }).reverse().join('');
+  }catch(e){}
 }
 
 async function sendMessage(){
