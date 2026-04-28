@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Lolo Login Test</title>
+<style>
+body{font-family:sans-serif;background:#060E1A;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;}
+.box{background:#fff;padding:40px;width:360px;border-radius:4px;}
+h2{margin-bottom:20px;color:#060E1A;}
+input{width:100%;padding:10px;margin-bottom:12px;border:1px solid #ddd;font-size:14px;box-sizing:border-box;}
+button{width:100%;padding:12px;background:#060E1A;color:#fff;border:none;cursor:pointer;font-size:14px;}
+button:hover{background:#C9A84C;color:#060E1A;}
+#status{margin-top:12px;padding:10px;font-size:13px;min-height:20px;}
+.ok{background:#e8f5e9;color:#2e7d32;}
+.err{background:#ffebee;color:#c62828;}
+.info{background:#e3f2fd;color:#1565c0;}
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>Lolo Auth Test</h2>
+  <input type="email" id="email" placeholder="Email" value="sales@travelplaceng.com"/>
+  <input type="password" id="pass" placeholder="Password" value="LoloNig2026!"/>
+  <button onclick="testLogin()">Test Login</button>
+  <div id="status"></div>
+</div>
+<script>
+var SB='https://hktntiamtpptcagnohnn.supabase.co';
+var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
+var sb=null;
+
+function log(msg,cls){
+  var el=document.getElementById('status');
+  el.textContent=msg;
+  el.className=cls||'info';
+}
+
+var s=document.createElement('script');
+s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+s.onload=function(){
+  sb=supabase.createClient(SB,SK);
+  log('Supabase loaded. Ready to test.','ok');
+};
+s.onerror=function(){log('Supabase CDN FAILED to load. Check internet.','err');};
+document.head.appendChild(s);
+
+async function testLogin(){
+  if(!sb){log('Supabase not loaded yet.','err');return;}
+  log('Attempting login...','info');
+  var email=document.getElementById('email').value;
+  var pass=document.getElementById('pass').value;
+  try{
+    var r=await sb.auth.signInWithPassword({email:email,password:pass});
+    if(r.error){
+      log('LOGIN FAILED: '+r.error.message,'err');
+    } else {
+      var user=r.data.user;
+      log('LOGIN OK: '+user.email+' | ID: '+user.id,'ok');
+      // Test profile read
+      var pr=await sb.from('profiles').select('account_type,company_id,portal_role').eq('id',user.id).single();
+      if(pr.data){
+        log('LOGIN OK + PROFILE OK: '+JSON.stringify(pr.data),'ok');
+      } else {
+        log('LOGIN OK but PROFILE READ FAILED: '+JSON.stringify(pr.error),'err');
+      }
+    }
+  }catch(e){
+    log('ERROR: '+e.message,'err');
+  }
+}
+</script>
+</body>
+</html>
