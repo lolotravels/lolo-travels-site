@@ -273,7 +273,7 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
 <body>
 
 <!-- AUTH -->
-<div id="auth" style="display:flex;">
+<div id="auth" style="display:flex;min-height:100vh;align-items:center;justify-content:center;background-color:#0D1A45;background-image:linear-gradient(160deg,#2A4080 0%,#1E3070 25%,#142050 55%,#0D1A45 100%);">
 <div class="acard">
   <div class="abrand">
     <div class="abrand-em">LL</div>
@@ -283,8 +283,8 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
   <div id="v-signin" class="av on">
     <div class="av-h">Welcome back.</div>
     <div class="av-sub">Your world is managed from here.</div>
-    <div class="af"><label class="al">Email address</label><input class="ai" type="email" id="si-email" placeholder="your@email.com" autocomplete="email"/></div>
-    <div class="af"><label class="al">Password</label><input class="ai" type="password" id="si-pass" placeholder="Your password" onkeydown="if(event.key==='Enter')signIn()"/></div>
+    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Email address</label><input class="ai" type="email" id="si-email" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="your@email.com" autocomplete="email"/></div>
+    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Password</label><input class="ai" type="password" id="si-pass" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="Your password" onkeydown="if(event.key==='Enter')signIn()"/></div>
     <div class="aerr" id="si-err"></div>
     <button class="abtn" id="si-btn" onclick="signIn()">Sign In</button>
     <div class="alinks"><a onclick="showV('reset')">Forgot password?</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="showV('register')">Create account</a></div>
@@ -293,9 +293,9 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
     <button class="aback" onclick="showV('signin')">Back to sign in</button>
     <div class="av-h">Create account.</div>
     <div class="av-sub">Join Lolo Travels to manage your journeys.</div>
-    <div class="af"><label class="al">Full name</label><input class="ai" type="text" id="rg-name" placeholder="Your full name"/></div>
-    <div class="af"><label class="al">Email address</label><input class="ai" type="email" id="rg-email" placeholder="your@email.com"/></div>
-    <div class="af"><label class="al">Password</label><input class="ai" type="password" id="rg-pass" placeholder="Choose a password"/></div>
+    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Full name</label><input class="ai" type="text" id="rg-name" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="Your full name"/></div>
+    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Email address</label><input class="ai" type="email" id="rg-email" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="your@email.com"/></div>
+    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Password</label><input class="ai" type="password" id="rg-pass" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="Choose a password"/></div>
     <div class="aerr" id="rg-err"></div>
     <button class="abtn" onclick="register()">Create Account</button>
     <div class="alinks"><a onclick="showV('signin')">Already have an account?</a></div>
@@ -304,15 +304,15 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
     <button class="aback" onclick="showV('signin')">Back to sign in</button>
     <div class="av-h">Reset password.</div>
     <div class="av-sub">Enter your email and we will send a reset link.</div>
-    <div class="af"><label class="al">Email address</label><input class="ai" type="email" id="re-email" placeholder="your@email.com"/></div>
+    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Email address</label><input class="ai" type="email" id="re-email" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="your@email.com"/></div>
     <div class="aerr" id="re-err"></div>
     <button class="abtn" onclick="resetPw()">Send Reset Link</button>
   </div>
   <div id="v-newpass" class="av">
     <div class="av-h">Set new password.</div>
     <div class="av-sub">Choose a new password for your account.</div>
-    <div class="af"><label class="al">New password</label><input class="ai" type="password" id="np-pass" placeholder="At least 8 characters"/></div>
-    <div class="af"><label class="al">Confirm password</label><input class="ai" type="password" id="np-confirm" placeholder="Repeat new password"/></div>
+    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">New password</label><input class="ai" type="password" id="np-pass" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="At least 8 characters"/></div>
+    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Confirm password</label><input class="ai" type="password" id="np-confirm" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="Repeat new password"/></div>
     <div class="aerr" id="np-err"></div>
     <button class="abtn" onclick="setNewPass()">Set New Password</button>
   </div>
@@ -742,9 +742,19 @@ var SHIELD_DATA={
   s.onload=function(){
     sb=supabase.createClient(SB,SK);
     // Check for password recovery token in URL hash
-    if(window.location.hash.includes('type=recovery')){
+    if(window.location.hash.includes('type=recovery')||window.location.hash.includes('access_token')){
+      // Supabase processes the token when createClient is called
+      // Get the session immediately then listen for recovery event
+      sb.auth.getSession().then(function(r){
+        if(r.data&&r.data.session){
+          cu=r.data.session.user;
+          showV('newpass');
+        }
+      });
       sb.auth.onAuthStateChange(function(event,session){
-        if(event==='PASSWORD_RECOVERY'){showV('newpass');cu=session?session.user:null;}
+        if(event==='PASSWORD_RECOVERY'||event==='SIGNED_IN'){
+          if(session){cu=session.user;showV('newpass');}
+        }
       });
       return;
     }
@@ -851,16 +861,39 @@ async function setNewPass(){
   if(!pass||!conf){err.textContent='Please fill in both fields.';return;}
   if(pass!==conf){err.textContent='Passwords do not match.';return;}
   if(pass.length<8){err.textContent='Password must be at least 8 characters.';return;}
+  var btn=document.querySelector('#v-newpass .abtn');
+  if(btn){btn.disabled=true;btn.textContent='Updating...';}
   try{
     var r=await sb.auth.updateUser({password:pass});
-    if(r.error){err.textContent=r.error.message;return;}
-    err.className='aerr aerr-ok';err.textContent='Password updated. Signing you in...';
-    setTimeout(function(){
-      sb.auth.getSession().then(function(sr){
-        if(sr.data&&sr.data.session) loadPortal(sr.data.session.user);
-      });
+    if(r.error){
+      err.textContent=r.error.message;
+      if(btn){btn.disabled=false;btn.textContent='Set New Password';}
+      return;
+    }
+    err.className='aerr aerr-ok';
+    err.textContent='Password updated successfully. Taking you to your portal...';
+    // Clear hash from URL so it does not interfere
+    if(window.history&&window.history.replaceState){
+      window.history.replaceState(null,'',window.location.pathname);
+    }
+    setTimeout(async function(){
+      // Use current user if available, else re-authenticate
+      var user=cu||(r.data&&r.data.user);
+      if(user){
+        await verifyAndLoad(user);
+      } else {
+        // Fall back to sign-in screen
+        showV('signin');
+        err.textContent='';
+        var si=document.getElementById('si-err');
+        if(si){si.className='aerr aerr-ok';si.textContent='Password updated. Please sign in.';}
+      }
+      if(btn){btn.disabled=false;btn.textContent='Set New Password';}
     },1500);
-  }catch(ex){err.textContent='Error updating password. Please try again.';}
+  }catch(ex){
+    err.textContent='Error updating password. Please try again.';
+    if(btn){btn.disabled=false;btn.textContent='Set New Password';}
+  }
 }
 
 async function resetPw(){
