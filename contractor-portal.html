@@ -607,7 +607,7 @@ html,body{background:var(--paper);color:var(--navy);font-family:var(--fb);-webki
           <div class="req-row rr-ok"><div style="flex:1;"><div class="rname">Travel Insurance</div><div class="rdesc">Lolo arranges travel insurance for individual and group travelers through licensed carriers.</div></div><div><span class="stamp stamp-ok">15% referral fee</span></div></div>
           <div class="req-row rr-ok"><div style="flex:1;"><div class="rname">Lolo Shield Protection Plan</div><div class="rdesc">Destination safety intelligence, emergency support, and on-the-ground assistance.</div></div><div><span class="stamp stamp-ok">20% referral fee</span></div></div>
           <div class="req-row rr-ok"><div style="flex:1;"><div class="rname">Concierge Services</div><div class="rdesc">Premium travel planning, reservations, and on-trip assistance for your clients.</div></div><div><span class="stamp stamp-ok">15% referral fee</span></div></div>
-          <div class="req-row rr-ok"><div style="flex:1;"><div class="rname">Member Portal Referral</div><div class="rdesc">Refer a client to create a Lolo member account.</div></div><div><span class="stamp stamp-ok">$25 per member</span></div></div>
+          <div class="req-row rr-ok"><div style="flex:1;"><div class="rname">Member Portal Referral</div><div class="rdesc">Refer a client to create a Lolo member account. No fee — growing the Lolo community benefits all partners.</div></div><div><span class="stamp stamp-ok">No Fee</span></div></div>
         </div>
       </div>
 
@@ -705,47 +705,41 @@ var userPerms={}; // loaded from portal_roles
 
 async function loadPortal(user){
   currentUser=user;
-  // Set name immediately so topbar shows right away
   setText('tb-name', user.email.split('@')[0]);
-  // Default role to owner until we know better
   userRole='owner';
-  try{
-    // Small wait for Supabase session to fully propagate
-    await new Promise(function(r){setTimeout(r,400);});
-    var pr=await sb.from('profiles')
-      .select('company_id,account_type,full_name,portal_role')
-      .eq('id',user.id)
-      .single();
-    if(pr.data){
-      if(pr.data.company_id) companyId=pr.data.company_id;
-      if(pr.data.portal_role) userRole=pr.data.portal_role;
-      if(pr.data.full_name) setText('tb-name', pr.data.full_name.split(' ')[0]);
-    }
-    // If still no companyId try finding by email in partner_profiles
-    if(!companyId){
-      var ep=await sb.from('partner_profiles')
-        .select('company_id')
-        .or('signatory_email.eq.'+user.email+',office_email.eq.'+user.email)
-        .single();
-      if(ep.data) companyId=ep.data.company_id;
-    }
-  }catch(e){
-    // Profile errors don't block access - we proceed with what we have
-  }
-  // Load role permissions
-  await loadRolePermissions();
+  // Show portal immediately - no blocking
   document.getElementById('auth').style.display='none';
   document.getElementById('portal').style.display='block';
-  renderNav();
-  // Always show overview first, then let data load
   nav('overview');
-  // Load all data after showing UI
-  setTimeout(function(){
+  // Load data in background - multiple fallback strategies
+  setTimeout(async function(){
+    try{
+      // Strategy 1: direct profiles lookup
+      var pr=await sb.from('profiles').select('company_id,account_type,full_name,portal_role').eq('id',user.id).single();
+      if(pr.data&&pr.data.company_id){
+        companyId=pr.data.company_id;
+        userRole=pr.data.portal_role||'owner';
+        if(pr.data.full_name) setText('tb-name',pr.data.full_name.split(' ')[0]);
+      }
+    }catch(e1){
+      try{
+        // Strategy 2: find by email in partner_profiles
+        var pp=await sb.from('partner_profiles').select('company_id').eq('office_email',user.email).single();
+        if(pp.data) companyId=pp.data.company_id;
+      }catch(e2){}
+    }
+    await loadRolePermissions();
+    renderNav();
     loadCompany();
     loadSolicitations();
     loadDocLibrary();
     loadContracts();
-  }, 200);
+  }, 100);
+  return; // everything else handled in setTimeout above
+  // dummy line to prevent old code from running
+  // Load role permissions
+  await loadRolePermissions();
+  // handled above
 }
 
 async function loadRolePermissions(){
@@ -860,7 +854,7 @@ async function loadCompany(){
     try{teamContacts=typeof d.additional_contacts==='string'?JSON.parse(d.additional_contacts):d.additional_contacts||[];}catch(e){teamContacts=[];}
     renderTeam();
     // Referral code
-    var refCode='LOLO-'+companyId.substr(0,8).toUpperCase();
+    var refCode=companyId?'LOLO-'+companyId.substr(0,8).toUpperCase():'LOLO-'+user.email.split('@')[0].toUpperCase().substr(0,8);
     setText('ref-code',refCode);
   }catch(e){}
 }
