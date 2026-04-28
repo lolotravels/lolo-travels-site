@@ -831,24 +831,34 @@ async function signOut(){
 
 async function loadPortal(user){
   cu=user;
-  var initials=(user.email||'LL').substr(0,2).toUpperCase();
-  s('tb-em',initials);s('tb-name',user.email.split('@')[0]);
-  var greet='Good '+(new Date().getHours()<12?'morning':new Date().getHours()<17?'afternoon':'evening')+'.';
-  s('h-sub',greet);
+  // SESSION ISOLATION: check this user belongs on the member portal
   try{
     await new Promise(function(r){setTimeout(r,300);});
-    var pr=await sb.from('profiles').select('full_name,seat_preference,meal_preference,loyalty_numbers').eq('id',user.id).single();
+    var pr=await sb.from('profiles').select('full_name,account_type,seat_preference,meal_preference,loyalty_numbers').eq('id',user.id).single();
+    // If this is a contractor account, sign them out and show message
+    if(pr.data&&pr.data.account_type==='contractor'){
+      await sb.auth.signOut();
+      var err=document.getElementById('si-err');
+      if(err){err.className='aerr';err.textContent='This portal is for Lolo members. Partners please visit lolotravels.com/contractor';}
+      return;
+    }
     if(pr.data&&pr.data.full_name){
       var fn=pr.data.full_name.split(' ')[0];
-      s('h-sub',greet+' Welcome back, '+fn+'.');
       s('tb-name',fn);
-      initials=pr.data.full_name.substr(0,2).toUpperCase();
-      s('tb-em',initials);
+      s('tb-em',pr.data.full_name.substr(0,2).toUpperCase());
       sv('pr-name',pr.data.full_name);
       sv('pr-seat',pr.data.seat_preference||'');
       sv('pr-meal',pr.data.meal_preference||'');
+    } else {
+      s('tb-name',user.email.split('@')[0]);
+      s('tb-em',(user.email||'LL').substr(0,2).toUpperCase());
     }
-  }catch(ex){}
+  }catch(ex){
+    s('tb-name',user.email.split('@')[0]);
+    s('tb-em',(user.email||'LL').substr(0,2).toUpperCase());
+  }
+  var greet='Good '+(new Date().getHours()<12?'morning':new Date().getHours()<17?'afternoon':'evening')+'.';
+  s('h-sub',greet+' Welcome back.');
   document.getElementById('auth').style.display='none';
   document.getElementById('portal').style.display='block';
   nav('home');
