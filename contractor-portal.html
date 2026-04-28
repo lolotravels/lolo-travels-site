@@ -752,6 +752,39 @@ async function resetPw(){
   }catch(e){err.textContent='Connection error.';}
 }
 
+var mfaChallengeId=null,mfaFactorId=null;
+
+async function checkMFAOnLogin(user){
+  try{
+    var aal=await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+    if(aal.data&&aal.data.nextLevel==='aal2'&&aal.data.nextLevel!==aal.data.currentLevel){
+      var factors=await sb.auth.mfa.listFactors();
+      if(factors.data&&factors.data.totp&&factors.data.totp.length>0){
+        mfaFactorId=factors.data.totp[0].id;
+        var challenge=await sb.auth.mfa.challenge({factorId:mfaFactorId});
+        if(challenge.data) mfaChallengeId=challenge.data.id;
+        showV('mfa');return false;
+      }
+    }
+  }catch(ex){}
+  return true;
+}
+
+async function verifyMFA(){
+  var code=document.getElementById('mfa-code').value.replace(/[^0-9]/g,'');
+  var err=document.getElementById('mfa-err');
+  var btn=document.getElementById('mfa-btn');
+  err.textContent='';
+  if(code.length!==6){err.textContent='Please enter the 6-digit code.';return;}
+  btn.disabled=true;btn.textContent='Verifying...';
+  try{
+    var r=await sb.auth.mfa.verify({factorId:mfaFactorId,challengeId:mfaChallengeId,code:code});
+    if(r.error){err.textContent='Incorrect code. Please try again.';btn.disabled=false;btn.textContent='Verify';return;}
+    var session=await sb.auth.getSession();
+    if(session.data&&session.data.session) await loadPortal(session.data.session.user);
+  }catch(ex){err.textContent='Error. Please try again.';btn.disabled=false;btn.textContent='Verify';}
+}
+
 async function signOut(){
   await sb.auth.signOut();
   document.getElementById('portal').style.display='none';
