@@ -22,7 +22,7 @@
 html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webkit-font-smoothing:antialiased;}
 
 /* AUTH */
-#auth{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--ombre);}
+#auth{min-height:100vh;display:flex;align-items:center;justify-content:center;background-color:#0D1A45;background-image:linear-gradient(160deg,#2A4080 0%,#1E3070 25%,#142050 55%,#0D1A45 100%);}
 .acard{width:100%;max-width:400px;padding:0 32px;}
 .abrand{text-align:center;margin-bottom:40px;}
 .abrand-em{width:56px;height:56px;border-radius:50%;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.07);display:inline-flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.95rem;font-style:italic;color:var(--gold);margin-bottom:16px;}
@@ -76,7 +76,7 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
 .main{padding:0;overflow:hidden;}
 
 /* HERO - the ombre section */
-.hero{background:var(--ombre);padding:28px 32px 36px;position:relative;overflow:hidden;}
+.hero{background-color:#0D1A45;background-image:linear-gradient(160deg,#2A4080 0%,#1E3070 25%,#142050 55%,#0D1A45 100%);padding:28px 32px 36px;position:relative;overflow:hidden;}
 .hero::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 65%);}
 .hero::after{content:'';position:absolute;bottom:-50px;left:-30px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(42,64,128,.5) 0%,transparent 65%);}
 .hero-brand{font-family:var(--fb);font-weight:200;font-size:.54rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(201,168,76,.45);margin-bottom:18px;position:relative;z-index:1;}
@@ -742,29 +742,40 @@ var SHIELD_DATA={
   s.onload=function(){
     sb=supabase.createClient(SB,SK);
     // Check for password recovery token in URL hash
-    var hash=window.location.hash;
-    if(hash.includes('type=recovery')){
-      sb.auth.getSession().then(function(r){
-        if(r.data&&r.data.session){
-          showV('newpass');
-          cu=r.data.session.user;
-        }
+    if(window.location.hash.includes('type=recovery')){
+      sb.auth.onAuthStateChange(function(event,session){
+        if(event==='PASSWORD_RECOVERY'){showV('newpass');cu=session?session.user:null;}
       });
       return;
     }
+    // On page load - restore existing session (NOT from signIn click)
+    // Use a flag so signIn's own contractor check runs first
     sb.auth.getSession().then(function(r){
-      if(r.data&&r.data.session) loadPortal(r.data.session.user);
+      if(r.data&&r.data.session) verifyAndLoad(r.data.session.user);
     });
-    // Listen for auth state changes (handles email confirmation and recovery)
+    // onAuthStateChange only handles PASSWORD_RECOVERY - NOT SIGNED_IN
+    // SIGNED_IN is handled directly by signIn() and register() functions
+    // This prevents the race condition where SIGNED_IN fires before contractor check
     sb.auth.onAuthStateChange(function(event,session){
       if(event==='PASSWORD_RECOVERY'){showV('newpass');}
-      else if(event==='SIGNED_IN'&&session&&document.getElementById('portal').style.display==='none'){
-        loadPortal(session.user);
-      }
     });
   };
   document.head.appendChild(s);
 })();
+
+async function verifyAndLoad(user){
+  // Called on page load session restore - must check account type
+  if(!user||!sb)return;
+  try{
+    var pr=await sb.from('profiles').select('account_type,company_id').eq('id',user.id).single();
+    if(pr.data&&(pr.data.account_type==='contractor'||pr.data.company_id)){
+      // Contractor session found - sign out silently
+      await sb.auth.signOut();
+      return; // Stay on login screen
+    }
+  }catch(ex){}
+  await loadPortal(user);
+}
 
 function showV(v){
   document.querySelectorAll('.av').forEach(function(e){e.classList.remove('on');});
@@ -791,8 +802,12 @@ async function signIn(){
       err.textContent='This account belongs to a Lolo partner. Partners access their portal at lolotravels.com/contractor';
       btn.disabled=false;btn.textContent='Sign In';return;
     }
+    // Pass directly - no onAuthStateChange will interfere
     await loadPortal(user);
-  }catch(ex){err.textContent='Connection error. Please try again.';btn.disabled=false;btn.textContent='Sign In';}
+  }catch(ex){
+    err.textContent='Connection error. Please try again.';
+    btn.disabled=false;btn.textContent='Sign In';
+  }
 }
 
 async function register(){
