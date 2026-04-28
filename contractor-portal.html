@@ -3,2107 +3,1194 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Lolo Travels  -  Partner Compliance Portal</title>
+<title>Partner Portal - Lolo Travels</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
 <style>
-/* ============================================================
-   LOLO TRAVELS -- CONTRACTOR COMPLIANCE PORTAL
-   contractor-portal.html
-   Theme: Cream / Premium Document Management
-   Colors: Cream #F5F0E8, White #FFFFFF, Navy #060E1A, Gold #C9A84C
-   Fonts: Cormorant Garamond + Jost
-============================================================ */
-
-*{margin:0;padding:0;box-sizing:border-box;}
+*{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --cream:#F5F0E8;
-  --cream-dk:#EDE8DE;
-  --cream-mid:#E8E2D8;
-  --white:#FFFFFF;
   --navy:#060E1A;
-  --navy-2:#1B2B3A;
-  --navy-3:#2D3E50;
+  --navy2:#1B2A3A;
+  --navy3:#2D3E50;
   --gold:#C9A84C;
-  --gold-dk:#A8882C;
-  --gold-lt:#E2C97E;
-  --gold-pale:rgba(201,168,76,.1);
-  --green:#1A6E3C;
-  --green-bg:rgba(26,110,60,.08);
-  --green-bd:rgba(26,110,60,.25);
-  --red:#B02020;
-  --red-bg:rgba(176,32,32,.07);
-  --red-bd:rgba(176,32,32,.22);
-  --amber:#8A6A10;
-  --amber-bg:rgba(138,106,16,.08);
-  --amber-bd:rgba(138,106,16,.25);
-  --border:1px solid rgba(6,14,26,.1);
-  --border-gold:1px solid rgba(201,168,76,.35);
-  --border-gold-lt:1px solid rgba(201,168,76,.2);
-  --shadow:0 2px 12px rgba(6,14,26,.06);
-  --shadow-md:0 4px 24px rgba(6,14,26,.1);
+  --goldk:#A8882C;
+  --goldlt:#E2C97E;
+  --goldpale:rgba(201,168,76,.1);
+  --paper:#E8E3D9;
+  --paperdk:#DDD8CC;
+  --white:#FFFFFF;
+  --green:#145C32;
+  --greenbg:rgba(20,92,50,.08);
+  --greenbd:rgba(20,92,50,.22);
+  --red:#991818;
+  --redbg:rgba(153,24,24,.07);
+  --redbd:rgba(153,24,24,.2);
+  --amber:#7A5808;
+  --amberbg:rgba(122,88,8,.08);
+  --amberbd:rgba(122,88,8,.22);
+  --bdr:1px solid rgba(6,14,26,.13);
+  --bdrgold:1px solid rgba(201,168,76,.35);
+  --shad:0 2px 14px rgba(6,14,26,.08);
+  --shadmd:0 4px 28px rgba(6,14,26,.12);
   --fd:'Cormorant Garamond',Georgia,serif;
   --fb:'Jost',sans-serif;
   --ease:cubic-bezier(.16,1,.3,1);
-  --text-primary:#060E1A;
-  --text-secondary:#2D3E50;
-  --text-muted:#6A7A8A;
-  --text-dim:#9AA4AE;
 }
+html,body{background:var(--paper);color:var(--navy);font-family:var(--fb);-webkit-font-smoothing:antialiased;font-size:14px;}
 
-html,body{
-  background:var(--cream);
-  color:var(--text-primary);
-  font-family:var(--fb);
-  min-height:100vh;
-  -webkit-font-smoothing:antialiased;
-}
-
-/* ============================================================
-   AUTH GATE -- dark, on-brand with lolotravels.com
-============================================================ */
-#auth-gate{
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -5%, rgba(201,168,76,.07) 0%, transparent 65%),
-    #060E1A;
-  position:relative;
-  overflow:hidden;
-}
-#auth-gate::before{
-  content:'';
-  position:absolute;inset:0;
-  background-image:
-    linear-gradient(rgba(201,168,76,.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201,168,76,.025) 1px, transparent 1px);
-  background-size:80px 80px;
-  pointer-events:none;
-}
-.auth-card{
-  width:100%;max-width:440px;
-  padding:0 32px;
-  position:relative;z-index:2;
-}
-.auth-brand{
-  text-align:center;margin-bottom:44px;
-}
-.auth-emblem{
-  width:60px;height:60px;border-radius:50%;
-  border:1px solid rgba(201,168,76,.3);
-  display:inline-flex;align-items:center;justify-content:center;
-  background:rgba(201,168,76,.04);
-  margin-bottom:16px;
-}
-.auth-wordmark{
-  display:block;
-  font-family:var(--fd);font-weight:300;font-style:italic;
-  font-size:1.8rem;color:#F5F0E8;
-  letter-spacing:.02em;margin-bottom:3px;
-}
-.auth-tagline{
-  display:block;
-  font-family:var(--fb);font-weight:200;
-  font-size:.54rem;letter-spacing:.42em;text-transform:uppercase;
-  color:rgba(201,168,76,.4);margin-bottom:8px;
-}
-.auth-portal-label{
-  display:inline-block;
-  font-family:var(--fb);font-weight:200;
-  font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;
-  border:1px solid rgba(201,168,76,.18);
-  color:rgba(201,168,76,.5);
-  padding:4px 14px;
-}
-.auth-rule{
-  width:40px;height:1px;
-  background:rgba(201,168,76,.22);
-  margin:28px auto;
-}
+/* ---- AUTH ---- */
+#auth{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--navy);background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(201,168,76,.07),transparent);}
+#auth::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.02) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.02) 1px,transparent 1px);background-size:80px 80px;pointer-events:none;}
+.auth-card{width:100%;max-width:420px;padding:0 28px;position:relative;z-index:1;}
+.auth-brand{text-align:center;margin-bottom:40px;}
+.auth-em{width:56px;height:56px;border-radius:50%;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.06);display:inline-flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.95rem;color:var(--gold);margin-bottom:14px;}
+.auth-wm{display:block;font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.8rem;color:#F5F0E8;margin-bottom:3px;}
+.auth-tg{display:block;font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(201,168,76,.72);margin-bottom:8px;}
+.auth-pl{display:inline-block;font-family:var(--fb);font-weight:200;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;border:1px solid rgba(201,168,76,.18);color:rgba(201,168,76,.5);padding:3px 12px;}
+.auth-rule{width:36px;height:1px;background:rgba(201,168,76,.2);margin:24px auto;}
 .auth-view{display:none;}
-.auth-view.active{display:block;}
-.auth-title{
-  font-family:var(--fd);font-weight:300;font-style:italic;
-  font-size:1.9rem;color:#F5F0E8;
-  margin-bottom:5px;line-height:1.1;
-}
-.auth-hint{
-  font-family:var(--fb);font-weight:200;
-  font-size:.8rem;color:rgba(245,240,232,.42);
-  margin-bottom:28px;line-height:1.85;
-}
-.afield{margin-bottom:20px;}
-.alabel{
-  display:block;font-family:var(--fb);font-weight:200;
-  font-size:.54rem;letter-spacing:.24em;text-transform:uppercase;
-  color:rgba(201,168,76,.52);margin-bottom:7px;
-}
-.ainput{
-  width:100%;
-  background:rgba(255,255,255,.04);
-  border:none;
-  border-bottom:1px solid rgba(201,168,76,.2);
-  color:#F5F0E8;
-  padding:12px 0;
-  font-family:var(--fb);font-weight:200;font-size:.9rem;
-  outline:none;
-  transition:border-color .25s;
-}
-.ainput:focus{border-bottom-color:rgba(201,168,76,.6);}
-.ainput::placeholder{color:rgba(245,240,232,.2);}
-.abtn{
-  width:100%;padding:15px;margin-top:4px;
-  font-family:var(--fb);font-weight:400;
-  font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;
-  background:var(--gold);color:#060E1A;
-  border:none;cursor:pointer;
-  position:relative;overflow:hidden;
-  transition:letter-spacing .3s var(--ease);
-}
-.abtn::before{
-  content:'';position:absolute;inset:0;
-  background:var(--gold-lt);
-  transform:translateX(-101%);
-  transition:transform .45s var(--ease);
-}
+.auth-view.on{display:block;}
+.auth-h{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.8rem;color:#F5F0E8;margin-bottom:4px;}
+.auth-sub{font-family:var(--fb);font-weight:200;font-size:.84rem;color:rgba(245,240,232,.82);margin-bottom:26px;line-height:1.85;}
+.af{margin-bottom:18px;}
+.al{display:block;font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(201,168,76,.52);margin-bottom:7px;}
+.ai{width:100%;background:rgba(255,255,255,.04);border:none;border-bottom:1px solid rgba(201,168,76,.2);color:#F5F0E8;padding:11px 0;font-family:var(--fb);font-weight:200;font-size:.9rem;outline:none;transition:border-color .25s;}
+.ai:focus{border-bottom-color:rgba(201,168,76,.6);}
+.ai::placeholder{color:rgba(245,240,232,.2);}
+.aerr{font-family:var(--fb);font-weight:200;font-size:.74rem;min-height:14px;margin-top:6px;text-align:center;}
+.aerr-red{color:rgba(220,80,80,.85);}
+.aerr-ok{color:rgba(40,180,100,.85);}
+.abtn{width:100%;padding:14px;margin-top:4px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;background:var(--gold);color:var(--navy);border:none;cursor:pointer;position:relative;overflow:hidden;transition:letter-spacing .3s var(--ease);}
+.abtn::before{content:'';position:absolute;inset:0;background:var(--goldlt);transform:translateX(-101%);transition:transform .45s var(--ease);}
 .abtn:hover{letter-spacing:.28em;}
 .abtn:hover::before{transform:translateX(0);}
 .abtn span{position:relative;z-index:1;}
 .abtn:disabled{opacity:.4;cursor:not-allowed;}
 .abtn:disabled::before{display:none;}
-.auth-links{
-  margin-top:18px;text-align:center;
-  font-family:var(--fb);font-weight:200;
-  font-size:.76rem;color:rgba(245,240,232,.28);line-height:2.4;
-}
-.auth-links a{
-  color:rgba(201,168,76,.58);cursor:pointer;
-  text-decoration:none;transition:color .2s;
-}
+.auth-links{margin-top:16px;text-align:center;font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(245,240,232,.28);line-height:2.4;}
+.auth-links a{color:rgba(201,168,76,.58);cursor:pointer;text-decoration:none;transition:color .2s;}
 .auth-links a:hover{color:var(--gold);}
-.auth-back{
-  display:inline-flex;align-items:center;gap:6px;
-  font-family:var(--fb);font-weight:200;font-size:.6rem;
-  letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(245,240,232,.3);cursor:pointer;
-  background:none;border:none;margin-bottom:24px;
-  transition:color .2s;
-}
-.auth-back:hover{color:rgba(245,240,232,.65);}
-.auth-err{
-  font-family:var(--fb);font-weight:200;font-size:.76rem;
-  min-height:16px;margin-top:8px;text-align:center;
-}
-.auth-err-red{color:rgba(220,80,80,.85);}
-.auth-err-ok{color:rgba(40,180,100,.85);}
-.auth-footer{
-  text-align:center;margin-top:40px;
-  font-family:var(--fb);font-weight:200;
-  font-size:.58rem;letter-spacing:.1em;
-  color:rgba(245,240,232,.14);
-}
-@media(max-width:520px){
-  .auth-card{padding:0 20px;}
-}
+.auth-back{display:inline-flex;align-items:center;gap:6px;font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,240,232,.3);cursor:pointer;background:none;border:none;margin-bottom:22px;transition:color .2s;}
+.auth-back:hover{color:rgba(245,240,232,.6);}
+.auth-foot{text-align:center;margin-top:36px;font-family:var(--fb);font-weight:200;font-size:.56rem;letter-spacing:.1em;color:rgba(245,240,232,.13);}
 
-/* ============================================================
-   PORTAL SHELL -- Premium dark-on-paper aesthetic
-   Background: deep warm paper #E8E3D9
-   Cards: pure white #FFFFFF
-   Text: navy #060E1A, secondary #1B2A3A
-   Accent: gold #C9A84C
-============================================================ */
-:root{
-  --paper:#E8E3D9;
-  --paper-dk:#DDD8CC;
-  --white:#FFFFFF;
-  --navy:#060E1A;
-  --navy-2:#1B2A3A;
-  --navy-3:#2D3E50;
-  --gold:#C9A84C;
-  --gold-dk:#A8882C;
-  --gold-lt:#E2C97E;
-  --gold-pale:rgba(201,168,76,.12);
-  --green:#145C32;
-  --green-bg:rgba(20,92,50,.07);
-  --green-bd:rgba(20,92,50,.22);
-  --red:#991818;
-  --red-bg:rgba(153,24,24,.07);
-  --red-bd:rgba(153,24,24,.2);
-  --amber:#7A5808;
-  --amber-bg:rgba(122,88,8,.08);
-  --amber-bd:rgba(122,88,8,.22);
-  --border:1px solid rgba(6,14,26,.12);
-  --border-gold:1px solid rgba(201,168,76,.4);
-  --border-gold-lt:1px solid rgba(201,168,76,.22);
-  --shadow:0 2px 14px rgba(6,14,26,.08);
-  --shadow-md:0 4px 28px rgba(6,14,26,.13);
-  --fd:'Cormorant Garamond',Georgia,serif;
-  --fb:'Jost',sans-serif;
-  --ease:cubic-bezier(.16,1,.3,1);
-}
-
+/* ---- PORTAL SHELL ---- */
 #portal{display:none;min-height:100vh;background:var(--paper);}
+.topbar{position:sticky;top:0;z-index:100;background:var(--navy);border-bottom:1px solid rgba(201,168,76,.15);height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;}
+.tb-l{display:flex;align-items:center;gap:12px;}
+.tb-em{width:30px;height:30px;border-radius:50%;border:1px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.72rem;color:var(--gold);}
+.tb-brand{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1rem;color:#F5F0E8;}
+.tb-sep{width:1px;height:18px;background:rgba(255,255,255,.1);}
+.tb-lbl{font-family:var(--fb);font-weight:200;font-size:.56rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.3);}
+.tb-r{display:flex;align-items:center;gap:12px;}
+.tb-name{font-family:var(--fb);font-weight:200;font-size:.84rem;color:rgba(245,240,232,.65);}
+.tb-type{font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.38);padding:3px 10px;}
+.tb-badge{font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid rgba(201,168,76,.28);background:rgba(201,168,76,.08);color:var(--gold);padding:3px 10px;}
+.tb-out{font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.28);background:none;border:1px solid rgba(255,255,255,.1);padding:5px 12px;cursor:pointer;transition:all .2s;}
+.tb-out:hover{border-color:rgba(201,168,76,.72);color:var(--gold);}
 
-/* TOP BAR */
-.topbar{
-  position:sticky;top:0;z-index:100;
-  background:var(--navy);
-  border-bottom:1px solid rgba(201,168,76,.15);
-  padding:0 36px;
-  height:60px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.tb-left{display:flex;align-items:center;gap:14px;}
-.tb-emblem{
-  width:32px;height:32px;border-radius:50%;
-  border:1px solid rgba(201,168,76,.3);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--fd);font-size:.75rem;color:var(--gold);
-  flex-shrink:0;
-}
-.tb-brand{
-  font-family:var(--fd);font-weight:300;font-style:italic;
-  font-size:1rem;color:#F5F0E8;
-}
-.tb-divider{width:1px;height:20px;background:rgba(255,255,255,.1);}
-.tb-portal-label{
-  font-family:var(--fb);font-weight:200;
-  font-size:.58rem;letter-spacing:.28em;text-transform:uppercase;
-  color:rgba(255,255,255,.35);
-}
-.tb-right{display:flex;align-items:center;gap:16px;}
-.tb-name{
-  font-family:var(--fb);font-weight:200;
-  font-size:.8rem;color:rgba(245,240,232,.7);
-}
-.tb-badge{
-  font-family:var(--fb);font-weight:200;
-  font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;
-  border:1px solid rgba(201,168,76,.3);
-  background:rgba(201,168,76,.1);
-  color:var(--gold);
-  padding:4px 12px;
-}
-.tb-type-badge{
-  font-family:var(--fb);font-weight:200;
-  font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;
-  border:1px solid rgba(255,255,255,.1);
-  background:rgba(255,255,255,.05);
-  color:rgba(255,255,255,.45);
-  padding:4px 12px;
-}
-.tb-out{
-  font-family:var(--fb);font-weight:200;
-  font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
-  color:rgba(255,255,255,.3);cursor:pointer;
-  background:none;border:1px solid rgba(255,255,255,.1);
-  padding:6px 12px;
-  transition:all .2s;
-}
-.tb-out:hover{border-color:rgba(201,168,76,.4);color:var(--gold);}
+/* ---- LAYOUT ---- */
+.layout{display:grid;grid-template-columns:230px 1fr;min-height:calc(100vh - 58px);}
+@media(max-width:860px){.layout{grid-template-columns:1fr;}}
 
-/* LAYOUT */
-.layout{
-  display:grid;
-  grid-template-columns:240px 1fr;
-  min-height:calc(100vh - 60px);
-}
-@media(max-width:900px){.layout{grid-template-columns:1fr;}}
-
-/* SIDEBAR */
-.sidebar{
-  background:var(--white);
-  border-right:var(--border);
-  padding:24px 0;
-  position:sticky;top:60px;
-  height:calc(100vh - 60px);
-  overflow-y:auto;
-}
+/* ---- SIDEBAR ---- */
+.sidebar{background:var(--white);border-right:var(--bdr);padding:22px 0;position:sticky;top:58px;height:calc(100vh - 58px);overflow-y:auto;}
 .sidebar::-webkit-scrollbar{width:2px;}
-.sidebar::-webkit-scrollbar-thumb{background:var(--paper-dk);}
-@media(max-width:900px){.sidebar{position:static;height:auto;border-right:none;border-bottom:var(--border);}}
-
-.nav-sec{
-  font-family:var(--fb);font-weight:500;
-  font-size:.52rem;letter-spacing:.32em;text-transform:uppercase;
-  color:rgba(6,14,26,.25);
-  padding:4px 22px;margin-top:20px;margin-bottom:4px;
-}
+.sidebar::-webkit-scrollbar-thumb{background:var(--paperdk);}
+.nav-sec{font-family:var(--fb);font-weight:500;font-size:.5rem;letter-spacing:.32em;text-transform:uppercase;color:rgba(6,14,26,.45);padding:3px 20px;margin-top:18px;margin-bottom:3px;}
 .nav-sec:first-child{margin-top:0;}
-.nav-item{
-  display:flex;align-items:center;gap:9px;
-  padding:10px 22px;cursor:pointer;
-  font-family:var(--fb);font-weight:200;
-  font-size:.82rem;color:var(--navy-3);
-  transition:all .2s;
-  border-left:2px solid transparent;
-}
-.nav-item:hover{color:var(--navy);background:var(--paper);}
-.nav-item.on{
-  color:var(--navy);background:var(--paper);
-  border-left-color:var(--gold);font-weight:400;
-}
-.nav-dot{
-  width:4px;height:4px;border-radius:50%;
-  background:rgba(6,14,26,.15);flex-shrink:0;
-}
-.nav-item.on .nav-dot{background:var(--gold);}
-.nav-badge{
-  margin-left:auto;
-  font-family:var(--fb);font-weight:500;
-  font-size:.58rem;background:var(--red-bg);
-  color:var(--red);border:1px solid var(--red-bd);
-  padding:1px 6px;
-}
+.nitem{display:flex;align-items:center;gap:8px;padding:9px 20px;cursor:pointer;font-family:var(--fb);font-weight:200;font-size:.88rem;color:var(--navy2);border-left:2px solid transparent;transition:all .18s;}
+.nitem:hover{color:var(--navy);background:var(--paper);}
+.nitem.on{color:var(--navy);background:var(--paper);border-left-color:var(--gold);font-weight:400;}
+.ndot{width:4px;height:4px;border-radius:50%;background:rgba(6,14,26,.15);flex-shrink:0;}
+.nitem.on .ndot{background:var(--gold);}
+.nbadge{margin-left:auto;font-family:var(--fb);font-weight:500;font-size:.56rem;background:var(--redbg);color:var(--red);border:1px solid var(--redbd);padding:1px 6px;}
 
-/* MAIN */
-.main{padding:36px 44px;max-width:1100px;}
-@media(max-width:700px){.main{padding:22px 18px;}}
+/* ---- MAIN ---- */
+.main{padding:32px 40px;max-width:1060px;}
+@media(max-width:700px){.main{padding:20px 16px;}}
 
-/* PANELS */
+/* ---- PANELS ---- */
 .panel{display:none;}
-.panel.on{display:block;animation:panelin .2s ease;}
-@keyframes panelin{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:none;}}
+.panel.on{display:block;animation:pin .2s ease;}
+@keyframes pin{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:none;}}
 
-/* LETTERHEAD -- company identity header */
-.letterhead{
-  background:var(--navy);
-  padding:24px 28px 22px;
-  margin-bottom:28px;
-  display:flex;align-items:flex-start;justify-content:space-between;
-  gap:20px;flex-wrap:wrap;
-  position:relative;
-  overflow:hidden;
-}
-.letterhead::after{
-  content:'';
-  position:absolute;bottom:0;left:0;right:0;
-  height:2px;
-  background:linear-gradient(90deg,var(--gold) 0%,rgba(201,168,76,.3) 60%,transparent 100%);
-}
+/* ---- LETTERHEAD ---- */
+.lh{background:var(--navy);padding:20px 24px;margin-bottom:24px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap;position:relative;overflow:hidden;}
+.lh::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),rgba(201,168,76,.2) 60%,transparent);}
+.lh-co{font-family:var(--fd);font-weight:400;font-size:1.35rem;color:#F5F0E8;margin-bottom:4px;}
+.lh-addr{font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(245,240,232,.85);line-height:1.8;}
+.lh-tbadge{font-family:var(--fb);font-weight:200;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;border:1px solid rgba(201,168,76,.28);background:rgba(201,168,76,.07);color:var(--gold);padding:3px 10px;margin-top:8px;display:inline-block;}
+.lh-r{display:flex;flex-direction:column;align-items:flex-end;gap:5px;text-align:right;}
+.lh-meta{font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(245,240,232,.85);line-height:1.8;}
+.lh-meta strong{color:rgba(245,240,232,.75);font-weight:400;}
+.lh-cred{font-family:var(--fb);font-weight:200;font-size:.6rem;letter-spacing:.08em;color:rgba(201,168,76,.75);line-height:1.7;}
 
+/* ---- PAGE HEADER ---- */
+.ph{margin-bottom:22px;}
+.ptag{font-family:var(--fb);font-weight:500;font-size:.54rem;letter-spacing:.34em;text-transform:uppercase;color:var(--goldk);margin-bottom:7px;display:flex;align-items:center;gap:9px;}
+.ptag::before{content:'';display:block;width:16px;height:1px;background:var(--gold);}
+.ph1{font-family:var(--fd);font-weight:300;font-size:clamp(1.5rem,2.8vw,2.1rem);color:var(--navy);line-height:1.05;margin-bottom:6px;}
+.ph2{font-family:var(--fb);font-weight:200;font-size:.84rem;color:var(--navy2);line-height:1.9;max-width:560px;}
 
-.lh-company{
-  font-family:var(--fd);font-weight:400;
-  font-size:1.4rem;color:#F5F0E8;
-  letter-spacing:.01em;margin-bottom:4px;
-}
-.lh-address{
-  font-family:var(--fb);font-weight:200;
-  font-size:.76rem;color:rgba(245,240,232,.5);
-  line-height:1.8;
-}
-.lh-type-badge{
-  font-family:var(--fb);font-weight:200;
-  font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;
-  border:1px solid rgba(201,168,76,.3);
-  background:rgba(201,168,76,.08);
-  color:var(--gold);
-  padding:4px 12px;
-  margin-top:8px;
-  display:inline-block;
-}
-.lh-right{
-  display:flex;flex-direction:column;align-items:flex-end;gap:5px;
-  text-align:right;
-}
-.lh-meta{
-  font-family:var(--fb);font-weight:200;
-  font-size:.76rem;color:rgba(245,240,232,.5);
-  line-height:1.8;
-}
-.lh-meta strong{
-  color:rgba(245,240,232,.8);font-weight:400;
-}
-.lh-cred{
-  font-family:var(--fb);font-weight:200;
-  font-size:.62rem;letter-spacing:.1em;
-  color:rgba(201,168,76,.45);line-height:1.7;
-}
+/* ---- DIVIDER ---- */
+.div{height:1px;background:var(--paperdk);margin:24px 0;position:relative;}
+.div::after{content:'';position:absolute;left:0;top:0;width:36px;height:1px;background:var(--gold);}
 
-/* PAGE HEADER */
-.ph{margin-bottom:24px;}
-.ptag{
-  font-family:var(--fb);font-weight:500;
-  font-size:.56rem;letter-spacing:.36em;text-transform:uppercase;
-  color:var(--gold-dk);margin-bottom:8px;
-  display:flex;align-items:center;gap:10px;
-}
-.ptag::before{
-  content:'';display:block;width:18px;height:1px;background:var(--gold);
-}
-.ph1{
-  font-family:var(--fd);font-weight:300;
-  font-size:clamp(1.6rem,3vw,2.2rem);
-  color:var(--navy);line-height:1.05;margin-bottom:7px;
-}
-.ph2{
-  font-family:var(--fb);font-weight:200;
-  font-size:.86rem;color:var(--navy-3);
-  line-height:1.95;max-width:580px;
-}
+/* ---- STATS ---- */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:2px;margin-bottom:2px;}
+.stat{background:var(--white);border:var(--bdr);padding:18px 20px;transition:border-color .2s;}
+.stat:hover{border-color:rgba(201,168,76,.38);}
+.slbl{font-family:var(--fb);font-weight:500;font-size:.52rem;letter-spacing:.26em;text-transform:uppercase;color:rgba(6,14,26,.55);margin-bottom:7px;}
+.sval{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.35rem;color:var(--navy);margin-bottom:3px;}
+.smeta{font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--navy3);}
 
-/* DIVIDER */
-.div{
-  height:1px;background:var(--paper-dk);
-  margin:28px 0;position:relative;
-}
-.div::after{
-  content:'';position:absolute;
-  left:0;top:0;width:40px;height:1px;
-  background:var(--gold);
-}
-
-/* STAT GRID */
-.sgrid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
-  gap:2px;margin-bottom:2px;
-}
-.stat{
-  background:var(--white);
-  border:var(--border);
-  padding:20px 22px;
-  transition:border-color .22s,box-shadow .22s;
-}
-.stat:hover{border-color:rgba(201,168,76,.4);box-shadow:var(--shadow);}
-.slabel{
-  font-family:var(--fb);font-weight:500;
-  font-size:.54rem;letter-spacing:.28em;text-transform:uppercase;
-  color:rgba(6,14,26,.35);margin-bottom:8px;
-}
-.sval{
-  font-family:var(--fd);font-weight:300;font-style:italic;
-  font-size:1.4rem;color:var(--navy);margin-bottom:3px;
-}
-.smeta{
-  font-family:var(--fb);font-weight:200;
-  font-size:.72rem;color:var(--navy-3);line-height:1.75;
-}
-
-/* SOLICITATION CARDS */
-.sol-card{
-  background:var(--white);
-  border:var(--border);
-  border-left:3px solid var(--paper-dk);
-  padding:18px 22px;
-  cursor:pointer;
-  margin-bottom:2px;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:16px;flex-wrap:wrap;
-  transition:all .22s;
-  box-shadow:var(--shadow);
-}
-.sol-card:hover{
-  border-left-color:var(--gold);
-  box-shadow:var(--shadow-md);
-  transform:translateX(3px);
-}
+/* ---- SOL CARDS ---- */
+.sol-card{background:var(--white);border:var(--bdr);border-left:3px solid var(--paperdk);padding:16px 20px;margin-bottom:2px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;cursor:pointer;transition:all .2s;box-shadow:var(--shad);}
+.sol-card:hover{border-left-color:var(--gold);box-shadow:var(--shadmd);transform:translateX(2px);}
 .sol-card.urgent{border-left-color:var(--red);}
 .sol-card.complete{border-left-color:var(--green);}
-.sol-num{
-  font-family:var(--fb);font-weight:500;
-  font-size:.76rem;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--navy);margin-bottom:5px;
-  display:flex;align-items:center;gap:8px;
-}
-.sol-title-text{
-  font-family:var(--fd);font-weight:300;
-  font-size:1.05rem;color:var(--navy);
-  margin-bottom:5px;
-}
-.sol-meta{
-  font-family:var(--fb);font-weight:200;
-  font-size:.74rem;color:var(--navy-3);
-  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
-}
-.sol-right{
-  display:flex;flex-direction:column;align-items:flex-end;gap:7px;
-  flex-shrink:0;
-}
-.prog-wrap{display:flex;align-items:center;gap:8px;}
-.prog-bar-bg{width:80px;height:3px;background:var(--paper-dk);overflow:hidden;}
-.prog-bar{height:3px;background:var(--gold);transition:width 1s var(--ease);}
-.prog-bar.complete{background:var(--green);}
-.prog-pct{
-  font-family:var(--fb);font-weight:500;
-  font-size:.62rem;color:var(--navy-2);min-width:30px;text-align:right;
-}
+.sol-num{font-family:var(--fb);font-weight:500;font-size:.72rem;letter-spacing:.11em;text-transform:uppercase;color:var(--navy);margin-bottom:4px;display:flex;align-items:center;gap:7px;}
+.sol-ti{font-family:var(--fd);font-weight:300;font-size:1rem;color:var(--navy);margin-bottom:4px;}
+.sol-meta{font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--navy3);display:flex;gap:10px;flex-wrap:wrap;}
+.sol-r{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;}
+.prog{display:flex;align-items:center;gap:7px;}
+.prog-bg{width:72px;height:3px;background:var(--paperdk);}
+.prog-fill{height:3px;background:var(--gold);transition:width 1s var(--ease);}
+.prog-fill.done{background:var(--green);}
+.prog-pct{font-family:var(--fb);font-weight:500;font-size:.6rem;color:var(--navy2);min-width:28px;text-align:right;}
 
-/* STAMPS */
-.stamp{
-  display:inline-flex;align-items:center;
-  font-family:var(--fb);font-weight:500;
-  font-size:.54rem;letter-spacing:.16em;text-transform:uppercase;
-  padding:3px 10px;
-}
-.stamp-active{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd);}
-.stamp-submitted{background:var(--gold-pale);color:var(--gold-dk);border:var(--border-gold-lt);}
-.stamp-awarded{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
-.stamp-missing{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
-.stamp-verified{background:var(--green-bg);color:var(--green);border:1px solid var(--green-bd);}
-.stamp-expiring{background:var(--amber-bg);color:var(--amber);border:1px solid var(--amber-bd);}
-.stamp-draft{background:rgba(6,14,26,.05);color:var(--navy-3);border:var(--border);}
-.stamp-pending{background:rgba(6,14,26,.04);color:var(--navy-3);border:var(--border);}
-.stamp-urgent{background:var(--red-bg);color:var(--red);border:1px solid var(--red-bd);}
+/* ---- STAMPS ---- */
+.stamp{display:inline-flex;align-items:center;font-family:var(--fb);font-weight:500;font-size:.52rem;letter-spacing:.15em;text-transform:uppercase;padding:3px 9px;}
+.stamp-sub{background:var(--goldpale);color:var(--goldk);border:1px solid rgba(201,168,76,.28);}
+.stamp-award{background:var(--greenbg);color:var(--green);border:1px solid var(--greenbd);}
+.stamp-miss{background:var(--redbg);color:var(--red);border:1px solid var(--redbd);}
+.stamp-ok{background:var(--greenbg);color:var(--green);border:1px solid var(--greenbd);}
+.stamp-exp{background:var(--amberbg);color:var(--amber);border:1px solid var(--amberbd);}
+.stamp-draft{background:rgba(6,14,26,.05);color:var(--navy3);border:var(--bdr);}
+.stamp-urg{background:var(--redbg);color:var(--red);border:1px solid var(--redbd);}
 
-/* REQUIREMENT ROWS */
-.req-section{margin-bottom:24px;}
-.req-section-header{
-  display:flex;align-items:center;gap:10px;
-  margin-bottom:12px;padding-bottom:10px;
-  border-bottom:1px solid var(--paper-dk);
-}
-.req-section-title{
-  font-family:var(--fb);font-weight:500;
-  font-size:.64rem;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--navy);
-}
-.req-row{
-  background:var(--white);
-  border:var(--border);
-  border-left:3px solid var(--paper-dk);
-  padding:14px 18px;
-  margin-bottom:2px;
-  display:flex;align-items:flex-start;justify-content:space-between;
-  gap:14px;flex-wrap:wrap;
-  transition:border-color .2s;
-}
-.req-row.req-missing{border-left-color:var(--red);}
-.req-row.req-expiring{border-left-color:var(--amber);}
-.req-row.req-verified{border-left-color:var(--green);}
-.req-name{
-  font-family:var(--fb);font-weight:500;
-  font-size:.86rem;color:var(--navy);margin-bottom:4px;
-}
-.req-desc{
-  font-family:var(--fb);font-weight:200;
-  font-size:.78rem;color:var(--navy-3);line-height:1.8;
-}
-.req-note{
-  font-family:var(--fb);font-weight:200;
-  font-size:.74rem;line-height:1.75;
-  margin-top:6px;padding:8px 12px;
-  border-left:2px solid var(--paper-dk);
-}
-.req-note.note-lolo{border-left-color:var(--gold);color:var(--navy-2);}
-.req-note.note-flag{border-left-color:var(--red);color:var(--red);}
-.req-preloaded{
-  font-family:var(--fb);font-weight:200;
-  font-size:.62rem;letter-spacing:.08em;
-  color:var(--green);margin-top:4px;
-}
+/* ---- REQ ROWS ---- */
+.req-hd{display:flex;align-items:center;gap:10px;margin-bottom:11px;padding-bottom:9px;border-bottom:1px solid var(--paperdk);}
+.req-hdtxt{font-family:var(--fb);font-weight:500;font-size:.62rem;letter-spacing:.17em;text-transform:uppercase;color:var(--navy);}
+.req-row{background:var(--white);border:var(--bdr);border-left:3px solid var(--paperdk);padding:13px 17px;margin-bottom:2px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.req-row.rr-miss{border-left-color:var(--red);}
+.req-row.rr-exp{border-left-color:var(--amber);}
+.req-row.rr-ok{border-left-color:var(--green);}
+.rname{font-family:var(--fb);font-weight:500;font-size:.84rem;color:var(--navy);margin-bottom:3px;}
+.rdesc{font-family:var(--fb);font-weight:200;font-size:.76rem;color:var(--navy2);line-height:1.8;}
+.rnote{font-family:var(--fb);font-weight:200;font-size:.72rem;line-height:1.75;margin-top:5px;padding:7px 11px;border-left:2px solid var(--paperdk);}
+.rnote-lolo{border-left-color:var(--gold);color:var(--navy2);}
+.rnote-flag{border-left-color:var(--red);color:var(--red);}
+.rpreload{font-family:var(--fb);font-weight:200;font-size:.6rem;color:var(--green);margin-top:3px;}
 
-/* DOCUMENT CARDS */
-.doc-card{
-  background:var(--white);
-  border:var(--border);
-  padding:14px 18px;
-  margin-bottom:2px;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:14px;flex-wrap:wrap;
-  transition:box-shadow .2s;
-}
-.doc-card:hover{box-shadow:var(--shadow);}
-.doc-icon{
-  width:36px;height:44px;flex-shrink:0;
-  background:var(--paper);
-  border:var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--fb);font-size:.58rem;font-weight:500;
-  color:var(--navy-3);
-  position:relative;
-}
-.doc-icon::before{
-  content:'';position:absolute;top:0;right:0;
-  width:10px;height:10px;
-  background:var(--paper-dk);
-  clip-path:polygon(100% 0,100% 100%,0 100%);
-}
-.doc-name{
-  font-family:var(--fb);font-weight:500;
-  font-size:.86rem;color:var(--navy);margin-bottom:3px;
-}
-.doc-meta{
-  font-family:var(--fb);font-weight:200;
-  font-size:.74rem;color:var(--navy-3);
-}
-.doc-verified-tag{
-  font-family:var(--fb);font-weight:200;
-  font-size:.64rem;color:var(--green);margin-top:3px;
-}
+/* ---- DOC CARDS ---- */
+.doc-card{background:var(--white);border:var(--bdr);padding:13px 17px;margin-bottom:2px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;transition:box-shadow .2s;}
+.doc-card:hover{box-shadow:var(--shad);}
+.doc-ico{width:34px;height:42px;flex-shrink:0;background:var(--paper);border:var(--bdr);display:flex;align-items:center;justify-content:center;font-family:var(--fb);font-size:.56rem;font-weight:500;color:var(--navy3);position:relative;}
+.doc-ico::before{content:'';position:absolute;top:0;right:0;width:9px;height:9px;background:var(--paperdk);clip-path:polygon(100% 0,100% 100%,0 100%);}
+.doc-name{font-family:var(--fb);font-weight:500;font-size:.84rem;color:var(--navy);margin-bottom:3px;}
+.doc-meta{font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--navy2);}
+.doc-vfy{font-family:var(--fb);font-weight:200;font-size:.62rem;color:var(--green);margin-top:2px;}
 
-/* FORMS */
-.frm-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
-@media(max-width:560px){.frm-row{grid-template-columns:1fr;}}
-.ff{margin-bottom:20px;}
-.flabel{
-  display:block;font-family:var(--fb);font-weight:500;
-  font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--navy);margin-bottom:8px;
-}
-.inp,.sel,.txa{
-  width:100%;
-  background:var(--white);
-  border:var(--border);
-  border-bottom:2px solid rgba(6,14,26,.18);
-  color:var(--navy);
-  padding:11px 14px;
-  font-family:var(--fb);font-weight:200;font-size:.9rem;
-  outline:none;
-  transition:border-color .25s,box-shadow .25s;
-}
-.inp:focus,.sel:focus,.txa:focus{
-  border-bottom-color:var(--gold);
-  box-shadow:0 4px 10px rgba(201,168,76,.08);
-}
-.inp::placeholder,.txa::placeholder{color:rgba(6,14,26,.3);}
-.sel{
-  appearance:none;cursor:pointer;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(6,14,26,0.4)'/%3E%3C/svg%3E");
-  background-repeat:no-repeat;background-position:right 14px center;
-  background-color:var(--white);padding-right:32px;
-}
+/* ---- FORMS ---- */
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:540px){.frow{grid-template-columns:1fr;}}
+.ff{margin-bottom:16px;}
+.ff.full{grid-column:1/-1;}
+.flbl{display:block;font-family:var(--fb);font-weight:500;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--navy);margin-bottom:7px;}
+.req-mark{color:var(--red);margin-left:2px;}
+.inp,.sel,.txa{width:100%;background:var(--white);border:var(--bdr);border-bottom:2px solid rgba(6,14,26,.15);color:var(--navy);padding:10px 13px;font-family:var(--fb);font-weight:200;font-size:.88rem;outline:none;transition:border-color .24s;}
+.inp:focus,.sel:focus,.txa:focus{border-bottom-color:var(--gold);}
+.inp::placeholder,.txa::placeholder{color:rgba(6,14,26,.5);}
+.sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(6,14,26,0.38)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;background-color:var(--white);padding-right:30px;cursor:pointer;}
 .sel option{background:var(--white);}
-.txa{resize:vertical;min-height:84px;line-height:1.75;}
+.txa{resize:vertical;min-height:80px;line-height:1.75;}
 
-/* BUTTONS */
-.sbtn{
-  padding:13px 36px;
-  font-family:var(--fb);font-weight:500;
-  font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;
-  background:var(--navy);color:var(--white);
-  border:none;cursor:pointer;
-  position:relative;overflow:hidden;
-  transition:letter-spacing .3s var(--ease);
-}
-.sbtn::before{
-  content:'';position:absolute;inset:0;
-  background:var(--gold);
-  transform:translateX(-101%);
-  transition:transform .45s var(--ease);
-}
-.sbtn:hover{letter-spacing:.26em;color:var(--navy);}
+/* ---- BUTTONS ---- */
+.sbtn{padding:12px 32px;font-family:var(--fb);font-weight:500;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;background:var(--navy);color:var(--white);border:none;cursor:pointer;position:relative;overflow:hidden;transition:letter-spacing .3s var(--ease);}
+.sbtn::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-101%);transition:transform .45s var(--ease);}
+.sbtn:hover{letter-spacing:.25em;color:var(--navy);}
 .sbtn:hover::before{transform:translateX(0);}
 .sbtn span{position:relative;z-index:1;}
+.sbtn-o{padding:10px 24px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;background:transparent;color:var(--navy2);border:var(--bdr);cursor:pointer;transition:all .2s;}
+.sbtn-o:hover{border-color:var(--navy);color:var(--navy);}
 
-.sbtn-outline{
-  padding:11px 28px;
-  font-family:var(--fb);font-weight:400;
-  font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
-  background:transparent;color:var(--navy-2);
-  border:var(--border);cursor:pointer;
-  transition:all .2s;
-}
-.sbtn-outline:hover{border-color:var(--navy);color:var(--navy);}
+/* ---- UPLOAD ---- */
+.uzone{border:1px dashed rgba(6,14,26,.2);padding:24px;text-align:center;cursor:pointer;background:var(--white);transition:all .24s;}
+.uzone:hover{border-color:var(--gold);background:var(--goldpale);}
+.utxt{font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--navy2);line-height:1.9;}
+.utxt strong{font-weight:500;color:var(--navy);}
+.ufname{font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--green);margin-top:5px;}
 
-/* UPLOAD ZONE */
-.upload-zone{
-  border:1px dashed rgba(6,14,26,.22);
-  padding:28px;text-align:center;cursor:pointer;
-  background:var(--white);
-  transition:all .25s;
-}
-.upload-zone:hover{border-color:var(--gold);background:var(--gold-pale);}
-.upload-txt{
-  font-family:var(--fb);font-weight:200;
-  font-size:.82rem;color:var(--navy-3);line-height:1.9;
-}
-.upload-txt strong{font-weight:500;color:var(--navy);}
+/* ---- PROGRESS BAR ---- */
+.sol-prog{margin:14px 0 22px;}
+.sol-prog-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
+.sol-prog-lbl{font-family:var(--fb);font-weight:500;font-size:.6rem;color:var(--navy2);letter-spacing:.11em;text-transform:uppercase;}
+.sol-prog-pct{font-family:var(--fd);font-weight:300;font-size:1rem;color:var(--navy);}
+.sol-prog-bg{height:5px;background:var(--paperdk);}
+.sol-prog-fill{height:5px;background:linear-gradient(90deg,var(--gold),var(--goldlt));transition:width 1.2s var(--ease);}
+.sol-prog-fill.full{background:linear-gradient(90deg,var(--green),rgba(20,92,50,.6));}
 
-/* PROGRESS BAR */
-.sol-progress{margin:16px 0 24px;}
-.sol-progress-header{
-  display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;
-}
-.sol-progress-label{
-  font-family:var(--fb);font-weight:500;
-  font-size:.62rem;color:var(--navy-2);letter-spacing:.12em;text-transform:uppercase;
-}
-.sol-progress-pct{
-  font-family:var(--fd);font-weight:300;
-  font-size:1.1rem;color:var(--navy);
-}
-.sol-progress-bg{height:5px;background:var(--paper-dk);overflow:hidden;}
-.sol-progress-fill{
-  height:5px;
-  background:linear-gradient(90deg,var(--gold) 0%,var(--gold-lt) 100%);
-  transition:width 1.2s var(--ease);
-}
-.sol-progress-fill.full{background:linear-gradient(90deg,var(--green) 0%,rgba(20,92,50,.6) 100%);}
+/* ---- INFO BLOCKS ---- */
+.iblock{background:var(--goldpale);border:var(--bdrgold);border-left:3px solid var(--gold);padding:13px 17px;margin-bottom:18px;font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--navy2);line-height:1.85;}
+.ablock{background:var(--redbg);border:1px solid var(--redbd);border-left:3px solid var(--red);padding:13px 17px;margin-bottom:18px;font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--red);line-height:1.85;}
 
-/* INFO BLOCKS */
-.info-block{
-  background:var(--gold-pale);
-  border:var(--border-gold-lt);
-  border-left:3px solid var(--gold);
-  padding:14px 18px;margin-bottom:20px;
-  font-family:var(--fb);font-weight:200;
-  font-size:.82rem;color:var(--navy-2);line-height:1.85;
-}
-.alert-block{
-  background:var(--red-bg);
-  border:1px solid var(--red-bd);
-  border-left:3px solid var(--red);
-  padding:14px 18px;margin-bottom:20px;
-  font-family:var(--fb);font-weight:200;
-  font-size:.82rem;color:var(--red);line-height:1.85;
-}
+/* ---- PROFILE TABLE ---- */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:0;border:var(--bdr);margin-bottom:18px;}
+@media(max-width:540px){.pg{grid-template-columns:1fr;}}
+.pgc{padding:14px 18px;border-right:var(--bdr);border-bottom:var(--bdr);background:var(--white);}
+.pgc:nth-child(even){border-right:none;}
+.pglbl{font-family:var(--fb);font-weight:500;font-size:.52rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(6,14,26,.55);margin-bottom:4px;}
+.pgval{font-family:var(--fb);font-weight:200;font-size:.86rem;color:var(--navy);line-height:1.7;}
 
-/* PROFILE TABLE */
-.profile-grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:0;border:var(--border);
-}
-@media(max-width:560px){.profile-grid{grid-template-columns:1fr;}}
-.pg-cell{
-  padding:16px 20px;
-  border-right:var(--border);
-  border-bottom:var(--border);
-  background:var(--white);
-}
-.pg-cell:nth-child(even){border-right:none;}
-.pg-label{
-  font-family:var(--fb);font-weight:500;
-  font-size:.54rem;letter-spacing:.22em;text-transform:uppercase;
-  color:rgba(6,14,26,.35);margin-bottom:5px;
-}
-.pg-val{
-  font-family:var(--fb);font-weight:200;
-  font-size:.88rem;color:var(--navy);line-height:1.7;
-}
+/* ---- TEAM ROWS ---- */
+.team-row{background:var(--white);border:var(--bdr);padding:13px 17px;margin-bottom:2px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.tm-name{font-family:var(--fb);font-weight:500;font-size:.84rem;color:var(--navy);margin-bottom:2px;}
+.tm-meta{font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--navy2);}
 
-/* CHAT */
-.chat-box{background:var(--white);border:var(--border);box-shadow:var(--shadow);}
-.chat-header{
-  padding:14px 20px;border-bottom:var(--border);
-  background:var(--navy);
-  font-family:var(--fb);font-weight:200;
-  font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;
-  color:rgba(245,240,232,.5);
-}
-.chat-msgs{min-height:200px;max-height:320px;overflow-y:auto;padding:20px;}
-.chat-msgs::-webkit-scrollbar{width:3px;}
-.chat-msgs::-webkit-scrollbar-thumb{background:var(--paper-dk);}
-.cmsg{display:flex;gap:10px;margin-bottom:14px;align-items:flex-start;}
-.cmsg.user{flex-direction:row-reverse;}
-.cav{
-  width:30px;height:30px;border-radius:50%;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--fd);font-size:.7rem;font-weight:500;
-}
-.cav-ai{background:var(--navy);color:var(--gold);}
-.cav-u{background:var(--paper);color:var(--navy);border:var(--border);}
-.cbub{
-  max-width:82%;padding:12px 16px;
-  font-family:var(--fb);font-weight:200;
-  font-size:.84rem;line-height:1.85;
-}
-.cbub-ai{background:var(--paper);border:var(--border);color:var(--navy-2);}
-.cbub-u{background:var(--navy);color:rgba(245,240,232,.9);}
-.typing-d span{
-  display:inline-block;width:4px;height:4px;border-radius:50%;
-  background:rgba(6,14,26,.25);margin:0 2px;
-  animation:tdot .8s ease-in-out infinite;
-}
-.typing-d span:nth-child(2){animation-delay:.15s;}
-.typing-d span:nth-child(3){animation-delay:.3s;}
-@keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-5px);opacity:1;}}
-.chat-input-area{
-  border-top:var(--border);padding:14px 16px;
-  background:var(--paper);display:flex;gap:8px;
-}
-.chat-input{
-  flex:1;background:var(--white);border:var(--border);
-  color:var(--navy);padding:10px 14px;
-  font-family:var(--fb);font-weight:200;font-size:.86rem;
-  outline:none;transition:border-color .25s;
-}
-.chat-input:focus{border-color:var(--gold);}
-.chat-input::placeholder{color:rgba(6,14,26,.3);}
-.chat-send{
-  padding:10px 20px;
-  font-family:var(--fb);font-weight:500;
-  font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;
-  background:var(--navy);color:var(--white);
-  border:none;cursor:pointer;transition:background .2s;
-}
-.chat-send:hover{background:var(--gold);color:var(--navy);}
+/* ---- MESSAGES ---- */
+.msg-item{background:var(--white);border:var(--bdr);border-left:3px solid var(--paperdk);padding:14px 18px;margin-bottom:2px;}
+.msg-item.from-lolo{border-left-color:var(--gold);}
+.msg-item.from-partner{border-left-color:var(--navy2);}
+.msg-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.msg-from{font-family:var(--fb);font-weight:500;font-size:.72rem;color:var(--navy);}
+.msg-dt{font-family:var(--fb);font-weight:200;font-size:.64rem;color:var(--navy3);}
+.msg-body{font-family:var(--fb);font-weight:200;font-size:.88rem;color:var(--navy2);line-height:1.85;white-space:pre-line;}
 
-/* FILTER TABS */
-.filter-bar{
-  display:flex;gap:0;margin-bottom:20px;
-  border:var(--border);background:var(--paper);
-  overflow:hidden;
-}
-.filter-tab{
-  flex:1;padding:9px 12px;text-align:center;cursor:pointer;
-  font-family:var(--fb);font-weight:200;
-  font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--navy-3);background:transparent;border:none;
-  border-right:var(--border);
-  transition:all .2s;
-}
-.filter-tab:last-child{border-right:none;}
-.filter-tab.on{background:var(--navy);color:var(--gold);font-weight:500;}
-.filter-tab:hover:not(.on){background:var(--white);color:var(--navy);}
+/* ---- CLAIMS ---- */
+.claim-card{background:var(--white);border:var(--bdr);padding:14px 18px;margin-bottom:2px;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;flex-wrap:wrap;}
+.claim-case{font-family:var(--fb);font-weight:500;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:3px;}
+.claim-ti{font-family:var(--fb);font-weight:200;font-size:.88rem;color:var(--navy2);}
+.claim-amt{font-family:var(--fd);font-weight:300;font-size:1.1rem;color:var(--navy);}
 
-/* EMPTY STATE */
-.empty{padding:48px 0;text-align:center;}
-.empty-icon{
-  font-family:var(--fd);font-weight:300;font-style:italic;
-  font-size:1.4rem;color:rgba(6,14,26,.15);margin-bottom:10px;
-}
-.empty-txt{
-  font-family:var(--fb);font-weight:200;
-  font-size:.84rem;color:var(--navy-3);line-height:2;
-}
+/* ---- FILTER TABS ---- */
+.ftabs{display:flex;gap:0;margin-bottom:18px;border:var(--bdr);background:var(--paper);overflow:hidden;}
+.ftab{flex:1;padding:8px 10px;text-align:center;cursor:pointer;font-family:var(--fb);font-weight:200;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy3);background:transparent;border:none;border-right:var(--bdr);transition:all .18s;}
+.ftab:last-child{border-right:none;}
+.ftab.on{background:var(--navy);color:var(--gold);font-weight:500;}
+.ftab:hover:not(.on){background:var(--white);color:var(--navy);}
 
-/* FOOTER */
-.portal-foot{
-  border-top:var(--border);background:var(--white);
-  padding:16px 44px;
-  display:flex;align-items:center;justify-content:space-between;
-  flex-wrap:wrap;gap:10px;
-}
-.foot-brand{
-  font-family:var(--fd);font-weight:300;font-style:italic;
-  font-size:.9rem;color:var(--gold-dk);
-}
-.foot-links{display:flex;gap:20px;}
-.foot-link{
-  font-family:var(--fb);font-weight:200;
-  font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--navy-3);text-decoration:none;cursor:pointer;transition:color .2s;
-}
-.foot-link:hover{color:var(--navy);}
+/* ---- EMPTY ---- */
+.empty{padding:44px 0;text-align:center;}
+.empty-ic{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.3rem;color:rgba(6,14,26,.14);margin-bottom:9px;}
+.empty-tx{font-family:var(--fb);font-weight:200;font-size:.88rem;color:var(--navy3);line-height:2;}
 
-@media(max-width:700px){
-  .sgrid{grid-template-columns:1fr 1fr;}
-  .frm-row{grid-template-columns:1fr;}
-  .topbar{padding:0 18px;}
-  .main{padding:20px 16px;}
-}
+/* ---- FOOTER ---- */
+.pfoot{border-top:var(--bdr);background:var(--white);padding:14px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.pfoot-brand{font-family:var(--fd);font-weight:300;font-style:italic;font-size:.9rem;color:var(--goldk);}
+.pfoot-links{display:flex;gap:18px;}
+.pfoot-link{font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.13em;text-transform:uppercase;color:var(--navy3);text-decoration:none;cursor:pointer;transition:color .2s;}
+.pfoot-link:hover{color:var(--navy);}
 </style>
 </head>
 <body>
 
-<!-- ======================================================
-     AUTH GATE
-====================================================== -->
-<div id="auth-gate">
+<!-- ======== AUTH ======== -->
+<div id="auth">
   <div class="auth-card">
-
     <div class="auth-brand">
-      <div class="auth-emblem">
-        <svg width="28" height="28" viewBox="0 0 40 40">
-          <circle cx="20" cy="20" r="18.5" fill="none" stroke="rgba(201,168,76,.5)" stroke-width="1"/>
-          <text x="20" y="26" text-anchor="middle" font-family="Cormorant Garamond,Georgia,serif" font-size="13" font-weight="300" fill="#C9A84C" letter-spacing="2">LL</text>
-        </svg>
-      </div>
-      <span class="auth-wordmark">Lolo Travels</span>
-      <span class="auth-tagline">The World Is Yours.</span>
-      <span class="auth-portal-label">Partner Compliance Portal</span>
+      <div class="auth-em">LL</div>
+      <span class="auth-wm">Lolo Travels</span>
+      <span class="auth-tg">The World Is Yours.</span>
+      <span class="auth-pl">Partner Compliance Portal</span>
     </div>
-
     <div class="auth-rule"></div>
 
-    <!-- SIGN IN -->
-    <div id="v-signin" class="auth-view active">
-      <h2 class="auth-title">Sign in.</h2>
-      <p class="auth-hint">Access your solicitation compliance dashboard, document library, and payment portal.</p>
-      <div class="afield">
-        <label class="alabel">Email Address</label>
-        <input class="ainput" type="email" id="si-email" placeholder="you@company.com" autocomplete="email" onkeydown="if(event.key==='Enter')signIn()"/>
-      </div>
-      <div class="afield">
-        <label class="alabel">Password</label>
-        <input class="ainput" type="password" id="si-pass" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')signIn()"/>
-      </div>
-      <div class="auth-err auth-err-red" id="si-err"></div>
+    <div id="v-signin" class="auth-view on">
+      <h2 class="auth-h">Sign in.</h2>
+      <p class="auth-sub">Access your solicitation compliance dashboard, document library, and payment portal.</p>
+      <div class="af"><label class="al">Email Address</label><input class="ai" type="email" id="si-email" placeholder="you@company.com" autocomplete="email"/></div>
+      <div class="af"><label class="al">Password</label><input class="ai" type="password" id="si-pass" placeholder="Your password" autocomplete="current-password"/></div>
+      <div class="aerr aerr-red" id="si-err"></div>
       <button class="abtn" id="si-btn" onclick="signIn()"><span>Sign In</span></button>
       <div class="auth-links"><a onclick="showView('reset')">Forgot password</a></div>
     </div>
 
-    <!-- RESET -->
     <div id="v-reset" class="auth-view">
       <button class="auth-back" onclick="showView('signin')">Back to sign in</button>
-      <h2 class="auth-title">Reset password.</h2>
-      <p class="auth-hint">Enter your email and we will send a reset link to your inbox.</p>
-      <div class="afield">
-        <label class="alabel">Email Address</label>
-        <input class="ainput" type="email" id="re-email" placeholder="you@company.com"/>
-      </div>
-      <div class="auth-err" id="re-err"></div>
+      <h2 class="auth-h">Reset password.</h2>
+      <p class="auth-sub">Enter your email and we will send a reset link.</p>
+      <div class="af"><label class="al">Email Address</label><input class="ai" type="email" id="re-email" placeholder="you@company.com"/></div>
+      <div class="aerr" id="re-err"></div>
       <button class="abtn" onclick="resetPw()"><span>Send Reset Link</span></button>
       <div class="auth-links"><a onclick="showView('signin')">Back to sign in</a></div>
     </div>
 
-    <div class="auth-footer">Lolo Travels LLC &nbsp;&middot;&nbsp; UEI: TKCPDKVVWYG9 &nbsp;&middot;&nbsp; CAGE: 1WR24</div>
-
+    <div class="auth-foot">Lolo Travels LLC &nbsp;&middot;&nbsp; UEI: TKCPDKVVWYG9 &nbsp;&middot;&nbsp; CAGE: 1WR24</div>
   </div>
 </div>
 
-<!-- ======================================================
-     PORTAL
-====================================================== -->
+<!-- ======== PORTAL ======== -->
 <div id="portal">
-
   <div class="topbar">
-    <div class="tb-left">
-      <div class="tb-emblem">LL</div>
+    <div class="tb-l">
+      <div class="tb-em">LL</div>
       <div class="tb-brand">Lolo Travels</div>
-      <div class="tb-divider"></div>
-      <div class="tb-portal-label">Partner Compliance Portal</div>
+      <div class="tb-sep"></div>
+      <div class="tb-lbl">Partner Portal</div>
     </div>
-    <div class="tb-right">
+    <div class="tb-r">
       <span class="tb-name" id="tb-name"></span>
-      <span class="tb-type-badge" id="tb-type-badge">Partner</span>
+      <span class="tb-type" id="tb-type">Partner</span>
       <span class="tb-badge">Lolo Travels</span>
       <button class="tb-out" onclick="signOut()">Sign Out</button>
     </div>
   </div>
 
   <div class="layout">
-
     <!-- SIDEBAR -->
-    <aside class="sidebar" id="sidebar">
+    <aside class="sidebar">
       <div class="nav-sec">Overview</div>
-      <div class="nav-item on" id="nav-overview" onclick="nav('overview')"><div class="nav-dot"></div>Solicitations</div>
+      <div class="nitem on" id="nv-overview" onclick="nav('overview')"><div class="ndot"></div>Solicitations</div>
       <div class="nav-sec">Documents</div>
-      <div class="nav-item" id="nav-library" onclick="nav('library')"><div class="nav-dot"></div>Document Library</div>
+      <div class="nitem" id="nv-library" onclick="nav('library')"><div class="ndot"></div>Document Library</div>
       <div class="nav-sec">Account</div>
-      <div class="nav-item" id="nav-profile" onclick="nav('profile')"><div class="nav-dot"></div>Company Profile</div>
-      <div class="nav-item" id="nav-team" onclick="nav('team')"><div class="nav-dot"></div>Team Members</div>
+      <div class="nitem" id="nv-profile" onclick="nav('profile')"><div class="ndot"></div>Company Profile</div>
+      <div class="nitem" id="nv-team" onclick="nav('team')"><div class="ndot"></div>Team Members</div>
       <div class="nav-sec">Payments</div>
-      <div class="nav-item" id="nav-payment" onclick="nav('payment')"><div class="nav-dot"></div>Payments and Invoices</div>
+      <div class="nitem" id="nv-payment" onclick="nav('payment')"><div class="ndot"></div>Submit Invoice</div>
+      <div class="nitem" id="nv-history" onclick="nav('history')"><div class="ndot"></div>Payment History</div>
+      <div class="nav-sec">Services</div>
+      <div class="nitem" id="nv-claims" onclick="nav('claims')"><div class="ndot"></div>Claims</div>
+      <div class="nitem" id="nv-referrals" onclick="nav('referrals')"><div class="ndot"></div>Referrals and Earnings</div>
       <div class="nav-sec">Communication</div>
-      <div class="nav-item" id="nav-messages" onclick="nav('messages')"><div class="nav-dot"></div>Messages</div>
+      <div class="nitem" id="nv-messages" onclick="nav('messages')"><div class="ndot"></div>Messages</div>
     </aside>
 
     <!-- MAIN -->
     <main class="main" id="main-area">
 
-      <!-- ============================================
-           OVERVIEW -- Solicitations
-      ============================================ -->
+      <!-- OVERVIEW -->
       <div class="panel on" id="p-overview">
-        <div id="letterhead-block" class="letterhead">
+        <div id="lh-block" class="lh">
           <div>
-            <div class="lh-company" id="lh-name">Loading...</div>
-            <div class="lh-address" id="lh-address"></div>
-            <span class="lh-type-badge" id="lh-type-badge"></span>
+            <div class="lh-co" id="lh-name">Loading...</div>
+            <div class="lh-addr" id="lh-addr"></div>
+            <span class="lh-tbadge" id="lh-tbadge"></span>
           </div>
-          <div class="lh-right">
+          <div class="lh-r">
             <div class="lh-meta" id="lh-contact"></div>
-            <div class="lh-cred" id="lh-creds"></div>
+            <div class="lh-cred" id="lh-cred"></div>
           </div>
         </div>
-
         <div class="ph">
           <div class="ptag">Solicitation Management</div>
           <h2 class="ph1">Your Solicitations</h2>
-          <p class="ph2">Organized by due date. Each solicitation shows compliance completion status and items requiring your action.</p>
+          <p class="ph2">Organized by due date. Each solicitation shows compliance completion and items requiring your action.</p>
         </div>
-
-        <div class="sgrid" style="margin-bottom:24px;">
-          <div class="stat"><div class="slabel">Active Solicitations</div><div class="sval" id="ov-active">0</div></div>
-          <div class="stat"><div class="slabel">Items Required</div><div class="sval" id="ov-missing" style="color:var(--red);font-style:normal;">0</div><div class="smeta">Require your action</div></div>
-          <div class="stat"><div class="slabel">Documents on File</div><div class="sval" id="ov-docs">0</div></div>
-          <div class="stat" style="cursor:pointer;" onclick="nav('library')"><div class="slabel">Document Library</div><div class="sval" style="font-size:.9rem;font-style:normal;">View All</div></div>
+        <div class="sgrid" style="margin-bottom:22px;">
+          <div class="stat"><div class="slbl">Active</div><div class="sval" id="ov-active">0</div></div>
+          <div class="stat"><div class="slbl">Items Required</div><div class="sval" id="ov-missing" style="color:var(--red);font-style:normal;font-weight:500;">0</div><div class="smeta">Need your action</div></div>
+          <div class="stat"><div class="slbl">Documents on File</div><div class="sval" id="ov-docs">0</div></div>
+          <div class="stat" style="cursor:pointer;" onclick="nav('library')"><div class="slbl">Document Library</div><div class="sval" style="font-size:.85rem;font-style:normal;">View All</div></div>
         </div>
-
         <div id="sol-list"></div>
       </div>
 
-      <!-- ============================================
-           SOLICITATION DETAIL
-      ============================================ -->
+      <!-- SOLICITATION DETAIL -->
       <div class="panel" id="p-solicitation">
-        <div style="margin-bottom:16px;">
-          <button class="sbtn-outline" onclick="nav('overview')" style="font-size:.58rem;">Back to Solicitations</button>
-        </div>
-
-        <div id="sol-letterhead" class="letterhead" style="border-top-color:var(--gold);">
-          <div class="lh-left">
-            <div class="lh-company" id="sol-detail-num" style="font-family:var(--fb);font-weight:500;font-size:1rem;letter-spacing:.08em;"></div>
-            <div class="lh-company" id="sol-detail-title" style="font-size:1.2rem;margin-top:4px;"></div>
-            <div class="lh-address" id="sol-detail-agency" style="margin-top:4px;"></div>
+        <div style="margin-bottom:14px;"><button class="sbtn-o" onclick="nav('overview')">Back to Solicitations</button></div>
+        <div id="sol-lh" class="lh">
+          <div>
+            <div style="font-family:var(--fb);font-weight:500;font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(245,240,232,.88);margin-bottom:4px;" id="sol-num"></div>
+            <div class="lh-co" id="sol-title"></div>
+            <div class="lh-addr" id="sol-agency"></div>
           </div>
-          <div class="lh-right">
-            <div class="lh-meta" id="sol-detail-dates"></div>
-            <span class="stamp" id="sol-detail-stamp"></span>
+          <div class="lh-r">
+            <div class="lh-cred" id="sol-dates"></div>
+            <span class="stamp" id="sol-stamp"></span>
           </div>
         </div>
-
-        <div class="sol-progress">
-          <div class="sol-progress-header">
-            <span class="sol-progress-label">Compliance Completion</span>
-            <span class="sol-progress-pct" id="sol-detail-pct">0%</span>
-          </div>
-          <div class="sol-progress-bg">
-            <div class="sol-progress-fill" id="sol-progress-bar" style="width:0%;"></div>
-          </div>
+        <div class="sol-prog">
+          <div class="sol-prog-hd"><span class="sol-prog-lbl">Compliance Completion</span><span class="sol-prog-pct" id="sol-pct">0%</span></div>
+          <div class="sol-prog-bg"><div class="sol-prog-fill" id="sol-bar" style="width:0%;"></div></div>
         </div>
-
-        <!-- LOLO NOTES -->
-        <div id="sol-lolo-note" class="info-block" style="display:none;"></div>
-
-        <!-- ACTION REQUIRED -->
-        <div class="req-section" id="req-action-section">
-          <div class="req-section-header">
-            <div class="req-section-title">Action Required</div>
-            <span class="stamp stamp-missing" id="action-count">0 items</span>
-          </div>
+        <div id="sol-note" class="iblock" style="display:none;"></div>
+        <div class="req-section" style="margin-bottom:22px;">
+          <div class="req-hd"><div class="req-hdtxt">Action Required</div><span class="stamp stamp-miss" id="action-ct">0 items</span></div>
           <div id="reqs-action"></div>
-          <div class="empty" id="reqs-action-empty" style="padding:16px 0;display:none;">
-            <div class="empty-txt" style="color:var(--green);font-size:.82rem;">All required items are complete. Nothing outstanding.</div>
-          </div>
+          <div id="reqs-action-empty" class="empty" style="padding:14px 0;display:none;"><div class="empty-tx" style="color:var(--green);">All required items are complete.</div></div>
         </div>
-
         <div class="div"></div>
-
-        <!-- VERIFIED -->
-        <div class="req-section">
-          <div class="req-section-header">
-            <div class="req-section-title">Verified and Complete</div>
-            <span class="stamp stamp-verified" id="verified-count">0 items</span>
-          </div>
+        <div class="req-section" style="margin-bottom:22px;">
+          <div class="req-hd"><div class="req-hdtxt">Verified and Complete</div><span class="stamp stamp-ok" id="verified-ct">0 items</span></div>
           <div id="reqs-verified"></div>
         </div>
-
         <div class="div"></div>
-
-        <!-- UPLOAD FOR THIS SOLICITATION -->
-        <h3 style="font-family:var(--fd);font-weight:300;font-size:1.2rem;color:var(--navy);margin-bottom:6px;">Upload a Document</h3>
-        <p style="font-family:var(--fb);font-weight:200;font-size:.78rem;color:var(--text-muted);margin-bottom:20px;line-height:1.85;">Documents already in your library are matched automatically. Upload new documents here or save as draft if not yet final.</p>
-
-        <div class="frm-row">
-          <div class="ff">
-            <label class="flabel">Document Type</label>
-            <select class="sel" id="up-type">
-              <option value="">Select type</option>
-              <option value="company_profile">Company Profile</option>
-              <option value="registration_cert">Registration Certificate</option>
-              <option value="tax_id">Tax Identification</option>
-              <option value="tax_clearance">Tax Clearance Certificate</option>
-              <option value="iata_cert">IATA Accreditation Certificate</option>
-              <option value="professional_license">Professional License or Accreditation</option>
-              <option value="gds_confirmation">GDS Platform Confirmation</option>
-              <option value="insurance_cert">Insurance Certificate</option>
-              <option value="capability_statement">Capability Statement or Quotation</option>
-              <option value="past_performance">Past Performance or Reference Letter</option>
-              <option value="signed_agreement">Signed Agreement</option>
-              <option value="bank_details">Bank Details</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div class="ff">
-            <label class="flabel">Document Name</label>
-            <input class="inp" type="text" id="up-name" placeholder="e.g. IATA Certificate 2026"/>
-          </div>
-          <div class="ff">
-            <label class="flabel">Issue Date</label>
-            <input class="inp" type="date" id="up-issue"/>
-          </div>
-          <div class="ff">
-            <label class="flabel">Expiry Date (if applicable)</label>
-            <input class="inp" type="date" id="up-expiry"/>
-          </div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-size:1.15rem;color:var(--navy);margin-bottom:5px;">Upload a Document</h3>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--navy2);margin-bottom:18px;line-height:1.85;">Documents already in your library are matched automatically. Save as draft if not yet finalized.</p>
+        <div class="frow">
+          <div class="ff"><label class="flbl">Document Type</label><select class="sel" id="up-type"><option value="">Select type</option><option value="company_profile">Company Profile</option><option value="registration_cert">Registration Certificate</option><option value="tax_id">Tax Identification</option><option value="tax_clearance">Tax Clearance Certificate</option><option value="iata_cert">IATA Certificate</option><option value="professional_license">Professional License</option><option value="gds_confirmation">GDS Confirmation</option><option value="insurance_cert">Insurance Certificate</option><option value="capability_statement">Capability Statement</option><option value="past_performance">Reference Letter</option><option value="signed_agreement">Signed Agreement</option><option value="bank_details">Bank Details</option><option value="other">Other</option></select></div>
+          <div class="ff"><label class="flbl">Document Name</label><input class="inp" type="text" id="up-name" placeholder="e.g. IATA Certificate 2026"/></div>
+          <div class="ff"><label class="flbl">Issue Date</label><input class="inp" type="date" id="up-issue"/></div>
+          <div class="ff"><label class="flbl">Expiry Date (if applicable)</label><input class="inp" type="date" id="up-expiry"/></div>
         </div>
-
-        <div class="ff">
-          <label class="flabel">Attach File</label>
-          <div class="upload-zone" id="up-zone" onclick="document.getElementById('up-file').click()">
-            <div class="upload-txt"><strong>Click to attach file</strong><br>PDF, Word, or image accepted. Max 25MB.</div>
-            <input type="file" id="up-file" style="display:none;" accept=".pdf,.doc,.docx,.jpg,.png,.jpeg" onchange="handleUpload(this,'up-zone','up-fname')"/>
-          </div>
-          <div id="up-fname" style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--green);margin-top:6px;"></div>
+        <div class="ff full">
+          <label class="flbl">Attach File</label>
+          <div class="uzone" id="up-zone" onclick="document.getElementById('up-file').click()"><div class="utxt"><strong>Click to attach file</strong><br>PDF, Word, or image. Max 25MB.</div><input type="file" id="up-file" style="display:none;" accept=".pdf,.doc,.docx,.jpg,.png,.jpeg" onchange="handleFile(this,'up-zone','up-fname')"/></div>
+          <div class="ufname" id="up-fname"></div>
         </div>
-
-        <div class="ff">
-          <label class="flabel">Notes for Lolo</label>
-          <textarea class="txa" id="up-notes" placeholder="Any context Lolo should know about this document..."></textarea>
-        </div>
-
+        <div class="ff full"><label class="flbl">Notes for Lolo</label><textarea class="txa" id="up-notes" placeholder="Any context Lolo should know..."></textarea></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <button class="sbtn" onclick="submitDoc('submit')"><span>Submit Document</span></button>
-          <button class="sbtn-outline" onclick="submitDoc('draft')">Save as Draft</button>
+          <button class="sbtn" id="up-btn-submit" onclick="uploadDoc('submit')"><span>Submit Document</span></button>
+          <button class="sbtn-o" id="up-btn-draft" onclick="uploadDoc('draft')">Save as Draft</button>
         </div>
-
-        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--text-dim);margin-top:12px;line-height:1.85;">Lolo reviews all uploads and verifies against solicitation requirements. You will be notified by email when an item is verified or if additional information is needed.</p>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--navy3);margin-top:10px;line-height:1.85;">Lolo reviews all uploads and notifies you when verified or if additional information is needed.</p>
       </div>
 
-      <!-- ============================================
-           DOCUMENT LIBRARY
-      ============================================ -->
+      <!-- DOCUMENT LIBRARY -->
       <div class="panel" id="p-library">
-        <div class="ph">
-          <div class="ptag">Master Document Vault</div>
-          <h2 class="ph1">Document Library</h2>
-          <p class="ph2">All your compliance documents in one place. Upload once and they are available across every solicitation. Expiry is tracked and flagged automatically.</p>
+        <div class="ph"><div class="ptag">Master Document Vault</div><h2 class="ph1">Document Library</h2><p class="ph2">Upload once, reuse across all solicitations. Expiry is tracked and flagged automatically.</p></div>
+        <div class="ftabs">
+          <button class="ftab on" onclick="filterLib(this,'all')">All</button>
+          <button class="ftab" onclick="filterLib(this,'active')">Active</button>
+          <button class="ftab" onclick="filterLib(this,'expiring_soon')">Expiring</button>
+          <button class="ftab" onclick="filterLib(this,'expired')">Expired</button>
+          <button class="ftab" onclick="filterLib(this,'draft')">Drafts</button>
         </div>
-
-        <div class="filter-bar">
-          <button class="filter-tab on" onclick="filterLib(this,'all')">All Documents</button>
-          <button class="filter-tab" onclick="filterLib(this,'active')">Active</button>
-          <button class="filter-tab" onclick="filterLib(this,'expiring_soon')">Expiring Soon</button>
-          <button class="filter-tab" onclick="filterLib(this,'expired')">Expired</button>
-          <button class="filter-tab" onclick="filterLib(this,'draft')">Drafts</button>
-        </div>
-
         <div id="lib-docs"></div>
-        <div class="empty" id="lib-empty"><div class="empty-icon">No documents yet.</div><div class="empty-txt">Upload your first document below. Once added, documents are matched to your solicitations automatically.</div></div>
-
+        <div class="empty" id="lib-empty" style="display:none;"><div class="empty-ic">No documents yet.</div><div class="empty-tx">Upload your first document below.</div></div>
         <div class="div"></div>
-
-        <h3 style="font-family:var(--fd);font-weight:300;font-size:1.2rem;color:var(--navy);margin-bottom:6px;">Add to Document Library</h3>
-        <p style="font-family:var(--fb);font-weight:200;font-size:.78rem;color:var(--text-muted);margin-bottom:20px;line-height:1.85;">Documents uploaded here are stored permanently and matched to future solicitation requirements automatically.</p>
-
-        <div class="frm-row">
-          <div class="ff">
-            <label class="flabel">Document Type</label>
-            <select class="sel" id="lib-type">
-              <option value="">Select type</option>
-              <option value="company_profile">Company Profile</option>
-              <option value="registration_cert">Registration Certificate</option>
-              <option value="tax_id">Tax Identification</option>
-              <option value="tax_clearance">Tax Clearance Certificate</option>
-              <option value="iata_cert">IATA Accreditation Certificate</option>
-              <option value="professional_license">Professional License or Accreditation</option>
-              <option value="gds_confirmation">GDS Platform Confirmation</option>
-              <option value="insurance_cert">Insurance Certificate</option>
-              <option value="capability_statement">Capability Statement</option>
-              <option value="past_performance">Reference Letter or Past Performance</option>
-              <option value="signed_agreement">Signed Agreement</option>
-              <option value="bank_details">Bank Details</option>
-              <option value="financial_statement">Financial Statement</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-          <div class="ff">
-            <label class="flabel">Document Name</label>
-            <input class="inp" type="text" id="lib-name" placeholder="Descriptive name"/>
-          </div>
-          <div class="ff">
-            <label class="flabel">Issue Date</label>
-            <input class="inp" type="date" id="lib-issue"/>
-          </div>
-          <div class="ff">
-            <label class="flabel">Expiry Date (if applicable)</label>
-            <input class="inp" type="date" id="lib-expiry"/>
-          </div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-size:1.1rem;color:var(--navy);margin-bottom:5px;">Add to Document Library</h3>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--navy2);margin-bottom:18px;line-height:1.85;">Documents stored here are available across all solicitations and matched automatically.</p>
+        <div class="frow">
+          <div class="ff"><label class="flbl">Document Type</label><select class="sel" id="lib-type"><option value="">Select type</option><option value="company_profile">Company Profile</option><option value="registration_cert">Registration Certificate</option><option value="tax_id">Tax Identification</option><option value="tax_clearance">Tax Clearance Certificate</option><option value="iata_cert">IATA Certificate</option><option value="professional_license">Professional License</option><option value="gds_confirmation">GDS Confirmation</option><option value="insurance_cert">Insurance Certificate</option><option value="capability_statement">Capability Statement</option><option value="past_performance">Reference Letter</option><option value="signed_agreement">Signed Agreement</option><option value="bank_details">Bank Details</option><option value="other">Other</option></select></div>
+          <div class="ff"><label class="flbl">Document Name</label><input class="inp" type="text" id="lib-name" placeholder="Descriptive name"/></div>
+          <div class="ff"><label class="flbl">Issue Date</label><input class="inp" type="date" id="lib-issue"/></div>
+          <div class="ff"><label class="flbl">Expiry Date (if applicable)</label><input class="inp" type="date" id="lib-expiry"/></div>
         </div>
-
-        <div class="ff">
-          <label class="flabel">Attach File</label>
-          <div class="upload-zone" id="lib-zone" onclick="document.getElementById('lib-file').click()">
-            <div class="upload-txt"><strong>Click to attach file</strong><br>PDF, Word, or image. Max 25MB.</div>
-            <input type="file" id="lib-file" style="display:none;" accept=".pdf,.doc,.docx,.jpg,.png" onchange="handleUpload(this,'lib-zone','lib-fname')"/>
-          </div>
-          <div id="lib-fname" style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--green);margin-top:6px;"></div>
+        <div class="ff full">
+          <label class="flbl">Attach File</label>
+          <div class="uzone" onclick="document.getElementById('lib-file').click()"><div class="utxt" id="lib-ftxt"><strong>Click to attach file</strong><br>PDF, Word, or image. Max 25MB.</div><input type="file" id="lib-file" style="display:none;" accept=".pdf,.doc,.docx,.jpg,.png" onchange="handleFile(this,'','lib-ftxt')"/></div>
         </div>
-
         <button class="sbtn" onclick="addToLib()"><span>Add to Library</span></button>
       </div>
 
-      <!-- ============================================
-           COMPANY PROFILE
-      ============================================ -->
+      <!-- COMPANY PROFILE -->
       <div class="panel" id="p-profile">
-        <div class="ph">
-          <div class="ptag">Official Record</div>
-          <h2 class="ph1">Company Profile on File</h2>
-          <p class="ph2">Your company details as held by Lolo Travels. This information populates compliance packages automatically. Submit an update request below if anything needs to change.</p>
+        <div class="ph"><div class="ptag">Company Information</div><h2 class="ph1">Company Profile</h2><p class="ph2">Edit your profile directly. All information populates compliance packages automatically.</p></div>
+        <div id="bank-status-bar" style="margin-bottom:18px;"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--navy);margin-bottom:13px;">Legal Identity</h3>
+        <div class="frow">
+          <div class="ff"><label class="flbl">Legal Company Name</label><input class="inp" type="text" id="e-legal" placeholder="Full registered legal name"/></div>
+          <div class="ff"><label class="flbl">Entity Type</label><select class="sel" id="e-entity"><option value="">Select</option><option value="Ltd">Ltd</option><option value="LLC">LLC</option><option value="Corp">Corp</option><option value="Sole Trader">Sole Trader</option><option value="Partnership">Partnership</option><option value="Other">Other</option></select></div>
+          <div class="ff"><label class="flbl">Registration Number</label><input class="inp" type="text" id="e-reg" placeholder="CAC, Companies House, etc"/></div>
+          <div class="ff"><label class="flbl">Tax Identification Number</label><input class="inp" type="text" id="e-tax" placeholder="EIN, TIN, VAT, etc"/></div>
+          <div class="ff"><label class="flbl">IATA Code</label><input class="inp" type="text" id="e-iata" placeholder="e.g. 59212436"/></div>
+          <div class="ff"><label class="flbl">GDS Platform</label><select class="sel" id="e-gds"><option value="">Select GDS</option><option value="Sabre">Sabre</option><option value="Amadeus">Amadeus</option><option value="Galileo">Galileo</option><option value="Worldspan">Worldspan</option><option value="Other">Other</option></select></div>
         </div>
-
-        <div id="profile-data">
-          <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:12px;">Legal Identity</h3>
-          <div class="profile-grid" style="margin-bottom:20px;">
-            <div class="pg-cell"><div class="pg-label">Legal Name</div><div class="pg-val" id="pf-legal">--</div></div>
-            <div class="pg-cell"><div class="pg-label">Entity Type</div><div class="pg-val" id="pf-type">--</div></div>
-            <div class="pg-cell"><div class="pg-label">Registration Number</div><div class="pg-val" id="pf-reg">--</div></div>
-            <div class="pg-cell"><div class="pg-label">Tax Identification</div><div class="pg-val" id="pf-tax">--</div></div>
-            <div class="pg-cell"><div class="pg-label">IATA Code</div><div class="pg-val" id="pf-iata">--</div></div>
-            <div class="pg-cell"><div class="pg-label">GDS Platform</div><div class="pg-val" id="pf-gds">--</div></div>
-          </div>
-
-          <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:12px;">Address and Contact</h3>
-          <div class="profile-grid" style="margin-bottom:20px;">
-            <div class="pg-cell"><div class="pg-label">Registered Address</div><div class="pg-val" id="pf-address">--</div></div>
-            <div class="pg-cell"><div class="pg-label">Office Phone</div><div class="pg-val" id="pf-phone">--</div></div>
-            <div class="pg-cell"><div class="pg-label">24-Hour Emergency Line 1</div><div class="pg-val" id="pf-emerg1">--</div></div>
-            <div class="pg-cell"><div class="pg-label">24-Hour Emergency Line 2</div><div class="pg-val" id="pf-emerg2">--</div></div>
-          </div>
-
-          <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:12px;">Authorized Signatory and Banking</h3>
-          <div class="profile-grid" style="margin-bottom:20px;">
-            <div class="pg-cell"><div class="pg-label">Authorized Signatory</div><div class="pg-val" id="pf-sig">--</div></div>
-            <div class="pg-cell"><div class="pg-label">Signatory Email</div><div class="pg-val" id="pf-sig-email">--</div></div>
-            <div class="pg-cell"><div class="pg-label">Bank Name</div><div class="pg-val" id="pf-bank">--</div></div>
-            <div class="pg-cell"><div class="pg-label">Account and SWIFT</div><div class="pg-val" id="pf-swift">--</div></div>
-          </div>
-
-          <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:12px;">Additional Contacts</h3>
-          <div id="pf-contacts" style="margin-bottom:20px;"></div>
-        </div>
-
         <div class="div"></div>
-
-        <h3 style="font-family:var(--fd);font-weight:300;font-size:1.1rem;color:var(--navy);margin-bottom:10px;">Request a Profile Update</h3>
-        <p style="font-family:var(--fb);font-weight:200;font-size:.78rem;color:var(--text-muted);margin-bottom:16px;line-height:1.85;">Describe what has changed and Lolo will update your official record and confirm.</p>
-        <div class="ff">
-          <label class="flabel">What needs updating?</label>
-          <textarea class="txa" id="profile-update-text" placeholder="e.g. Our office address has changed to... Our bank account has changed to..."></textarea>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--navy);margin-bottom:13px;">Address and Contact</h3>
+        <div class="frow">
+          <div class="ff"><label class="flbl">Street Address</label><input class="inp" type="text" id="e-addr" placeholder="Street address"/></div>
+          <div class="ff"><label class="flbl">City</label><input class="inp" type="text" id="e-city" placeholder="City"/></div>
+          <div class="ff"><label class="flbl">Country</label><input class="inp" type="text" id="e-country" placeholder="Country"/></div>
+          <div class="ff"><label class="flbl">Office Phone</label><input class="inp" type="text" id="e-phone" placeholder="+1 or international format"/></div>
+          <div class="ff"><label class="flbl">24-Hour Emergency Line 1</label><input class="inp" type="text" id="e-emerg1" placeholder="Name and number"/></div>
+          <div class="ff"><label class="flbl">24-Hour Emergency Line 2</label><input class="inp" type="text" id="e-emerg2" placeholder="Backup emergency contact"/></div>
         </div>
-        <button class="sbtn" onclick="submitAction('profile-update','profile-update-text')"><span>Submit Update Request</span></button>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--navy);margin-bottom:13px;">Authorized Signatory</h3>
+        <div class="frow">
+          <div class="ff"><label class="flbl">Full Name</label><input class="inp" type="text" id="e-signame" placeholder="Person authorized to sign"/></div>
+          <div class="ff"><label class="flbl">Title</label><input class="inp" type="text" id="e-sigtitle" placeholder="e.g. General Manager"/></div>
+          <div class="ff"><label class="flbl">Direct Email</label><input class="inp" type="email" id="e-sigemail" placeholder="Signatory email"/></div>
+          <div class="ff"><label class="flbl">Direct Phone</label><input class="inp" type="text" id="e-sigphone" placeholder="Signatory phone"/></div>
+        </div>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--navy);margin-bottom:8px;">Banking Details for USD Wire Payments</h3>
+        <div class="iblock">All four fields are required before Lolo can process your first payment. Payments are made in USD wire transfer directly to your bank account.</div>
+        <div class="frow">
+          <div class="ff"><label class="flbl">Bank Name <span class="req-mark">*</span></label><input class="inp" type="text" id="e-bank" placeholder="e.g. Zenith Bank"/></div>
+          <div class="ff"><label class="flbl">Account Holder Name <span class="req-mark">*</span></label><input class="inp" type="text" id="e-acctname" placeholder="Name exactly as at bank"/></div>
+          <div class="ff"><label class="flbl">Account Number <span class="req-mark">*</span></label><input class="inp" type="text" id="e-acctnum" placeholder="Bank account number"/></div>
+          <div class="ff"><label class="flbl">SWIFT / BIC Code <span class="req-mark">*</span></label><input class="inp" type="text" id="e-swift" placeholder="e.g. ZEIBNGLAXXX"/></div>
+          <div class="ff"><label class="flbl">Bank Country</label><input class="inp" type="text" id="e-bankcountry" placeholder="Country where bank is located"/></div>
+          <div class="ff"><label class="flbl">IBAN (if applicable)</label><input class="inp" type="text" id="e-iban" placeholder="IBAN number if required"/></div>
+        </div>
+        <button class="sbtn" id="save-profile-btn" onclick="saveProfile()"><span>Save Profile</span></button>
       </div>
 
-      <!-- ============================================
-           PAYMENT REQUEST
-      ============================================ -->
-      <div class="panel" id="p-staff">
-        <div class="ph">
-          <div class="ptag">Team Management</div>
-          <h2 class="ph1">Team Members</h2>
-          <p class="ph2">Add your team members who work on this contract. Their details will appear in your compliance package and contact records.</p>
-        </div>
-        <div id="staff-list" style="margin-bottom:24px;"></div>
-        <div class="div"></div>
-        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--navy);margin-bottom:12px;">Add Team Member</h3>
-        <div class="frm-row">
-          <div class="ff"><label class="flabel">Full Name</label><input class="inp" type="text" id="staff-name" placeholder="Full name"/></div>
-          <div class="ff"><label class="flabel">Title</label><input class="inp" type="text" id="staff-title" placeholder="Job title"/></div>
-          <div class="ff"><label class="flabel">Email</label><input class="inp" type="email" id="staff-email" placeholder="Work email"/></div>
-          <div class="ff"><label class="flabel">Phone</label><input class="inp" type="text" id="staff-phone" placeholder="Phone number"/></div>
-          <div class="ff"><label class="flabel">Role on This Contract</label>
-            <select class="sel" id="staff-role">
-              <option value="Team Member">Team Member</option>
-              <option value="Account Manager">Account Manager</option>
-              <option value="Operations">Operations</option>
-              <option value="Finance">Finance</option>
-              <option value="Compliance">Compliance</option>
-              <option value="Emergency Contact">Emergency Contact</option>
-            </select>
-          </div>
-        </div>
-        <button class="sbtn" onclick="addStaff()"><span>Add Team Member</span></button>
-      </div>
-
-            <div class="panel" id="p-payment">
-        <div class="ph"><div class="ptag">Payments</div><h2 class="ph1">Payments and Invoices</h2><p class="ph2">Your bank details on file, earnings by contract, and invoice submission. All payments are processed as USD wire transfers.</p></div>
-
-        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:14px;">Bank Account on File</h3>
-        <div id="pay-bank-display" style="margin-bottom:24px;">
-          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:2px;margin-bottom:12px;">
-            <div class="stat"><div class="slabel">Bank Name</div><div class="sval" style="font-size:.9rem;font-style:normal;" id="pay-bank-name">--</div></div>
-            <div class="stat"><div class="slabel">Account Name</div><div class="sval" style="font-size:.9rem;font-style:normal;" id="pay-bank-acct-name">--</div></div>
-            <div class="stat"><div class="slabel">Account Number</div><div class="sval" style="font-size:.9rem;font-style:normal;" id="pay-bank-num">--</div></div>
-            <div class="stat"><div class="slabel">SWIFT / BIC</div><div class="sval" style="font-size:.9rem;font-style:normal;" id="pay-bank-swift-disp">--</div></div>
-            <div class="stat"><div class="slabel">Currency</div><div class="sval" style="font-size:.9rem;font-style:normal;" id="pay-bank-currency">USD</div></div>
-          </div>
-          <p style="font-family:var(--fb);font-weight:200;font-size:.74rem;color:var(--navy-3);line-height:1.85;">To update bank details go to <span style="font-weight:500;cursor:pointer;color:var(--gold-dk);" onclick="nav('profile')">Company Profile</span> or send a message via <span style="font-weight:500;cursor:pointer;color:var(--gold-dk);" onclick="nav('messages')">Messages</span>.</p>
-        </div>
-
-        <div class="div"></div>
-
-        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:14px;">Earnings by Contract</h3>
-        <div id="pay-earnings-list" style="margin-bottom:20px;"></div>
-        <div class="info-block">Revenue share is calculated on transaction fees collected from the government. Your percentage is defined in your Teaming and Partnership Agreement. Payments are processed within 15 business days of Lolo receiving payment from the agency.</div>
-
-        <div class="div"></div>
-
-        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:14px;">Submit Invoice</h3>
-        <p style="font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy-2);margin-bottom:18px;line-height:1.85;">Upload your invoice for the performance period. Lolo will review and process payment to your registered bank account.</p>
-        <div class="frm-row">
-          <div class="ff"><label class="flabel">Contract or Solicitation</label><select class="sel" id="pay-sol"></select></div>
-          <div class="ff"><label class="flabel">Your Invoice Number</label><input class="inp" type="text" id="pay-inv" placeholder="Your internal invoice reference"/></div>
-          <div class="ff"><label class="flabel">Amount Requested (USD)</label><input class="inp" type="text" id="pay-amt" placeholder="0.00"/></div>
-          <div class="ff"><label class="flabel">Performance Period</label><input class="inp" type="text" id="pay-period" placeholder="e.g. April 1 to April 30, 2026"/></div>
-          <div class="ff"><label class="flabel">Number of Transactions</label><input class="inp" type="text" id="pay-txns" placeholder="If applicable"/></div>
-          <div class="ff"><label class="flabel">Services Delivered</label><input class="inp" type="text" id="pay-desc" placeholder="Brief description"/></div>
-        </div>
-        <div class="ff">
-          <label class="flabel">Attach Invoice (PDF required)</label>
-          <div class="upload-zone" id="pay-zone" onclick="document.getElementById('pay-file').click()">
-            <div class="upload-txt"><strong>Click to attach your invoice PDF</strong><br>Include your company name, invoice number, line items, and bank details.</div>
-            <input type="file" id="pay-file" style="display:none;" accept=".pdf" onchange="handleUpload(this,'pay-zone','pay-fname')"/>
-          </div>
-          <div id="pay-fname" style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--green);margin-top:6px;"></div>
-        </div>
-        <div class="ff"><label class="flabel">Notes</label><textarea class="txa" id="pay-notes" placeholder="Any additional information..."></textarea></div>
-        <button class="sbtn" onclick="submitPayment()"><span>Submit Invoice</span></button>
-        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--navy-3);margin-top:12px;line-height:1.85;">You will receive email confirmation when approved and when payment is processed.</p>
-
-        <div class="div"></div>
-
-        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:14px;">Payment History</h3>
-        <div id="pay-history-list">
-          <div class="empty"><div class="empty-icon">No payments yet.</div><div class="empty-txt">Every payment Lolo sends will appear here with date, amount, wire reference, and contract.</div></div>
-        </div>
-      </div>
-
-<div class="panel" id="p-history">
-        <div class="ph">
-          <div class="ptag">Payment Ledger</div>
-          <h2 class="ph1">Payment History</h2>
-          <p class="ph2">Every payment received from Lolo Travels. Download for your accounting records.</p>
-        </div>
-        <div class="empty">
-          <div class="empty-icon">No payment history on file.</div>
-          <div class="empty-txt">Once Lolo approves and processes your first payment request, it will appear here with date, amount, and reference number.</div>
-        </div>
-      </div>
-
-      <!-- ============================================
-           MESSAGES
-      ============================================ -->
+      <!-- TEAM MEMBERS -->
       <div class="panel" id="p-team">
-        <div class="ph"><div class="ptag">Team Management</div><h2 class="ph1">Team Members</h2><p class="ph2">Add your team members so Lolo knows who to work with. Each person can be given a role to reflect their responsibilities on this account.</p></div>
-
+        <div class="ph"><div class="ptag">Team Management</div><h2 class="ph1">Team Members</h2><p class="ph2">Add your team members so Lolo knows who to work with. Each person can be assigned a role reflecting their responsibilities.</p></div>
         <div id="team-list" style="margin-bottom:20px;"></div>
-
         <div class="div"></div>
-        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:14px;">Add Team Member</h3>
-        <div class="frm-row">
-          <div class="ff"><label class="flabel">Full Name</label><input class="inp" type="text" id="new-tm-name" placeholder="Full name"/></div>
-          <div class="ff"><label class="flabel">Title</label><input class="inp" type="text" id="new-tm-title" placeholder="e.g. Sales Manager"/></div>
-          <div class="ff"><label class="flabel">Email Address</label><input class="inp" type="email" id="new-tm-email" placeholder="Work email"/></div>
-          <div class="ff"><label class="flabel">Phone</label><input class="inp" type="text" id="new-tm-phone" placeholder="Direct phone number"/></div>
-          <div class="ff"><label class="flabel">Role on This Account</label>
-            <select class="sel" id="new-tm-role">
-              <option value="Primary Contact">Primary Contact</option>
-              <option value="Account Manager">Account Manager</option>
-              <option value="Operations">Operations</option>
-              <option value="Finance">Finance</option>
-              <option value="Compliance">Compliance</option>
-              <option value="Sales">Sales</option>
-              <option value="Management">Management</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-size:1.1rem;color:var(--navy);margin-bottom:13px;">Add Team Member</h3>
+        <div class="frow">
+          <div class="ff"><label class="flbl">Full Name <span class="req-mark">*</span></label><input class="inp" type="text" id="tm-name" placeholder="Full name"/></div>
+          <div class="ff"><label class="flbl">Title</label><input class="inp" type="text" id="tm-title" placeholder="e.g. Sales Manager"/></div>
+          <div class="ff"><label class="flbl">Email Address <span class="req-mark">*</span></label><input class="inp" type="email" id="tm-email" placeholder="Work email"/></div>
+          <div class="ff"><label class="flbl">Phone</label><input class="inp" type="text" id="tm-phone" placeholder="Direct phone"/></div>
+          <div class="ff"><label class="flbl">Role on This Account</label><select class="sel" id="tm-role"><option value="Primary Contact">Primary Contact</option><option value="Account Manager">Account Manager</option><option value="Operations">Operations</option><option value="Finance">Finance</option><option value="Compliance">Compliance</option><option value="Sales">Sales</option><option value="Management">Management</option><option value="Other">Other</option></select></div>
+          <div class="ff full"><label class="flbl">Responsibilities</label><input class="inp" type="text" id="tm-resp" placeholder="What does this person handle on your team?"/></div>
         </div>
         <button class="sbtn" onclick="addTeamMember()"><span>Add Team Member</span></button>
       </div>
 
+      <!-- SUBMIT INVOICE -->
+      <div class="panel" id="p-payment">
+        <div class="ph"><div class="ptag">Invoice Submission</div><h2 class="ph1">Submit Payment Request</h2><p class="ph2">Submit your invoice for approval. Lolo processes your revenue share via USD wire to your bank account on file.</p></div>
+        <div class="iblock">Upon approval, Lolo Travels LLC (EIN 41-4888165 - CAGE 1WR24) generates a government-format invoice. Your revenue share is wired to your bank account within 5 business days of government payment receipt.</div>
+        <div id="pmt-bank-display" style="background:var(--white);border:var(--bdr);border-left:3px solid var(--gold);padding:16px 20px;margin-bottom:22px;">
+          <div style="font-family:var(--fb);font-weight:500;font-size:.6rem;letter-spacing:.17em;text-transform:uppercase;color:var(--navy);margin-bottom:9px;">Payment Destination on File</div>
+          <div id="pmt-bank-val" style="font-family:var(--fb);font-weight:200;font-size:.84rem;color:var(--navy2);line-height:1.85;">Loading banking details...</div>
+          <span data-nav="profile" onclick="nav(this.dataset.nav)" style="font-family:var(--fb);font-weight:200;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--goldk);cursor:pointer;display:inline-block;margin-top:8px;">Update Banking Details</span>
+        </div>
+        <div class="frow">
+          <div class="ff"><label class="flbl">Contract</label><select class="sel" id="pay-sol"><option>Loading contracts...</option></select></div>
+          <div class="ff"><label class="flbl">Your Invoice Number</label><input class="inp" type="text" id="pay-inv" placeholder="Your internal reference"/></div>
+          <div class="ff"><label class="flbl">Amount Requested (USD)</label><input class="inp" type="text" id="pay-amt" placeholder="Dollar amount"/></div>
+          <div class="ff"><label class="flbl">Performance Period</label><input class="inp" type="text" id="pay-period" placeholder="e.g. April 1 to April 30, 2026"/></div>
+          <div class="ff"><label class="flbl">Contract Line Item</label><input class="inp" type="text" id="pay-clin" placeholder="CLIN if applicable"/></div>
+          <div class="ff"><label class="flbl">Services Delivered</label><input class="inp" type="text" id="pay-desc" placeholder="Brief description"/></div>
+        </div>
+        <div class="ff full">
+          <label class="flbl">Attach Invoice (PDF required)</label>
+          <div class="uzone" id="pay-zone" onclick="document.getElementById('pay-file').click()"><div class="utxt"><strong>Click to attach invoice PDF</strong><br>Your invoice should include your company letterhead, invoice number, and itemized services.</div><input type="file" id="pay-file" style="display:none;" accept=".pdf" onchange="handleFile(this,'pay-zone','pay-fname')"/></div>
+          <div class="ufname" id="pay-fname"></div>
+        </div>
+        <div class="ff full"><label class="flbl">Additional Notes</label><textarea class="txa" id="pay-notes" placeholder="Any information Lolo should know before approving..."></textarea></div>
+        <button class="sbtn" onclick="submitPayment()"><span>Submit Payment Request</span></button>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--navy3);margin-top:10px;line-height:1.85;">Lolo reviews payment requests within 2 business days. You will receive email confirmation when approved and when payment is processed.</p>
+      </div>
+
+      <!-- PAYMENT HISTORY -->
+      <div class="panel" id="p-history">
+        <div class="ph"><div class="ptag">Payment Ledger</div><h2 class="ph1">Payment History</h2><p class="ph2">Every payment received from Lolo Travels. Reference numbers and amounts downloadable for your accounting records.</p></div>
+        <div id="hist-bank-display" style="background:var(--white);border:var(--bdr);border-left:3px solid var(--gold);padding:14px 20px;margin-bottom:20px;">
+          <div style="font-family:var(--fb);font-weight:500;font-size:.6rem;letter-spacing:.17em;text-transform:uppercase;color:var(--navy);margin-bottom:6px;">Registered Payment Account</div>
+          <div id="hist-bank-val" style="font-family:var(--fb);font-weight:200;font-size:.84rem;color:var(--navy2);">Loading...</div>
+        </div>
+        <div class="sgrid" style="margin-bottom:20px;">
+          <div class="stat"><div class="slbl">Total Received YTD</div><div class="sval">$0.00</div></div>
+          <div class="stat"><div class="slbl">Pending Approval</div><div class="sval">$0.00</div></div>
+          <div class="stat"><div class="slbl">Last Payment</div><div class="sval" style="font-size:.85rem;font-style:normal;">--</div></div>
+        </div>
+        <div class="empty"><div class="empty-ic">No payment history yet.</div><div class="empty-tx">Approved and processed payments appear here with date, amount, contract reference, and wire confirmation.</div></div>
+      </div>
+
+      <!-- CLAIMS -->
+      <div class="panel" id="p-claims">
+        <div class="ph"><div class="ptag">Claims Recovery</div><h2 class="ph1">Claims</h2><p class="ph2">Submit a claim on behalf of your clients or track claims you have referred to Lolo. You earn a referral fee on every claim we recover.</p></div>
+        <div class="iblock">Partner referral fee: 10% of Lolo's recovery fee on every claim you refer. Claims are tracked here with status updates through to resolution.</div>
+        <div id="claims-list" style="margin-bottom:20px;"></div>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-size:1.1rem;color:var(--navy);margin-bottom:6px;">Refer a New Claim</h3>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--navy2);margin-bottom:18px;line-height:1.85;">Submit on behalf of a client. Lolo takes over from here and keeps you updated on progress.</p>
+        <div class="frow">
+          <div class="ff"><label class="flbl">Client Full Name</label><input class="inp" type="text" id="cl-name" placeholder="Client name"/></div>
+          <div class="ff"><label class="flbl">Client Email</label><input class="inp" type="email" id="cl-email" placeholder="Client email"/></div>
+          <div class="ff"><label class="flbl">Claim Type</label><select class="sel" id="cl-type"><option value="">Select claim type</option><option value="flight_cancellation">Flight Cancellation</option><option value="flight_delay">Flight Delay</option><option value="denied_boarding">Denied Boarding</option><option value="baggage_lost">Lost Baggage</option><option value="baggage_damaged">Damaged Baggage</option><option value="hotel_overbook">Hotel Overbooking</option><option value="insurance_denied">Insurance Claim Denied</option><option value="other">Other</option></select></div>
+          <div class="ff"><label class="flbl">Responsible Party</label><input class="inp" type="text" id="cl-party" placeholder="e.g. Air Peace, Marriott"/></div>
+          <div class="ff"><label class="flbl">Amount Claimed (USD)</label><input class="inp" type="text" id="cl-amt" placeholder="Estimated amount"/></div>
+          <div class="ff"><label class="flbl">Incident Date</label><input class="inp" type="date" id="cl-date"/></div>
+        </div>
+        <div class="ff full"><label class="flbl">Brief Description</label><textarea class="txa" id="cl-desc" placeholder="What happened? Include booking references, dates, and what the responsible party told the client..."></textarea></div>
+        <button class="sbtn" onclick="submitClaim()"><span>Submit Claim Referral</span></button>
+      </div>
+
+      <!-- REFERRALS -->
+      <div class="panel" id="p-referrals">
+        <div class="ph"><div class="ptag">Affiliate Program</div><h2 class="ph1">Referrals and Earnings</h2><p class="ph2">Share Lolo services with your clients and earn affiliate fees on every successful transaction.</p></div>
+        <div class="iblock">Your unique referral code is embedded in your portal. When your clients use Lolo services through your referral, you earn the fees listed below alongside your contract revenue share.</div>
+        <div class="sgrid" style="margin-bottom:24px;">
+          <div class="stat"><div class="slbl">Referral Code</div><div class="sval" style="font-style:normal;font-size:1rem;font-weight:500;" id="ref-code">Loading...</div></div>
+          <div class="stat"><div class="slbl">Total Referred Clients</div><div class="sval">0</div></div>
+          <div class="stat"><div class="slbl">Referral Earnings YTD</div><div class="sval">$0.00</div></div>
+        </div>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-size:1.05rem;color:var(--navy);margin-bottom:14px;">Services You Can Offer Your Clients</h3>
+        <div id="ref-services">
+          <div class="req-row rr-ok"><div style="flex:1;"><div class="rname">Claims Recovery</div><div class="rdesc">Lolo pursues travel claims on behalf of your clients. No recovery, no fee.</div></div><div><span class="stamp stamp-ok">10% referral fee</span></div></div>
+          <div class="req-row rr-ok"><div style="flex:1;"><div class="rname">Travel Insurance</div><div class="rdesc">Lolo arranges travel insurance for individual and group travelers through licensed carriers.</div></div><div><span class="stamp stamp-ok">15% referral fee</span></div></div>
+          <div class="req-row rr-ok"><div style="flex:1;"><div class="rname">Lolo Shield Protection Plan</div><div class="rdesc">Destination safety intelligence, emergency support, and on-the-ground assistance.</div></div><div><span class="stamp stamp-ok">20% referral fee</span></div></div>
+          <div class="req-row rr-ok"><div style="flex:1;"><div class="rname">Concierge Services</div><div class="rdesc">Premium travel planning, reservations, and on-trip assistance for your clients.</div></div><div><span class="stamp stamp-ok">15% referral fee</span></div></div>
+          <div class="req-row rr-ok"><div style="flex:1;"><div class="rname">Member Portal Referral</div><div class="rdesc">Refer a client to create a Lolo member account.</div></div><div><span class="stamp stamp-ok">$25 per member</span></div></div>
+        </div>
+      </div>
+
+      <!-- MESSAGES -->
       <div class="panel" id="p-messages">
-        <div class="ph">
-          <div class="ptag">Direct Communication</div>
-          <h2 class="ph1">Messages</h2>
-          <p class="ph2">Direct correspondence with Lolo. All messages are logged against your contract record and available for reference.</p>
+        <div class="ph"><div class="ptag">Direct Communication</div><h2 class="ph1">Messages</h2><p class="ph2">Send a message to your Lolo account team. All messages are logged against your contract record and responded to within one business day.</p></div>
+        <div class="frow">
+          <div class="ff"><label class="flbl">Category</label><select class="sel" id="msg-cat"><option value="Account">Account</option><option value="Compliance">Compliance and Documents</option><option value="Contract">Contract Management</option><option value="Finance">Finance and Payments</option><option value="Technical">Technical Support</option><option value="Other">Other</option></select></div>
+          <div class="ff"><label class="flbl">Subject</label><input class="inp" type="text" id="msg-subj" placeholder="Brief subject line"/></div>
         </div>
-        <div class="chat-box">
-          <div class="chat-header">Lolo Travels Partner Support Thread</div>
-          <div class="chat-msgs" id="chat-msgs">
-            <div class="cmsg">
-              <div class="cav cav-ai">LL</div>
-              <div class="cbub cbub-ai">Welcome to your Lolo partner support thread. I can assist with solicitation compliance questions, document requirements, payment process guidance, and anything related to your contract. What do you need today?</div>
-            </div>
-          </div>
-          <div class="chat-input-area">
-            <input class="chat-input" id="chat-in" placeholder="Type your message to Lolo..." onkeydown="if(event.key==='Enter')sendMsg()"/>
-            <button class="chat-send" onclick="sendMsg()">Send</button>
-          </div>
-        </div>
+        <div class="ff full"><label class="flbl">Message</label><textarea class="txa" id="msg-body" placeholder="Write your message to Lolo..." style="min-height:100px;"></textarea></div>
+        <button class="sbtn" onclick="sendMessage()"><span>Send Message</span></button>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--navy3);margin-top:10px;line-height:1.85;">Messages are sent to hello@lolotravels.com and stored here for reference.</p>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-size:1.05rem;color:var(--navy);margin-bottom:13px;">Message History</h3>
+        <div id="msg-history"><div class="empty"><div class="empty-tx">No messages yet.</div></div></div>
       </div>
 
     </main>
   </div>
 
-  <div class="portal-foot">
-    <div class="foot-brand">Lolo Travels</div>
-    <div class="foot-links">
-      <a class="foot-link" href="/">Home</a>
-      <a class="foot-link" href="/government">Government</a>
-      <a class="foot-link" href="/contact">Contact</a>
+  <div class="pfoot">
+    <div class="pfoot-brand">Lolo Travels</div>
+    <div class="pfoot-links">
+      <a class="pfoot-link" href="/">Home</a>
+      <a class="pfoot-link" href="/government">Government</a>
+      <a class="pfoot-link" href="/claims">Submit a Claim</a>
     </div>
   </div>
 </div>
 
-<form name="lolo-contractor" data-netlify="true" style="display:none;">
-  <input type="text" name="type"/>
-  <input type="text" name="details"/>
-  <input type="email" name="user_email"/>
+<form name="lolo-partner" data-netlify="true" style="display:none;">
+  <input type="text" name="type"/><input type="text" name="details"/><input type="email" name="user_email"/>
 </form>
 
 <script>
-var SB = 'https://hktntiamtpptcagnohnn.supabase.co';
-var SK = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
-var FORMSPREE = 'https://formspree.io/f/xpwzgqan';
+var SB='https://hktntiamtpptcagnohnn.supabase.co';
+var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
+var FSPREE='https://formspree.io/f/xqabpkka';
+var sb=null,currentUser=null,companyId=null,activeSolId=null,libFilter='all',teamContacts=[];
 
-var sb = null;
-var currentUser = null;
-var companyId = null;
-var activesolId = null;
-var libFilter = 'all';
-var profileEditMode = false;
-var chatHistory = [];
-var companyData = null;
-
-var chatSystem = 'You are the Lolo Partner Support assistant for Lolo Travels LLC, a US-based Travel Management, Protection and Risk Advisory company. Help government contract partners with solicitation compliance requirements, document upload guidance, payment process, onboarding checklist items, and contract questions. Be professional, precise, and helpful. Under 160 words per response. No bullet points. Direct Lolo team questions to hello@lolotravels.com.';
-
-(function loadSB(){
-  var s = document.createElement('script');
-  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
-  s.onload = function(){
-    sb = supabase.createClient(SB, SK);
-    initSession();
-  };
+// Load Supabase
+(function(){
+  var s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  s.onload=function(){sb=supabase.createClient(SB,SK);initAuth();};
   document.head.appendChild(s);
 })();
 
-async function initSession(){
-  try{
-    var r = await sb.auth.getSession();
-    if(r.data && r.data.session) loadPortal(r.data.session.user);
-  }catch(e){}
+async function initAuth(){
+  try{var r=await sb.auth.getSession();if(r.data&&r.data.session)await loadPortal(r.data.session.user);}catch(e){}
 }
 
 function showView(v){
-  document.querySelectorAll('.auth-view').forEach(function(el){el.classList.remove('active');});
-  var el = document.getElementById('v-'+v);
-  if(el) el.classList.add('active');
+  document.querySelectorAll('.auth-view').forEach(function(el){el.classList.remove('on');});
+  var el=document.getElementById('v-'+v);if(el)el.classList.add('on');
 }
 
 async function signIn(){
-  var email = document.getElementById('si-email').value.trim();
-  var pass = document.getElementById('si-pass').value;
-  var err = document.getElementById('si-err');
-  var btn = document.getElementById('si-btn');
+  var email=document.getElementById('si-email').value.trim();
+  var pass=document.getElementById('si-pass').value;
+  var err=document.getElementById('si-err');
+  var btn=document.getElementById('si-btn');
   err.textContent='';
-  if(!email||!pass){err.textContent='Please enter your email and password.';return;}
-  btn.disabled=true; btn.querySelector('span').textContent='Signing in...';
+  if(!email||!pass){err.textContent='Please fill in all fields.';return;}
+  btn.disabled=true;btn.querySelector('span').textContent='Signing in...';
   try{
-    var r = await sb.auth.signInWithPassword({email:email,password:pass});
-    if(r.error){
-      err.textContent = r.error.message==='Invalid login credentials' ? 'Email or password is incorrect.' : r.error.message;
-      btn.disabled=false; btn.querySelector('span').textContent='Sign In';
-      return;
-    }
-    // Security check -- must be a contractor account
-    var check = await sb.from('profiles').select('account_type,company_id').eq('id',r.data.user.id).single();
-    if(!check.data || check.data.account_type !== 'contractor'){
-      await sb.auth.signOut();
-      err.textContent = 'This account does not have partner access. Contact hello@lolotravels.com';
-      btn.disabled=false; btn.querySelector('span').textContent='Sign In';
-      return;
-    }
-    loadPortal(r.data.user);
-  }catch(e){
-    err.textContent='Connection error. Please try again.';
-    btn.disabled=false; btn.querySelector('span').textContent='Sign In';
-  }
+    var r=await sb.auth.signInWithPassword({email:email,password:pass});
+    if(r.error){err.textContent=r.error.message==='Invalid login credentials'?'Email or password is incorrect.':r.error.message;btn.disabled=false;btn.querySelector('span').textContent='Sign In';return;}
+    await loadPortal(r.data.user);
+  }catch(e){err.textContent='Connection error. Please try again.';btn.disabled=false;btn.querySelector('span').textContent='Sign In';}
 }
 
 async function resetPw(){
-  var email = document.getElementById('re-email').value.trim();
-  var err = document.getElementById('re-err');
-  err.textContent='';
+  var email=document.getElementById('re-email').value.trim();
+  var err=document.getElementById('re-err');
+  err.className='aerr';err.textContent='';
   if(!email){err.textContent='Please enter your email.';return;}
   try{
-    await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+'/contractor'});
-    err.className='auth-err auth-err-ok';
-    err.textContent='Reset link sent. Check your inbox.';
+    var r=await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+'/contractor'});
+    if(r.error){err.textContent=r.error.message;return;}
+    err.className='aerr aerr-ok';err.textContent='Reset link sent. Check your inbox.';
   }catch(e){err.textContent='Connection error.';}
 }
 
 async function signOut(){
-  if(sb) await sb.auth.signOut();
+  await sb.auth.signOut();
   document.getElementById('portal').style.display='none';
-  document.getElementById('auth-gate').style.display='flex';
-  currentUser=null; companyId=null; companyData=null;
+  document.getElementById('auth').style.display='flex';
+  currentUser=null;companyId=null;
 }
+
+var userRole='sales'; // default to least access until loaded
+var userPerms={}; // loaded from portal_roles
 
 async function loadPortal(user){
   currentUser=user;
-  document.getElementById('auth-gate').style.display='none';
-  document.getElementById('portal').style.display='block';
-  var meta = user.user_metadata||{};
-  var name = meta.full_name ? meta.full_name.split(' ')[0] : user.email.split('@')[0];
-  setText('tb-name', name);
   try{
-    var r = await sb.from('profiles').select('company_id').eq('id',user.id).single();
-    if(r.data && r.data.company_id){
-      companyId = r.data.company_id;
-      await loadCompany();
-      loadSolicitations();
-      loadDocLibrary();
-    } else {
-      setText('lh-name','Company details not yet linked.');
-      setText('lh-address','Contact hello@lolotravels.com to complete your account setup.');
+    var pr=await sb.from('profiles').select('company_id,account_type,full_name,portal_role').eq('id',user.id).single();
+    if(!pr.data||pr.data.account_type!=='contractor'){
+      document.getElementById('si-err').textContent='Access denied. This portal is for Lolo partner accounts only.';
+      await sb.auth.signOut();return;
     }
-  }catch(e){}
-  nav('overview');
+    companyId=pr.data.company_id;
+    userRole=pr.data.portal_role||'sales';
+    var name=(pr.data.full_name||user.email).split(' ')[0];
+    setText('tb-name',name);
+  }catch(e){document.getElementById('si-err').textContent='Unable to verify account. Please try again.';return;}
+  // Load role permissions
+  await loadRolePermissions();
+  document.getElementById('auth').style.display='none';
+  document.getElementById('portal').style.display='block';
+  renderNav();
+  loadCompany();
+  loadSolicitations();
+  loadDocLibrary();
+  loadContracts();
+  // Default nav to first permitted section
+  var firstAllowed=['overview','solicitations','library','profile','team','payment','history','claims','referrals','messages'];
+  for(var i=0;i<firstAllowed.length;i++){
+    var sec=firstAllowed[i]==='solicitations'?'overview':firstAllowed[i];
+    if(canAccess(firstAllowed[i])){nav(sec);break;}
+  }
+}
+
+async function loadRolePermissions(){
+  try{
+    // Try company-specific role first, then fall back to default
+    var r=await sb.from('portal_roles').select('permissions').eq('role_name',userRole).order('company_id',{ascending:false}).limit(1).single();
+    if(r.data)userPerms=typeof r.data.permissions==='string'?JSON.parse(r.data.permissions):r.data.permissions;
+  }catch(e){
+    // Default fallback if role system not yet set up
+    userPerms={overview:'full',solicitations:'full',documents:'full',profile:'full',team:'full',payments:'full',history:'full',claims:'full',referrals:'full',messages:'full'};
+  }
+}
+
+function canAccess(section){
+  var p=userPerms[section]||userPerms[section.replace('-','')];
+  return p&&p!=='none';
+}
+
+function canEdit(section){
+  var p=userPerms[section]||userPerms[section.replace('-','')];
+  return p==='full'||p==='upload';
+}
+
+function renderNav(){
+  // Map nav item IDs to permission keys
+  var navMap={
+    'nv-overview':'overview',
+    'nv-library':'documents',
+    'nv-profile':'profile',
+    'nv-team':'team',
+    'nv-payment':'payments',
+    'nv-history':'history',
+    'nv-claims':'claims',
+    'nv-referrals':'referrals',
+    'nv-messages':'messages'
+  };
+  Object.keys(navMap).forEach(function(navId){
+    var el=document.getElementById(navId);
+    if(!el)return;
+    var section=navMap[navId];
+    var access=userPerms[section];
+    if(!access||access==='none'){
+      el.style.display='none';
+    } else {
+      el.style.display='';
+      if(access==='read'){
+        el.style.opacity='0.7';
+        el.title='Read only';
+      }
+    }
+  });
+  // Show role in topbar
+  var roleDisplays={'owner':'Owner','manager':'Manager','compliance':'Compliance','finance':'Finance','sales':'Sales','operations':'Operations'};
+  var roleEl=document.getElementById('tb-type');
+  if(roleEl)roleEl.textContent=roleDisplays[userRole]||userRole;
+}
+
+function enforceReadOnly(section){
+  if(!canEdit(section)){
+    // Hide all edit buttons and inputs in this panel
+    var panel=document.getElementById('p-'+section);
+    if(!panel)return;
+    panel.querySelectorAll('.sbtn,.sbtn-o,input,select,textarea').forEach(function(el){
+      el.disabled=true;el.style.opacity='0.5';el.style.cursor='not-allowed';
+    });
+    var banner=document.createElement('div');
+    banner.className='iblock';
+    banner.style.marginBottom='18px';
+    banner.textContent='You have read-only access to this section.';
+    panel.insertBefore(banner,panel.firstChild);
+  }
 }
 
 async function loadCompany(){
-  if(!companyId||!sb) return;
+  if(!companyId||!sb)return;
   try{
-    var r = await sb.from('partner_profiles').select('*').eq('company_id',companyId).single();
-    if(!r.data) return;
-    companyData = r.data;
-    var d = r.data;
-    var addr = [d.address_line1,d.address_city,d.address_country].filter(Boolean).join(', ');
-    setText('lh-name', d.legal_name||'');
-    setText('lh-address', addr||'');
-    var partnerType = resolvePartnerType(d.service_types);
-    setText('lh-type-badge', partnerType);
-    setText('tb-type-badge', partnerType);
-    var contactHtml='';
-    if(d.signatory_name) contactHtml+='<strong>'+escHtml(d.signatory_name)+'</strong>'+(d.signatory_title?', '+escHtml(d.signatory_title):'')+'<br>';
-    if(d.signatory_email) contactHtml+=escHtml(d.signatory_email)+'<br>';
-    var el = document.getElementById('lh-contact');
-    if(el) el.innerHTML=contactHtml;
-    var cred='';
-    if(d.iata_code) cred+=escHtml(d.iata_code);
-    if(d.registration_number) cred+=(cred?' | ':'')+escHtml(d.registration_number);
-    setText('lh-creds', cred);
-    // Profile panel
-    setText('pf-legal', d.legal_name||'--');
-    setText('pf-type', d.entity_type||'--');
-    setText('pf-reg', d.registration_number||'--');
-    setText('pf-tax', d.tax_id||'--');
-    setText('pf-iata', d.iata_code ? d.iata_code+(d.iata_expiry?' exp '+d.iata_expiry:'') : '--');
-    setText('pf-gds', d.gds_platform||'--');
-    setText('pf-address', addr||'--');
-    setText('pf-phone', d.office_phone||'--');
-    setText('pf-emerg1', d.emergency_line_1||'--');
-    setText('pf-emerg2', d.emergency_line_2||'--');
-    var sig = d.signatory_name||(d.signatory_title?', '+d.signatory_title:'');
-    setText('pf-sig', sig||'--');
-    setText('pf-sig-email', d.signatory_email||'--');
-    setText('pf-bank', d.bank_name||'--');
-    setText('pf-swift', d.bank_account_number ? (d.bank_account_number+(d.bank_swift?' / '+d.bank_swift:'')) : '--');
-    // Populate edit fields
-    setVal('edit-line1', d.address_line1||'');
-    setVal('edit-city', d.address_city||'');
-    setVal('edit-country', d.address_country||'');
-    setVal('edit-phone', d.office_phone||'');
-    setVal('edit-emerg1', d.emergency_line_1||'');
-    setVal('edit-emerg2', d.emergency_line_2||'');
-    setVal('edit-gds', d.gds_platform||'');
-    setVal('edit-sig-name', d.signatory_name||'');
-    setVal('edit-sig-title', d.signatory_title||'');
-    setVal('edit-sig-email', d.signatory_email||'');
-    setVal('edit-sig-phone', d.signatory_phone||'');
-    setVal('edit-bank', d.bank_name||'');
-    setVal('edit-account', d.bank_account_number||'');
-    setVal('edit-swift', d.bank_swift||'');
-    // Staff/contacts
-    loadStaff(d.additional_contacts);
+    var r=await sb.from('partner_profiles').select('*').eq('company_id',companyId).single();
+    if(!r.data)return;
+    var d=r.data;
+    var addr=[d.address_line1,d.address_city,d.address_country].filter(Boolean).join(', ');
+    var ptype=resolveType(d.service_types);
+    setText('lh-name',d.legal_name||'');
+    setText('lh-addr',addr||'');
+    setText('lh-tbadge',ptype);
+    setText('tb-type',ptype);
+    var ch='';
+    if(d.signatory_name)ch+='<strong>'+esc(d.signatory_name)+'</strong>'+(d.signatory_title?', '+esc(d.signatory_title):'')+'<br>';
+    if(d.signatory_email)ch+=esc(d.signatory_email);
+    setHtml('lh-contact',ch);
+    var cr='';
+    if(d.iata_code)cr+='IATA: '+esc(d.iata_code)+'<br>';
+    if(d.registration_number)cr+='Reg: '+esc(d.registration_number);
+    setHtml('lh-cred',cr);
+    // Profile form
+    setVal('e-legal',d.legal_name);setVal('e-entity',d.entity_type);setVal('e-reg',d.registration_number);setVal('e-tax',d.tax_id);
+    setVal('e-iata',d.iata_code);setVal('e-gds',d.gds_platform);setVal('e-addr',d.address_line1);setVal('e-city',d.address_city);
+    setVal('e-country',d.address_country);setVal('e-phone',d.office_phone);setVal('e-emerg1',d.emergency_line_1);setVal('e-emerg2',d.emergency_line_2);
+    setVal('e-signame',d.signatory_name);setVal('e-sigtitle',d.signatory_title);setVal('e-sigemail',d.signatory_email);setVal('e-sigphone',d.signatory_phone);
+    setVal('e-bank',d.bank_name);setVal('e-acctname',d.bank_account_name);setVal('e-acctnum',d.bank_account_number);
+    setVal('e-swift',d.bank_swift);setVal('e-bankcountry',d.bank_country||'');setVal('e-iban',d.bank_iban||'');
+    // Bank status
+    var bankOk=d.bank_name&&d.bank_account_number&&d.bank_swift;
+    var bsb=document.getElementById('bank-status-bar');
+    if(bsb)bsb.innerHTML=bankOk
+      ?'<div class="iblock" style="border-left-color:var(--green);background:var(--greenbg);">Banking details on file. Lolo can process USD wire payments to this account.</div>'
+      :'<div class="ablock">Banking details incomplete. Payments cannot be processed until all four fields are saved.</div>';
+    // Payment panels
+    var bankTxt=bankOk?(esc(d.bank_name)+' &nbsp;|&nbsp; Acct: '+esc(d.bank_account_number)+(d.bank_swift?' &nbsp;|&nbsp; SWIFT: '+esc(d.bank_swift):'')):'<span style="color:var(--red);">No banking details on file. Go to Company Profile to add them.</span>';
+    setHtml('pmt-bank-val',bankTxt);
+    setHtml('hist-bank-val',bankTxt);
+    // Team
+    try{teamContacts=typeof d.additional_contacts==='string'?JSON.parse(d.additional_contacts):d.additional_contacts||[];}catch(e){teamContacts=[];}
+    renderTeam();
+    // Referral code
+    var refCode='LOLO-'+companyId.substr(0,8).toUpperCase();
+    setText('ref-code',refCode);
   }catch(e){}
 }
 
-function loadStaff(contacts){
-  var el = document.getElementById('staff-list');
-  if(!el) return;
-  var data = contacts;
-  if(typeof data === 'string'){try{data=JSON.parse(data);}catch(e){data=[];}}
-  if(!data||!data.length){el.innerHTML='<div class="empty"><div class="empty-txt">No team members added yet.</div></div>';return;}
-  el.innerHTML = data.map(function(c,i){
-    return '<div class="req-row" style="cursor:default;">' +
-      '<div style="flex:1;">' +
-        '<div class="req-name">'+escHtml(c.name||'')+'</div>' +
-        '<div class="req-desc">'+escHtml(c.title||c.role||'')+(c.email?' &nbsp;|&nbsp; '+escHtml(c.email):'')+(c.phone?' &nbsp;|&nbsp; '+escHtml(c.phone):'')+'</div>' +
-      '</div>' +
-      '<div><span class="stamp stamp-draft">'+escHtml(c.role||'Team Member')+'</span></div>' +
+function resolveType(s){
+  if(!s)return 'Partner';
+  var t=(Array.isArray(s)?s.join(','):s).toLowerCase();
+  if(t.includes('insurance'))return 'Insurance Partner';
+  if(t.includes('air')||t.includes('hotel')||t.includes('ground'))return 'Travel Management Partner';
+  return 'Partner';
+}
+
+async function saveProfile(){
+  if(!companyId||!sb)return;
+  var btn=document.getElementById('save-profile-btn');
+  btn.querySelector('span').textContent='Saving...';
+  var updates={
+    legal_name:getVal('e-legal'),entity_type:getVal('e-entity'),registration_number:getVal('e-reg'),tax_id:getVal('e-tax'),
+    iata_code:getVal('e-iata'),gds_platform:getVal('e-gds'),address_line1:getVal('e-addr'),address_city:getVal('e-city'),
+    address_country:getVal('e-country'),office_phone:getVal('e-phone'),emergency_line_1:getVal('e-emerg1'),emergency_line_2:getVal('e-emerg2'),
+    signatory_name:getVal('e-signame'),signatory_title:getVal('e-sigtitle'),signatory_email:getVal('e-sigemail'),signatory_phone:getVal('e-sigphone'),
+    bank_name:getVal('e-bank'),bank_account_name:getVal('e-acctname'),bank_account_number:getVal('e-acctnum'),
+    bank_swift:getVal('e-swift'),bank_country:getVal('e-bankcountry'),bank_iban:getVal('e-iban')
+  };
+  try{
+    await sb.from('partner_profiles').update(updates).eq('company_id',companyId);
+    btn.querySelector('span').textContent='Saved';btn.style.background='var(--green)';
+    setTimeout(function(){btn.querySelector('span').textContent='Save Profile';btn.style.background='';},2500);
+    loadCompany();
+  }catch(e){btn.querySelector('span').textContent='Save Profile';alert('Error saving. Please try again.');}
+}
+
+function renderTeam(){
+  var el=document.getElementById('team-list');if(!el)return;
+  if(!teamContacts.length){el.innerHTML='<div class="empty"><div class="empty-tx">No team members on file.</div></div>';return;}
+  var roleColors={'owner':'stamp-award','manager':'stamp-sub','compliance':'stamp-exp','finance':'stamp-exp','sales':'stamp-draft','operations':'stamp-draft'};
+  el.innerHTML=teamContacts.map(function(c,i){
+    var roleColor=roleColors[c.portal_role||'sales']||'stamp-draft';
+    var portalRoleDisplay={'owner':'Owner','manager':'Manager','compliance':'Compliance','finance':'Finance','sales':'Sales','operations':'Operations'};
+    var displayRole=portalRoleDisplay[c.portal_role||'sales']||c.portal_role||'Team Member';
+    return '<div style="background:var(--white);border:var(--bdr);padding:16px 20px;margin-bottom:2px;">'+
+      '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">'+
+        '<div style="flex:1;">'+
+          '<div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">'+
+            '<div class="tm-name">'+esc(c.name||'')+'</div>'+
+            '<span class="stamp '+roleColor+'" style="font-size:.5rem;">'+displayRole+' Access</span>'+
+          '</div>'+
+          '<div class="tm-meta" style="margin-bottom:4px;">'+esc(c.title||'')+'</div>'+
+          (c.email?'<div style="font-family:var(--fb);font-weight:200;font-size:.74rem;color:var(--navy3);">'+esc(c.email)+(c.phone?' &nbsp;|&nbsp; '+esc(c.phone):'')+'</div>':'')+
+          (c.responsibilities?'<div style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--navy2);margin-top:6px;padding:7px 11px;border-left:2px solid var(--gold);line-height:1.75;">'+esc(c.responsibilities)+'</div>':'')+
+          (c.lolo_notes?'<div style="font-family:var(--fb);font-weight:200;font-size:.68rem;color:var(--navy3);margin-top:5px;line-height:1.7;">Note: '+esc(c.lolo_notes)+'</div>':'')+
+        '</div>'+
+        (canEdit('team')?'<div style="display:flex;gap:6px;"><span class="stamp stamp-sub" style="cursor:pointer;" data-idx="'+i+'" onclick="editTeam(Number(this.dataset.idx))">Edit</span>'+
+        '<span class="stamp stamp-miss" style="cursor:pointer;" data-idx="'+i+'" onclick="removeTeam(Number(this.dataset.idx))">Remove</span></div>':'')+
+      '</div>'+
     '</div>';
   }).join('');
 }
 
-async function saveProfile(){
-  if(!companyId||!sb) return;
-  var btn = document.getElementById('save-profile-btn');
-  if(btn){btn.innerHTML='<span>Saving...</span>';btn.style.background='var(--navy)';}
-  var updates = {
-    address_line1: getVal('edit-line1')||getVal('edit-city'),
-    address_city: getVal('edit-city'),
-    address_country: getVal('edit-country'),
-    office_phone: getVal('edit-phone'),
-    emergency_line_1: getVal('edit-emerg1'),
-    emergency_line_2: getVal('edit-emerg2'),
-    gds_platform: getVal('edit-gds'),
-    signatory_name: getVal('edit-sig-name'),
-    signatory_title: getVal('edit-sig-title'),
-    signatory_email: getVal('edit-sig-email'),
-    signatory_phone: getVal('edit-sig-phone'),
-    bank_name: getVal('edit-bank'),
-    bank_account_number: getVal('edit-account'),
-    bank_swift: getVal('edit-swift'),
-  };
-  try{
-    var r = await sb.from('partner_profiles').update(updates).eq('company_id',companyId);
-    if(r.error) throw r.error;
-    await loadCompany();
-    toggleProfileEdit(false);
-    if(btn){btn.innerHTML='<span>Changes Saved</span>';btn.style.background='var(--green)';}
-    setTimeout(function(){if(btn){btn.innerHTML='<span>Save Changes</span>';btn.style.background='';}},3000);
-    // Notify Lolo
-    submitToFormspree({type:'profile-update',company:companyData?companyData.legal_name:'',email:currentUser.email,message:'Partner updated their company profile.'});
-  }catch(e){
-    if(btn){btn.innerHTML='<span>Error - Try Again</span>';btn.style.background='var(--red)';}
-    setTimeout(function(){if(btn){btn.innerHTML='<span>Save Changes</span>';btn.style.background='';}},3000);
-  }
-}
-
-function toggleProfileEdit(on){
-  profileEditMode = on===undefined ? !profileEditMode : on;
-  var viewEl = document.getElementById('profile-view');
-  var editEl = document.getElementById('profile-edit');
-  var editBtn = document.getElementById('edit-profile-btn');
-  if(viewEl) viewEl.style.display = profileEditMode ? 'none' : 'block';
-  if(editEl) editEl.style.display = profileEditMode ? 'block' : 'none';
-  if(editBtn) editBtn.textContent = profileEditMode ? 'Cancel' : 'Edit Profile';
-}
-
-async function addStaff(){
-  var name = getVal('staff-name');
-  var title = getVal('staff-title');
-  var email = getVal('staff-email');
-  var phone = getVal('staff-phone');
-  var role = getVal('staff-role');
+async function addTeamMember(){
+  var name=getVal('tm-name'),email=getVal('tm-email');
   if(!name||!email){alert('Name and email are required.');return;}
-  var current = companyData ? (companyData.additional_contacts||[]) : [];
-  if(typeof current === 'string'){try{current=JSON.parse(current);}catch(e){current=[];}}
-  current.push({name:name,title:title,email:email,phone:phone,role:role||'Team Member'});
-  try{
-    await sb.from('partner_profiles').update({additional_contacts:current}).eq('company_id',companyId);
-    setVal('staff-name',''); setVal('staff-title',''); setVal('staff-email',''); setVal('staff-phone',''); setVal('staff-role','');
-    await loadCompany();
-    nav('staff');
-  }catch(e){alert('Error saving. Please try again.');}
+  var role=getVal('tm-role');
+  var portalRoleMap={'Primary Contact':'sales','Account Manager':'manager','Operations':'operations','Finance':'finance','Compliance':'compliance','Sales':'sales','Management':'owner','Other':'sales'};
+  teamContacts.push({
+    name:name,
+    title:getVal('tm-title'),
+    email:email,
+    phone:getVal('tm-phone'),
+    role:role,
+    portal_role:portalRoleMap[role]||'sales',
+    responsibilities:getVal('tm-resp'),
+    lolo_notes:''
+  });
+  await saveTeam();
+  setVal('tm-name','');setVal('tm-title','');setVal('tm-email','');setVal('tm-phone','');setVal('tm-resp','');
+}
+
+async function removeTeam(idx){
+  if(!confirm('Remove this team member?'))return;
+  teamContacts.splice(idx,1);await saveTeam();
+}
+
+function editTeam(idx){
+  var c=teamContacts[idx];if(!c)return;
+  setVal('tm-name',c.name);setVal('tm-title',c.title);setVal('tm-email',c.email);setVal('tm-phone',c.phone);setVal('tm-role',c.role);
+  teamContacts.splice(idx,1);saveTeam();
+}
+
+async function saveTeam(){
+  if(!companyId||!sb)return;
+  try{await sb.from('partner_profiles').update({additional_contacts:JSON.stringify(teamContacts)}).eq('company_id',companyId);renderTeam();}
+  catch(e){alert('Error saving team.');}
 }
 
 async function loadSolicitations(){
-  if(!companyId||!sb) return;
+  if(!companyId||!sb){setHtml('sol-list','<div class="empty"><div class="empty-ic">No solicitations on file.</div><div class="empty-tx">Lolo will add your solicitations here once active.</div></div>');return;}
   try{
-    var r = await sb.from('solicitations').select('*').eq('company_id',companyId).order('due_date',{ascending:false});
-    var sols = r.data||[];
-    var docR = await sb.from('partner_documents').select('id',{count:'exact',head:true}).eq('company_id',companyId).eq('is_current',true);
-    setText('ov-docs', docR.count||0);
-    var list = document.getElementById('sol-list');
-    if(!list) return;
-    var active=0, missing=0, html='', payOpts='';
-    if(!sols.length){
-      list.innerHTML='<div class="empty"><div class="empty-icon">No solicitations on file.</div><div class="empty-txt">Lolo will add your solicitations here once active.</div></div>';
-      setText('ov-active',0); setText('ov-missing',0);
-      return;
-    }
+    var r=await sb.from('solicitations').select('*').eq('company_id',companyId).order('due_date',{ascending:false});
+    var sols=r.data||[];
+    var active=0,missing=0;
+    var docR=await sb.from('partner_documents').select('id',{count:'exact'}).eq('company_id',companyId);
+    setText('ov-docs',docR.count||0);
+    if(!sols.length){setHtml('sol-list','<div class="empty"><div class="empty-ic">No solicitations on file.</div><div class="empty-tx">Lolo will add your solicitations here once active.</div></div>');return;}
+    var html='';
     sols.forEach(function(s){
-      if(['submitted','active','pending_award'].indexOf(s.status)>-1) active++;
+      var st=s.status||'active';
+      if(['submitted','active','pending_award'].includes(st))active++;
       missing+=(s.docs_missing||0);
-      payOpts+='<option value="'+s.id+'">'+escHtml(s.solicitation_number)+' - '+escHtml(s.agency_location||'')+'</option>';
       var pct=s.completion_pct||0;
-      var sc=s.status==='submitted'?'stamp-submitted':s.status==='awarded'?'stamp-awarded':s.status==='not_awarded'?'stamp-missing':'stamp-active';
-      var urg=s.priority==='urgent'?'<span class="stamp stamp-urgent" style="font-size:.52rem;padding:2px 6px;margin-left:6px;">Urgent</span>':'';
-      var cardClass='sol-card'+(s.priority==='urgent'?' urgent':pct===100?' complete':'');
-      html+='<div class="'+cardClass+'" data-sol="'+s.id+'" onclick="openSolicitation(this.dataset.sol)">'+
-        '<div style="flex:1;">'+
-          '<div class="sol-num">'+escHtml(s.solicitation_number)+urg+'</div>'+
-          '<div class="sol-title-text">'+escHtml(s.title)+'</div>'+
-          '<div class="sol-meta">'+escHtml(s.agency_location||'')+(s.submittal_date?' | Submitted: '+s.submittal_date:'')+(s.due_date?' | Due: '+s.due_date:'')+'</div>'+
-        '</div>'+
-        '<div class="sol-right">'+
-          '<span class="stamp '+sc+'">'+escHtml((s.status||'').replace(/_/g,' '))+'</span>'+
-          (s.docs_missing>0?'<span class="stamp stamp-missing">'+s.docs_missing+' required</span>':'')+
-          '<div class="prog-wrap"><div class="prog-bar-bg"><div class="prog-bar'+(pct===100?' complete':'')+'" style="width:'+pct+'%"></div></div><span class="prog-pct">'+pct+'%</span></div>'+
-        '</div>'+
-      '</div>';
+      var sc=st==='submitted'?'stamp-sub':st==='awarded'?'stamp-award':st==='not_awarded'?'stamp-miss':'stamp-exp';
+      var urg=s.priority==='urgent'?'<span class="stamp stamp-urg" style="font-size:.5rem;padding:2px 7px;">Urgent</span>':'';
+      html+='<div class="sol-card'+(s.priority==='urgent'?' urgent':pct===100?' complete':'')+'" data-sol="'+esc(s.id)+'" onclick="openSol(this.dataset.sol)">'+
+        '<div style="flex:1;"><div class="sol-num">'+esc(s.solicitation_number||'')+' '+urg+'</div>'+
+        '<div class="sol-ti">'+esc(s.title||'')+'</div>'+
+        '<div class="sol-meta"><span>'+esc(s.agency_location||'')+'</span>'+(s.submittal_date?'<span>Submitted: '+esc(s.submittal_date)+'</span>':'')+(s.due_date?'<span>Due: '+esc(s.due_date)+'</span>':'')+'</div></div>'+
+        '<div class="sol-r"><span class="stamp '+sc+'">'+st.replace(/_/g,' ')+'</span>'+(s.docs_missing>0?'<span class="stamp stamp-miss">'+s.docs_missing+' required</span>':'')+
+        '<div class="prog"><div class="prog-bg"><div class="prog-fill'+(pct===100?' done':'')+'" style="width:'+pct+'%;"></div></div><span class="prog-pct">'+pct+'%</span></div></div></div>';
     });
-    list.innerHTML=html;
-    setText('ov-active',active); setText('ov-missing',missing);
-    var payEl=document.getElementById('pay-sol');
-    if(payEl) payEl.innerHTML=payOpts;
+    setHtml('sol-list',html);
+    setText('ov-active',active);setText('ov-missing',missing);
   }catch(e){}
 }
 
-async function openSolicitation(solId){
-  activesolId=solId;
-  if(!sb) return;
+async function openSol(solId){
+  activeSolId=solId;if(!sb)return;
   try{
-    var sr = await sb.from('solicitations').select('*').eq('id',solId).single();
-    var s=sr.data; if(!s) return;
-    setText('sol-detail-num',s.solicitation_number||'');
-    setText('sol-detail-title',s.title||'');
-    setText('sol-detail-agency',(s.agency_name||'')+' - '+(s.agency_location||''));
-    var datesText=(s.submittal_date?'Submitted: '+s.submittal_date:'')+
-      (s.submittal_date&&s.due_date?' | ':'')+
-      (s.due_date?'Due: '+s.due_date:'');
-    setText('sol-detail-dates',datesText.trim());
-    var stamp=document.getElementById('sol-detail-stamp');
-    if(stamp){
-      var sc=s.status==='submitted'?'stamp-submitted':s.status==='awarded'?'stamp-awarded':s.status==='not_awarded'?'stamp-missing':'stamp-active';
-      stamp.className='stamp '+sc;
-      stamp.textContent=(s.status||'').replace(/_/g,' ');
-    }
-    var pct=s.completion_pct||0;
-    setText('sol-detail-pct',pct+'%');
-    var bar=document.getElementById('sol-progress-bar');
-    if(bar){bar.style.width=pct+'%';if(pct===100)bar.classList.add('full');else bar.classList.remove('full');}
-    var noteEl=document.getElementById('sol-lolo-note');
-    if(noteEl){if(s.lolo_notes){noteEl.textContent=s.lolo_notes;noteEl.style.display='block';}else noteEl.style.display='none';}
+    var sr=await sb.from('solicitations').select('*').eq('id',solId).single();
+    var s=sr.data;if(!s)return;
+    setText('sol-num',s.solicitation_number||'');setText('sol-title',s.title||'');
+    setText('sol-agency',(s.agency_name||'')+' - '+(s.agency_location||''));
+    var dt='';if(s.submittal_date)dt+='Submitted: '+s.submittal_date;if(s.due_date)dt+=(dt?' | ':'')+'Due: '+s.due_date;
+    setText('sol-dates',dt);
+    var stamp=document.getElementById('sol-stamp');
+    if(stamp){var sc=s.status==='submitted'?'stamp-sub':s.status==='awarded'?'stamp-award':'stamp-exp';stamp.className='stamp '+sc;stamp.textContent=(s.status||'').replace(/_/g,' ');}
+    var pct=s.completion_pct||0;setText('sol-pct',pct+'%');
+    var bar=document.getElementById('sol-bar');if(bar){bar.style.width=pct+'%';bar.className='sol-prog-fill'+(pct===100?' full':'');}
+    var note=document.getElementById('sol-note');if(note){if(s.lolo_notes){note.textContent=s.lolo_notes;note.style.display='block';}else note.style.display='none';}
     var rr=await sb.from('solicitation_requirements').select('*').eq('solicitation_id',solId).order('sort_order');
     var reqs=rr.data||[];
     var action=reqs.filter(function(r){return r.status==='missing'||r.status==='expired'||r.status==='expiring_soon';});
     var verified=reqs.filter(function(r){return r.status==='verified';});
-    setText('action-count',action.length+' item'+(action.length!==1?'s':''));
-    var ae=document.getElementById('reqs-action');
-    var aem=document.getElementById('reqs-action-empty');
+    setText('action-ct',action.length+' item'+(action.length!==1?'s':''));
+    var ae=document.getElementById('reqs-action'),aem=document.getElementById('reqs-action-empty');
     if(ae){
       if(!action.length){ae.innerHTML='';if(aem)aem.style.display='block';}
       else{
         if(aem)aem.style.display='none';
         ae.innerHTML=action.map(function(r){
-          var sc=r.status==='verified'?'stamp-verified':r.status==='expiring_soon'?'stamp-expiring':'stamp-missing';
+          var rc=r.status==='expiring_soon'?'rr-exp':'rr-miss';
+          var sc=r.status==='expiring_soon'?'stamp-exp':'stamp-miss';
           var sl=r.status==='missing'?'Required':r.status==='expired'?'Expired':'Expiring Soon';
-          return '<div class="req-row req-'+r.status+'">'+
-            '<div style="flex:1;">'+
-              '<div class="req-name">'+escHtml(r.req_name)+'</div>'+
-              (r.req_description?'<div class="req-desc">'+escHtml(r.req_description)+'</div>':'')+
-              (r.lolo_notes?'<div class="req-note note-lolo">'+escHtml(r.lolo_notes)+'</div>':'')+
-              (r.flag_message?'<div class="req-note note-flag">'+escHtml(r.flag_message)+'</div>':'')+
-            '</div>'+
-            '<span class="stamp '+sc+'">'+sl+'</span>'+
-          '</div>';
+          return '<div class="req-row '+rc+'"><div style="flex:1;"><div class="rname">'+esc(r.req_name)+'</div>'+(r.req_description?'<div class="rdesc">'+esc(r.req_description)+'</div>':'')+(r.lolo_notes?'<div class="rnote rnote-lolo">'+esc(r.lolo_notes)+'</div>':'')+(r.flag_message?'<div class="rnote rnote-flag">'+esc(r.flag_message)+'</div>':'')+'</div><span class="stamp '+sc+'">'+sl+'</span></div>';
         }).join('');
       }
     }
-    setText('verified-count',verified.length+' item'+(verified.length!==1?'s':''));
+    setText('verified-ct',verified.length+' item'+(verified.length!==1?'s':''));
     var ve=document.getElementById('reqs-verified');
-    if(ve){
-      ve.innerHTML=verified.map(function(r){
-        return '<div class="req-row req-verified">'+
-          '<div style="flex:1;">'+
-            '<div class="req-name">'+escHtml(r.req_name)+'</div>'+
-            (r.lolo_notes?'<div class="req-desc">'+escHtml(r.lolo_notes)+'</div>':'')+
-            (r.lolo_preselected?'<div class="req-preloaded">Pre-loaded by Lolo</div>':'')+
-          '</div>'+
-          '<span class="stamp stamp-verified">Verified</span>'+
-        '</div>';
-      }).join('');
-    }
+    if(ve)ve.innerHTML=verified.map(function(r){
+      return '<div class="req-row rr-ok"><div style="flex:1;"><div class="rname">'+esc(r.req_name)+'</div>'+(r.lolo_notes?'<div class="rdesc">'+esc(r.lolo_notes)+'</div>':'')+(r.lolo_preselected?'<div class="rpreload">Pre-loaded by Lolo</div>':'')+'</div><span class="stamp stamp-ok">Verified</span></div>';
+    }).join('');
     nav('solicitation');
   }catch(e){nav('solicitation');}
 }
 
-async function uploadDoc(mode){
-  var type=getVal('up-type');
-  var name=getVal('up-name');
-  var isDraft=mode==='draft';
-  var fileInput=document.getElementById('up-file');
-  if(!type||!name){alert('Please select a document type and enter a name.');return;}
-  var btn=document.querySelectorAll('#p-solicitation .sbtn')[mode==='draft'?1:0];
-  if(btn){btn.innerHTML='<span>Uploading...</span>';}
-  try{
-    var fileUrl=null;
-    if(fileInput&&fileInput.files&&fileInput.files[0]){
-      var file=fileInput.files[0];
-      var path=companyId+'/'+Date.now()+'-'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
-      var up=await sb.storage.from('documents').upload(path,file,{upsert:false});
-      if(!up.error){
-        var pub=sb.storage.from('documents').getPublicUrl(path);
-        fileUrl=pub.data.publicUrl;
-      }
-    }
-    var record={
-      company_id:companyId,
-      uploaded_by:currentUser.id,
-      doc_type:type,
-      doc_name:name,
-      file_url:fileUrl,
-      file_name:fileInput&&fileInput.files&&fileInput.files[0]?fileInput.files[0].name:null,
-      issue_date:getVal('up-issue')||null,
-      expiry_date:getVal('up-expiry')||null,
-      has_expiry:!!getVal('up-expiry'),
-      status:isDraft?'draft':'active',
-      is_draft:isDraft,
-      is_current:true,
-      verified:false,
-      solicitation_id:activesolId||null
-    };
-    await sb.from('partner_documents').insert(record);
-    if(btn){btn.innerHTML='<span>'+(isDraft?'Draft Saved':'Submitted')+'</span>';btn.style.background='var(--green)';}
-    setTimeout(function(){if(btn){btn.innerHTML='<span>'+(isDraft?'Save as Draft':'Submit Document')+'</span>';btn.style.background='';}},3000);
-    submitToFormspree({type:'document-upload',company:companyData?companyData.legal_name:'',email:currentUser.email,message:'New document uploaded: '+name+(activesolId?' for solicitation '+activesolId:'')+(isDraft?' [DRAFT]':'')});
-    loadDocLibrary();
-  }catch(e){
-    if(btn){btn.innerHTML='<span>Error</span>';btn.style.background='var(--red)';}
-    setTimeout(function(){if(btn){btn.innerHTML='<span>'+(isDraft?'Save as Draft':'Submit Document')+'</span>';btn.style.background='';}},3000);
-  }
-}
-
 async function loadDocLibrary(){
-  if(!companyId||!sb) return;
+  if(!companyId||!sb)return;
   try{
     var r=await sb.from('partner_documents').select('*').eq('company_id',companyId).eq('is_current',true).order('created_at',{ascending:false});
     renderDocs(r.data||[]);
-    setText('ov-docs',(r.data||[]).length);
   }catch(e){}
 }
 
 function renderDocs(docs){
-  var filtered=libFilter==='all'?docs:
-    libFilter==='draft'?docs.filter(function(d){return d.is_draft;}):
-    docs.filter(function(d){return d.status===libFilter;});
-  var el=document.getElementById('lib-docs');
-  var empty=document.getElementById('lib-empty');
-  if(!el) return;
+  var filtered=libFilter==='all'?docs:libFilter==='draft'?docs.filter(function(d){return d.is_draft;}):docs.filter(function(d){return d.status===libFilter;});
+  var el=document.getElementById('lib-docs'),empty=document.getElementById('lib-empty');
+  if(!el)return;
   if(!filtered.length){el.innerHTML='';if(empty)empty.style.display='block';return;}
-  if(empty) empty.style.display='none';
+  if(empty)empty.style.display='none';
   el.innerHTML=filtered.map(function(d){
-    var sc=d.status==='active'?'stamp-verified':d.status==='expiring_soon'?'stamp-expiring':d.status==='expired'?'stamp-missing':d.is_draft?'stamp-draft':'stamp-pending';
-    var sl=d.status==='active'?'Active':d.status==='expiring_soon'?'Expiring':d.status==='expired'?'Expired':d.is_draft?'Draft':'Pending Review';
-    var ext=(d.file_name||'').split('.').pop().toUpperCase().substring(0,4)||'DOC';
-    return '<div class="doc-card">'+
-      '<div class="doc-icon">'+ext+'</div>'+
-      '<div style="flex:1;">'+
-        '<div class="doc-name">'+escHtml(d.doc_name)+'</div>'+
-        '<div class="doc-meta">'+escHtml((d.doc_type||'').replace(/_/g,' '))+(d.issue_date?' | Issued: '+d.issue_date:'')+(d.expiry_date?' | Expires: '+d.expiry_date:'')+'</div>'+
-        (d.verified?'<div class="doc-verified-tag">Verified by Lolo</div>':'<div style="font-size:.65rem;color:var(--navy-3);margin-top:2px;">Pending Lolo review</div>')+
-      '</div>'+
-      (d.file_url?'<a href="'+d.file_url+'" target="_blank" class="sbtn-outline" style="font-size:.54rem;padding:6px 12px;">View</a>':'')+
-      '<span class="stamp '+sc+'">'+sl+'</span>'+
-    '</div>';
+    var sc=d.status==='active'?'stamp-ok':d.status==='expiring_soon'?'stamp-exp':d.status==='expired'?'stamp-miss':d.is_draft?'stamp-draft':'stamp-draft';
+    var sl=d.status==='active'?'Active':d.status==='expiring_soon'?'Expiring Soon':d.status==='expired'?'Expired':d.is_draft?'Draft':'Pending';
+    var ext=(d.file_name||'').split('.').pop().toUpperCase().substr(0,3)||'DOC';
+    return '<div class="doc-card"><div class="doc-ico">'+esc(ext)+'</div><div style="flex:1;"><div class="doc-name">'+esc(d.doc_name)+'</div><div class="doc-meta">'+(d.doc_type||'').replace(/_/g,' ')+(d.issue_date?' | Issued: '+esc(d.issue_date):'')+(d.expiry_date?' | Expires: '+esc(d.expiry_date):'')+'</div>'+(d.verified?'<div class="doc-vfy">Verified by Lolo</div>':'<div style="font-family:var(--fb);font-weight:200;font-size:.62rem;color:var(--navy3);margin-top:2px;">Pending review</div>')+'</div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;"><span class="stamp '+sc+'">'+sl+'</span>'+(d.file_url?'<a href="'+esc(d.file_url)+'" target="_blank" style="font-family:var(--fb);font-weight:200;font-size:.6rem;color:var(--goldk);text-decoration:none;">View File</a>':'')+'</div></div>';
   }).join('');
-}
-
-async function addToLib(){
-  var type=getVal('lib-type');
-  var name=getVal('lib-name');
-  var fileInput=document.getElementById('lib-file');
-  if(!type||!name){alert('Please select a type and enter a name.');return;}
-  var btn=document.querySelector('#p-library .sbtn');
-  if(btn){btn.innerHTML='<span>Uploading...</span>';}
-  try{
-    var fileUrl=null;
-    if(fileInput&&fileInput.files&&fileInput.files[0]){
-      var file=fileInput.files[0];
-      var path=companyId+'/'+Date.now()+'-'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
-      var up=await sb.storage.from('documents').upload(path,file,{upsert:false});
-      if(!up.error){
-        var pub=sb.storage.from('documents').getPublicUrl(path);
-        fileUrl=pub.data.publicUrl;
-      }
-    }
-    await sb.from('partner_documents').insert({
-      company_id:companyId,uploaded_by:currentUser.id,
-      doc_type:type,doc_name:name,file_url:fileUrl,
-      file_name:fileInput&&fileInput.files&&fileInput.files[0]?fileInput.files[0].name:null,
-      issue_date:getVal('lib-issue')||null,expiry_date:getVal('lib-expiry')||null,
-      has_expiry:!!getVal('lib-expiry'),status:'active',is_draft:false,is_current:true,verified:false
-    });
-    if(btn){btn.innerHTML='<span>Added to Library</span>';btn.style.background='var(--green)';}
-    setTimeout(function(){if(btn){btn.innerHTML='<span>Add to Library</span>';btn.style.background='';}},3000);
-    loadDocLibrary();
-  }catch(e){
-    if(btn){btn.innerHTML='<span>Error</span>';btn.style.background='var(--red)';}
-    setTimeout(function(){if(btn){btn.innerHTML='<span>Add to Library</span>';btn.style.background='';}},3000);
-  }
 }
 
 function filterLib(btn,filter){
   libFilter=filter;
-  document.querySelectorAll('.filter-tab').forEach(function(b){b.classList.remove('on');});
-  if(btn) btn.classList.add('on');
+  document.querySelectorAll('.ftab').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
   loadDocLibrary();
 }
 
-async function sendMessage(){
-  var cat=getVal('msg-category');
-  var msg=getVal('msg-body');
-  if(!msg.trim()){alert('Please enter a message.');return;}
-  var btn=document.getElementById('msg-send-btn');
-  if(btn){btn.innerHTML='<span>Sending...</span>';}
-  var company=companyData?companyData.legal_name:'Unknown Partner';
-  var subject='['+cat+'] Message from '+company;
+async function uploadDoc(mode){
+  var type=getVal('up-type'),name=getVal('up-name');
+  if(!type||!name){alert('Please select document type and enter a name.');return;}
+  var isDraft=mode==='draft';
+  var fileInput=document.getElementById('up-file');
+  if(!isDraft&&!fileInput.files[0]){alert('Please attach a file.');return;}
+  var btn=document.getElementById('up-btn-submit');
+  if(btn){btn.querySelector('span').textContent='Uploading...';btn.disabled=true;}
   try{
-    // Store in DB
-    await sb.from('messages').insert({
-      thread_type:'partner',thread_id:companyId,
-      sender_id:currentUser.id,
-      body:'['+cat+'] '+msg,
-      is_read:false
-    });
-    // Email to Lolo
-    await submitToFormspree({type:'partner-message',category:cat,company:company,email:currentUser.email,message:msg,subject:subject});
-    setVal('msg-body','');
-    if(btn){btn.innerHTML='<span>Message Sent</span>';btn.style.background='var(--green)';}
-    setTimeout(function(){if(btn){btn.innerHTML='<span>Send Message</span>';btn.style.background='';}},3000);
-    loadMessages();
-  }catch(e){
-    // Still try formspree even if DB fails
-    await submitToFormspree({type:'partner-message',category:cat,company:company,email:currentUser.email,message:msg});
-    if(btn){btn.innerHTML='<span>Message Sent</span>';btn.style.background='var(--green)';}
-    setTimeout(function(){if(btn){btn.innerHTML='<span>Send Message</span>';btn.style.background='';}},3000);
-  }
+    var fileUrl=null,fileName=null;
+    if(fileInput.files[0]){
+      var file=fileInput.files[0];fileName=file.name;
+      var path=companyId+'/'+Date.now()+'-'+fileName;
+      var ur=await sb.storage.from('documents').upload(path,file,{upsert:true});
+      if(ur.data){var pu=sb.storage.from('documents').getPublicUrl(path);fileUrl=pu.data.publicUrl;}
+    }
+    var exp=getVal('up-expiry');
+    await sb.from('partner_documents').insert({company_id:companyId,uploaded_by:currentUser.id,doc_type:type,doc_name:name,issue_date:getVal('up-issue')||null,expiry_date:exp||null,has_expiry:!!exp,status:isDraft?'draft':(exp&&new Date(exp)<new Date()?'expired':'active'),is_draft:isDraft,file_url:fileUrl,file_name:fileName,verified:false,is_current:true});
+    if(btn){btn.querySelector('span').textContent=isDraft?'Draft Saved':'Submitted';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Submit Document';btn.style.background='';btn.disabled=false;},2500);}
+    setVal('up-type','');setVal('up-name','');setVal('up-issue','');setVal('up-expiry','');setVal('up-notes','');
+    fileInput.value='';
+    document.getElementById('up-zone').querySelector('.utxt').innerHTML='<strong>Click to attach file</strong><br>PDF, Word, or image. Max 25MB.';
+    loadDocLibrary();
+    if(activeSolId)openSol(activeSolId);
+  }catch(e){if(btn){btn.querySelector('span').textContent='Submit Document';btn.disabled=false;}alert('Upload failed. Ensure the documents storage bucket exists in Supabase.');}
 }
 
-async function loadMessages(){
-  if(!companyId||!sb) return;
-  var container=document.getElementById('msg-history');
-  if(!container) return;
+async function addToLib(){
+  var type=getVal('lib-type'),name=getVal('lib-name');
+  if(!type||!name){alert('Please select type and enter name.');return;}
+  var btn=document.querySelector('#p-library .sbtn');
+  if(btn){btn.querySelector('span').textContent='Uploading...';btn.disabled=true;}
   try{
-    var r=await sb.from('messages').select('*').eq('thread_id',companyId).order('created_at',{ascending:false}).limit(20);
-    var msgs=r.data||[];
-    if(!msgs.length){container.innerHTML='<div class="empty"><div class="empty-txt">No messages yet.</div></div>';return;}
-    container.innerHTML=msgs.map(function(m){
-      var isMe=m.sender_id===currentUser.id;
-      var d=new Date(m.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
-      return '<div style="padding:12px 0;border-bottom:1px solid var(--paper-dk);">'+
-        '<div style="display:flex;justify-content:space-between;margin-bottom:4px;">'+
-          '<span style="font-size:.7rem;font-weight:500;color:var(--navy);">'+(isMe?'You':'Lolo Travels')+'</span>'+
-          '<span style="font-size:.65rem;color:var(--navy-3);">'+d+'</span>'+
-        '</div>'+
-        '<div style="font-size:.82rem;color:var(--navy-2);">'+escHtml(m.body)+'</div>'+
-      '</div>';
-    }).join('');
-  }catch(e){}
+    var fileInput=document.getElementById('lib-file'),fileUrl=null,fileName=null;
+    if(fileInput.files[0]){
+      var file=fileInput.files[0];fileName=file.name;
+      var path=companyId+'/lib/'+Date.now()+'-'+fileName;
+      var ur=await sb.storage.from('documents').upload(path,file,{upsert:true});
+      if(ur.data){var pu=sb.storage.from('documents').getPublicUrl(path);fileUrl=pu.data.publicUrl;}
+    }
+    var exp=getVal('lib-expiry');
+    await sb.from('partner_documents').insert({company_id:companyId,uploaded_by:currentUser.id,doc_type:type,doc_name:name,issue_date:getVal('lib-issue')||null,expiry_date:exp||null,has_expiry:!!exp,status:exp&&new Date(exp)<new Date()?'expired':'active',is_draft:false,file_url:fileUrl,file_name:fileName,verified:false,is_current:true});
+    if(btn){btn.querySelector('span').textContent='Added';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Add to Library';btn.style.background='';btn.disabled=false;},2500);}
+    setVal('lib-type','');setVal('lib-name','');setVal('lib-issue','');setVal('lib-expiry','');
+    fileInput.value='';setText('lib-ftxt','Click to attach file');
+    loadDocLibrary();
+  }catch(e){if(btn){btn.querySelector('span').textContent='Add to Library';btn.disabled=false;}alert('Upload failed.');}
 }
 
 async function loadContracts(){
-  if(!companyId||!sb) return;
+  if(!companyId||!sb)return;
   try{
     var r=await sb.from('contracts').select('*').eq('company_id',companyId);
     var contracts=r.data||[];
-    // Populate pay-sol dropdown with contracts
     var payEl=document.getElementById('pay-sol');
     if(payEl){
-      if(!contracts.length){
-        payEl.innerHTML='<option value="">No active contracts on file</option>';
-      } else {
-        payEl.innerHTML=contracts.map(function(c){
-          return '<option value="'+esc(c.id)+'">'+esc(c.contract_number||c.id)+' - '+esc(c.title||c.agency||'Contract')+'</option>';
-        }).join('');
-      }
-    }
-    // Show earning summaries
-    var earnEl=document.getElementById('pay-earnings-list');
-    if(earnEl){
-      if(!contracts.length){
-        earnEl.innerHTML='<div class="empty"><div class="empty-txt">No active contracts. Contracts appear here once a solicitation is awarded and executed.</div></div>';
-        return;
-      }
-      earnEl.innerHTML=contracts.map(function(c){
-        var revPct=c.revenue_share_pct||55;
-        return '<div class="req-row" style="cursor:default;">' +
-          '<div style="flex:1;">' +
-            '<div class="req-name">'+esc(c.contract_number||'Contract')+'</div>' +
-            '<div class="req-desc">'+esc(c.title||c.agency||'')+'</div>' +
-          '</div>' +
-          '<div style="text-align:right;">' +
-            '<div style="font-family:var(--fb);font-weight:500;font-size:.72rem;color:var(--navy);">'+revPct+'% Revenue Share</div>' +
-            '<span class="stamp '+(c.status==='active'?'stamp-verified':c.status==='completed'?'stamp-submitted':'stamp-draft')+'">'+esc(c.status||'active')+'</span>' +
-          '</div>' +
-        '</div>';
-      }).join('');
+      if(!contracts.length)payEl.innerHTML='<option value="">No active contracts on file</option>';
+      else payEl.innerHTML=contracts.map(function(c){return '<option value="'+esc(c.id)+'">'+esc(c.contract_number||c.id.substr(0,8))+' - '+esc(c.title||c.agency||'Contract')+'</option>';}).join('');
     }
   }catch(e){}
 }
 
 async function submitPayment(){
   var btn=document.querySelector('#p-payment .sbtn');
-  if(btn){btn.innerHTML='<span>Submitting...</span>';}
-  var company=companyData?companyData.legal_name:'';
-  var data={
-    type:'payment-request',company:company,email:currentUser.email,
-    solicitation:getVal('pay-sol')||'',
-    invoice:getVal('pay-inv')||'',
-    amount:getVal('pay-amt')||'',
-    period:getVal('pay-period')||'',
-    clin:getVal('pay-clin')||'',
-    description:getVal('pay-desc')||''
-  };
-  await submitToFormspree(data);
-  if(btn){btn.innerHTML='<span>Request Submitted</span>';btn.style.background='var(--green)';}
-  setTimeout(function(){if(btn){btn.innerHTML='<span>Submit Payment Request</span>';btn.style.background='';}},3500);
+  if(btn){btn.querySelector('span').textContent='Submitting...';btn.disabled=true;}
+  var fd=new FormData();
+  fd.append('form-name','lolo-partner');fd.append('type','payment-request');
+  fd.append('user_email',currentUser.email);fd.append('contract',getVal('pay-sol'));
+  fd.append('invoice_number',getVal('pay-inv'));fd.append('amount',getVal('pay-amt'));
+  fd.append('period',getVal('pay-period'));fd.append('description',getVal('pay-desc'));
+  try{
+    await fetch('/',{method:'POST',body:fd});
+    if(btn){btn.querySelector('span').textContent='Request Submitted';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Submit Payment Request';btn.style.background='';btn.disabled=false;},3000);}
+  }catch(e){if(btn){btn.querySelector('span').textContent='Submit Payment Request';btn.disabled=false;}}
 }
 
-async function submitToFormspree(data){
+async function submitClaim(){
+  var name=getVal('cl-name'),email=getVal('cl-email'),type=getVal('cl-type');
+  if(!name||!email||!type){alert('Please fill in client name, email, and claim type.');return;}
+  var btn=document.querySelector('#p-claims .sbtn');
+  if(btn){btn.querySelector('span').textContent='Submitting...';btn.disabled=true;}
+  var caseNum='LT-'+new Date().getFullYear()+'-'+Math.random().toString(36).substr(2,6).toUpperCase();
   try{
-    await fetch(FORMSPREE,{method:'POST',
-      headers:{'Content-Type':'application/json','Accept':'application/json'},
-      body:JSON.stringify(data)
-    });
+    await sb.from('claims').insert({case_number:caseNum,claimant_name:name,claimant_email:email,claim_type:type,responsible_party:getVal('cl-party'),incident_date:getVal('cl-date')||null,amount_claimed:parseFloat(getVal('cl-amt').replace(/[^0-9.]/g,''))||null,description:getVal('cl-desc'),status:'submitted',authorized:true,is_member:false,company_id:companyId});
+    if(btn){btn.querySelector('span').textContent='Claim Submitted - Case '+caseNum;btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Submit Claim Referral';btn.style.background='';btn.disabled=false;},4000);}
+    setVal('cl-name','');setVal('cl-email','');setVal('cl-type','');setVal('cl-party','');setVal('cl-amt','');setVal('cl-date','');setVal('cl-desc','');
+  }catch(e){if(btn){btn.querySelector('span').textContent='Submit Claim Referral';btn.disabled=false;}alert('Submission failed. Please try again.');}
+}
+
+async function sendMessage(){
+  var cat=getVal('msg-cat'),subj=getVal('msg-subj'),body=getVal('msg-body');
+  if(!subj||!body){alert('Please fill in subject and message.');return;}
+  var btn=document.querySelector('#p-messages .sbtn');
+  if(btn){btn.querySelector('span').textContent='Sending...';btn.disabled=true;}
+  try{
+    await sb.from('messages').insert({thread_type:'partner',thread_id:companyId,sender_id:currentUser.id,body:'['+cat+'] '+subj+'\n\n'+body,is_read:false});
+    var fd=new FormData();fd.append('form-name','lolo-partner');fd.append('type','message');fd.append('user_email',currentUser.email);fd.append('category',cat);fd.append('subject',subj);fd.append('message',body);
+    fetch('/',{method:'POST',body:fd});
+    if(btn){btn.querySelector('span').textContent='Message Sent';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Send Message';btn.style.background='';btn.disabled=false;},2500);}
+    setVal('msg-subj','');setVal('msg-body','');
+    loadMessages();
+  }catch(e){if(btn){btn.querySelector('span').textContent='Send Message';btn.disabled=false;}alert('Error sending message.');}
+}
+
+async function loadMessages(){
+  if(!companyId||!sb)return;
+  try{
+    var r=await sb.from('messages').select('*').eq('thread_id',companyId).order('created_at',{ascending:false}).limit(20);
+    var msgs=r.data||[];
+    var el=document.getElementById('msg-history');if(!el)return;
+    if(!msgs.length){el.innerHTML='<div class="empty"><div class="empty-tx">No messages yet.</div></div>';return;}
+    el.innerHTML=msgs.map(function(m){
+      var isLolo=!m.sender_id||m.sender_id==='00000000-0000-0000-0000-000000000000';
+      var dt=new Date(m.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      return '<div class="msg-item'+(isLolo?' from-lolo':' from-partner')+'"><div class="msg-hd"><span class="msg-from">'+(isLolo?'Lolo Travels':'You')+'</span><span class="msg-dt">'+dt+'</span></div><div class="msg-body">'+esc(m.body)+'</div></div>';
+    }).join('');
   }catch(e){}
 }
 
-function handleUpload(input,zoneId,fnameId){
+function handleFile(input,zoneId,fnameId){
   if(input.files&&input.files[0]){
     var f=input.files[0];
-    var zone=document.getElementById(zoneId);
-    if(zone) zone.querySelector('.upload-txt').innerHTML='<strong>'+escHtml(f.name)+'</strong><br>'+(f.size>1048576?(f.size/1048576).toFixed(1)+' MB':(f.size/1024).toFixed(0)+' KB');
-    setText(fnameId,f.name+' ready');
+    var sz=f.size>1048576?(f.size/1048576).toFixed(1)+' MB':(f.size/1024).toFixed(0)+' KB';
+    if(zoneId){var z=document.getElementById(zoneId);if(z)z.querySelector('.utxt').innerHTML='<strong>'+esc(f.name)+'</strong><br>'+sz+' - Ready';}
+    var fnel=document.getElementById(fnameId);if(fnel)fnel.textContent=f.name;
+    else{var el=document.getElementById(fnameId);if(el)el.textContent=f.name+' ('+sz+')';}
   }
 }
 
-function resolvePartnerType(serviceTypes){
-  if(!serviceTypes) return 'Partner';
-  var t=(Array.isArray(serviceTypes)?serviceTypes.join(','):serviceTypes).toLowerCase();
-  if(t.indexOf('insurance')>-1) return 'Insurance Partner';
-  if(t.indexOf('air')>-1||t.indexOf('hotel')>-1||t.indexOf('ground')>-1) return 'Travel Management Partner';
-  return 'Partner';
-}
-
-async function loadPaymentDetails(){
-  if(!companyId||!sb) return;
-  try{
-    var r=await sb.from('partner_profiles').select('bank_name,bank_account_name,bank_account_number,bank_swift,bank_currency').eq('company_id',companyId).single();
-    if(r.data){
-      var d=r.data;
-      setText('pay-bank-name',d.bank_name||'Not on file');
-      setText('pay-bank-acct-name',d.bank_account_name||'Not on file');
-      setText('pay-bank-num',d.bank_account_number||'Not on file');
-      setText('pay-bank-swift-disp',d.bank_swift||'Not on file');
-      setText('pay-bank-currency',d.bank_currency||'USD');
-      if(!d.bank_name||!d.bank_account_number){
-        var el=document.getElementById('pay-bank-display');
-        if(el){
-          var warn=document.createElement('div');
-          warn.className='alert-block';
-          warn.innerHTML='Bank details not on file. Payments cannot be processed. <span data-nav="profile" onclick="nav(this.dataset.nav)" style="font-weight:500;cursor:pointer;color:var(--gold-dk);">Go to Company Profile to add them.</span>';
-          el.prepend(warn);
-        }
-      }
-    }
-    var sr=await sb.from('contracts').select('id,contract_number,title,agency,status,value,revenue_share_pct').eq('company_id',companyId);
-    var sols=sr.data||[];
-    var el=document.getElementById('pay-earnings-list');
-    if(el){
-      if(!sols.length){el.innerHTML='<div class="empty"><div class="empty-txt">No active contracts on file. Contracts appear here once a solicitation is awarded.</div></div>';return;}
-      el.innerHTML=sols.map(function(s){
-        var pct=s.revenue_share_pct||55;
-        var fee=s.transaction_fee||30;
-        var earn=(fee*pct/100).toFixed(2);
-        return '<div class="stat" style="margin-bottom:2px;">' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">' +
-            '<div><div class="slabel">'+esc(s.solicitation_number)+'</div><div style="font-family:var(--fb);font-weight:200;font-size:.78rem;color:var(--navy-2);">'+esc(s.agency_location||'')+'</div></div>' +
-            '<div style="text-align:right;"><div class="slabel">Your share per transaction</div><div style="font-family:var(--fd);font-weight:300;font-size:1.2rem;color:var(--navy);">$'+earn+' <span style="font-size:.7rem;font-family:var(--fb);font-weight:200;color:var(--navy-3);">('+pct+'% of $'+fee+')</span></div></div>' +
-          '</div>' +
-        '</div>';
-      }).join('');
-    }
-  }catch(e){}
-}
-
 function nav(id){
+  // Map nav section to permission key
+  var permMap={overview:'overview',solicitation:'solicitations',library:'documents',profile:'profile',team:'team',payment:'payments',history:'history',claims:'claims',referrals:'referrals',messages:'messages'};
+  var permKey=permMap[id]||id;
+  if(currentUser&&userPerms[permKey]==='none'){return;} // blocked
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
-  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('on');});
-  var panel=document.getElementById('p-'+id);
-  var navEl=document.getElementById('nav-'+id);
-  if(panel) panel.classList.add('on');
-  if(navEl) navEl.classList.add('on');
+  document.querySelectorAll('.nitem').forEach(function(n){n.classList.remove('on');});
+  var p=document.getElementById('p-'+id),n=document.getElementById('nv-'+id);
+  if(p)p.classList.add('on');if(n)n.classList.add('on');
   window.scrollTo({top:0,behavior:'smooth'});
-  if(id==='library') loadDocLibrary();
-  if(id==='messages') loadMessages();
-  if(id==='staff') loadStaff(companyData?companyData.additional_contacts:[]);
+  if(id==='library'){loadDocLibrary();if(currentUser&&!canEdit('documents'))enforceReadOnly('library');}
+  if(id==='messages')loadMessages();
+  if(id==='payment'||id==='history'){loadContracts();if(id==='payment'&&currentUser&&!canEdit('payments'))enforceReadOnly('payment');}
+  if(id==='profile'&&currentUser&&!canEdit('profile'))enforceReadOnly('profile');
+  if(id==='team'&&currentUser&&!canEdit('team'))enforceReadOnly('team');
 }
 
 function setText(id,val){var el=document.getElementById(id);if(el)el.textContent=val||'';}
-function setVal(id,val){var el=document.getElementById(id);if(el)el.value=val||'';}
+function setHtml(id,val){var el=document.getElementById(id);if(el)el.innerHTML=val||'';}
 function getVal(id){var el=document.getElementById(id);return el?el.value:'';}
-function escHtml(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function setVal(id,val){var el=document.getElementById(id);if(el)el.value=val||'';}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 </script>
 </body>
+</html>
