@@ -778,8 +778,20 @@ async function signIn(){
   btn.disabled=true;btn.textContent='Signing in...';
   try{
     var r=await sb.auth.signInWithPassword({email:email,password:pass});
-    if(r.error){err.textContent=r.error.message.includes('Invalid')?'Email or password is incorrect.':r.error.message;btn.disabled=false;btn.textContent='Sign In';return;}
-    await loadPortal(r.data.user);
+    if(r.error){
+      err.textContent=r.error.message.includes('Invalid')?'Email or password is incorrect.':r.error.message;
+      btn.disabled=false;btn.textContent='Sign In';return;
+    }
+    var user=r.data.user;
+    // Check account type BEFORE loading portal
+    btn.textContent='Checking account...';
+    var pr=await sb.from('profiles').select('account_type,company_id').eq('id',user.id).single();
+    if(pr.data&&(pr.data.account_type==='contractor'||pr.data.company_id)){
+      await sb.auth.signOut();
+      err.textContent='This account belongs to a Lolo partner. Partners access their portal at lolotravels.com/contractor';
+      btn.disabled=false;btn.textContent='Sign In';return;
+    }
+    await loadPortal(user);
   }catch(ex){err.textContent='Connection error. Please try again.';btn.disabled=false;btn.textContent='Sign In';}
 }
 
@@ -788,10 +800,33 @@ async function register(){
   err.textContent='';
   if(!name||!email||!pass){err.textContent='Please fill in all fields.';return;}
   if(pass.length<8){err.textContent='Password must be at least 8 characters.';return;}
+  // Check if email already exists as a partner/contractor account
+  try{
+    var check=await sb.from('profiles').select('account_type,company_id').eq('email',email).single();
+    if(check.data&&(check.data.account_type==='contractor'||check.data.company_id)){
+      err.textContent='This email is registered as a Lolo partner account. Partners access their portal at lolotravels.com/contractor — member accounts cannot be created with this email.';
+      return;
+    }
+  }catch(ex){}
   try{
     var r=await sb.auth.signUp({email:email,password:pass,options:{data:{full_name:name,account_type:'member'}}});
-    if(r.error){err.textContent=r.error.message;return;}
-    err.className='aerr aerr-ok';err.textContent='Account created. Check your email to confirm.';
+    if(r.error){
+      // Email already registered - give helpful message
+      if(r.error.message.toLowerCase().includes('already')||r.error.message.toLowerCase().includes('exist')){
+        err.textContent='An account with this email already exists. Try signing in, or use Forgot Password if you need to reset it.';
+      } else {
+        err.textContent=r.error.message;
+      }
+      return;
+    }
+    // Auto sign in if email confirmation not required
+    if(r.data&&r.data.session){
+      await loadPortal(r.data.user);
+    } else {
+      err.className='aerr aerr-ok';
+      err.textContent='Account created. Please sign in with your new credentials.';
+      setTimeout(function(){showV('signin');sv('si-email',email);},2000);
+    }
   }catch(ex){err.textContent='Error creating account. Please try again.';}
 }
 
