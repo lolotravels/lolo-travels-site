@@ -707,11 +707,17 @@ async function loadPortal(user){
   currentUser=user;
   try{
     var pr=await sb.from('profiles').select('company_id,account_type,full_name,portal_role').eq('id',user.id).single();
-    if(!pr.data||pr.data.account_type!=='contractor'){
-      document.getElementById('si-err').textContent='Access denied. This portal is for Lolo partner accounts only.';
+    // Allow access if account_type is contractor OR if they have a company_id linked
+    var isContractor = pr.data && (pr.data.account_type==='contractor' || pr.data.company_id);
+    if(!pr.data || !isContractor){
+      document.getElementById('si-err').textContent='Access denied. This portal is for Lolo partner accounts only. Contact hello@lolotravels.com if you need access.';
       await sb.auth.signOut();return;
     }
     companyId=pr.data.company_id;
+    // If account_type is wrong, fix it silently
+    if(pr.data.account_type!=='contractor' && pr.data.company_id){
+      await sb.from('profiles').update({account_type:'contractor'}).eq('id',user.id);
+    }
     userRole=pr.data.portal_role||'sales';
     var name=(pr.data.full_name||user.email).split(' ')[0];
     setText('tb-name',name);
