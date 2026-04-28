@@ -979,8 +979,7 @@ html,body{
       <div class="nav-item" id="nav-profile" onclick="nav('profile')"><div class="nav-dot"></div>Company Profile</div>
       <div class="nav-item" id="nav-team" onclick="nav('team')"><div class="nav-dot"></div>Team Members</div>
       <div class="nav-sec">Payments</div>
-      <div class="nav-item" id="nav-payment" onclick="nav('payment')"><div class="nav-dot"></div>Submit Invoice</div>
-      <div class="nav-item" id="nav-history" onclick="nav('history')"><div class="nav-dot"></div>Payment History</div>
+      <div class="nav-item" id="nav-payment" onclick="nav('payment')"><div class="nav-dot"></div>Payments and Invoices</div>
       <div class="nav-sec">Communication</div>
       <div class="nav-item" id="nav-messages" onclick="nav('messages')"><div class="nav-dot"></div>Messages</div>
     </aside>
@@ -1294,66 +1293,60 @@ html,body{
         <button class="sbtn" onclick="addStaff()"><span>Add Team Member</span></button>
       </div>
 
-      <div class="panel" id="p-payment">
-        <div class="ph">
-          <div class="ptag">Invoice Submission</div>
-          <h2 class="ph1">Submit Payment Request</h2>
-          <p class="ph2">Upload your invoice and submit for approval. Upon approval, Lolo generates the government-format invoice and processes payment to your bank account on file.</p>
+            <div class="panel" id="p-payment">
+        <div class="ph"><div class="ptag">Payments</div><h2 class="ph1">Payments and Invoices</h2><p class="ph2">Your bank details on file, earnings by contract, and invoice submission. All payments are processed as USD wire transfers.</p></div>
+
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:14px;">Bank Account on File</h3>
+        <div id="pay-bank-display" style="margin-bottom:24px;">
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:2px;margin-bottom:12px;">
+            <div class="stat"><div class="slabel">Bank Name</div><div class="sval" style="font-size:.9rem;font-style:normal;" id="pay-bank-name">--</div></div>
+            <div class="stat"><div class="slabel">Account Name</div><div class="sval" style="font-size:.9rem;font-style:normal;" id="pay-bank-acct-name">--</div></div>
+            <div class="stat"><div class="slabel">Account Number</div><div class="sval" style="font-size:.9rem;font-style:normal;" id="pay-bank-num">--</div></div>
+            <div class="stat"><div class="slabel">SWIFT / BIC</div><div class="sval" style="font-size:.9rem;font-style:normal;" id="pay-bank-swift-disp">--</div></div>
+            <div class="stat"><div class="slabel">Currency</div><div class="sval" style="font-size:.9rem;font-style:normal;" id="pay-bank-currency">USD</div></div>
+          </div>
+          <p style="font-family:var(--fb);font-weight:200;font-size:.74rem;color:var(--navy-3);line-height:1.85;">To update bank details go to <span style="font-weight:500;cursor:pointer;color:var(--gold-dk);" onclick="nav('profile')">Company Profile</span> or send a message via <span style="font-weight:500;cursor:pointer;color:var(--gold-dk);" onclick="nav('messages')">Messages</span>.</p>
         </div>
 
-        <div class="info-block">
-          Upon approval, the system automatically generates an IPP-format invoice from Lolo Travels LLC (EIN 41-4888165, CAGE 1WR24) to the contracting agency. Payment is disbursed to your bank account on file in USD wire transfer. Lolo will notify you by email when approved and when payment is processed.
-        </div>
+        <div class="div"></div>
 
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:14px;">Earnings by Contract</h3>
+        <div id="pay-earnings-list" style="margin-bottom:20px;"></div>
+        <div class="info-block">Revenue share is calculated on transaction fees collected from the government. Your percentage is defined in your Teaming and Partnership Agreement. Payments are processed within 15 business days of Lolo receiving payment from the agency.</div>
+
+        <div class="div"></div>
+
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:14px;">Submit Invoice</h3>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy-2);margin-bottom:18px;line-height:1.85;">Upload your invoice for the performance period. Lolo will review and process payment to your registered bank account.</p>
         <div class="frm-row">
-          <div class="ff">
-            <label class="flabel">Solicitation or Contract</label>
-            <select class="sel" id="pay-sol"></select>
-          </div>
-          <div class="ff">
-            <label class="flabel">Your Invoice Number</label>
-            <input class="inp" type="text" id="pay-inv" placeholder="Your internal reference number"/>
-          </div>
-          <div class="ff">
-            <label class="flabel">Amount Requested (USD)</label>
-            <input class="inp" type="text" id="pay-amt" placeholder="e.g. 4,125.00"/>
-          </div>
-          <div class="ff">
-            <label class="flabel">Performance Period</label>
-            <input class="inp" type="text" id="pay-period" placeholder="e.g. April 1 to April 30, 2026"/>
-          </div>
-          <div class="ff">
-            <label class="flabel">CLIN or Contract Line Item</label>
-            <input class="inp" type="text" id="pay-clin" placeholder="If applicable"/>
-          </div>
-          <div class="ff">
-            <label class="flabel">Brief Description of Services</label>
-            <input class="inp" type="text" id="pay-desc" placeholder="Services delivered during this period"/>
-          </div>
+          <div class="ff"><label class="flabel">Contract or Solicitation</label><select class="sel" id="pay-sol"></select></div>
+          <div class="ff"><label class="flabel">Your Invoice Number</label><input class="inp" type="text" id="pay-inv" placeholder="Your internal invoice reference"/></div>
+          <div class="ff"><label class="flabel">Amount Requested (USD)</label><input class="inp" type="text" id="pay-amt" placeholder="0.00"/></div>
+          <div class="ff"><label class="flabel">Performance Period</label><input class="inp" type="text" id="pay-period" placeholder="e.g. April 1 to April 30, 2026"/></div>
+          <div class="ff"><label class="flabel">Number of Transactions</label><input class="inp" type="text" id="pay-txns" placeholder="If applicable"/></div>
+          <div class="ff"><label class="flabel">Services Delivered</label><input class="inp" type="text" id="pay-desc" placeholder="Brief description"/></div>
         </div>
-
         <div class="ff">
-          <label class="flabel">Attach Your Invoice (PDF required)</label>
+          <label class="flabel">Attach Invoice (PDF required)</label>
           <div class="upload-zone" id="pay-zone" onclick="document.getElementById('pay-file').click()">
-            <div class="upload-txt"><strong>Click to attach invoice PDF</strong><br>PDF format required. Your invoice should include your company letterhead, invoice number, and itemized services.</div>
+            <div class="upload-txt"><strong>Click to attach your invoice PDF</strong><br>Include your company name, invoice number, line items, and bank details.</div>
             <input type="file" id="pay-file" style="display:none;" accept=".pdf" onchange="handleUpload(this,'pay-zone','pay-fname')"/>
           </div>
           <div id="pay-fname" style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--green);margin-top:6px;"></div>
         </div>
+        <div class="ff"><label class="flabel">Notes</label><textarea class="txa" id="pay-notes" placeholder="Any additional information..."></textarea></div>
+        <button class="sbtn" onclick="submitPayment()"><span>Submit Invoice</span></button>
+        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--navy-3);margin-top:12px;line-height:1.85;">You will receive email confirmation when approved and when payment is processed.</p>
 
-        <div class="ff">
-          <label class="flabel">Additional Notes</label>
-          <textarea class="txa" id="pay-notes" placeholder="Any information Lolo should know before approving this request..."></textarea>
+        <div class="div"></div>
+
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:14px;">Payment History</h3>
+        <div id="pay-history-list">
+          <div class="empty"><div class="empty-icon">No payments yet.</div><div class="empty-txt">Every payment Lolo sends will appear here with date, amount, wire reference, and contract.</div></div>
         </div>
-
-        <button class="sbtn" onclick="submitPayment()"><span>Submit Payment Request</span></button>
-        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--text-dim);margin-top:12px;line-height:1.85;">Lolo reviews payment requests within 2 business days. You will receive email confirmation when approved and when payment is processed.</p>
       </div>
 
-      <!-- ============================================
-           PAYMENT HISTORY
-      ============================================ -->
-      <div class="panel" id="p-history">
+<div class="panel" id="p-history">
         <div class="ph">
           <div class="ptag">Payment Ledger</div>
           <h2 class="ph1">Payment History</h2>
@@ -1970,6 +1963,46 @@ async function loadMessages(){
   }catch(e){}
 }
 
+async function loadContracts(){
+  if(!companyId||!sb) return;
+  try{
+    var r=await sb.from('contracts').select('*').eq('company_id',companyId);
+    var contracts=r.data||[];
+    // Populate pay-sol dropdown with contracts
+    var payEl=document.getElementById('pay-sol');
+    if(payEl){
+      if(!contracts.length){
+        payEl.innerHTML='<option value="">No active contracts on file</option>';
+      } else {
+        payEl.innerHTML=contracts.map(function(c){
+          return '<option value="'+esc(c.id)+'">'+esc(c.contract_number||c.id)+' - '+esc(c.title||c.agency||'Contract')+'</option>';
+        }).join('');
+      }
+    }
+    // Show earning summaries
+    var earnEl=document.getElementById('pay-earnings-list');
+    if(earnEl){
+      if(!contracts.length){
+        earnEl.innerHTML='<div class="empty"><div class="empty-txt">No active contracts. Contracts appear here once a solicitation is awarded and executed.</div></div>';
+        return;
+      }
+      earnEl.innerHTML=contracts.map(function(c){
+        var revPct=c.revenue_share_pct||55;
+        return '<div class="req-row" style="cursor:default;">' +
+          '<div style="flex:1;">' +
+            '<div class="req-name">'+esc(c.contract_number||'Contract')+'</div>' +
+            '<div class="req-desc">'+esc(c.title||c.agency||'')+'</div>' +
+          '</div>' +
+          '<div style="text-align:right;">' +
+            '<div style="font-family:var(--fb);font-weight:500;font-size:.72rem;color:var(--navy);">'+revPct+'% Revenue Share</div>' +
+            '<span class="stamp '+(c.status==='active'?'stamp-verified':c.status==='completed'?'stamp-submitted':'stamp-draft')+'">'+esc(c.status||'active')+'</span>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+  }catch(e){}
+}
+
 async function submitPayment(){
   var btn=document.querySelector('#p-payment .sbtn');
   if(btn){btn.innerHTML='<span>Submitting...</span>';}
@@ -2012,6 +2045,47 @@ function resolvePartnerType(serviceTypes){
   if(t.indexOf('insurance')>-1) return 'Insurance Partner';
   if(t.indexOf('air')>-1||t.indexOf('hotel')>-1||t.indexOf('ground')>-1) return 'Travel Management Partner';
   return 'Partner';
+}
+
+async function loadPaymentDetails(){
+  if(!companyId||!sb) return;
+  try{
+    var r=await sb.from('partner_profiles').select('bank_name,bank_account_name,bank_account_number,bank_swift,bank_currency').eq('company_id',companyId).single();
+    if(r.data){
+      var d=r.data;
+      setText('pay-bank-name',d.bank_name||'Not on file');
+      setText('pay-bank-acct-name',d.bank_account_name||'Not on file');
+      setText('pay-bank-num',d.bank_account_number||'Not on file');
+      setText('pay-bank-swift-disp',d.bank_swift||'Not on file');
+      setText('pay-bank-currency',d.bank_currency||'USD');
+      if(!d.bank_name||!d.bank_account_number){
+        var el=document.getElementById('pay-bank-display');
+        if(el){
+          var warn=document.createElement('div');
+          warn.className='alert-block';
+          warn.innerHTML='Bank details not on file. Payments cannot be processed. <span data-nav="profile" onclick="nav(this.dataset.nav)" style="font-weight:500;cursor:pointer;color:var(--gold-dk);">Go to Company Profile to add them.</span>';
+          el.prepend(warn);
+        }
+      }
+    }
+    var sr=await sb.from('contracts').select('id,contract_number,title,agency,status,value,revenue_share_pct').eq('company_id',companyId);
+    var sols=sr.data||[];
+    var el=document.getElementById('pay-earnings-list');
+    if(el){
+      if(!sols.length){el.innerHTML='<div class="empty"><div class="empty-txt">No active contracts on file. Contracts appear here once a solicitation is awarded.</div></div>';return;}
+      el.innerHTML=sols.map(function(s){
+        var pct=s.revenue_share_pct||55;
+        var fee=s.transaction_fee||30;
+        var earn=(fee*pct/100).toFixed(2);
+        return '<div class="stat" style="margin-bottom:2px;">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">' +
+            '<div><div class="slabel">'+esc(s.solicitation_number)+'</div><div style="font-family:var(--fb);font-weight:200;font-size:.78rem;color:var(--navy-2);">'+esc(s.agency_location||'')+'</div></div>' +
+            '<div style="text-align:right;"><div class="slabel">Your share per transaction</div><div style="font-family:var(--fd);font-weight:300;font-size:1.2rem;color:var(--navy);">$'+earn+' <span style="font-size:.7rem;font-family:var(--fb);font-weight:200;color:var(--navy-3);">('+pct+'% of $'+fee+')</span></div></div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+  }catch(e){}
 }
 
 function nav(id){
