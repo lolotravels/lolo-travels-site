@@ -1159,6 +1159,113 @@ async function addToLib(){
   }catch(e){if(btn){btn.querySelector('span').textContent='Add to Library';btn.disabled=false;}alert('Upload failed.');}
 }
 
+var SERVICES=[
+  {id:'claims',    label:'Claims Recovery',          url:'/claims',   fee:'10%',  desc:'Lolo pursues travel claims on their behalf. No recovery, no fee to them.'},
+  {id:'insurance', label:'Travel Insurance',          url:'/member',   fee:'15%',  desc:'Travel insurance for individuals and groups through licensed carriers.'},
+  {id:'shield',    label:'Lolo Shield Protection',    url:'/member',   fee:'20%',  desc:'Destination safety intelligence, emergency support, on-the-ground help.'},
+  {id:'concierge', label:'Concierge Services',        url:'/member',   fee:'15%',  desc:'Premium travel planning, reservations, and on-trip assistance.'},
+  {id:'member',    label:'Member Portal Registration',url:'/member',   fee:'$25',  desc:'Client creates a Lolo member account and accesses all services.'},
+  {id:'shipping',  label:'Shipping Coordination',     url:'/member',   fee:'10%',  desc:'International shipping coordination for travelers and relocations.'}
+];
+
+function renderReferralLinks(){
+  var el=document.getElementById('ref-links-list');if(!el)return;
+  var code=document.getElementById('ref-code').textContent;
+  if(!code||code==='Loading...')return;
+  el.innerHTML=SERVICES.map(function(s){
+    var link='https://lolotravels.com'+s.url+'?ref='+code+'&svc='+s.id;
+    return '<div style="background:var(--white);border:var(--bdr);padding:14px 18px;margin-bottom:2px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;">'+
+      '<div style="flex:1;">'+
+        '<div style="font-family:var(--fb);font-weight:500;font-size:.9rem;color:var(--navy);margin-bottom:3px;">'+esc(s.label)+'</div>'+
+        '<div style="font-family:var(--fb);font-weight:200;font-size:.78rem;color:var(--navy2);margin-bottom:4px;">'+esc(s.desc)+'</div>'+
+        '<div style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--navy3);word-break:break-all;">'+esc(link)+'</div>'+
+      '</div>'+
+      '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0;">'+
+        '<span class="stamp stamp-ok">You earn '+esc(s.fee)+'</span>'+
+        '<button class="sbtn-o" style="font-size:.58rem;padding:7px 14px;" onclick="copyLink(''+esc(link)+'',this)">Copy Link</button>'+
+      '</div>'+
+    '</div>';
+  }).join('');
+}
+
+function copyLink(link,btn){
+  navigator.clipboard.writeText(link).then(function(){
+    var orig=btn.textContent;btn.textContent='Copied!';btn.style.color='var(--green)';btn.style.borderColor='var(--green)';
+    setTimeout(function(){btn.textContent=orig;btn.style.color='';btn.style.borderColor='';},2000);
+  }).catch(function(){
+    // Fallback
+    var ta=document.createElement('textarea');ta.value=link;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);
+    btn.textContent='Copied!';setTimeout(function(){btn.textContent='Copy Link';},2000);
+  });
+}
+
+async function submitReferral(){
+  var name=getVal('ref-cname'),email=getVal('ref-cemail'),service=getVal('ref-service');
+  if(!name||!email||!service){alert('Please fill in client name, email, and select a service.');return;}
+  var btn=document.querySelector('#p-referrals .sbtn');
+  if(btn){btn.querySelector('span').textContent='Submitting...';btn.disabled=true;}
+  var code=document.getElementById('ref-code').textContent;
+  var svcObj=SERVICES.find(function(s){return s.id===service;})||{};
+  try{
+    await sb.from('referrals').insert({
+      referral_code:code,
+      partner_company_id:companyId,
+      partner_email:currentUser.email,
+      client_name:name,
+      client_email:email,
+      client_phone:getVal('ref-cphone'),
+      service_type:service,
+      service_label:svcObj.label||service,
+      notes:getVal('ref-notes'),
+      status:'submitted',
+      fee_pct:parseFloat(svcObj.fee)||0,
+      link_sent:false
+    });
+    // Also notify Lolo via Formspree
+    var fd=new FormData();
+    fd.append('form-name','lolo-partner');fd.append('type','referral');
+    fd.append('user_email',currentUser.email);fd.append('client_name',name);
+    fd.append('client_email',email);fd.append('service',svcObj.label||service);
+    fd.append('notes',getVal('ref-notes'));fd.append('referral_code',code);
+    fetch('/',{method:'POST',body:fd});
+    if(btn){btn.querySelector('span').textContent='Referral Submitted';btn.style.background='var(--green)';
+      setTimeout(function(){btn.querySelector('span').textContent='Submit Referral';btn.style.background='';btn.disabled=false;},3000);}
+    setVal('ref-cname','');setVal('ref-cemail','');setVal('ref-cphone','');setVal('ref-service','');setVal('ref-notes','');
+    loadReferralHistory();
+  }catch(e){if(btn){btn.querySelector('span').textContent='Submit Referral';btn.disabled=false;}alert('Error submitting referral.');}
+}
+
+async function loadReferralHistory(){
+  if(!companyId||!sb)return;
+  var el=document.getElementById('ref-history');if(!el)return;
+  try{
+    var r=await sb.from('referrals').select('*').eq('partner_company_id',companyId).order('created_at',{ascending:false}).limit(20);
+    var refs=r.data||[];
+    // Update stats
+    setText('ref-count',refs.length);
+    setText('ref-converted',refs.filter(function(r){return r.converted;}).length);
+    var earned=refs.reduce(function(a,r){return a+(r.fee_earned||0);},0);
+    setText('ref-earnings','$'+earned.toFixed(2));
+    if(!refs.length){el.innerHTML='<div class="empty"><div class="empty-tx">No referrals submitted yet.</div></div>';return;}
+    el.innerHTML=refs.map(function(r){
+      var dt=new Date(r.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+      var sc=r.converted?'stamp-ok':r.status==='submitted'?'stamp-sub':'stamp-draft';
+      var sl=r.converted?'Converted':r.status==='submitted'?'Pending':'Draft';
+      return '<div style="background:var(--white);border:var(--bdr);padding:13px 18px;margin-bottom:2px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">'+
+        '<div style="flex:1;">'+
+          '<div style="font-family:var(--fb);font-weight:500;font-size:.88rem;color:var(--navy);">'+esc(r.client_name)+'</div>'+
+          '<div style="font-family:var(--fb);font-weight:200;font-size:.76rem;color:var(--navy2);">'+esc(r.service_label||r.service_type)+' &nbsp;|&nbsp; '+esc(r.client_email)+'</div>'+
+          '<div style="font-family:var(--fb);font-weight:200;font-size:.68rem;color:var(--navy3);">'+dt+'</div>'+
+        '</div>'+
+        '<div style="text-align:right;">'+
+          '<span class="stamp '+sc+'">'+sl+'</span>'+
+          (r.fee_earned?'<div style="font-family:var(--fd);font-weight:300;font-size:1rem;color:var(--green);margin-top:4px;">$'+r.fee_earned.toFixed(2)+'</div>':'')
+        +'</div>'+
+      '</div>';
+    }).join('');
+  }catch(e){}
+}
+
 async function loadContracts(){
   if(!companyId||!sb)return;
   try{
@@ -1383,6 +1490,7 @@ function nav(id){
   if(id==='library'){loadDocLibrary();if(currentUser&&!canEdit('documents'))enforceReadOnly('library');}
   if(id==='messages')loadMessages();
   if(id==='payment'||id==='history'){loadContracts();if(id==='payment'&&currentUser&&!canEdit('payments'))enforceReadOnly('payment');}
+  if(id==='referrals'){renderReferralLinks();loadReferralHistory();}
   if(id==='profile'&&currentUser&&!canEdit('profile'))enforceReadOnly('profile');
   if(id==='team'&&currentUser&&!canEdit('team'))enforceReadOnly('team');
 }
