@@ -509,12 +509,18 @@ html,body{background:var(--paper);color:var(--navy);font-family:var(--fb);-webki
           <div class="ff"><label class="flbl">Bank Country</label><input class="inp" type="text" id="e-bankcountry" placeholder="Country where bank is located"/></div>
           <div class="ff"><label class="flbl">IBAN (if applicable)</label><input class="inp" type="text" id="e-iban" placeholder="IBAN number if required"/></div>
         </div>
+        <div class="frow">
+          <div class="ff"><label class="flbl">Local Currency Name</label><input class="inp" type="text" id="e-localcurrency" placeholder="e.g. Nigerian Naira, Jamaican Dollar"/></div>
+          <div class="ff"><label class="flbl">Local Currency Code</label><input class="inp" type="text" id="e-localcode" placeholder="e.g. NGN, JMD, GBP"/></div>
+        </div>
+        <div class="iblock" style="margin-top:0;">All payments from Lolo are processed in <strong>USD</strong> via wire transfer. The local currency fields help Lolo calculate and display your revenue share equivalent in your home currency.</div>
         <button class="sbtn" id="save-profile-btn" onclick="saveProfile()"><span>Save Profile</span></button>
       </div>
 
       <!-- TEAM MEMBERS -->
       <div class="panel" id="p-team">
-        <div class="ph"><div class="ptag">Team Management</div><h2 class="ph1">Team Members</h2><p class="ph2">Add your team members so Lolo knows who to work with. Each person can be assigned a role reflecting their responsibilities.</p></div>
+        <div class="ph"><div class="ptag">Team Management</div><h2 class="ph1">Team Members</h2><p class="ph2">Add your team members so Lolo knows who to work with. Each person is assigned a role by Lolo that determines what they can see and do in this portal. Contact Lolo to adjust access levels.</p></div>
+        <div class="iblock">Access levels are managed by Lolo Travels. To change what a team member can see or do, send a message via the Messages section or contact hello@lolotravels.com. You can add or remove team members here.</div>
         <div id="team-list" style="margin-bottom:20px;"></div>
         <div class="div"></div>
         <h3 style="font-family:var(--fd);font-weight:300;font-size:1.1rem;color:var(--navy);margin-bottom:13px;">Add Team Member</h3>
@@ -541,7 +547,7 @@ html,body{background:var(--paper);color:var(--navy);font-family:var(--fb);-webki
         <div class="frow">
           <div class="ff"><label class="flbl">Contract</label><select class="sel" id="pay-sol"><option>Loading contracts...</option></select></div>
           <div class="ff"><label class="flbl">Your Invoice Number</label><input class="inp" type="text" id="pay-inv" placeholder="Your internal reference"/></div>
-          <div class="ff"><label class="flbl">Amount Requested (USD)</label><input class="inp" type="text" id="pay-amt" placeholder="Dollar amount"/></div>
+          <div class="ff"><label class="flbl">Amount Requested (USD)</label><input class="inp" type="text" id="pay-amt" placeholder="Dollar amount" oninput="updateCurrencyNote()"/></div>
           <div class="ff"><label class="flbl">Performance Period</label><input class="inp" type="text" id="pay-period" placeholder="e.g. April 1 to April 30, 2026"/></div>
           <div class="ff"><label class="flbl">Contract Line Item</label><input class="inp" type="text" id="pay-clin" placeholder="CLIN if applicable"/></div>
           <div class="ff"><label class="flbl">Services Delivered</label><input class="inp" type="text" id="pay-desc" placeholder="Brief description"/></div>
@@ -553,6 +559,7 @@ html,body{background:var(--paper);color:var(--navy);font-family:var(--fb);-webki
         </div>
         <div class="ff full"><label class="flbl">Additional Notes</label><textarea class="txa" id="pay-notes" placeholder="Any information Lolo should know before approving..."></textarea></div>
         <button class="sbtn" onclick="submitPayment()"><span>Submit Payment Request</span></button>
+        <div id="pay-currency-note" style="margin-top:12px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy2);line-height:1.85;background:var(--goldpale);border:1px solid rgba(201,168,76,.25);padding:12px 16px;"></div>
         <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--navy3);margin-top:10px;line-height:1.85;">Lolo reviews payment requests within 2 business days. You will receive email confirmation when approved and when payment is processed.</p>
       </div>
 
@@ -833,13 +840,26 @@ async function loadCompany(){
     if(d.iata_code)cr+='IATA: '+esc(d.iata_code)+'<br>';
     if(d.registration_number)cr+='Reg: '+esc(d.registration_number);
     setHtml('lh-cred',cr);
-    // Profile form
+    // Profile form - populate all fields
     setVal('e-legal',d.legal_name);setVal('e-entity',d.entity_type);setVal('e-reg',d.registration_number);setVal('e-tax',d.tax_id);
     setVal('e-iata',d.iata_code);setVal('e-gds',d.gds_platform);setVal('e-addr',d.address_line1);setVal('e-city',d.address_city);
     setVal('e-country',d.address_country);setVal('e-phone',d.office_phone);setVal('e-emerg1',d.emergency_line_1);setVal('e-emerg2',d.emergency_line_2);
     setVal('e-signame',d.signatory_name);setVal('e-sigtitle',d.signatory_title);setVal('e-sigemail',d.signatory_email);setVal('e-sigphone',d.signatory_phone);
     setVal('e-bank',d.bank_name);setVal('e-acctname',d.bank_account_name);setVal('e-acctnum',d.bank_account_number);
     setVal('e-swift',d.bank_swift);setVal('e-bankcountry',d.bank_country||'');setVal('e-iban',d.bank_iban||'');
+    setVal('e-localcurrency',d.local_currency||'');setVal('e-localcode',d.local_currency_code||'');
+    // Bank status indicator
+    var bankOk=d.bank_name&&d.bank_account_number&&d.bank_swift;
+    var bsb=document.getElementById('bank-status-bar');
+    if(bsb)bsb.innerHTML=bankOk
+      ?'<div class="iblock" style="border-left-color:var(--green);background:var(--greenbg);color:var(--green);">Banking details on file. Lolo can process USD wire payments to '+esc(d.bank_name)+'.</div>'
+      :'<div class="ablock">Banking details incomplete. Add your bank details below before submitting a payment request.</div>';
+    // Payment panel bank display
+    var bankDisplay=bankOk
+      ?'<strong>'+esc(d.bank_name)+'</strong><br>Account Name: '+esc(d.bank_account_name||'')+'<br>Account Number: '+esc(d.bank_account_number||'')+'<br>SWIFT: '+esc(d.bank_swift||'')+(d.local_currency_code?'<br><span style="color:var(--navy3);">Local Currency: '+esc(d.local_currency_code)+' ('+esc(d.local_currency||'')+'). Payment processed in USD.</span>':'')
+      :'<span style="color:var(--red);">No banking details on file. Go to Company Profile to add your bank details before submitting a payment request.</span>';
+    setHtml('pmt-bank-val',bankDisplay);
+    setHtml('hist-bank-val',bankDisplay);
     // Bank status
     var bankOk=d.bank_name&&d.bank_account_number&&d.bank_swift;
     var bsb=document.getElementById('bank-status-bar');
@@ -877,7 +897,8 @@ async function saveProfile(){
     address_country:getVal('e-country'),office_phone:getVal('e-phone'),emergency_line_1:getVal('e-emerg1'),emergency_line_2:getVal('e-emerg2'),
     signatory_name:getVal('e-signame'),signatory_title:getVal('e-sigtitle'),signatory_email:getVal('e-sigemail'),signatory_phone:getVal('e-sigphone'),
     bank_name:getVal('e-bank'),bank_account_name:getVal('e-acctname'),bank_account_number:getVal('e-acctnum'),
-    bank_swift:getVal('e-swift'),bank_country:getVal('e-bankcountry'),bank_iban:getVal('e-iban')
+    bank_swift:getVal('e-swift'),bank_country:getVal('e-bankcountry'),bank_iban:getVal('e-iban'),
+    local_currency:getVal('e-localcurrency'),local_currency_code:getVal('e-localcode')
   };
   try{
     await sb.from('partner_profiles').update(updates).eq('company_id',companyId);
@@ -1118,6 +1139,26 @@ async function loadContracts(){
       else payEl.innerHTML=contracts.map(function(c){return '<option value="'+esc(c.id)+'">'+esc(c.contract_number||c.id.substr(0,8))+' - '+esc(c.title||c.agency||'Contract')+'</option>';}).join('');
     }
   }catch(e){}
+}
+
+function updateCurrencyNote(){
+  var amt=parseFloat(document.getElementById('pay-amt').value.replace(/[^0-9.]/g,''));
+  var el=document.getElementById('pay-currency-note');
+  if(!el||isNaN(amt)) return;
+  var localCode=getVal('e-localcode');
+  if(!localCode||!amt){el.innerHTML='Payment will be processed in USD via wire transfer.';return;}
+  // Fetch live exchange rate
+  fetch('https://api.frankfurter.app/latest?from=USD&to='+localCode)
+    .then(function(r){return r.json();})
+    .then(function(d){
+      var rate=d.rates&&d.rates[localCode];
+      if(rate){
+        var local=(amt*rate).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+        el.innerHTML='USD '+amt.toLocaleString()+' = approximately <strong>'+localCode+' '+local+'</strong> at current exchange rates. Payment is processed and wired in USD.';
+      }
+    }).catch(function(){
+      el.innerHTML='Payment will be processed in USD via wire transfer.';
+    });
 }
 
 async function submitPayment(){
