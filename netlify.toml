@@ -12,7 +12,23 @@
   from = "/business"
   to = "/business-portal.html"
   status = 200
+
+[[redirects]]
+  from = "/contractor"
+  to = "/contractor-portal.html"
+  status = 200
+
 [[redirects]]
   from = "/claims"
   to = "/claims.html"
+  status = 200
+
+[[redirects]]
+  from = "/advisor"
+  to = "/advisor-portal.html"
+  status = 200
+
+[[redirects]]
+  from = "/admin"
+  to = "/admin-portal.html"
   status = 200
