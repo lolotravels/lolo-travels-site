@@ -876,10 +876,11 @@ function selectType(t){
   document.querySelectorAll('.acct-type').forEach(function(el){el.classList.remove('sel');});
   var el = document.getElementById('at-'+t);
   if(el) el.classList.add('sel');
-  document.getElementById('sel-continue').disabled = false;
-  var hints = {corp:'Signing in to your corporate account.',advisor:'Signing in to your advisor account.',contractor:'Signing in to your partner account.'};
+  var hints = {corp:'Signing in to your corporate account.',advisor:'Signing in to your advisor account.'};
   var hint = document.getElementById('si-hint');
   if(hint) hint.textContent = hints[t] || '';
+  // Auto-advance to sign in after brief visual confirmation
+  setTimeout(function(){ showView('signin'); }, 300);
 }
 
 function showView(v){
@@ -970,12 +971,37 @@ function switchAccount(){
   signOut();
 }
 
-function loadPortal(user){
+async function loadPortal(user){
   currentUser = user;
   var meta = user.user_metadata || {};
   if(!currentType) currentType = meta.account_type || 'corp';
-  if(currentType === 'contractor' && typeof loadContractorDash === 'function') {
-    loadContractorDash(user);
+  // Security: verify user belongs in this portal
+  if(sb){
+    try{
+      var check = await sb.from('profiles').select('account_type,role').eq('id',user.id).single();
+      var allowed = ['corp','corporate','advisor','admin'];
+      var userType = check.data ? (check.data.account_type||check.data.role||'') : '';
+      // Block contractors from business portal
+      if(userType === 'contractor'){
+        await sb.auth.signOut();
+        var errEl = document.getElementById('si-err');
+        if(errEl) errEl.textContent = 'Partner accounts access the portal at lolotravels.com/contractor';
+        document.getElementById('si-btn').disabled = false;
+        document.getElementById('si-btn').querySelector('span').textContent = 'Sign In';
+        return;
+      }
+      // Lolo admin emails bypass check
+      var adminEmails = ['slondon@lolotravels.com','hello@lolotravels.com'];
+      var isAdmin = adminEmails.indexOf(user.email) > -1 || userType === 'admin';
+      if(!isAdmin && userType && allowed.indexOf(userType) === -1){
+        await sb.auth.signOut();
+        var errEl = document.getElementById('si-err');
+        if(errEl) errEl.textContent = 'Account not authorized. Contact hello@lolotravels.com';
+        document.getElementById('si-btn').disabled = false;
+        document.getElementById('si-btn').querySelector('span').textContent = 'Sign In';
+        return;
+      }
+    }catch(e){}
   }
   document.getElementById('auth-gate').style.display = 'none';
   document.getElementById('portal').style.display = 'block';
@@ -998,7 +1024,7 @@ function buildSidebar(type){
   sections.forEach(function(sec){
     html += '<div class="nav-sec">' + sec.sec + '</div>';
     sec.items.forEach(function(item){
-      html += '<div class="nav-item" id="nav-' + item.id + '" onclick="nav(\'' + item.id + '\')"><div class="nav-dot"></div>' + item.label + '</div>';
+      html += '<div class="nav-item" id="nav-' + item.id + '" data-nav="' + item.id + '" onclick="nav(this.dataset.nav)"><div class="nav-dot"></div>' + item.label + '</div>';
     });
   });
   sb2.innerHTML = html;
