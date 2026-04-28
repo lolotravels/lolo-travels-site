@@ -316,7 +316,38 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
     <div class="aerr" style="font-family:sans-serif;font-weight:200;font-size:.76rem;min-height:16px;margin-top:6px;text-align:center;color:rgba(220,80,80,.85);" id="np-err"></div>
     <button class="abtn" style="width:100%;padding:14px;margin-top:8px;font-family:sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;background:#C9A84C;color:#0D1A45;border:none;cursor:pointer;" onclick="setNewPass()">Set New Password</button>
   </div>
-  <div class="afoot" style="text-align:center;margin-top:40px;font-family:sans-serif;font-weight:200;font-size:.55rem;letter-spacing:.1em;color:rgba(247,244,238,.1);">Lolo Travels LLC &nbsp;|&nbsp; Travel Management, Protection and Risk Advisory</div>
+  <div id="v-mfa" class="av">
+    <div style="font-family:Georgia,serif;font-style:italic;font-weight:300;font-size:1.9rem;color:#F7F4EE;margin-bottom:4px;">Two-step verification.</div>
+    <div style="font-family:sans-serif;font-weight:200;font-size:.82rem;color:rgba(247,244,238,.38);margin-bottom:26px;line-height:1.85;">Open your authenticator app and enter the 6-digit code for Lolo Travels.</div>
+    <div style="margin-bottom:20px;">
+      <label style="display:block;font-family:sans-serif;font-weight:200;font-size:.52rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:8px;">Verification code</label>
+      <input id="mfa-code" type="text" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code"
+        style="width:100%;background:rgba(255,255,255,.06);border:none;border-bottom:1px solid rgba(201,168,76,.25);color:#F7F4EE;padding:11px 0;font-family:sans-serif;font-weight:200;font-size:1.4rem;letter-spacing:.3em;text-align:center;outline:none;"
+        onkeydown="if(event.key==='Enter')verifyMFA()"/>
+    </div>
+    <div class="aerr" id="mfa-err" style="font-family:sans-serif;font-weight:200;font-size:.76rem;min-height:16px;margin-top:6px;text-align:center;color:rgba(220,80,80,.85);"></div>
+    <button onclick="verifyMFA()" style="width:100%;padding:14px;margin-top:8px;font-family:sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;background:#C9A84C;color:#0D1A45;border:none;cursor:pointer;" id="mfa-btn">Verify</button>
+    <div style="margin-top:14px;text-align:center;font-family:sans-serif;font-weight:200;font-size:.78rem;color:rgba(247,244,238,.22);line-height:2.5;">
+      <a onclick="signOut();showV('signin')" style="color:rgba(201,168,76,.55);cursor:pointer;">Use a different account</a>
+    </div>
+  </div>
+
+  <div id="v-mfa-setup" class="av">
+    <button class="aback" style="background:none;border:none;color:rgba(247,244,238,.3);font-family:sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;margin-bottom:22px;display:block;padding:0;" onclick="nav('profile')">Done</button>
+    <div style="font-family:Georgia,serif;font-style:italic;font-weight:300;font-size:1.9rem;color:#F7F4EE;margin-bottom:4px;">Set up two-step verification.</div>
+    <div style="font-family:sans-serif;font-weight:200;font-size:.82rem;color:rgba(247,244,238,.38);margin-bottom:20px;line-height:1.85;">Scan the QR code with Google Authenticator, Authy, or any authenticator app. Then enter the 6-digit code to confirm.</div>
+    <div id="mfa-qr" style="text-align:center;margin-bottom:20px;"></div>
+    <div style="font-family:sans-serif;font-weight:200;font-size:.76rem;color:rgba(247,244,238,.3);text-align:center;margin-bottom:16px;">Or enter this code manually: <span id="mfa-secret" style="color:rgba(201,168,76,.7);letter-spacing:.1em;"></span></div>
+    <div style="margin-bottom:16px;">
+      <label style="display:block;font-family:sans-serif;font-weight:200;font-size:.52rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:8px;">Enter code from app to confirm</label>
+      <input id="mfa-setup-code" type="text" inputmode="numeric" maxlength="6" placeholder="000000"
+        style="width:100%;background:rgba(255,255,255,.06);border:none;border-bottom:1px solid rgba(201,168,76,.25);color:#F7F4EE;padding:11px 0;font-family:sans-serif;font-weight:200;font-size:1.4rem;letter-spacing:.3em;text-align:center;outline:none;"
+        onkeydown="if(event.key==='Enter')confirmMFASetup()"/>
+    </div>
+    <div class="aerr" id="mfa-setup-err" style="font-family:sans-serif;font-weight:200;font-size:.76rem;min-height:16px;text-align:center;color:rgba(220,80,80,.85);"></div>
+    <button onclick="confirmMFASetup()" style="width:100%;padding:14px;margin-top:8px;font-family:sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;background:#C9A84C;color:#0D1A45;border:none;cursor:pointer;" id="mfa-setup-btn">Confirm and Enable</button>
+  </div>
+    <div class="afoot" style="text-align:center;margin-top:40px;font-family:sans-serif;font-weight:200;font-size:.55rem;letter-spacing:.1em;color:rgba(247,244,238,.1);">Lolo Travels LLC &nbsp;|&nbsp; Travel Management, Protection and Risk Advisory</div>
 </div>
 </div>
 
@@ -710,6 +741,15 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
       <div class="ff"><label class="flbl">Email</label><input class="inp" type="email" id="pr-ec-email" placeholder="Emergency contact email"/></div>
     </div>
     <button class="sbtn" onclick="saveProfile()"><span>Save Profile</span></button>
+    <div class="div"></div>
+    <div class="slbl">Two-step verification</div>
+    <div id="mfa-status-block" style="background:var(--white);border:var(--bdr);border-radius:10px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+      <div>
+        <div style="font-family:var(--fb);font-weight:400;font-size:.9rem;color:var(--navy);margin-bottom:3px;" id="mfa-status-lbl">Loading...</div>
+        <div style="font-family:var(--fb);font-weight:200;font-size:.8rem;color:rgba(13,26,69,.45);" id="mfa-status-sub">Two-step verification adds a second layer of security to your account.</div>
+      </div>
+      <div id="mfa-action-btn"></div>
+    </div>
   </div>
 </div>
 
@@ -821,8 +861,9 @@ async function signIn(){
       err.textContent='This account belongs to a Lolo partner. Partners access their portal at lolotravels.com/contractor';
       btn.disabled=false;btn.textContent='Sign In';return;
     }
-    // Pass directly - no onAuthStateChange will interfere
-    await loadPortal(user);
+    // Check if MFA is required before loading portal
+    var proceed=await checkMFAOnLogin(user);
+    if(proceed) await loadPortal(user);
   }catch(ex){
     err.textContent='Connection error. Please try again.';
     btn.disabled=false;btn.textContent='Sign In';
@@ -1235,6 +1276,122 @@ function onFile(input,fnameId){
   }
 }
 
+// ─── MFA FUNCTIONS ────────────────────────────────────────
+var mfaChallengeId=null, mfaFactorId=null, mfaEnrollId=null;
+
+async function checkMFAOnLogin(user){
+  // After password auth, check if MFA is required
+  try{
+    var aal=await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+    if(aal.data&&aal.data.nextLevel==='aal2'&&aal.data.nextLevel!==aal.data.currentLevel){
+      // MFA enrolled and required - show challenge
+      var factors=await sb.auth.mfa.listFactors();
+      if(factors.data&&factors.data.totp&&factors.data.totp.length>0){
+        mfaFactorId=factors.data.totp[0].id;
+        var challenge=await sb.auth.mfa.challenge({factorId:mfaFactorId});
+        if(challenge.data) mfaChallengeId=challenge.data.id;
+        document.getElementById('auth').style.display='flex';
+        document.getElementById('portal').style.display='none';
+        showV('mfa');
+        return false; // don't load portal yet
+      }
+    }
+  }catch(ex){}
+  return true; // no MFA needed, proceed to portal
+}
+
+async function verifyMFA(){
+  var code=document.getElementById('mfa-code').value.replace(/\s/g,'');
+  var err=document.getElementById('mfa-err');
+  var btn=document.getElementById('mfa-btn');
+  err.textContent='';
+  if(code.length!==6){err.textContent='Please enter the 6-digit code.';return;}
+  btn.disabled=true;btn.textContent='Verifying...';
+  try{
+    var r=await sb.auth.mfa.verify({factorId:mfaFactorId,challengeId:mfaChallengeId,code:code});
+    if(r.error){err.textContent='Incorrect code. Please try again.';btn.disabled=false;btn.textContent='Verify';return;}
+    btn.textContent='Verified';
+    var session=await sb.auth.getSession();
+    if(session.data&&session.data.session) await loadPortal(session.data.session.user);
+  }catch(ex){err.textContent='Error. Please try again.';btn.disabled=false;btn.textContent='Verify';}
+}
+
+async function loadMFAStatus(){
+  if(!cu||!sb)return;
+  var lbl=document.getElementById('mfa-status-lbl');
+  var sub=document.getElementById('mfa-status-sub');
+  var btn=document.getElementById('mfa-action-btn');
+  if(!lbl||!btn)return;
+  try{
+    var factors=await sb.auth.mfa.listFactors();
+    var enrolled=factors.data&&factors.data.totp&&factors.data.totp.length>0;
+    if(enrolled){
+      lbl.textContent='Two-step verification is enabled';
+      lbl.style.color='var(--green)';
+      sub.textContent='Your account is protected. You will be asked for a code from your authenticator app on each login.';
+      btn.innerHTML='<button onclick="disableMFA()" style="padding:9px 18px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;background:transparent;color:var(--red);border:1px solid var(--redbd);cursor:pointer;">Remove 2FA</button>';
+    } else {
+      lbl.textContent='Two-step verification is not enabled';
+      lbl.style.color='rgba(13,26,69,.5)';
+      sub.textContent='Add an extra layer of security. You will need your authenticator app each time you sign in.';
+      btn.innerHTML='<button onclick="startMFASetup()" style="padding:9px 18px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;background:var(--navy);color:#F7F4EE;border:none;cursor:pointer;">Enable 2FA</button>';
+    }
+  }catch(ex){}
+}
+
+async function startMFASetup(){
+  if(!cu||!sb)return;
+  try{
+    var r=await sb.auth.mfa.enroll({factorType:'totp',friendlyName:'Lolo Travels'});
+    if(r.error){alert('Error setting up 2FA: '+r.error.message);return;}
+    mfaEnrollId=r.data.id;
+    // Show QR code
+    var qrEl=document.getElementById('mfa-qr');
+    if(qrEl&&r.data.totp&&r.data.totp.qr_code){
+      qrEl.innerHTML='<img src="'+r.data.totp.qr_code+'" style="width:180px;height:180px;border:4px solid rgba(255,255,255,.1);border-radius:8px;" alt="QR code"/>';
+    }
+    var secEl=document.getElementById('mfa-secret');
+    if(secEl&&r.data.totp&&r.data.totp.secret) secEl.textContent=r.data.totp.secret;
+    // Show setup screen in auth area
+    document.getElementById('auth').style.display='flex';
+    document.getElementById('portal').style.display='none';
+    showV('mfa-setup');
+  }catch(ex){alert('Error starting 2FA setup.');}
+}
+
+async function confirmMFASetup(){
+  var code=document.getElementById('mfa-setup-code').value.replace(/\s/g,'');
+  var err=document.getElementById('mfa-setup-err');
+  var btn=document.getElementById('mfa-setup-btn');
+  err.textContent='';
+  if(code.length!==6){err.textContent='Please enter the 6-digit code from your app.';return;}
+  btn.disabled=true;btn.textContent='Confirming...';
+  try{
+    var challenge=await sb.auth.mfa.challenge({factorId:mfaEnrollId});
+    if(challenge.error){err.textContent=challenge.error.message;btn.disabled=false;btn.textContent='Confirm and Enable';return;}
+    var verify=await sb.auth.mfa.verify({factorId:mfaEnrollId,challengeId:challenge.data.id,code:code});
+    if(verify.error){err.textContent='Code incorrect. Check your app and try again.';btn.disabled=false;btn.textContent='Confirm and Enable';return;}
+    // Success
+    document.getElementById('auth').style.display='none';
+    document.getElementById('portal').style.display='block';
+    nav('profile');
+    loadMFAStatus();
+  }catch(ex){err.textContent='Error confirming. Please try again.';btn.disabled=false;btn.textContent='Confirm and Enable';}
+}
+
+async function disableMFA(){
+  if(!confirm('Remove two-step verification? Your account will only be protected by your password.'))return;
+  try{
+    var factors=await sb.auth.mfa.listFactors();
+    if(factors.data&&factors.data.totp){
+      for(var f of factors.data.totp){
+        await sb.auth.mfa.unenroll({factorId:f.id});
+      }
+    }
+    loadMFAStatus();
+  }catch(ex){alert('Error removing 2FA.');}
+}
+
 function nav(id){
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
   document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
@@ -1246,6 +1403,7 @@ function nav(id){
   if(id==='documents')loadDocs();
   if(id==='claims')loadClaims();
   if(id==='voice')loadVoiceHistory();
+  if(id==='profile')loadMFAStatus();
 }
 
 function s(id,val){var el=document.getElementById(id);if(el)el.textContent=val||'';}
