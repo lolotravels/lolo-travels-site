@@ -705,36 +705,32 @@ var userPerms={}; // loaded from portal_roles
 
 async function loadPortal(user){
   currentUser=user;
+  // Set name immediately so topbar shows right away
+  setText('tb-name', user.email.split('@')[0]);
+  // Default role to owner until we know better
+  userRole='owner';
   try{
-    // Wait briefly for session to fully establish then query
-    await new Promise(function(r){setTimeout(r,300);});
-    var pr=await sb.from('profiles').select('company_id,account_type,full_name,portal_role').eq('id',user.id).single();
-    // If query failed retry once
-    if(!pr.data){
-      await new Promise(function(r){setTimeout(r,500);});
-      pr=await sb.from('profiles').select('company_id,account_type,full_name,portal_role').eq('id',user.id).single();
-    }
+    // Small wait for Supabase session to fully propagate
+    await new Promise(function(r){setTimeout(r,400);});
+    var pr=await sb.from('profiles')
+      .select('company_id,account_type,full_name,portal_role')
+      .eq('id',user.id)
+      .single();
     if(pr.data){
-      companyId=pr.data.company_id;
-      userRole=pr.data.portal_role||'owner';
-      var name=(pr.data.full_name||user.email).split(' ')[0];
-      setText('tb-name',name);
-      // Fix account type silently if needed
-      if(pr.data.account_type!=='contractor'){
-        await sb.from('profiles').update({account_type:'contractor'}).eq('id',user.id);
-      }
-    } else {
-      // Profile not found - check if they have a company via email match
-      companyId=null;
-      userRole='owner';
-      var name=user.email.split('@')[0];
-      setText('tb-name',name);
+      if(pr.data.company_id) companyId=pr.data.company_id;
+      if(pr.data.portal_role) userRole=pr.data.portal_role;
+      if(pr.data.full_name) setText('tb-name', pr.data.full_name.split(' ')[0]);
+    }
+    // If still no companyId try finding by email in partner_profiles
+    if(!companyId){
+      var ep=await sb.from('partner_profiles')
+        .select('company_id')
+        .or('signatory_email.eq.'+user.email+',office_email.eq.'+user.email)
+        .single();
+      if(ep.data) companyId=ep.data.company_id;
     }
   }catch(e){
-    // Don't block on profile errors - let them in and show what we can
-    companyId=null;
-    userRole='owner';
-    setText('tb-name',user.email.split('@')[0]);
+    // Profile errors don't block access - we proceed with what we have
   }
   // Load role permissions
   await loadRolePermissions();
@@ -962,7 +958,16 @@ async function saveTeam(){
 }
 
 async function loadSolicitations(){
-  if(!companyId||!sb){setHtml('sol-list','<div class="empty"><div class="empty-ic">No solicitations on file.</div><div class="empty-tx">Lolo will add your solicitations here once active.</div></div>');return;}
+  if(!sb) return;
+  if(!companyId){
+    setHtml('sol-list','<div class="empty"><div class="empty-ic">Loading your solicitations...</div><div class="empty-tx">If this persists, try signing out and back in.</div></div>');
+    // Try to find companyId from partner_profiles as fallback
+    try{
+      var fe=await sb.from('partner_profiles').select('company_id').eq('signatory_email',currentUser.email).single();
+      if(!fe.data) fe=await sb.from('partner_profiles').select('company_id').eq('office_email',currentUser.email).single();
+      if(fe.data){companyId=fe.data.company_id;}else{return;}
+    }catch(e){return;}
+  }
   try{
     var r=await sb.from('solicitations').select('*').eq('company_id',companyId).order('due_date',{ascending:false});
     var sols=r.data||[];
@@ -1193,7 +1198,8 @@ function nav(id){
   // Map nav section to permission key
   var permMap={overview:'overview',solicitation:'solicitations',library:'documents',profile:'profile',team:'team',payment:'payments',history:'history',claims:'claims',referrals:'referrals',messages:'messages'};
   var permKey=permMap[id]||id;
-  if(currentUser&&userPerms[permKey]==='none'){return;} // blocked
+  // Only block if user is logged in AND we have loaded permissions AND access is explicitly none
+  if(currentUser&&Object.keys(userPerms).length>0&&userPerms[permKey]==='none'){return;}
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
   document.querySelectorAll('.nitem').forEach(function(n){n.classList.remove('on');});
   var p=document.getElementById('p-'+id),n=document.getElementById('nv-'+id);
