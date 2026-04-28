@@ -975,7 +975,9 @@ html,body{
       <div class="nav-item on" id="nav-overview" onclick="nav('overview')"><div class="nav-dot"></div>Solicitations</div>
       <div class="nav-sec">Documents</div>
       <div class="nav-item" id="nav-library" onclick="nav('library')"><div class="nav-dot"></div>Document Library</div>
+      <div class="nav-sec">Account</div>
       <div class="nav-item" id="nav-profile" onclick="nav('profile')"><div class="nav-dot"></div>Company Profile</div>
+      <div class="nav-item" id="nav-team" onclick="nav('team')"><div class="nav-dot"></div>Team Members</div>
       <div class="nav-sec">Payments</div>
       <div class="nav-item" id="nav-payment" onclick="nav('payment')"><div class="nav-dot"></div>Submit Invoice</div>
       <div class="nav-item" id="nav-history" onclick="nav('history')"><div class="nav-dot"></div>Payment History</div>
@@ -1264,6 +1266,34 @@ html,body{
       <!-- ============================================
            PAYMENT REQUEST
       ============================================ -->
+      <div class="panel" id="p-staff">
+        <div class="ph">
+          <div class="ptag">Team Management</div>
+          <h2 class="ph1">Team Members</h2>
+          <p class="ph2">Add your team members who work on this contract. Their details will appear in your compliance package and contact records.</p>
+        </div>
+        <div id="staff-list" style="margin-bottom:24px;"></div>
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--navy);margin-bottom:12px;">Add Team Member</h3>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Full Name</label><input class="inp" type="text" id="staff-name" placeholder="Full name"/></div>
+          <div class="ff"><label class="flabel">Title</label><input class="inp" type="text" id="staff-title" placeholder="Job title"/></div>
+          <div class="ff"><label class="flabel">Email</label><input class="inp" type="email" id="staff-email" placeholder="Work email"/></div>
+          <div class="ff"><label class="flabel">Phone</label><input class="inp" type="text" id="staff-phone" placeholder="Phone number"/></div>
+          <div class="ff"><label class="flabel">Role on This Contract</label>
+            <select class="sel" id="staff-role">
+              <option value="Team Member">Team Member</option>
+              <option value="Account Manager">Account Manager</option>
+              <option value="Operations">Operations</option>
+              <option value="Finance">Finance</option>
+              <option value="Compliance">Compliance</option>
+              <option value="Emergency Contact">Emergency Contact</option>
+            </select>
+          </div>
+        </div>
+        <button class="sbtn" onclick="addStaff()"><span>Add Team Member</span></button>
+      </div>
+
       <div class="panel" id="p-payment">
         <div class="ph">
           <div class="ptag">Invoice Submission</div>
@@ -1338,6 +1368,34 @@ html,body{
       <!-- ============================================
            MESSAGES
       ============================================ -->
+      <div class="panel" id="p-team">
+        <div class="ph"><div class="ptag">Team Management</div><h2 class="ph1">Team Members</h2><p class="ph2">Add your team members so Lolo knows who to work with. Each person can be given a role to reflect their responsibilities on this account.</p></div>
+
+        <div id="team-list" style="margin-bottom:20px;"></div>
+
+        <div class="div"></div>
+        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:14px;">Add Team Member</h3>
+        <div class="frm-row">
+          <div class="ff"><label class="flabel">Full Name</label><input class="inp" type="text" id="new-tm-name" placeholder="Full name"/></div>
+          <div class="ff"><label class="flabel">Title</label><input class="inp" type="text" id="new-tm-title" placeholder="e.g. Sales Manager"/></div>
+          <div class="ff"><label class="flabel">Email Address</label><input class="inp" type="email" id="new-tm-email" placeholder="Work email"/></div>
+          <div class="ff"><label class="flabel">Phone</label><input class="inp" type="text" id="new-tm-phone" placeholder="Direct phone number"/></div>
+          <div class="ff"><label class="flabel">Role on This Account</label>
+            <select class="sel" id="new-tm-role">
+              <option value="Primary Contact">Primary Contact</option>
+              <option value="Account Manager">Account Manager</option>
+              <option value="Operations">Operations</option>
+              <option value="Finance">Finance</option>
+              <option value="Compliance">Compliance</option>
+              <option value="Sales">Sales</option>
+              <option value="Management">Management</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <button class="sbtn" onclick="addTeamMember()"><span>Add Team Member</span></button>
+      </div>
+
       <div class="panel" id="p-messages">
         <div class="ph">
           <div class="ptag">Direct Communication</div>
@@ -1381,14 +1439,18 @@ html,body{
 <script>
 var SB = 'https://hktntiamtpptcagnohnn.supabase.co';
 var SK = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
+var FORMSPREE = 'https://formspree.io/f/xpwzgqan';
+
 var sb = null;
 var currentUser = null;
 var companyId = null;
 var activesolId = null;
 var libFilter = 'all';
+var profileEditMode = false;
 var chatHistory = [];
+var companyData = null;
 
-var chatSystem = 'You are the Lolo Partner Support assistant. Help government contract partners (subcontractors and teaming partners) with: solicitation compliance requirements, document upload guidance, payment request process, onboarding checklist items, and contract questions. Be professional, precise, and helpful. Under 160 words per response. No bullet points.';
+var chatSystem = 'You are the Lolo Partner Support assistant for Lolo Travels LLC, a US-based Travel Management, Protection and Risk Advisory company. Help government contract partners with solicitation compliance requirements, document upload guidance, payment process, onboarding checklist items, and contract questions. Be professional, precise, and helpful. Under 160 words per response. No bullet points. Direct Lolo team questions to hello@lolotravels.com.';
 
 (function loadSB(){
   var s = document.createElement('script');
@@ -1419,12 +1481,20 @@ async function signIn(){
   var err = document.getElementById('si-err');
   var btn = document.getElementById('si-btn');
   err.textContent='';
-  if(!email||!pass){err.textContent='Please fill in all fields.';return;}
+  if(!email||!pass){err.textContent='Please enter your email and password.';return;}
   btn.disabled=true; btn.querySelector('span').textContent='Signing in...';
   try{
     var r = await sb.auth.signInWithPassword({email:email,password:pass});
     if(r.error){
       err.textContent = r.error.message==='Invalid login credentials' ? 'Email or password is incorrect.' : r.error.message;
+      btn.disabled=false; btn.querySelector('span').textContent='Sign In';
+      return;
+    }
+    // Security check -- must be a contractor account
+    var check = await sb.from('profiles').select('account_type,company_id').eq('id',r.data.user.id).single();
+    if(!check.data || check.data.account_type !== 'contractor'){
+      await sb.auth.signOut();
+      err.textContent = 'This account does not have partner access. Contact hello@lolotravels.com';
       btn.disabled=false; btn.querySelector('span').textContent='Sign In';
       return;
     }
@@ -1441,18 +1511,17 @@ async function resetPw(){
   err.textContent='';
   if(!email){err.textContent='Please enter your email.';return;}
   try{
-    var r = await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+'/contractor'});
-    if(r.error){err.textContent=r.error.message;return;}
+    await sb.auth.resetPasswordForEmail(email,{redirectTo:window.location.origin+'/contractor'});
     err.className='auth-err auth-err-ok';
     err.textContent='Reset link sent. Check your inbox.';
   }catch(e){err.textContent='Connection error.';}
 }
 
 async function signOut(){
-  await sb.auth.signOut();
+  if(sb) await sb.auth.signOut();
   document.getElementById('portal').style.display='none';
   document.getElementById('auth-gate').style.display='flex';
-  currentUser=null; companyId=null;
+  currentUser=null; companyId=null; companyData=null;
 }
 
 async function loadPortal(user){
@@ -1461,18 +1530,19 @@ async function loadPortal(user){
   document.getElementById('portal').style.display='block';
   var meta = user.user_metadata||{};
   var name = meta.full_name ? meta.full_name.split(' ')[0] : user.email.split('@')[0];
-  document.getElementById('tb-name').textContent = name;
+  setText('tb-name', name);
   try{
     var r = await sb.from('profiles').select('company_id').eq('id',user.id).single();
     if(r.data && r.data.company_id){
       companyId = r.data.company_id;
-      loadCompany();
+      await loadCompany();
       loadSolicitations();
       loadDocLibrary();
+    } else {
+      setText('lh-name','Company details not yet linked.');
+      setText('lh-address','Contact hello@lolotravels.com to complete your account setup.');
     }
-  }catch(e){
-    loadSolicitations();
-  }
+  }catch(e){}
   nav('overview');
 }
 
@@ -1481,117 +1551,179 @@ async function loadCompany(){
   try{
     var r = await sb.from('partner_profiles').select('*').eq('company_id',companyId).single();
     if(!r.data) return;
+    companyData = r.data;
     var d = r.data;
     var addr = [d.address_line1,d.address_city,d.address_country].filter(Boolean).join(', ');
     setText('lh-name', d.legal_name||'');
     setText('lh-address', addr||'');
-    // Partner type badge
     var partnerType = resolvePartnerType(d.service_types);
-    var typeEl = document.getElementById('lh-type-badge');
-    if(typeEl) typeEl.textContent = partnerType;
-    // Update topbar type badge
-    var tbType = document.getElementById('tb-type-badge');
-    if(tbType) tbType.textContent = partnerType;
-
-    var contactHtml = '';
-    if(d.signatory_name) contactHtml += '<strong>'+escHtml(d.signatory_name)+'</strong>'+(d.signatory_title?', '+escHtml(d.signatory_title):'')+'<br>';
-    if(d.signatory_email) contactHtml += escHtml(d.signatory_email)+'<br>';
-    if(d.signatory_phone) contactHtml += escHtml(d.signatory_phone);
-    document.getElementById('lh-contact').innerHTML = contactHtml;
-    var credsHtml = '';
-    if(d.iata_code) credsHtml += 'IATA: '+escHtml(d.iata_code)+'<br>';
-    if(d.registration_number) credsHtml += 'Reg: '+escHtml(d.registration_number);
-    if(d.tax_id) credsHtml += '<br>TIN: '+escHtml(d.tax_id);
-    document.getElementById('lh-creds').innerHTML = credsHtml;
+    setText('lh-type-badge', partnerType);
+    setText('tb-type-badge', partnerType);
+    var contactHtml='';
+    if(d.signatory_name) contactHtml+='<strong>'+escHtml(d.signatory_name)+'</strong>'+(d.signatory_title?', '+escHtml(d.signatory_title):'')+'<br>';
+    if(d.signatory_email) contactHtml+=escHtml(d.signatory_email)+'<br>';
+    var el = document.getElementById('lh-contact');
+    if(el) el.innerHTML=contactHtml;
+    var cred='';
+    if(d.iata_code) cred+=escHtml(d.iata_code);
+    if(d.registration_number) cred+=(cred?' | ':'')+escHtml(d.registration_number);
+    setText('lh-creds', cred);
+    // Profile panel
     setText('pf-legal', d.legal_name||'--');
     setText('pf-type', d.entity_type||'--');
     setText('pf-reg', d.registration_number||'--');
     setText('pf-tax', d.tax_id||'--');
-    setText('pf-iata', d.iata_code ? d.iata_code+(d.iata_expiry?' (exp '+d.iata_expiry+')':'') : '--');
+    setText('pf-iata', d.iata_code ? d.iata_code+(d.iata_expiry?' exp '+d.iata_expiry:'') : '--');
     setText('pf-gds', d.gds_platform||'--');
     setText('pf-address', addr||'--');
     setText('pf-phone', d.office_phone||'--');
     setText('pf-emerg1', d.emergency_line_1||'--');
     setText('pf-emerg2', d.emergency_line_2||'--');
-    var sigText = d.signatory_name||'--';
-    if(d.signatory_title) sigText += ', '+d.signatory_title;
-    setText('pf-sig', sigText);
+    var sig = d.signatory_name||(d.signatory_title?', '+d.signatory_title:'');
+    setText('pf-sig', sig||'--');
     setText('pf-sig-email', d.signatory_email||'--');
     setText('pf-bank', d.bank_name||'--');
-    var swiftText = d.bank_account_number ? d.bank_account_number+(d.bank_swift?' / '+d.bank_swift:'') : '--';
-    setText('pf-swift', swiftText);
-    if(d.additional_contacts){
-      var contacts = typeof d.additional_contacts === 'string' ? JSON.parse(d.additional_contacts) : d.additional_contacts;
-      var ch = document.getElementById('pf-contacts');
-      if(ch && contacts && contacts.length){
-        ch.innerHTML = '<div class="profile-grid">' +
-          contacts.map(function(c){
-            return '<div class="pg-cell"><div class="pg-label">'+escHtml(c.role||c.title||'Contact')+'</div><div class="pg-val">'+escHtml(c.name||'')+'<br><span style="color:var(--text-muted);font-size:.75rem;">'+escHtml(c.email||'')+(c.phone?' &nbsp;|&nbsp; '+escHtml(c.phone):'')+'</span></div></div>';
-          }).join('') +
-        '</div>';
-      }
-    }
+    setText('pf-swift', d.bank_account_number ? (d.bank_account_number+(d.bank_swift?' / '+d.bank_swift:'')) : '--');
+    // Populate edit fields
+    setVal('edit-line1', d.address_line1||'');
+    setVal('edit-city', d.address_city||'');
+    setVal('edit-country', d.address_country||'');
+    setVal('edit-phone', d.office_phone||'');
+    setVal('edit-emerg1', d.emergency_line_1||'');
+    setVal('edit-emerg2', d.emergency_line_2||'');
+    setVal('edit-gds', d.gds_platform||'');
+    setVal('edit-sig-name', d.signatory_name||'');
+    setVal('edit-sig-title', d.signatory_title||'');
+    setVal('edit-sig-email', d.signatory_email||'');
+    setVal('edit-sig-phone', d.signatory_phone||'');
+    setVal('edit-bank', d.bank_name||'');
+    setVal('edit-account', d.bank_account_number||'');
+    setVal('edit-swift', d.bank_swift||'');
+    // Staff/contacts
+    loadStaff(d.additional_contacts);
   }catch(e){}
 }
 
-async function loadSolicitations(){
-  if(!companyId||!sb){
-    document.getElementById('sol-list').innerHTML = '<div class="empty"><div class="empty-icon">No solicitations on file.</div><div class="empty-txt">Lolo will add your solicitations here once active.</div></div>';
-    return;
+function loadStaff(contacts){
+  var el = document.getElementById('staff-list');
+  if(!el) return;
+  var data = contacts;
+  if(typeof data === 'string'){try{data=JSON.parse(data);}catch(e){data=[];}}
+  if(!data||!data.length){el.innerHTML='<div class="empty"><div class="empty-txt">No team members added yet.</div></div>';return;}
+  el.innerHTML = data.map(function(c,i){
+    return '<div class="req-row" style="cursor:default;">' +
+      '<div style="flex:1;">' +
+        '<div class="req-name">'+escHtml(c.name||'')+'</div>' +
+        '<div class="req-desc">'+escHtml(c.title||c.role||'')+(c.email?' &nbsp;|&nbsp; '+escHtml(c.email):'')+(c.phone?' &nbsp;|&nbsp; '+escHtml(c.phone):'')+'</div>' +
+      '</div>' +
+      '<div><span class="stamp stamp-draft">'+escHtml(c.role||'Team Member')+'</span></div>' +
+    '</div>';
+  }).join('');
+}
+
+async function saveProfile(){
+  if(!companyId||!sb) return;
+  var btn = document.getElementById('save-profile-btn');
+  if(btn){btn.innerHTML='<span>Saving...</span>';btn.style.background='var(--navy)';}
+  var updates = {
+    address_line1: getVal('edit-line1')||getVal('edit-city'),
+    address_city: getVal('edit-city'),
+    address_country: getVal('edit-country'),
+    office_phone: getVal('edit-phone'),
+    emergency_line_1: getVal('edit-emerg1'),
+    emergency_line_2: getVal('edit-emerg2'),
+    gds_platform: getVal('edit-gds'),
+    signatory_name: getVal('edit-sig-name'),
+    signatory_title: getVal('edit-sig-title'),
+    signatory_email: getVal('edit-sig-email'),
+    signatory_phone: getVal('edit-sig-phone'),
+    bank_name: getVal('edit-bank'),
+    bank_account_number: getVal('edit-account'),
+    bank_swift: getVal('edit-swift'),
+  };
+  try{
+    var r = await sb.from('partner_profiles').update(updates).eq('company_id',companyId);
+    if(r.error) throw r.error;
+    await loadCompany();
+    toggleProfileEdit(false);
+    if(btn){btn.innerHTML='<span>Changes Saved</span>';btn.style.background='var(--green)';}
+    setTimeout(function(){if(btn){btn.innerHTML='<span>Save Changes</span>';btn.style.background='';}},3000);
+    // Notify Lolo
+    submitToFormspree({type:'profile-update',company:companyData?companyData.legal_name:'',email:currentUser.email,message:'Partner updated their company profile.'});
+  }catch(e){
+    if(btn){btn.innerHTML='<span>Error - Try Again</span>';btn.style.background='var(--red)';}
+    setTimeout(function(){if(btn){btn.innerHTML='<span>Save Changes</span>';btn.style.background='';}},3000);
   }
+}
+
+function toggleProfileEdit(on){
+  profileEditMode = on===undefined ? !profileEditMode : on;
+  var viewEl = document.getElementById('profile-view');
+  var editEl = document.getElementById('profile-edit');
+  var editBtn = document.getElementById('edit-profile-btn');
+  if(viewEl) viewEl.style.display = profileEditMode ? 'none' : 'block';
+  if(editEl) editEl.style.display = profileEditMode ? 'block' : 'none';
+  if(editBtn) editBtn.textContent = profileEditMode ? 'Cancel' : 'Edit Profile';
+}
+
+async function addStaff(){
+  var name = getVal('staff-name');
+  var title = getVal('staff-title');
+  var email = getVal('staff-email');
+  var phone = getVal('staff-phone');
+  var role = getVal('staff-role');
+  if(!name||!email){alert('Name and email are required.');return;}
+  var current = companyData ? (companyData.additional_contacts||[]) : [];
+  if(typeof current === 'string'){try{current=JSON.parse(current);}catch(e){current=[];}}
+  current.push({name:name,title:title,email:email,phone:phone,role:role||'Team Member'});
+  try{
+    await sb.from('partner_profiles').update({additional_contacts:current}).eq('company_id',companyId);
+    setVal('staff-name',''); setVal('staff-title',''); setVal('staff-email',''); setVal('staff-phone',''); setVal('staff-role','');
+    await loadCompany();
+    nav('staff');
+  }catch(e){alert('Error saving. Please try again.');}
+}
+
+async function loadSolicitations(){
+  if(!companyId||!sb) return;
   try{
     var r = await sb.from('solicitations').select('*').eq('company_id',companyId).order('due_date',{ascending:false});
     var sols = r.data||[];
+    var docR = await sb.from('partner_documents').select('id',{count:'exact',head:true}).eq('company_id',companyId).eq('is_current',true);
+    setText('ov-docs', docR.count||0);
     var list = document.getElementById('sol-list');
     if(!list) return;
-    var docR = await sb.from('partner_documents').select('id',{count:'exact'}).eq('company_id',companyId).eq('is_current',true);
-    setText('ov-docs', docR.count||0);
+    var active=0, missing=0, html='', payOpts='';
     if(!sols.length){
-      list.innerHTML='<div class="empty"><div class="empty-icon">No solicitations on file.</div><div class="empty-txt">Lolo will add your solicitations here once active. Check back after your next proposal submission.</div></div>';
+      list.innerHTML='<div class="empty"><div class="empty-icon">No solicitations on file.</div><div class="empty-txt">Lolo will add your solicitations here once active.</div></div>';
+      setText('ov-active',0); setText('ov-missing',0);
       return;
     }
-    var active=0, missing=0;
-    var payOpts = '';
-    var html='';
     sols.forEach(function(s){
-      var status = s.status||'active';
-      if(['submitted','active','pending_award'].indexOf(status)>-1) active++;
-      missing += (s.docs_missing||0);
-      payOpts += '<option value="'+s.id+'">'+s.solicitation_number+' - '+s.agency_location+'</option>';
-      var pct = s.completion_pct||0;
-      var complete = pct===100;
-      var urgentClass = s.priority==='urgent' ? 'urgent' : complete ? 'complete' : '';
-      var stampClass = status==='submitted'?'stamp-submitted':status==='awarded'?'stamp-awarded':status==='not_awarded'?'stamp-missing':'stamp-active';
-      var stampLabel = status.replace(/_/g,' ');
-      var missingHtml = '';
-      if(s.docs_missing>0){
-        missingHtml = '<span class="stamp stamp-missing">'+s.docs_missing+' item'+(s.docs_missing!==1?'s':'')+' required</span>';
-      }
-      html += '<div class="sol-card '+urgentClass+'" data-sol="'+s.id+'" onclick="openSolicitation(this.dataset.sol)">' +
-        '<div style="flex:1;">' +
-          '<div class="sol-num">'+escHtml(s.solicitation_number)+(s.priority==='urgent'?'<span class="stamp stamp-urgent" style="padding:2px 7px;font-size:.52rem;">Urgent</span>':'')+'</div>' +
-          '<div class="sol-title-text">'+escHtml(s.title)+'</div>' +
-          '<div class="sol-meta">' +
-            '<span>'+escHtml(s.agency_location||'')+'</span>' +
-            (s.submittal_date?'<span class="sol-date-chip">Submitted: '+s.submittal_date+'</span>':'') +
-            (s.due_date?'<span class="sol-date-chip">Due: '+s.due_date+'</span>':'') +
-          '</div>' +
-        '</div>' +
-        '<div class="sol-right">' +
-          '<span class="stamp '+stampClass+'">'+stampLabel+'</span>' +
-          missingHtml +
-          '<div class="prog-wrap">' +
-            '<div class="prog-bar-bg"><div class="prog-bar'+(complete?' complete':'')+'" style="width:'+pct+'%"></div></div>' +
-            '<span class="prog-pct">'+pct+'%</span>' +
-          '</div>' +
-        '</div>' +
+      if(['submitted','active','pending_award'].indexOf(s.status)>-1) active++;
+      missing+=(s.docs_missing||0);
+      payOpts+='<option value="'+s.id+'">'+escHtml(s.solicitation_number)+' - '+escHtml(s.agency_location||'')+'</option>';
+      var pct=s.completion_pct||0;
+      var sc=s.status==='submitted'?'stamp-submitted':s.status==='awarded'?'stamp-awarded':s.status==='not_awarded'?'stamp-missing':'stamp-active';
+      var urg=s.priority==='urgent'?'<span class="stamp stamp-urgent" style="font-size:.52rem;padding:2px 6px;margin-left:6px;">Urgent</span>':'';
+      var cardClass='sol-card'+(s.priority==='urgent'?' urgent':pct===100?' complete':'');
+      html+='<div class="'+cardClass+'" data-sol="'+s.id+'" onclick="openSolicitation(this.dataset.sol)">'+
+        '<div style="flex:1;">'+
+          '<div class="sol-num">'+escHtml(s.solicitation_number)+urg+'</div>'+
+          '<div class="sol-title-text">'+escHtml(s.title)+'</div>'+
+          '<div class="sol-meta">'+escHtml(s.agency_location||'')+(s.submittal_date?' | Submitted: '+s.submittal_date:'')+(s.due_date?' | Due: '+s.due_date:'')+'</div>'+
+        '</div>'+
+        '<div class="sol-right">'+
+          '<span class="stamp '+sc+'">'+escHtml((s.status||'').replace(/_/g,' '))+'</span>'+
+          (s.docs_missing>0?'<span class="stamp stamp-missing">'+s.docs_missing+' required</span>':'')+
+          '<div class="prog-wrap"><div class="prog-bar-bg"><div class="prog-bar'+(pct===100?' complete':'')+'" style="width:'+pct+'%"></div></div><span class="prog-pct">'+pct+'%</span></div>'+
+        '</div>'+
       '</div>';
     });
     list.innerHTML=html;
-    setText('ov-active',active);
-    setText('ov-missing',missing);
-    var payEl = document.getElementById('pay-sol');
-    if(payEl) payEl.innerHTML = payOpts;
+    setText('ov-active',active); setText('ov-missing',missing);
+    var payEl=document.getElementById('pay-sol');
+    if(payEl) payEl.innerHTML=payOpts;
   }catch(e){}
 }
 
@@ -1599,68 +1731,64 @@ async function openSolicitation(solId){
   activesolId=solId;
   if(!sb) return;
   try{
-    var r = await sb.from('solicitations').select('*').eq('id',solId).single();
-    var s = r.data; if(!s) return;
-    setText('sol-detail-num', s.solicitation_number||'');
-    setText('sol-detail-title', s.title||'');
-    setText('sol-detail-agency', (s.agency_name||'')+' - '+(s.agency_location||''));
-    var datesText = '';
-    if(s.submittal_date) datesText += 'Submitted: '+s.submittal_date+' ';
-    if(s.due_date) datesText += ' | Due: '+s.due_date;
-    setText('sol-detail-dates', datesText.trim());
-    var stamp = document.getElementById('sol-detail-stamp');
+    var sr = await sb.from('solicitations').select('*').eq('id',solId).single();
+    var s=sr.data; if(!s) return;
+    setText('sol-detail-num',s.solicitation_number||'');
+    setText('sol-detail-title',s.title||'');
+    setText('sol-detail-agency',(s.agency_name||'')+' - '+(s.agency_location||''));
+    var datesText=(s.submittal_date?'Submitted: '+s.submittal_date:'')+
+      (s.submittal_date&&s.due_date?' | ':'')+
+      (s.due_date?'Due: '+s.due_date:'');
+    setText('sol-detail-dates',datesText.trim());
+    var stamp=document.getElementById('sol-detail-stamp');
     if(stamp){
-      var sc = s.status==='submitted'?'stamp-submitted':s.status==='awarded'?'stamp-awarded':s.status==='not_awarded'?'stamp-missing':'stamp-active';
+      var sc=s.status==='submitted'?'stamp-submitted':s.status==='awarded'?'stamp-awarded':s.status==='not_awarded'?'stamp-missing':'stamp-active';
       stamp.className='stamp '+sc;
       stamp.textContent=(s.status||'').replace(/_/g,' ');
     }
-    var pct = s.completion_pct||0;
-    setText('sol-detail-pct', pct+'%');
-    var bar = document.getElementById('sol-progress-bar');
-    if(bar){bar.style.width=pct+'%'; if(pct===100) bar.classList.add('full'); else bar.classList.remove('full');}
-    var noteEl = document.getElementById('sol-lolo-note');
-    if(noteEl){
-      if(s.lolo_notes){noteEl.textContent=s.lolo_notes;noteEl.style.display='block';}
-      else noteEl.style.display='none';
-    }
-    var rr = await sb.from('solicitation_requirements').select('*').eq('solicitation_id',solId).order('sort_order');
-    var reqs = rr.data||[];
-    var action = reqs.filter(function(r){return r.status==='missing'||r.status==='expired'||r.status==='expiring_soon';});
-    var verified = reqs.filter(function(r){return r.status==='verified';});
-    setText('action-count', action.length+' item'+(action.length!==1?'s':''));
-    var ae = document.getElementById('reqs-action');
-    var aem = document.getElementById('reqs-action-empty');
+    var pct=s.completion_pct||0;
+    setText('sol-detail-pct',pct+'%');
+    var bar=document.getElementById('sol-progress-bar');
+    if(bar){bar.style.width=pct+'%';if(pct===100)bar.classList.add('full');else bar.classList.remove('full');}
+    var noteEl=document.getElementById('sol-lolo-note');
+    if(noteEl){if(s.lolo_notes){noteEl.textContent=s.lolo_notes;noteEl.style.display='block';}else noteEl.style.display='none';}
+    var rr=await sb.from('solicitation_requirements').select('*').eq('solicitation_id',solId).order('sort_order');
+    var reqs=rr.data||[];
+    var action=reqs.filter(function(r){return r.status==='missing'||r.status==='expired'||r.status==='expiring_soon';});
+    var verified=reqs.filter(function(r){return r.status==='verified';});
+    setText('action-count',action.length+' item'+(action.length!==1?'s':''));
+    var ae=document.getElementById('reqs-action');
+    var aem=document.getElementById('reqs-action-empty');
     if(ae){
       if(!action.length){ae.innerHTML='';if(aem)aem.style.display='block';}
       else{
         if(aem)aem.style.display='none';
         ae.innerHTML=action.map(function(r){
-          var rowClass = r.status==='verified'?'req-verified':r.status==='expiring_soon'?'req-expiring':'req-missing';
-          var stampClass = r.status==='missing'?'stamp-missing':r.status==='expired'?'stamp-missing':'stamp-expiring';
-          var stampLabel = r.status==='missing'?'Required':r.status==='expired'?'Expired':'Expiring Soon';
-          return '<div class="req-row '+rowClass+'">' +
-            '<div style="flex:1;">' +
-              '<div class="req-name">'+escHtml(r.req_name)+'</div>' +
-              (r.req_description?'<div class="req-desc">'+escHtml(r.req_description)+'</div>':'') +
-              (r.lolo_notes?'<div class="req-note note-lolo">Lolo: '+escHtml(r.lolo_notes)+'</div>':'') +
-              (r.flag_message?'<div class="req-note note-flag">'+escHtml(r.flag_message)+'</div>':'') +
-            '</div>' +
-            '<div style="flex-shrink:0;"><span class="stamp '+stampClass+'">'+stampLabel+'</span></div>' +
+          var sc=r.status==='verified'?'stamp-verified':r.status==='expiring_soon'?'stamp-expiring':'stamp-missing';
+          var sl=r.status==='missing'?'Required':r.status==='expired'?'Expired':'Expiring Soon';
+          return '<div class="req-row req-'+r.status+'">'+
+            '<div style="flex:1;">'+
+              '<div class="req-name">'+escHtml(r.req_name)+'</div>'+
+              (r.req_description?'<div class="req-desc">'+escHtml(r.req_description)+'</div>':'')+
+              (r.lolo_notes?'<div class="req-note note-lolo">'+escHtml(r.lolo_notes)+'</div>':'')+
+              (r.flag_message?'<div class="req-note note-flag">'+escHtml(r.flag_message)+'</div>':'')+
+            '</div>'+
+            '<span class="stamp '+sc+'">'+sl+'</span>'+
           '</div>';
         }).join('');
       }
     }
-    setText('verified-count', verified.length+' item'+(verified.length!==1?'s':''));
-    var ve = document.getElementById('reqs-verified');
+    setText('verified-count',verified.length+' item'+(verified.length!==1?'s':''));
+    var ve=document.getElementById('reqs-verified');
     if(ve){
       ve.innerHTML=verified.map(function(r){
-        return '<div class="req-row req-verified">' +
-          '<div style="flex:1;">' +
-            '<div class="req-name">'+escHtml(r.req_name)+'</div>' +
-            (r.lolo_notes?'<div class="req-desc">'+escHtml(r.lolo_notes)+'</div>':'') +
-            (r.lolo_preselected?'<div class="req-preloaded">Pre-loaded by Lolo from your submitted documents</div>':'') +
-          '</div>' +
-          '<div style="flex-shrink:0;"><span class="stamp stamp-verified">Verified</span></div>' +
+        return '<div class="req-row req-verified">'+
+          '<div style="flex:1;">'+
+            '<div class="req-name">'+escHtml(r.req_name)+'</div>'+
+            (r.lolo_notes?'<div class="req-desc">'+escHtml(r.lolo_notes)+'</div>':'')+
+            (r.lolo_preselected?'<div class="req-preloaded">Pre-loaded by Lolo</div>':'')+
+          '</div>'+
+          '<span class="stamp stamp-verified">Verified</span>'+
         '</div>';
       }).join('');
     }
@@ -1668,146 +1796,222 @@ async function openSolicitation(solId){
   }catch(e){nav('solicitation');}
 }
 
+async function uploadDoc(mode){
+  var type=getVal('up-type');
+  var name=getVal('up-name');
+  var isDraft=mode==='draft';
+  var fileInput=document.getElementById('up-file');
+  if(!type||!name){alert('Please select a document type and enter a name.');return;}
+  var btn=document.querySelectorAll('#p-solicitation .sbtn')[mode==='draft'?1:0];
+  if(btn){btn.innerHTML='<span>Uploading...</span>';}
+  try{
+    var fileUrl=null;
+    if(fileInput&&fileInput.files&&fileInput.files[0]){
+      var file=fileInput.files[0];
+      var path=companyId+'/'+Date.now()+'-'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+      var up=await sb.storage.from('documents').upload(path,file,{upsert:false});
+      if(!up.error){
+        var pub=sb.storage.from('documents').getPublicUrl(path);
+        fileUrl=pub.data.publicUrl;
+      }
+    }
+    var record={
+      company_id:companyId,
+      uploaded_by:currentUser.id,
+      doc_type:type,
+      doc_name:name,
+      file_url:fileUrl,
+      file_name:fileInput&&fileInput.files&&fileInput.files[0]?fileInput.files[0].name:null,
+      issue_date:getVal('up-issue')||null,
+      expiry_date:getVal('up-expiry')||null,
+      has_expiry:!!getVal('up-expiry'),
+      status:isDraft?'draft':'active',
+      is_draft:isDraft,
+      is_current:true,
+      verified:false,
+      solicitation_id:activesolId||null
+    };
+    await sb.from('partner_documents').insert(record);
+    if(btn){btn.innerHTML='<span>'+(isDraft?'Draft Saved':'Submitted')+'</span>';btn.style.background='var(--green)';}
+    setTimeout(function(){if(btn){btn.innerHTML='<span>'+(isDraft?'Save as Draft':'Submit Document')+'</span>';btn.style.background='';}},3000);
+    submitToFormspree({type:'document-upload',company:companyData?companyData.legal_name:'',email:currentUser.email,message:'New document uploaded: '+name+(activesolId?' for solicitation '+activesolId:'')+(isDraft?' [DRAFT]':'')});
+    loadDocLibrary();
+  }catch(e){
+    if(btn){btn.innerHTML='<span>Error</span>';btn.style.background='var(--red)';}
+    setTimeout(function(){if(btn){btn.innerHTML='<span>'+(isDraft?'Save as Draft':'Submit Document')+'</span>';btn.style.background='';}},3000);
+  }
+}
+
 async function loadDocLibrary(){
   if(!companyId||!sb) return;
   try{
-    var r = await sb.from('partner_documents').select('*').eq('company_id',companyId).eq('is_current',true).order('created_at',{ascending:false});
-    var docs = r.data||[];
-    renderDocs(docs);
+    var r=await sb.from('partner_documents').select('*').eq('company_id',companyId).eq('is_current',true).order('created_at',{ascending:false});
+    renderDocs(r.data||[]);
+    setText('ov-docs',(r.data||[]).length);
   }catch(e){}
 }
 
 function renderDocs(docs){
-  var filtered = libFilter==='all' ? docs :
-    libFilter==='draft' ? docs.filter(function(d){return d.is_draft;}) :
+  var filtered=libFilter==='all'?docs:
+    libFilter==='draft'?docs.filter(function(d){return d.is_draft;}):
     docs.filter(function(d){return d.status===libFilter;});
-  var el = document.getElementById('lib-docs');
-  var empty = document.getElementById('lib-empty');
+  var el=document.getElementById('lib-docs');
+  var empty=document.getElementById('lib-empty');
   if(!el) return;
-  if(!filtered.length){
-    el.innerHTML='';
-    if(empty) empty.style.display='block';
-    return;
-  }
+  if(!filtered.length){el.innerHTML='';if(empty)empty.style.display='block';return;}
   if(empty) empty.style.display='none';
   el.innerHTML=filtered.map(function(d){
-    var sc = d.status==='active'?'stamp-verified':d.status==='expiring_soon'?'stamp-expiring':d.status==='expired'?'stamp-missing':d.is_draft?'stamp-draft':'stamp-pending';
-    var sl = d.status==='active'?'Active':d.status==='expiring_soon'?'Expiring Soon':d.status==='expired'?'Expired':d.is_draft?'Draft':'Pending Review';
-    var ext = (d.file_name||'').split('.').pop().toUpperCase().substring(0,3)||'DOC';
-    return '<div class="doc-card">' +
-      '<div class="doc-icon">'+ext+'</div>' +
-      '<div style="flex:1;">' +
-        '<div class="doc-name">'+escHtml(d.doc_name)+'</div>' +
-        '<div class="doc-meta">'+(d.doc_type||'').replace(/_/g,' ')+(d.issue_date?' &nbsp;|&nbsp; Issued: '+d.issue_date:'')+(d.expiry_date?' &nbsp;|&nbsp; Expires: '+d.expiry_date:'')+'</div>' +
-        (d.verified?'<div class="doc-verified-tag">Verified by Lolo</div>':'<div style="font-family:var(--fb);font-weight:200;font-size:.65rem;color:var(--text-dim);margin-top:2px;">Pending Lolo review</div>') +
-      '</div>' +
-      '<span class="stamp '+sc+'">'+sl+'</span>' +
+    var sc=d.status==='active'?'stamp-verified':d.status==='expiring_soon'?'stamp-expiring':d.status==='expired'?'stamp-missing':d.is_draft?'stamp-draft':'stamp-pending';
+    var sl=d.status==='active'?'Active':d.status==='expiring_soon'?'Expiring':d.status==='expired'?'Expired':d.is_draft?'Draft':'Pending Review';
+    var ext=(d.file_name||'').split('.').pop().toUpperCase().substring(0,4)||'DOC';
+    return '<div class="doc-card">'+
+      '<div class="doc-icon">'+ext+'</div>'+
+      '<div style="flex:1;">'+
+        '<div class="doc-name">'+escHtml(d.doc_name)+'</div>'+
+        '<div class="doc-meta">'+escHtml((d.doc_type||'').replace(/_/g,' '))+(d.issue_date?' | Issued: '+d.issue_date:'')+(d.expiry_date?' | Expires: '+d.expiry_date:'')+'</div>'+
+        (d.verified?'<div class="doc-verified-tag">Verified by Lolo</div>':'<div style="font-size:.65rem;color:var(--navy-3);margin-top:2px;">Pending Lolo review</div>')+
+      '</div>'+
+      (d.file_url?'<a href="'+d.file_url+'" target="_blank" class="sbtn-outline" style="font-size:.54rem;padding:6px 12px;">View</a>':'')+
+      '<span class="stamp '+sc+'">'+sl+'</span>'+
     '</div>';
   }).join('');
 }
 
-async function filterLib(btn, filter){
-  libFilter = filter;
-  document.querySelectorAll('.filter-tab').forEach(function(b){b.classList.remove('on');});
-  btn.classList.add('on');
-  if(companyId && sb){
-    var r = await sb.from('partner_documents').select('*').eq('company_id',companyId).eq('is_current',true).order('created_at',{ascending:false});
-    renderDocs(r.data||[]);
-  }
-}
-
-function handleUpload(input, zoneId, fnameId){
-  if(input.files && input.files[0]){
-    var f = input.files[0];
-    var zone = document.getElementById(zoneId);
-    if(zone) zone.querySelector('.upload-txt').innerHTML='<strong>'+escHtml(f.name)+'</strong><br>'+formatBytes(f.size)+' - Ready to upload';
-    setText(fnameId, f.name+' attached');
-  }
-}
-
-function formatBytes(b){ return b>1048576 ? (b/1048576).toFixed(1)+' MB' : (b/1024).toFixed(0)+' KB'; }
-
-function submitDoc(mode){
-  var btns = document.querySelectorAll('#p-solicitation .sbtn, #p-solicitation .sbtn-outline');
-  var btn = mode==='submit' ? btns[0] : btns[1];
-  if(btn){
-    var o=btn.innerHTML||btn.textContent;
-    if(btn.classList.contains('sbtn')){
-      btn.innerHTML='<span>'+(mode==='draft'?'Draft Saved':'Submitted to Lolo')+'</span>';
-      btn.style.background=mode==='draft'?'var(--text-muted)':'var(--green)';
-      setTimeout(function(){btn.innerHTML='<span>Submit Document</span>';btn.style.background='';},3200);
-    } else {
-      btn.textContent='Draft Saved';
-      btn.style.color='var(--green)';
-      setTimeout(function(){btn.textContent='Save as Draft';btn.style.color='';},3200);
-    }
-    submitForm('document-upload');
-  }
-}
-
-function addToLib(){
-  var btn = document.querySelector('#p-library .sbtn');
-  if(btn){var o=btn.innerHTML;btn.innerHTML='<span>Added to Library</span>';btn.style.background='var(--green)';setTimeout(function(){btn.innerHTML=o;btn.style.background='';},3000);}
-  submitForm('library-upload');
-}
-
-function submitPayment(){
-  var btn = document.querySelector('#p-payment .sbtn');
-  if(btn){var o=btn.innerHTML;btn.innerHTML='<span>Payment Request Submitted</span>';btn.style.background='var(--green)';setTimeout(function(){btn.innerHTML=o;btn.style.background='';},3500);}
-  submitForm('payment-request');
-}
-
-function submitAction(type, fieldId){
-  var btn = event.target;
-  if(btn){var o=btn.innerHTML;btn.innerHTML='<span>Request Submitted</span>';btn.style.background='var(--green)';setTimeout(function(){btn.innerHTML=o;btn.style.background='';},3000);}
-  submitForm(type);
-}
-
-function submitForm(type){
-  var email = currentUser ? currentUser.email : '';
-  fetch('/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
-    body:new URLSearchParams({'form-name':'lolo-contractor','type':type,'user_email':email}).toString()
-  });
-}
-
-function resolvePartnerType(serviceTypes) {
-  if(!serviceTypes) return 'Partner';
-  var types = Array.isArray(serviceTypes) ? serviceTypes : [serviceTypes];
-  var typeStr = types.join(',').toLowerCase();
-  if(typeStr.indexOf('insurance') > -1) return 'Insurance Partner';
-  if(typeStr.indexOf('air') > -1 || typeStr.indexOf('hotel') > -1 || typeStr.indexOf('ground') > -1) return 'Travel Management Partner';
-  if(typeStr.indexOf('cargo') > -1) return 'Cargo Partner';
-  if(typeStr.indexOf('visa') > -1) return 'Visa Services Partner';
-  return 'Partner';
-}
-
-async function sendMsg(){
-  var inp = document.getElementById('chat-in');
-  var msgs = document.getElementById('chat-msgs');
-  if(!inp||!msgs) return;
-  var msg = inp.value.trim();
-  if(!msg) return;
-  inp.value='';
-  msgs.innerHTML += '<div class="cmsg user"><div class="cav cav-u">You</div><div class="cbub cbub-u">'+escHtml(msg)+'</div></div>';
-  var tid='t'+Date.now();
-  msgs.innerHTML += '<div class="cmsg" id="'+tid+'"><div class="cav cav-ai">LL</div><div class="cbub cbub-ai"><div class="typing-d"><span></span><span></span><span></span></div></div></div>';
-  msgs.scrollTop=msgs.scrollHeight;
-  chatHistory.push({role:'user',content:msg});
+async function addToLib(){
+  var type=getVal('lib-type');
+  var name=getVal('lib-name');
+  var fileInput=document.getElementById('lib-file');
+  if(!type||!name){alert('Please select a type and enter a name.');return;}
+  var btn=document.querySelector('#p-library .sbtn');
+  if(btn){btn.innerHTML='<span>Uploading...</span>';}
   try{
-    var resp = await fetch('https://api.anthropic.com/v1/messages',{method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:chatSystem,messages:chatHistory})
+    var fileUrl=null;
+    if(fileInput&&fileInput.files&&fileInput.files[0]){
+      var file=fileInput.files[0];
+      var path=companyId+'/'+Date.now()+'-'+file.name.replace(/[^a-zA-Z0-9._-]/g,'_');
+      var up=await sb.storage.from('documents').upload(path,file,{upsert:false});
+      if(!up.error){
+        var pub=sb.storage.from('documents').getPublicUrl(path);
+        fileUrl=pub.data.publicUrl;
+      }
+    }
+    await sb.from('partner_documents').insert({
+      company_id:companyId,uploaded_by:currentUser.id,
+      doc_type:type,doc_name:name,file_url:fileUrl,
+      file_name:fileInput&&fileInput.files&&fileInput.files[0]?fileInput.files[0].name:null,
+      issue_date:getVal('lib-issue')||null,expiry_date:getVal('lib-expiry')||null,
+      has_expiry:!!getVal('lib-expiry'),status:'active',is_draft:false,is_current:true,verified:false
     });
-    var data = await resp.json();
-    var reply = data.content&&data.content[0] ? data.content[0].text : 'Please try again.';
-    chatHistory.push({role:'assistant',content:reply});
-    var el=document.getElementById(tid);
-    if(el) el.querySelector('.cbub').textContent=reply;
+    if(btn){btn.innerHTML='<span>Added to Library</span>';btn.style.background='var(--green)';}
+    setTimeout(function(){if(btn){btn.innerHTML='<span>Add to Library</span>';btn.style.background='';}},3000);
+    loadDocLibrary();
   }catch(e){
-    var el=document.getElementById(tid);
-    if(el) el.querySelector('.cbub').textContent='Connection issue. Please try again.';
+    if(btn){btn.innerHTML='<span>Error</span>';btn.style.background='var(--red)';}
+    setTimeout(function(){if(btn){btn.innerHTML='<span>Add to Library</span>';btn.style.background='';}},3000);
   }
-  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function filterLib(btn,filter){
+  libFilter=filter;
+  document.querySelectorAll('.filter-tab').forEach(function(b){b.classList.remove('on');});
+  if(btn) btn.classList.add('on');
+  loadDocLibrary();
+}
+
+async function sendMessage(){
+  var cat=getVal('msg-category');
+  var msg=getVal('msg-body');
+  if(!msg.trim()){alert('Please enter a message.');return;}
+  var btn=document.getElementById('msg-send-btn');
+  if(btn){btn.innerHTML='<span>Sending...</span>';}
+  var company=companyData?companyData.legal_name:'Unknown Partner';
+  var subject='['+cat+'] Message from '+company;
+  try{
+    // Store in DB
+    await sb.from('messages').insert({
+      thread_type:'partner',thread_id:companyId,
+      sender_id:currentUser.id,
+      body:'['+cat+'] '+msg,
+      is_read:false
+    });
+    // Email to Lolo
+    await submitToFormspree({type:'partner-message',category:cat,company:company,email:currentUser.email,message:msg,subject:subject});
+    setVal('msg-body','');
+    if(btn){btn.innerHTML='<span>Message Sent</span>';btn.style.background='var(--green)';}
+    setTimeout(function(){if(btn){btn.innerHTML='<span>Send Message</span>';btn.style.background='';}},3000);
+    loadMessages();
+  }catch(e){
+    // Still try formspree even if DB fails
+    await submitToFormspree({type:'partner-message',category:cat,company:company,email:currentUser.email,message:msg});
+    if(btn){btn.innerHTML='<span>Message Sent</span>';btn.style.background='var(--green)';}
+    setTimeout(function(){if(btn){btn.innerHTML='<span>Send Message</span>';btn.style.background='';}},3000);
+  }
+}
+
+async function loadMessages(){
+  if(!companyId||!sb) return;
+  var container=document.getElementById('msg-history');
+  if(!container) return;
+  try{
+    var r=await sb.from('messages').select('*').eq('thread_id',companyId).order('created_at',{ascending:false}).limit(20);
+    var msgs=r.data||[];
+    if(!msgs.length){container.innerHTML='<div class="empty"><div class="empty-txt">No messages yet.</div></div>';return;}
+    container.innerHTML=msgs.map(function(m){
+      var isMe=m.sender_id===currentUser.id;
+      var d=new Date(m.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      return '<div style="padding:12px 0;border-bottom:1px solid var(--paper-dk);">'+
+        '<div style="display:flex;justify-content:space-between;margin-bottom:4px;">'+
+          '<span style="font-size:.7rem;font-weight:500;color:var(--navy);">'+(isMe?'You':'Lolo Travels')+'</span>'+
+          '<span style="font-size:.65rem;color:var(--navy-3);">'+d+'</span>'+
+        '</div>'+
+        '<div style="font-size:.82rem;color:var(--navy-2);">'+escHtml(m.body)+'</div>'+
+      '</div>';
+    }).join('');
+  }catch(e){}
+}
+
+async function submitPayment(){
+  var btn=document.querySelector('#p-payment .sbtn');
+  if(btn){btn.innerHTML='<span>Submitting...</span>';}
+  var company=companyData?companyData.legal_name:'';
+  var data={
+    type:'payment-request',company:company,email:currentUser.email,
+    solicitation:getVal('pay-sol')||'',
+    invoice:getVal('pay-inv')||'',
+    amount:getVal('pay-amt')||'',
+    period:getVal('pay-period')||'',
+    clin:getVal('pay-clin')||'',
+    description:getVal('pay-desc')||''
+  };
+  await submitToFormspree(data);
+  if(btn){btn.innerHTML='<span>Request Submitted</span>';btn.style.background='var(--green)';}
+  setTimeout(function(){if(btn){btn.innerHTML='<span>Submit Payment Request</span>';btn.style.background='';}},3500);
+}
+
+async function submitToFormspree(data){
+  try{
+    await fetch(FORMSPREE,{method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify(data)
+    });
+  }catch(e){}
+}
+
+function handleUpload(input,zoneId,fnameId){
+  if(input.files&&input.files[0]){
+    var f=input.files[0];
+    var zone=document.getElementById(zoneId);
+    if(zone) zone.querySelector('.upload-txt').innerHTML='<strong>'+escHtml(f.name)+'</strong><br>'+(f.size>1048576?(f.size/1048576).toFixed(1)+' MB':(f.size/1024).toFixed(0)+' KB');
+    setText(fnameId,f.name+' ready');
+  }
+}
+
+function resolvePartnerType(serviceTypes){
+  if(!serviceTypes) return 'Partner';
+  var t=(Array.isArray(serviceTypes)?serviceTypes.join(','):serviceTypes).toLowerCase();
+  if(t.indexOf('insurance')>-1) return 'Insurance Partner';
+  if(t.indexOf('air')>-1||t.indexOf('hotel')>-1||t.indexOf('ground')>-1) return 'Travel Management Partner';
+  return 'Partner';
 }
 
 function nav(id){
@@ -1819,14 +2023,13 @@ function nav(id){
   if(navEl) navEl.classList.add('on');
   window.scrollTo({top:0,behavior:'smooth'});
   if(id==='library') loadDocLibrary();
+  if(id==='messages') loadMessages();
+  if(id==='staff') loadStaff(companyData?companyData.additional_contacts:[]);
 }
 
-function setText(id,val){var el=document.getElementById(id);if(el)el.textContent=val;}
-
-function escHtml(s){
-  if(!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
+function setText(id,val){var el=document.getElementById(id);if(el)el.textContent=val||'';}
+function setVal(id,val){var el=document.getElementById(id);if(el)el.value=val||'';}
+function getVal(id){var el=document.getElementById(id);return el?el.value:'';}
+function escHtml(s){if(!s)return '';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 </script>
 </body>
-</html>
