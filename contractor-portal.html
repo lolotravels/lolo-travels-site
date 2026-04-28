@@ -1001,42 +1001,90 @@ async function saveTeam(){
 }
 
 async function loadSolicitations(){
-  if(!sb) return;
+  if(!sb)return;
   if(!companyId){
-    setHtml('sol-list','<div class="empty"><div class="empty-ic">Loading your solicitations...</div><div class="empty-tx">If this persists, try signing out and back in.</div></div>');
-    // Try to find companyId from partner_profiles as fallback
-    try{
-      var fe=await sb.from('partner_profiles').select('company_id').eq('signatory_email',currentUser.email).single();
-      if(!fe.data) fe=await sb.from('partner_profiles').select('company_id').eq('office_email',currentUser.email).single();
-      if(fe.data){companyId=fe.data.company_id;}else{return;}
-    }catch(e){return;}
+    setHtml('sol-list','<div class="empty"><div class="empty-ic">Loading...</div></div>');
+    return;
   }
   try{
     var r=await sb.from('solicitations').select('*').eq('company_id',companyId).order('due_date',{ascending:false});
     var sols=r.data||[];
-    var active=0,missing=0;
     var docR=await sb.from('partner_documents').select('id',{count:'exact'}).eq('company_id',companyId);
     setText('ov-docs',docR.count||0);
-    if(!sols.length){setHtml('sol-list','<div class="empty"><div class="empty-ic">No solicitations on file.</div><div class="empty-tx">Lolo will add your solicitations here once active.</div></div>');return;}
-    var html='';
+
+    if(!sols.length){
+      setHtml('sol-list','<div class="empty"><div class="empty-ic">No solicitations on file.</div><div class="empty-tx">Lolo will add your solicitations here once active.</div></div>');
+      return;
+    }
+
+    var active=0,missing=0;
+    var active_sols=[],upcoming_sols=[],awarded_sols=[],denied_sols=[];
     sols.forEach(function(s){
       var st=s.status||'active';
-      if(['submitted','active','pending_award'].includes(st))active++;
+      if(st==='upcoming')upcoming_sols.push(s);
+      else if(st==='awarded')awarded_sols.push(s);
+      else if(st==='not_awarded'||st==='denied')denied_sols.push(s);
+      else{active_sols.push(s);active++;}
       missing+=(s.docs_missing||0);
-      var pct=s.completion_pct||0;
-      var sc=st==='submitted'?'stamp-sub':st==='awarded'?'stamp-award':st==='not_awarded'?'stamp-miss':'stamp-exp';
-      var urg=s.priority==='urgent'?'<span class="stamp stamp-urg" style="font-size:.5rem;padding:2px 7px;">Urgent</span>':'';
-      html+='<div class="sol-card'+(s.priority==='urgent'?' urgent':pct===100?' complete':'')+'" data-sol="'+esc(s.id)+'" onclick="openSol(this.dataset.sol)">'+
-        '<div style="flex:1;"><div class="sol-num">'+esc(s.solicitation_number||'')+' '+urg+'</div>'+
-        '<div class="sol-ti">'+esc(s.title||'')+'</div>'+
-        '<div class="sol-meta"><span>'+esc(s.agency_location||'')+'</span>'+(s.submittal_date?'<span>Submitted: '+esc(s.submittal_date)+'</span>':'')+(s.due_date?'<span>Due: '+esc(s.due_date)+'</span>':'')+'</div></div>'+
-        '<div class="sol-r"><span class="stamp '+sc+'">'+st.replace(/_/g,' ')+'</span>'+(s.docs_missing>0?'<span class="stamp stamp-miss">'+s.docs_missing+' required</span>':'')+
-        '<div class="prog"><div class="prog-bg"><div class="prog-fill'+(pct===100?' done':'')+'" style="width:'+pct+'%;"></div></div><span class="prog-pct">'+pct+'%</span></div></div></div>';
     });
-    setHtml('sol-list',html);
     setText('ov-active',active);setText('ov-missing',missing);
-  }catch(e){}
+
+    function solCard(s){
+      var st=s.status||'active';
+      var pct=s.completion_pct||0;
+      var sc=st==='submitted'?'stamp-sub':st==='awarded'?'stamp-award':(st==='not_awarded'||st==='denied')?'stamp-miss':st==='upcoming'?'stamp-draft':'stamp-exp';
+      var stLabel=st==='not_awarded'?'Not Awarded':st==='upcoming'?'Upcoming':st.replace(/_/g,' ');
+      var urg=s.priority==='urgent'?'<span class="stamp stamp-urg" style="font-size:.5rem;padding:2px 7px;">Urgent</span>':'';
+      var govBadge=(s.government_communications&&s.government_communications!='[]'&&s.government_communications!='null')?'<span class="stamp stamp-exp" style="font-size:.5rem;margin-left:4px;">Gov. Comm.</span>':'';
+      var awardInfo=st==='awarded'&&s.award_date?'<div style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--green);margin-top:4px;">Awarded: '+esc(s.award_date)+'</div>':'';
+      var denyInfo=(st==='not_awarded'||st==='denied')&&s.denial_reason?'<div style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--red);margin-top:4px;">'+esc(s.denial_reason)+'</div>':'';
+      return '<div class="sol-card'+(s.priority==='urgent'?' urgent':pct===100&&st!=='upcoming'?' complete':'')+'" data-sol="'+esc(s.id)+'" onclick="openSol(this.dataset.sol)">'+
+        '<div style="flex:1;">'+
+          '<div class="sol-num">'+esc(s.solicitation_number||'')+' '+urg+govBadge+'</div>'+
+          '<div class="sol-ti">'+esc(s.title||'')+'</div>'+
+          '<div class="sol-meta"><span>'+esc(s.agency_location||'')+'</span>'+(s.submittal_date?'<span>Submitted: '+esc(s.submittal_date)+'</span>':'')+(s.due_date?'<span>Due: '+esc(s.due_date)+'</span>':'')+'</div>'+
+          awardInfo+denyInfo+
+        '</div>'+
+        '<div class="sol-r">'+
+          '<span class="stamp '+sc+'">'+stLabel+'</span>'+
+          (s.docs_missing>0?'<span class="stamp stamp-miss">'+s.docs_missing+' required</span>':'')+
+          '<div class="prog"><div class="prog-bg"><div class="prog-fill'+(pct===100?' done':'')+'" style="width:'+pct+'%;"></div></div><span class="prog-pct">'+pct+'%</span></div>'+
+        '</div>'+
+      '</div>';
+    }
+
+    var sectionStyle='font-family:var(--fb);font-weight:500;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px;margin-top:16px;padding-bottom:6px;border-bottom:1px solid var(--paperdk);';
+    var html='';
+    if(active_sols.length){
+      html+='<div style="'+sectionStyle+'color:var(--navy2);">Active Solicitations</div>';
+      active_sols.forEach(function(s){html+=solCard(s);});
+    }
+    if(upcoming_sols.length){
+      html+='<div style="'+sectionStyle+'color:var(--navy3);">Upcoming Solicitations</div>';
+      upcoming_sols.forEach(function(s){html+=solCard(s);});
+    }
+    if(awarded_sols.length){
+      html+='<div style="'+sectionStyle+'color:var(--green);">Awarded</div>';
+      awarded_sols.forEach(function(s){html+=solCard(s);});
+    }
+    if(denied_sols.length){
+      html+='<div style="'+sectionStyle+'color:var(--red);">Not Awarded</div>';
+      denied_sols.forEach(function(s){html+=solCard(s);});
+    }
+
+    // Populate pay-sol dropdown with active contracts
+    var payEl=document.getElementById('pay-sol');
+    if(payEl){
+      var activeSols=active_sols.filter(function(s){return s.status==='submitted'||s.status==='active';});
+      payEl.innerHTML=activeSols.length?activeSols.map(function(s){return '<option value="'+esc(s.id)+'">'+esc(s.solicitation_number)+' - '+esc(s.agency_location||'')+'</option>';}).join(''):'<option>No active contracts on file</option>';
+    }
+
+    setHtml('sol-list',html);
+  }catch(e){
+    setHtml('sol-list','<div class="empty"><div class="empty-tx">Unable to load solicitations. Please refresh.</div></div>');
+  }
 }
+
 
 async function openSol(solId){
   activeSolId=solId;if(!sb)return;
