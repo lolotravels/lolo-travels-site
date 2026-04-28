@@ -3,780 +3,1361 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Lolo Travels - Member Portal</title>
+<title>My Lolo - Member Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+*{box-sizing:border-box;margin:0;padding:0;}
 :root{
+  --royal:#2A3F7E;
+  --mid:#1C2E6B;
   --navy:#060E1A;
-  --navy2:#0A1628;
+  --navy2:#0D1A45;
   --gold:#C9A84C;
-  --gold-lt:#E2C97E;
-  --cream:#F5F0E8;
-  --muted:rgba(245,240,232,.55);
-  --dim:rgba(245,240,232,.3);
-  --green:rgba(40,180,100,.85);
-  --red:rgba(220,70,70,.85);
-  --amber:rgba(220,160,40,.85);
+  --goldk:#A8882C;
+  --goldpale:rgba(201,168,76,.1);
+  --cream:#F7F4EE;
+  --creamdk:#EDE8DE;
+  --white:#FFFFFF;
+  --green:#145C32;--greenbg:rgba(20,92,50,.08);--greenbd:rgba(20,92,50,.2);
+  --red:#991818;--redbg:rgba(153,24,24,.07);--redbd:rgba(153,24,24,.18);
+  --amber:#7A5808;
+  --bdr:1px solid rgba(6,14,26,.1);
+  --bdrgold:1px solid rgba(201,168,76,.28);
   --fd:'Cormorant Garamond',Georgia,serif;
   --fb:'Jost',sans-serif;
   --ease:cubic-bezier(.16,1,.3,1);
-  --bdr:1px solid rgba(255,255,255,.07);
-  --bdrg:1px solid rgba(201,168,76,.22);
+  --hero:linear-gradient(160deg,#2A3F7E 0%,#1C2E6B 28%,#0D1A45 58%,#060E1A 100%);
 }
-html,body{background:var(--navy);color:var(--cream);font-family:var(--fb);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);font-size:16px;-webkit-font-smoothing:antialiased;}
 
-/* AUTH */
-#auth-gate{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(201,168,76,.07) 0%,transparent 70%),var(--navy);}
-.auth-wrap{width:100%;max-width:400px;padding:0 28px;}
-.auth-brand{text-align:center;margin-bottom:44px;}
-.auth-emblem{width:48px;height:48px;border-radius:50%;border:1px solid rgba(201,168,76,.3);display:inline-flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.85rem;color:var(--gold);margin-bottom:12px;}
-.auth-name{display:block;font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.5rem;color:var(--cream);margin-bottom:3px;}
-.auth-tag{display:block;font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(201,168,76,.45);}
-.auth-view{display:none;}
-.auth-view.active{display:block;}
-.auth-h{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.7rem;color:var(--cream);margin-bottom:5px;}
-.auth-hint{font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--muted);margin-bottom:28px;line-height:1.85;}
-.fld{margin-bottom:20px;}
-.flabel{display:block;font-family:var(--fb);font-weight:200;font-size:.54rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(201,168,76,.6);margin-bottom:7px;}
-.finput,.fselect{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,.2);color:var(--cream);padding:11px 0;font-family:var(--fb);font-weight:200;font-size:.88rem;outline:none;transition:border-color .25s;}
-.finput:focus,.fselect:focus{border-bottom-color:rgba(201,168,76,.55);}
-.finput::placeholder{color:rgba(245,240,232,.2);}
-.fselect{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(201,168,76,.4)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center;background-color:transparent;padding-right:20px;}
-.fselect option{background:#060E1A;}
-.abtn{width:100%;padding:14px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;background:var(--gold);color:var(--navy);border:none;cursor:pointer;position:relative;overflow:hidden;transition:letter-spacing .3s var(--ease);margin-top:4px;}
-.abtn::before{content:'';position:absolute;inset:0;background:var(--gold-lt);transform:translateX(-101%);transition:transform .45s var(--ease);}
-.abtn:hover{letter-spacing:.28em;}
+/* ---- ICONS (SVG inline, brand-consistent line icons) ---- */
+.ico{display:inline-flex;align-items:center;justify-content:center;flex-shrink:0;}
+.ico svg{stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ---- AUTH ---- */
+#auth{min-height:100vh;display:flex;align-items:stretch;}
+.auth-left{flex:1;background:var(--hero);position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between;padding:60px 56px;min-width:0;}
+.auth-left::before{content:'';position:absolute;top:-100px;right:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.06) 0%,transparent 65%);}
+.auth-left::after{content:'';position:absolute;bottom:-80px;left:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(42,63,126,.5) 0%,transparent 65%);}
+.al-top{position:relative;z-index:1;}
+.al-logo{display:flex;align-items:center;gap:10px;margin-bottom:60px;}
+.al-logo-mark{width:36px;height:36px;border-radius:50%;border:1px solid rgba(201,168,76,.3);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.85rem;color:var(--gold);}
+.al-logo-name{font-family:var(--fd);font-style:italic;font-size:1.1rem;color:#F7F4EE;}
+.al-headline{font-family:var(--fd);font-weight:300;font-style:italic;font-size:clamp(2.2rem,4vw,3.2rem);color:#F7F4EE;line-height:1.08;margin-bottom:18px;}
+.al-headline em{color:var(--gold);}
+.al-body{font-family:var(--fb);font-weight:200;font-size:.9rem;color:rgba(247,244,238,.48);line-height:2;max-width:380px;}
+.al-features{margin-top:40px;display:flex;flex-direction:column;gap:16px;}
+.al-feat{display:flex;align-items:flex-start;gap:12px;}
+.al-feat-line{width:1px;height:100%;background:rgba(201,168,76,.2);margin-top:5px;flex-shrink:0;align-self:stretch;}
+.al-feat-dot{width:5px;height:5px;border-radius:50%;background:rgba(201,168,76,.45);margin-top:7px;flex-shrink:0;}
+.al-feat-txt{font-family:var(--fb);font-weight:200;font-size:.82rem;color:rgba(247,244,238,.48);line-height:1.8;}
+.al-bot{position:relative;z-index:1;font-family:var(--fb);font-weight:200;font-size:.58rem;color:rgba(247,244,238,.15);letter-spacing:.1em;}
+.auth-right{width:460px;flex-shrink:0;background:var(--cream);display:flex;align-items:center;justify-content:center;padding:60px 52px;}
+@media(max-width:860px){.auth-left{display:none;}.auth-right{width:100%;padding:40px 28px;}}
+.af-wrap{width:100%;max-width:340px;}
+.av{display:none;}.av.on{display:block;}
+.av-h{font-family:var(--fd);font-weight:300;font-style:italic;font-size:2.1rem;color:var(--navy);margin-bottom:5px;line-height:1.05;}
+.av-sub{font-family:var(--fb);font-weight:200;font-size:.82rem;color:rgba(6,14,26,.45);margin-bottom:28px;line-height:1.85;}
+.aback{background:none;border:none;color:rgba(6,14,26,.35);font-family:var(--fb);font-weight:200;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;margin-bottom:22px;display:block;padding:0;transition:color .2s;}
+.aback:hover{color:var(--navy);}
+.afl{margin-bottom:20px;}
+.albl{display:block;font-family:var(--fb);font-weight:500;font-size:.54rem;letter-spacing:.22em;text-transform:uppercase;color:var(--navy);margin-bottom:8px;}
+.albl span{color:var(--red);margin-left:2px;}
+.ainp,.asel{width:100%;background:var(--white);border:var(--bdr);border-bottom:2px solid rgba(6,14,26,.12);color:var(--navy);padding:12px 14px;font-family:var(--fb);font-weight:200;font-size:.92rem;outline:none;transition:border-color .22s;}
+.ainp:focus,.asel:focus{border-bottom-color:var(--gold);}
+.ainp::placeholder{color:rgba(6,14,26,.25);}
+.asel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(6,14,26,0.35)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-color:var(--white);padding-right:32px;cursor:pointer;}
+.aerr{font-family:var(--fb);font-weight:200;font-size:.76rem;min-height:16px;margin-top:6px;text-align:center;color:var(--red);}
+.aerr-ok{color:var(--green);}
+.afrow{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.abtn{width:100%;padding:14px;margin-top:6px;font-family:var(--fb);font-weight:500;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;background:var(--navy);color:var(--white);border:none;cursor:pointer;position:relative;overflow:hidden;transition:letter-spacing .3s var(--ease);}
+.abtn::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-101%);transition:transform .45s var(--ease);}
+.abtn:hover{letter-spacing:.26em;color:var(--navy);}
 .abtn:hover::before{transform:translateX(0);}
 .abtn span{position:relative;z-index:1;}
 .abtn:disabled{opacity:.4;cursor:not-allowed;}
 .abtn:disabled::before{display:none;}
-.auth-links{margin-top:18px;text-align:center;font-family:var(--fb);font-weight:200;font-size:.76rem;color:var(--dim);line-height:2.2;}
-.auth-links a{color:rgba(201,168,76,.65);cursor:pointer;transition:color .2s;text-decoration:none;}
-.auth-links a:hover{color:var(--gold);}
-.auth-back{display:inline-flex;align-items:center;gap:6px;font-family:var(--fb);font-weight:200;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);cursor:pointer;margin-bottom:28px;background:none;border:none;text-decoration:none;}
-.auth-back:hover{color:var(--muted);}
-.msg{font-family:var(--fb);font-weight:200;font-size:.76rem;min-height:16px;margin-top:8px;text-align:center;}
-.msg-err{color:var(--red);}
-.msg-ok{color:var(--green);}
+.alinks{margin-top:16px;text-align:center;font-family:var(--fb);font-weight:200;font-size:.76rem;color:rgba(6,14,26,.35);line-height:2.5;}
+.alinks a{color:var(--goldk);cursor:pointer;text-decoration:none;transition:color .2s;}
+.alinks a:hover{color:var(--navy);}
+.asep{display:flex;align-items:center;gap:12px;margin:20px 0;}
+.asep-line{flex:1;height:0.5px;background:rgba(6,14,26,.1);}
+.asep-txt{font-family:var(--fb);font-weight:200;font-size:.68rem;color:rgba(6,14,26,.3);letter-spacing:.1em;}
 
-/* PORTAL SHELL */
-#portal{display:none;min-height:100vh;}
-.topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:15px 36px;background:rgba(6,14,26,.93);backdrop-filter:blur(14px);border-bottom:var(--bdr);}
-.tb-left{display:flex;align-items:center;gap:12px;}
-.tb-emblem{width:28px;height:28px;border-radius:50%;border:1px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.65rem;color:var(--gold);}
-.tb-brand{font-family:var(--fd);font-weight:300;font-style:italic;font-size:.95rem;color:var(--cream);}
-.tb-right{display:flex;align-items:center;gap:14px;}
-.tb-name{font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--muted);}
-.tb-tier{font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;border:var(--bdrg);color:rgba(201,168,76,.7);padding:3px 10px;}
-.tb-out{font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);cursor:pointer;background:none;border:none;transition:color .2s;}
-.tb-out:hover{color:var(--muted);}
-.layout{display:grid;grid-template-columns:210px 1fr;min-height:calc(100vh - 57px);}
-@media(max-width:860px){.layout{grid-template-columns:1fr;}}
-.sidebar{background:rgba(255,255,255,.015);border-right:var(--bdr);padding:28px 0;position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto;}
-.sidebar::-webkit-scrollbar{width:2px;}
-.sidebar::-webkit-scrollbar-thumb{background:rgba(201,168,76,.12);}
-@media(max-width:860px){.sidebar{position:static;height:auto;border-right:none;border-bottom:var(--bdr);padding:10px 0;}}
-.nav-sec{font-family:var(--fb);font-weight:200;font-size:.5rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(201,168,76,.32);padding:5px 20px;margin-top:18px;margin-bottom:3px;}
-.nav-sec:first-child{margin-top:0;}
-.nav-item{display:flex;align-items:center;gap:8px;padding:9px 20px;cursor:pointer;font-family:var(--fb);font-weight:200;font-size:.76rem;color:var(--muted);transition:color .2s,background .2s;border-left:2px solid transparent;}
-.nav-item:hover{color:rgba(245,240,232,.8);background:rgba(255,255,255,.025);}
-.nav-item.on{color:var(--cream);background:rgba(201,168,76,.04);border-left-color:var(--gold);}
-.nav-dot{width:3px;height:3px;border-radius:50%;background:rgba(201,168,76,.28);flex-shrink:0;}
-.nav-item.on .nav-dot{background:var(--gold);}
-.main{padding:40px 44px;max-width:1080px;}
-@media(max-width:700px){.main{padding:24px 18px;}}
+/* ---- PORTAL ---- */
+#portal{display:none;min-height:100vh;background:var(--cream);}
+.topbar{position:sticky;top:0;z-index:100;background:linear-gradient(90deg,#1C2E6B,#0D1A45);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 28px;border-bottom:1px solid rgba(201,168,76,.1);}
+.tb-l{display:flex;align-items:center;gap:10px;}
+.tb-logo{width:26px;height:26px;border-radius:50%;border:1px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.68rem;color:var(--gold);}
+.tb-name{font-family:var(--fd);font-style:italic;font-size:.98rem;color:#F7F4EE;}
+.tb-div{width:1px;height:16px;background:rgba(255,255,255,.1);}
+.tb-lbl{font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.25);}
+.tb-r{display:flex;align-items:center;gap:12px;}
+.tb-av{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--royal),var(--navy2));border:1px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.72rem;color:var(--gold);}
+.tb-uname{font-family:var(--fb);font-weight:200;font-size:.8rem;color:rgba(247,244,238,.6);}
+.tb-out{font-family:var(--fb);font-weight:200;font-size:.56rem;letter-spacing:.12em;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.28);padding:5px 12px;cursor:pointer;transition:all .2s;}
+.tb-out:hover{border-color:rgba(201,168,76,.35);color:var(--gold);}
+
+/* ---- HERO SECTION ---- */
+.portal-hero{background:var(--hero);padding:32px 28px 36px;position:relative;overflow:hidden;}
+.portal-hero::before{content:'';position:absolute;top:-80px;right:-60px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.06) 0%,transparent 65%);}
+.portal-hero::after{content:'';position:absolute;bottom:-40px;left:-40px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle,rgba(42,63,126,.4) 0%,transparent 65%);}
+.hero-inner{position:relative;z-index:1;max-width:860px;margin:0 auto;}
+.hero-greet{font-family:var(--fd);font-weight:300;font-style:italic;font-size:clamp(1.8rem,3vw,2.4rem);color:#F7F4EE;line-height:1.05;margin-bottom:5px;}
+.hero-greet em{color:var(--gold);}
+.hero-sub{font-family:var(--fb);font-weight:200;font-size:.82rem;color:rgba(247,244,238,.42);margin-bottom:24px;letter-spacing:.04em;}
+.hero-trip{background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.1);border-radius:3px;padding:18px 22px;position:relative;}
+.hero-trip::before{content:'';position:absolute;top:0;left:22px;right:22px;height:0.5px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.35),transparent);}
+.hero-trip-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:4px;}
+.hero-trip-dest{font-family:var(--fd);font-weight:300;font-size:1.2rem;color:#F7F4EE;}
+.hero-trip-badge{font-family:var(--fb);font-weight:500;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;background:rgba(201,168,76,.14);border:0.5px solid rgba(201,168,76,.38);color:var(--gold);padding:4px 9px;}
+.hero-trip-meta{font-family:var(--fb);font-weight:200;font-size:.78rem;color:rgba(247,244,238,.36);margin-bottom:16px;letter-spacing:.03em;}
+.hero-stats{display:flex;gap:0;}
+.hero-stat{flex:1;text-align:center;position:relative;padding:0 8px;}
+.hero-stat::after{content:'';position:absolute;right:0;top:8%;height:84%;width:0.5px;background:rgba(255,255,255,.1);}
+.hero-stat:last-child::after{display:none;}
+.hero-stat-val{font-family:var(--fd);font-weight:300;font-size:1.5rem;color:#F7F4EE;display:block;line-height:1.1;}
+.hero-stat-val.gold{color:var(--gold);}
+.hero-stat-lbl{font-family:var(--fb);font-weight:200;font-size:.66rem;color:rgba(247,244,238,.35);display:block;margin-top:3px;letter-spacing:.06em;}
+.hero-empty{font-family:var(--fd);font-style:italic;font-size:1.1rem;color:rgba(247,244,238,.35);padding:16px 0;}
+
+/* ---- SHIELD BAR ---- */
+.shield-bar{background:rgba(6,14,26,.96);border-bottom:1px solid rgba(201,168,76,.1);padding:10px 28px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .2s;}
+.shield-bar:hover{background:rgba(13,26,69,.96);}
+.shield-bar-inner{display:flex;align-items:center;gap:10px;max-width:860px;margin:0 auto;width:100%;}
+.shield-ico{display:flex;align-items:center;color:var(--gold);flex-shrink:0;}
+.shield-txt{font-family:var(--fb);font-weight:200;font-size:.8rem;color:rgba(247,244,238,.55);flex:1;letter-spacing:.03em;}
+.shield-txt strong{color:rgba(247,244,238,.75);font-weight:400;}
+.shield-link{font-family:var(--fb);font-weight:500;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
+
+/* ---- MAIN CONTENT ---- */
+.main{padding:28px;max-width:916px;margin:0 auto;}
+
+/* ---- PANELS ---- */
 .panel{display:none;}
-.panel.on{display:block;animation:pin .2s ease;}
-@keyframes pin{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
-.ph{margin-bottom:26px;}
-.ptag{font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.36em;text-transform:uppercase;color:rgba(201,168,76,.48);margin-bottom:8px;}
-.ph1{font-family:var(--fd);font-weight:300;font-style:italic;font-size:clamp(1.5rem,3vw,2.2rem);color:var(--cream);line-height:1.05;margin-bottom:7px;}
-.ph2{font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--muted);line-height:1.9;max-width:580px;}
-.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:2px;margin-bottom:2px;}
-.stat{background:rgba(255,255,255,.022);border:var(--bdr);padding:22px;transition:border-color .25s;}
-.stat:hover{border-color:rgba(201,168,76,.14);}
-.slabel{font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,168,76,.42);margin-bottom:9px;}
-.sval{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.35rem;color:var(--cream);margin-bottom:4px;}
-.smeta{font-family:var(--fb);font-weight:200;font-size:.68rem;color:var(--dim);line-height:1.75;}
-.div{height:1px;background:rgba(255,255,255,.05);margin:26px 0;}
-.tl{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
-@media(max-width:640px){.tl{grid-template-columns:1fr;}}
-.tls{background:rgba(255,255,255,.022);border:var(--bdr);padding:24px 20px;transition:border-color .25s;}
-.tls.lit{border-color:rgba(201,168,76,.28);background:rgba(201,168,76,.03);}
-.tlnum{font-family:var(--fd);font-size:2.2rem;font-style:italic;color:rgba(201,168,76,.1);line-height:1;margin-bottom:9px;}
-.tlttl{font-family:var(--fb);font-weight:300;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--cream);margin-bottom:7px;}
-.tldesc{font-family:var(--fb);font-weight:200;font-size:.76rem;color:var(--muted);line-height:1.85;}
-.tlstat{margin-top:13px;}
-.badge{display:inline-block;font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;padding:3px 9px;}
-.badge-g{border:1px solid rgba(40,180,100,.25);background:rgba(40,180,100,.07);color:var(--green);}
-.badge-a{border:var(--bdrg);background:rgba(201,168,76,.07);color:rgba(201,168,76,.8);}
-.badge-d{border:var(--bdr);background:rgba(255,255,255,.03);color:var(--dim);}
-.badge-r{border:1px solid rgba(220,70,70,.25);background:rgba(220,70,70,.07);color:var(--red);}
-.cards{display:flex;flex-direction:column;gap:2px;}
-.card{background:rgba(255,255,255,.018);border:var(--bdr);padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;cursor:pointer;transition:border-color .22s;}
-.card:hover{border-color:rgba(201,168,76,.16);}
-.card-t{font-family:var(--fd);font-weight:300;font-size:.95rem;color:var(--cream);margin-bottom:3px;}
-.card-m{font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--dim);line-height:1.75;}
-.frm-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
-@media(max-width:560px){.frm-row{grid-template-columns:1fr;}}
-.ff{margin-bottom:18px;}
-.inp,.sel,.txa{width:100%;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,.18);color:var(--cream);padding:10px 0;font-family:var(--fb);font-weight:200;font-size:.86rem;outline:none;transition:border-color .25s;}
-.inp:focus,.sel:focus,.txa:focus{border-bottom-color:rgba(201,168,76,.5);}
-.inp::placeholder,.txa::placeholder{color:rgba(245,240,232,.18);}
-.sel{appearance:none;cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(201,168,76,.4)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 4px center;background-color:transparent;padding-right:20px;}
-.sel option{background:#060E1A;}
-.txa{border:var(--bdr);border-bottom:1px solid rgba(201,168,76,.18);padding:10px;resize:vertical;min-height:76px;line-height:1.7;}
-.sbtn{padding:13px 36px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;background:var(--gold);color:var(--navy);border:none;cursor:pointer;position:relative;overflow:hidden;transition:letter-spacing .3s var(--ease);}
-.sbtn::before{content:'';position:absolute;inset:0;background:var(--gold-lt);transform:translateX(-101%);transition:transform .45s var(--ease);}
-.sbtn:hover{letter-spacing:.25em;}
+.panel.on{display:block;animation:fadein .18s ease;}
+@keyframes fadein{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:none;}}
+
+/* ---- PAGE HEADER ---- */
+.ptag{font-family:var(--fb);font-weight:500;font-size:.54rem;letter-spacing:.32em;text-transform:uppercase;color:var(--goldk);margin-bottom:7px;display:flex;align-items:center;gap:9px;}
+.ptag::before{content:'';display:block;width:14px;height:1px;background:var(--gold);}
+.ph1{font-family:var(--fd);font-weight:300;font-style:italic;font-size:clamp(1.6rem,2.8vw,2.2rem);color:var(--navy);line-height:1.05;margin-bottom:6px;}
+.ph2{font-family:var(--fb);font-weight:200;font-size:.86rem;color:rgba(6,14,26,.5);line-height:1.9;margin-bottom:22px;max-width:520px;}
+
+/* ---- DIVIDER ---- */
+.div{height:1px;background:rgba(6,14,26,.08);margin:24px 0;position:relative;}
+.div::after{content:'';position:absolute;left:0;top:0;width:28px;height:1px;background:var(--gold);}
+
+/* ---- SECTION LABEL ---- */
+.slbl{font-family:var(--fb);font-weight:500;font-size:.54rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(6,14,26,.28);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.slbl::after{content:'';flex:1;height:0.5px;background:rgba(6,14,26,.07);}
+
+/* ---- ACTION CARDS ---- */
+.action-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-bottom:24px;}
+.ac{background:var(--white);border:0.5px solid rgba(6,14,26,.08);padding:18px 18px;cursor:pointer;transition:all .22s;position:relative;overflow:hidden;}
+.ac::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease);}
+.ac:hover{box-shadow:0 4px 20px rgba(6,14,26,.07);transform:translateY(-1px);}
+.ac:hover::after{transform:scaleX(1);}
+.ac.dark{background:linear-gradient(145deg,#2A3F7E 0%,#1C2E6B 100%);border:none;}
+.ac.dark::after{background:var(--gold);}
+.ac-ico{width:36px;height:36px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;color:var(--navy);}
+.ac-ico.on-dark{color:rgba(247,244,238,.7);}
+.ac-ico.gold{color:var(--gold);}
+.ac-title{font-family:var(--fb);font-weight:400;font-size:.9rem;color:var(--navy);margin-bottom:4px;}
+.ac-title.light{color:#F7F4EE;}
+.ac-desc{font-family:var(--fb);font-weight:200;font-size:.76rem;color:rgba(6,14,26,.38);line-height:1.7;}
+.ac-desc.light{color:rgba(247,244,238,.4);}
+
+/* ---- STATUS CARDS ---- */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:6px;margin-bottom:22px;}
+.stc{background:var(--white);border:0.5px solid rgba(6,14,26,.07);padding:16px 18px;}
+.stc.navy-acc{border-left:2px solid var(--navy2);}
+.stc.gold-acc{border-left:2px solid var(--gold);}
+.stc.green-acc{border-left:2px solid var(--green);}
+.stc.red-acc{border-left:2px solid var(--red);}
+.stc-lbl{font-family:var(--fb);font-weight:500;font-size:.52rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(6,14,26,.28);margin-bottom:6px;}
+.stc-val{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.4rem;color:var(--navy);margin-bottom:2px;}
+.stc-sub{font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(6,14,26,.38);}
+.stc-sub.g{color:var(--goldk);}
+.stc-sub.gr{color:var(--green);}
+
+/* ---- VOICE NOTE ---- */
+.voice-wrap{background:linear-gradient(145deg,#2A3F7E 0%,#1C2E6B 50%,#0D1A45 100%);padding:22px 24px;margin-bottom:8px;position:relative;overflow:hidden;}
+.voice-wrap::before{content:'';position:absolute;top:-30px;right:-30px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.06) 0%,transparent 65%);}
+.voice-inner{position:relative;z-index:1;}
+.voice-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:14px;}
+.voice-title{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.2rem;color:#F7F4EE;margin-bottom:3px;}
+.voice-desc{font-family:var(--fb);font-weight:200;font-size:.78rem;color:rgba(247,244,238,.4);line-height:1.7;}
+.voice-btn{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;flex-shrink:0;color:rgba(247,244,238,.8);}
+.voice-btn:hover{background:rgba(201,168,76,.15);border-color:rgba(201,168,76,.35);color:var(--gold);}
+.voice-btn.recording{background:rgba(153,24,24,.25);border-color:rgba(153,24,24,.5);color:#ff6b6b;animation:pulse 1.2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.6;}}
+.voice-status{font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(247,244,238,.35);margin-top:10px;}
+.voice-transcript{background:rgba(255,255,255,.06);border:0.5px solid rgba(255,255,255,.1);padding:12px 16px;margin-top:12px;font-family:var(--fb);font-weight:200;font-size:.86rem;color:rgba(247,244,238,.75);line-height:1.8;min-height:50px;}
+.voice-notes-list{margin-top:12px;}
+.voice-note-item{background:rgba(255,255,255,.05);border:0.5px solid rgba(255,255,255,.08);padding:10px 14px;margin-bottom:4px;}
+.vn-date{font-family:var(--fb);font-weight:200;font-size:.66rem;color:rgba(247,244,238,.35);margin-bottom:4px;}
+.vn-text{font-family:var(--fb);font-weight:200;font-size:.82rem;color:rgba(247,244,238,.7);line-height:1.75;}
+
+/* ---- MEETING BOOKING ---- */
+.meeting-card{background:var(--white);border:0.5px solid rgba(6,14,26,.08);padding:22px 24px;margin-bottom:8px;}
+.meeting-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;}
+.meeting-title{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.2rem;color:var(--navy);margin-bottom:3px;}
+.meeting-desc{font-family:var(--fb);font-weight:200;font-size:.78rem;color:rgba(6,14,26,.42);line-height:1.7;}
+.meeting-ico{color:var(--navy2);}
+.slot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;margin-bottom:16px;}
+.slot{padding:10px 8px;text-align:center;border:0.5px solid rgba(6,14,26,.1);cursor:pointer;transition:all .18s;}
+.slot:hover{border-color:var(--navy);background:rgba(6,14,26,.03);}
+.slot.sel{background:var(--navy);border-color:var(--navy);}
+.slot-time{font-family:var(--fb);font-weight:400;font-size:.82rem;color:var(--navy);display:block;margin-bottom:2px;}
+.slot.sel .slot-time{color:var(--gold);}
+.slot-lbl{font-family:var(--fb);font-weight:200;font-size:.66rem;color:rgba(6,14,26,.35);}
+.slot.sel .slot-lbl{color:rgba(201,168,76,.6);}
+.ff{margin-bottom:16px;}
+.flbl{display:block;font-family:var(--fb);font-weight:500;font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--navy);margin-bottom:7px;}
+.inp,.sel,.txa{width:100%;background:var(--white);border:0.5px solid rgba(6,14,26,.1);border-bottom:2px solid rgba(6,14,26,.12);color:var(--navy);padding:11px 14px;font-family:var(--fb);font-weight:200;font-size:.9rem;outline:none;transition:border-color .22s;}
+.inp:focus,.sel:focus,.txa:focus{border-bottom-color:var(--gold);}
+.inp::placeholder,.txa::placeholder{color:rgba(6,14,26,.25);}
+.sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(6,14,26,0.35)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-color:var(--white);padding-right:30px;cursor:pointer;}
+.txa{resize:vertical;min-height:80px;line-height:1.75;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+@media(max-width:540px){.frow{grid-template-columns:1fr;}}
+.ff.full{grid-column:1/-1;}
+
+/* ---- BUTTONS ---- */
+.sbtn{padding:13px 32px;font-family:var(--fb);font-weight:500;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;background:var(--navy);color:var(--white);border:none;cursor:pointer;position:relative;overflow:hidden;transition:letter-spacing .3s var(--ease);}
+.sbtn::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-101%);transition:transform .45s var(--ease);}
+.sbtn:hover{letter-spacing:.24em;color:var(--navy);}
 .sbtn:hover::before{transform:translateX(0);}
 .sbtn span{position:relative;z-index:1;}
-.empty{padding:50px 0;text-align:center;}
-.empty-icon{font-family:var(--fd);font-size:1.8rem;font-style:italic;color:rgba(201,168,76,.1);margin-bottom:12px;}
-.empty-txt{font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--dim);line-height:2;}
-.chat-box{background:rgba(255,255,255,.018);border:var(--bdr);padding:24px;}
-.chat-msgs{min-height:160px;max-height:300px;overflow-y:auto;margin-bottom:14px;}
-.chat-msgs::-webkit-scrollbar{width:2px;}
-.chat-msgs::-webkit-scrollbar-thumb{background:rgba(201,168,76,.12);}
-.cmsg{display:flex;gap:9px;margin-bottom:12px;align-items:flex-start;}
-.cmsg.user{flex-direction:row-reverse;}
-.cav{width:22px;height:22px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.58rem;}
-.cav-ai{background:rgba(201,168,76,.08);border:var(--bdrg);color:var(--gold);}
-.cav-u{background:rgba(255,255,255,.05);color:var(--dim);}
-.cbub{max-width:86%;padding:10px 13px;font-family:var(--fb);font-weight:200;font-size:.79rem;line-height:1.85;}
-.cbub-ai{background:rgba(201,168,76,.04);border:var(--bdrg);color:rgba(245,240,232,.85);}
-.cbub-u{background:rgba(255,255,255,.04);border:var(--bdr);color:rgba(245,240,232,.6);}
-.typing-d span{display:inline-block;width:4px;height:4px;border-radius:50%;background:rgba(201,168,76,.4);margin:0 2px;animation:bounce .8s ease-in-out infinite;}
-.typing-d span:nth-child(2){animation-delay:.15s;}
-.typing-d span:nth-child(3){animation-delay:.3s;}
-@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.4;}30%{transform:translateY(-5px);opacity:1;}}
-.chat-row{display:flex;gap:7px;}
-.chat-inp{flex:1;background:transparent;border:none;border-bottom:1px solid rgba(201,168,76,.18);color:var(--cream);padding:10px 0;font-family:var(--fb);font-weight:200;font-size:.84rem;outline:none;transition:border-color .25s;}
-.chat-inp:focus{border-bottom-color:rgba(201,168,76,.5);}
-.chat-inp::placeholder{color:rgba(245,240,232,.18);}
-.chat-send{padding:10px 18px;font-family:var(--fb);font-weight:400;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;background:var(--gold);color:var(--navy);border:none;cursor:pointer;transition:background .2s;}
-.chat-send:hover{background:var(--gold-lt);}
-.shield-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:14px;}
-@media(max-width:560px){.shield-grid{grid-template-columns:1fr;}}
-.sg-item{background:rgba(255,255,255,.022);border:var(--bdr);padding:13px;}
-.sg-label{font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(201,168,76,.38);margin-bottom:5px;}
-.sg-val{font-family:var(--fb);font-weight:200;font-size:.78rem;color:var(--muted);line-height:1.75;}
-.pk-cat{margin-bottom:18px;}
-.pk-cat-title{font-family:var(--fb);font-weight:200;font-size:.56rem;letter-spacing:.28em;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:10px;padding-bottom:7px;border-bottom:var(--bdr);}
-.pk-item{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid rgba(255,255,255,.04);}
-.pk-item:last-child{border-bottom:none;}
-.pk-check{width:16px;height:16px;border:1px solid rgba(201,168,76,.3);background:transparent;cursor:pointer;accent-color:var(--gold);flex-shrink:0;}
-.pk-name{font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--muted);flex:1;}
-.pk-item.done .pk-name{text-decoration:line-through;color:var(--dim);}
-.emerg-btn{width:100%;padding:20px;font-family:var(--fb);font-weight:400;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;background:rgba(220,70,70,.15);color:var(--red);border:1px solid rgba(220,70,70,.3);cursor:pointer;transition:background .25s,border-color .25s;margin-bottom:20px;}
-.emerg-btn:hover{background:rgba(220,70,70,.25);border-color:rgba(220,70,70,.5);}
-.portal-foot{border-top:var(--bdr);padding:18px 44px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
-.foot-brand{font-family:var(--fd);font-weight:300;font-style:italic;font-size:.85rem;color:rgba(201,168,76,.28);}
-.foot-links{display:flex;gap:18px;}
-.foot-link{font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);text-decoration:none;cursor:pointer;transition:color .2s;}
-.foot-link:hover{color:rgba(201,168,76,.55);}
+.sbtn-o{padding:11px 24px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;background:transparent;color:rgba(6,14,26,.55);border:0.5px solid rgba(6,14,26,.15);cursor:pointer;transition:all .18s;}
+.sbtn-o:hover{border-color:var(--navy);color:var(--navy);}
+
+/* ---- CLAIM CARDS ---- */
+.claim-card{background:var(--white);border:0.5px solid rgba(6,14,26,.07);border-left:2px solid var(--navy2);padding:14px 18px;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;}
+.claim-card.resolved{border-left-color:var(--green);}
+.claim-case{font-family:var(--fb);font-weight:500;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy);margin-bottom:3px;}
+.claim-info{font-family:var(--fb);font-weight:200;font-size:.8rem;color:rgba(6,14,26,.45);}
+.claim-amt{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.2rem;color:var(--navy);text-align:right;}
+.claim-status{text-align:right;}
+
+/* ---- STAMPS ---- */
+.stamp{display:inline-flex;align-items:center;font-family:var(--fb);font-weight:500;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;padding:3px 8px;}
+.s-ok{background:var(--greenbg);color:var(--green);border:0.5px solid var(--greenbd);}
+.s-active{background:var(--goldpale);color:var(--goldk);border:0.5px solid rgba(201,168,76,.28);}
+.s-miss{background:var(--redbg);color:var(--red);border:0.5px solid var(--redbd);}
+.s-draft{background:rgba(6,14,26,.04);color:rgba(6,14,26,.4);border:0.5px solid rgba(6,14,26,.1);}
+
+/* ---- SHIELD PANEL ---- */
+.shield-hero{background:var(--hero);padding:24px 24px;margin-bottom:16px;position:relative;overflow:hidden;}
+.shield-hero::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 65%);}
+.shield-dest{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.4rem;color:#F7F4EE;margin-bottom:3px;position:relative;z-index:1;}
+.shield-risk{display:inline-flex;align-items:center;gap:6px;margin-bottom:14px;position:relative;z-index:1;}
+.shield-risk-dot{width:6px;height:6px;border-radius:50%;}
+.shield-risk-lbl{font-family:var(--fb);font-weight:200;font-size:.78rem;color:rgba(247,244,238,.55);}
+.shield-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:relative;z-index:1;}
+.shield-info-card{background:rgba(255,255,255,.08);border:0.5px solid rgba(255,255,255,.12);padding:12px 14px;}
+.sic-lbl{font-family:var(--fb);font-weight:500;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(247,244,238,.35);margin-bottom:5px;}
+.sic-val{font-family:var(--fb);font-weight:200;font-size:.82rem;color:rgba(247,244,238,.75);line-height:1.7;}
+.sic-val a{color:var(--gold);text-decoration:none;}
+
+/* ---- DOCUMENTS ---- */
+.doc-card{background:var(--white);border:0.5px solid rgba(6,14,26,.07);padding:13px 17px;margin-bottom:4px;display:flex;align-items:center;gap:14px;}
+.doc-ico{width:34px;height:42px;background:var(--creamdk);border:0.5px solid rgba(6,14,26,.08);display:flex;align-items:center;justify-content:center;color:var(--navy2);flex-shrink:0;}
+.doc-name{font-family:var(--fb);font-weight:400;font-size:.88rem;color:var(--navy);margin-bottom:2px;}
+.doc-meta{font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(6,14,26,.38);}
+.doc-exp{font-family:var(--fb);font-weight:200;font-size:.68rem;color:var(--amber);margin-top:2px;}
+
+/* ---- UPLOAD ZONE ---- */
+.uzone{border:1px dashed rgba(6,14,26,.15);padding:22px;text-align:center;cursor:pointer;background:var(--white);transition:all .22s;}
+.uzone:hover{border-color:var(--gold);background:var(--goldpale);}
+.utxt{font-family:var(--fb);font-weight:200;font-size:.82rem;color:rgba(6,14,26,.38);line-height:1.9;}
+.utxt strong{font-weight:400;color:var(--navy);}
+
+/* ---- MESSAGES ---- */
+.msg-item{background:var(--white);border:0.5px solid rgba(6,14,26,.07);border-left:2px solid rgba(6,14,26,.07);padding:14px 18px;margin-bottom:4px;}
+.msg-item.lolo{border-left-color:var(--gold);}
+.msg-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;}
+.msg-from{font-family:var(--fb);font-weight:400;font-size:.78rem;color:var(--navy);}
+.msg-dt{font-family:var(--fb);font-weight:200;font-size:.68rem;color:rgba(6,14,26,.35);}
+.msg-body{font-family:var(--fb);font-weight:200;font-size:.84rem;color:rgba(6,14,26,.6);line-height:1.85;white-space:pre-line;}
+
+/* ---- PROFILE ---- */
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:0;border:0.5px solid rgba(6,14,26,.08);}
+@media(max-width:500px){.pg{grid-template-columns:1fr;}}
+.pgc{padding:13px 17px;border-right:0.5px solid rgba(6,14,26,.07);border-bottom:0.5px solid rgba(6,14,26,.07);background:var(--white);}
+.pgc:nth-child(even){border-right:none;}
+.pglbl{font-family:var(--fb);font-weight:500;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(6,14,26,.28);margin-bottom:4px;}
+.pgval{font-family:var(--fb);font-weight:200;font-size:.88rem;color:var(--navy);line-height:1.6;}
+
+/* ---- INFO BLOCKS ---- */
+.iblock{background:var(--goldpale);border:0.5px solid rgba(201,168,76,.25);border-left:3px solid var(--gold);padding:13px 17px;margin-bottom:16px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:rgba(6,14,26,.6);line-height:1.85;}
+
+/* ---- EMPTY ---- */
+.empty{padding:40px 0;text-align:center;}
+.empty-ic{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.2rem;color:rgba(6,14,26,.14);margin-bottom:8px;}
+.empty-tx{font-family:var(--fb);font-weight:200;font-size:.84rem;color:rgba(6,14,26,.3);line-height:1.9;}
+
+/* ---- BOTTOM NAV (mobile) ---- */
+.bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:0.5px solid rgba(6,14,26,.08);padding:8px 0 10px;z-index:90;}
+@media(max-width:700px){.bottom-nav{display:flex;}}
+.bn-item{flex:1;text-align:center;cursor:pointer;padding:4px;}
+.bn-ico{display:flex;justify-content:center;margin-bottom:3px;color:rgba(6,14,26,.25);}
+.bn-ico.on{color:var(--navy2);}
+.bn-lbl{font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:rgba(6,14,26,.25);}
+.bn-lbl.on{color:var(--navy);font-weight:400;}
+
+/* ---- SIDEBAR NAV ---- */
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:calc(100vh - 56px);}
+@media(max-width:700px){.layout{grid-template-columns:1fr;}}
+.sidebar{background:var(--white);border-right:0.5px solid rgba(6,14,26,.08);padding:20px 0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;}
+@media(max-width:700px){.sidebar{display:none;}}
+.sidebar::-webkit-scrollbar{width:2px;}
+.sidebar::-webkit-scrollbar-thumb{background:var(--creamdk);}
+.nsec{font-family:var(--fb);font-weight:500;font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(6,14,26,.2);padding:3px 20px;margin-top:16px;margin-bottom:3px;}
+.nsec:first-child{margin-top:0;}
+.ni{display:flex;align-items:center;gap:9px;padding:9px 20px;cursor:pointer;font-family:var(--fb);font-weight:200;font-size:.86rem;color:rgba(6,14,26,.5);border-left:2px solid transparent;transition:all .16s;}
+.ni:hover{color:var(--navy);background:var(--cream);}
+.ni.on{color:var(--navy);background:var(--cream);border-left-color:var(--gold);font-weight:400;}
+.ni-ico{color:inherit;display:flex;align-items:center;flex-shrink:0;}
+.ni.on .ni-ico{color:var(--navy2);}
+
+/* ---- FOOTER ---- */
+.pfoot{border-top:0.5px solid rgba(6,14,26,.08);background:var(--white);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+.pfoot-brand{font-family:var(--fd);font-style:italic;font-size:.9rem;color:var(--goldk);}
+.pfoot-link{font-family:var(--fb);font-weight:200;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(6,14,26,.35);text-decoration:none;cursor:pointer;transition:color .18s;}
+.pfoot-link:hover{color:var(--navy);}
 </style>
 </head>
 <body>
 
-<!-- AUTH -->
-<div id="auth-gate">
-<div class="auth-wrap">
-  <div class="auth-brand">
-    <div class="auth-emblem">LL</div>
-    <span class="auth-name">Lolo Travels</span>
-    <span class="auth-tag">Member Portal</span>
-  </div>
-
-  <!-- SIGN IN -->
-  <div id="v-signin" class="auth-view active">
-    <h2 class="auth-h">Welcome back.</h2>
-    <p class="auth-hint">Sign in to access your protection and concierge.</p>
-    <div class="fld"><label class="flabel">Email</label><input class="finput" type="email" id="si-email" placeholder="you@email.com" autocomplete="email" onkeydown="if(event.key==='Enter')signIn()"/></div>
-    <div class="fld"><label class="flabel">Password</label><input class="finput" type="password" id="si-pass" placeholder="Password" autocomplete="current-password" onkeydown="if(event.key==='Enter')signIn()"/></div>
-    <div class="msg msg-err" id="si-err"></div>
-    <button class="abtn" id="si-btn" onclick="signIn()"><span>Sign In</span></button>
-    <div class="auth-links">New member? <a onclick="showView('signup')">Create account</a><br><a onclick="showView('reset')">Forgot password</a></div>
-  </div>
-
-  <!-- SIGN UP -->
-  <div id="v-signup" class="auth-view">
-    <button class="auth-back" onclick="showView('signin')">Back to sign in</button>
-    <h2 class="auth-h">Create account.</h2>
-    <div class="fld"><label class="flabel">Full Name</label><input class="finput" type="text" id="su-name" placeholder="First and Last Name"/></div>
-    <div class="fld"><label class="flabel">Email</label><input class="finput" type="email" id="su-email" placeholder="you@email.com"/></div>
-    <div class="fld"><label class="flabel">Password</label><input class="finput" type="password" id="su-pass" placeholder="Minimum 8 characters"/></div>
-    <div class="msg msg-err" id="su-err"></div>
-    <button class="abtn" id="su-btn" onclick="signUp()"><span>Create Account</span></button>
-  </div>
-
-  <!-- RESET -->
-  <div id="v-reset" class="auth-view">
-    <button class="auth-back" onclick="showView('signin')">Back to sign in</button>
-    <h2 class="auth-h">Reset password.</h2>
-    <div class="fld"><label class="flabel">Email</label><input class="finput" type="email" id="re-email" placeholder="you@email.com"/></div>
-    <div class="msg msg-err" id="re-err"></div>
-    <button class="abtn" onclick="resetPw()"><span>Send Reset Link</span></button>
-  </div>
-</div>
-</div>
-
-<!-- PORTAL -->
-<div id="portal">
-  <div class="topbar">
-    <div class="tb-left">
-      <div class="tb-emblem">LL</div>
-      <div class="tb-brand">Lolo Travels</div>
+<!-- ===== AUTH ===== -->
+<div id="auth">
+  <div class="auth-left">
+    <div class="al-top">
+      <div class="al-logo">
+        <div class="al-logo-mark">LL</div>
+        <div class="al-logo-name">Lolo Travels</div>
+      </div>
+      <div class="al-headline">The world is<br><em>yours.</em></div>
+      <div class="al-body">Your personal travel management portal. Everything you need before, during, and after every journey - protected by Lolo.</div>
+      <div class="al-features">
+        <div class="al-feat"><div class="al-feat-dot"></div><div class="al-feat-txt">Lolo Shield destination safety intelligence and emergency support</div></div>
+        <div class="al-feat"><div class="al-feat-dot"></div><div class="al-feat-txt">Claims recovery - we pursue what airlines, hotels, and insurers owe you</div></div>
+        <div class="al-feat"><div class="al-feat-dot"></div><div class="al-feat-txt">White-glove concierge for every detail of every journey</div></div>
+        <div class="al-feat"><div class="al-feat-dot"></div><div class="al-feat-txt">Voice notes and direct advisor access whenever you need it</div></div>
+      </div>
     </div>
-    <div class="tb-right">
-      <span class="tb-name" id="tb-name"></span>
-      <span class="tb-tier">Member</span>
+    <div class="al-bot">Lolo Travels LLC &nbsp;|&nbsp; Travel Management, Protection and Risk Advisory</div>
+  </div>
+
+  <div class="auth-right">
+    <div class="af-wrap">
+
+      <div id="v-signin" class="av on">
+        <div class="av-h">Sign in.</div>
+        <div class="av-sub">Welcome back. Your portal is ready.</div>
+        <div class="afl"><label class="albl">Email Address</label><input class="ainp" type="email" id="si-email" placeholder="you@email.com" autocomplete="email"/></div>
+        <div class="afl"><label class="albl">Password</label><input class="ainp" type="password" id="si-pass" placeholder="Your password" autocomplete="current-password" onkeydown="if(event.key==='Enter')signIn()"/></div>
+        <div class="aerr" id="si-err"></div>
+        <button class="abtn" id="si-btn" onclick="signIn()"><span>Sign In</span></button>
+        <div class="alinks"><a onclick="showV('reset')">Forgot password?</a> &nbsp;&middot;&nbsp; <a onclick="showV('register')">Create account</a></div>
+      </div>
+
+      <div id="v-register" class="av">
+        <button class="aback" onclick="showV('signin')">&larr; Back to sign in</button>
+        <div class="av-h">Join Lolo.</div>
+        <div class="av-sub">Create your member account. No approval required.</div>
+        <div class="afrow">
+          <div class="afl"><label class="albl">First Name <span>*</span></label><input class="ainp" type="text" id="reg-fname" placeholder="First name"/></div>
+          <div class="afl"><label class="albl">Last Name <span>*</span></label><input class="ainp" type="text" id="reg-lname" placeholder="Last name"/></div>
+        </div>
+        <div class="afl"><label class="albl">Email Address <span>*</span></label><input class="ainp" type="email" id="reg-email" placeholder="your@email.com"/></div>
+        <div class="afl"><label class="albl">Password <span>*</span></label><input class="ainp" type="password" id="reg-pass" placeholder="Minimum 8 characters"/></div>
+        <div class="afl"><label class="albl">Phone Number</label><input class="ainp" type="tel" id="reg-phone" placeholder="+1 or international format"/></div>
+        <div class="afl"><label class="albl">Country of Residence</label>
+          <select class="asel" id="reg-country">
+            <option value="">Select country</option>
+            <option>United States</option><option>United Kingdom</option><option>Canada</option><option>Australia</option><option>Nigeria</option><option>South Africa</option><option>Jamaica</option><option>Ethiopia</option><option>France</option><option>Germany</option><option>Other</option>
+          </select>
+        </div>
+        <div class="aerr" id="reg-err"></div>
+        <button class="abtn" id="reg-btn" onclick="register()"><span>Create Account</span></button>
+        <div class="alinks"><a onclick="showV('signin')">Already have an account? Sign in</a></div>
+      </div>
+
+      <div id="v-reset" class="av">
+        <button class="aback" onclick="showV('signin')">&larr; Back to sign in</button>
+        <div class="av-h">Reset password.</div>
+        <div class="av-sub">Enter your email and we will send a reset link.</div>
+        <div class="afl"><label class="albl">Email Address</label><input class="ainp" type="email" id="re-email" placeholder="your@email.com"/></div>
+        <div class="aerr" id="re-err"></div>
+        <button class="abtn" onclick="resetPw()"><span>Send Reset Link</span></button>
+        <div class="alinks"><a onclick="showV('signin')">Back to sign in</a></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== PORTAL ===== -->
+<div id="portal">
+
+  <div class="topbar">
+    <div class="tb-l">
+      <div class="tb-logo">LL</div>
+      <div class="tb-name">Lolo Travels</div>
+      <div class="tb-div"></div>
+      <div class="tb-lbl">Member Portal</div>
+    </div>
+    <div class="tb-r">
+      <div class="tb-av" id="tb-av">LL</div>
+      <span class="tb-uname" id="tb-uname"></span>
       <button class="tb-out" onclick="signOut()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="portal-hero" id="portal-hero">
+    <div class="hero-inner">
+      <div class="hero-greet" id="hero-greet">The world is <em>yours.</em></div>
+      <div class="hero-sub" id="hero-sub">Your portal is loading...</div>
+      <div id="hero-trip-block"></div>
+    </div>
+  </div>
+
+  <div class="shield-bar" onclick="nav('shield')">
+    <div class="shield-bar-inner">
+      <div class="shield-ico">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="shield-txt"><strong>Lolo Shield</strong> &nbsp;&middot;&nbsp; <span id="shield-status">Loading destination intelligence...</span></div>
+      <div class="shield-link">View brief &rsaquo;</div>
     </div>
   </div>
 
   <div class="layout">
     <aside class="sidebar">
-      <div class="nav-sec">Overview</div>
-      <div class="nav-item on" id="nav-dash" onclick="nav('dash')"><div class="nav-dot"></div>Dashboard</div>
-      <div class="nav-sec">Protection</div>
-      <div class="nav-item" id="nav-protection" onclick="nav('protection')"><div class="nav-dot"></div>My Protection</div>
-      <div class="nav-item" id="nav-claims" onclick="nav('claims')"><div class="nav-dot"></div>My Claims</div>
-      <div class="nav-item" id="nav-shield" onclick="nav('shield')"><div class="nav-dot"></div>Lolo Shield</div>
-      <div class="nav-sec">Travel</div>
-      <div class="nav-item" id="nav-packing" onclick="nav('packing')"><div class="nav-dot"></div>Packing List</div>
-      <div class="nav-item" id="nav-services" onclick="nav('services')"><div class="nav-dot"></div>Concierge and Services</div>
-      <div class="nav-sec">My Account</div>
-      <div class="nav-item" id="nav-advisor" onclick="nav('advisor')"><div class="nav-dot"></div>My Advisor</div>
-      <div class="nav-item" id="nav-documents" onclick="nav('documents')"><div class="nav-dot"></div>My Documents</div>
-      <div class="nav-item" id="nav-concierge" onclick="nav('concierge')"><div class="nav-dot"></div>Lolo Concierge</div>
-      <div class="nav-item" id="nav-support" onclick="nav('support')"><div class="nav-dot"></div>Emergency Support</div>
-      <div class="nav-item" id="nav-prefs" onclick="nav('prefs')"><div class="nav-dot"></div>Preferences</div>
+      <div class="nsec">My Portal</div>
+      <div class="ni on" id="ni-home" onclick="nav('home')">
+        <div class="ni-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        Home
+      </div>
+      <div class="nsec">Travel</div>
+      <div class="ni" id="ni-trips" onclick="nav('trips')">
+        <div class="ni-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8 19.79 19.79 0 012 2.18 2 2 0 014 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14h0v2.92z"/></svg></div>
+        Trip Planning
+      </div>
+      <div class="ni" id="ni-concierge" onclick="nav('concierge')">
+        <div class="ni-ico"><svg width="14" height="14" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        Concierge
+      </div>
+      <div class="nsec">Protection</div>
+      <div class="ni" id="ni-shield" onclick="nav('shield')">
+        <div class="ni-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        Lolo Shield
+      </div>
+      <div class="ni" id="ni-claims" onclick="nav('claims')">
+        <div class="ni-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+        Claims
+      </div>
+      <div class="nsec">Communication</div>
+      <div class="ni" id="ni-voice" onclick="nav('voice')">
+        <div class="ni-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+        Voice Notes
+      </div>
+      <div class="ni" id="ni-meeting" onclick="nav('meeting')">
+        <div class="ni-ico"><svg width="14" height="14" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
+        Schedule Meeting
+      </div>
+      <div class="ni" id="ni-messages" onclick="nav('messages')">
+        <div class="ni-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        Messages
+      </div>
+      <div class="nsec">Account</div>
+      <div class="ni" id="ni-documents" onclick="nav('documents')">
+        <div class="ni-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div>
+        Document Vault
+      </div>
+      <div class="ni" id="ni-profile" onclick="nav('profile')">
+        <div class="ni-ico"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        My Profile
+      </div>
     </aside>
 
-    <main class="main">
+    <main style="min-width:0;">
 
-      <!-- DASHBOARD -->
-      <div class="panel on" id="p-dash">
-        <div class="ph">
-          <div class="ptag">Overview</div>
-          <h2 class="ph1" id="dash-greet">Good to have you back.</h2>
-          <p class="ph2">Your protection is active. Here is your current status at a glance.</p>
-        </div>
-        <div class="sgrid">
-          <div class="stat"><div class="slabel">Protection</div><div class="sval">Active</div><div class="smeta">Pre-trip, In-trip, Post-trip</div></div>
-          <div class="stat"><div class="slabel">Open Claims</div><div class="sval">0</div><div class="smeta">No active claims on file</div></div>
-          <div class="stat" style="cursor:pointer;" onclick="nav('concierge')"><div class="slabel">Lolo Concierge</div><div class="sval" style="font-size:1rem;">Ask anything</div><div class="smeta">Available now</div></div>
-        </div>
-        <div class="div"></div>
-        <div class="sgrid">
-          <div class="stat" style="cursor:pointer;" onclick="nav('claims')"><div class="slabel">File a Claim</div><div class="sval" style="font-size:1rem;">Submit</div><div class="smeta">Lolo manages the full process</div></div>
-          <div class="stat" style="cursor:pointer;" onclick="nav('shield')"><div class="slabel">Lolo Shield</div><div class="sval" style="font-size:1rem;">Check Destination</div><div class="smeta">Safety intelligence before you go</div></div>
-          <div class="stat" style="cursor:pointer;" onclick="nav('packing')"><div class="slabel">Packing List</div><div class="sval" style="font-size:1rem;">Build List</div><div class="smeta">AI-generated for your destination</div></div>
+      <!-- HOME -->
+      <div class="panel on" id="p-home">
+        <div class="main">
+          <div class="slbl">Quick actions</div>
+          <div class="action-grid">
+            <div class="ac dark" onclick="nav('meeting')">
+              <div class="ac-ico on-dark">
+                <svg width="20" height="20" viewBox="0 0 24 24" stroke="rgba(247,244,238,.7)" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+              <div class="ac-title light">Schedule a meeting</div>
+              <div class="ac-desc light">Speak with your Lolo advisor</div>
+            </div>
+            <div class="ac dark" onclick="nav('voice')">
+              <div class="ac-ico on-dark">
+                <svg width="20" height="20" viewBox="0 0 24 24" stroke="rgba(247,244,238,.7)" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+              </div>
+              <div class="ac-title light">Leave a voice note</div>
+              <div class="ac-desc light">Message your advisor by voice</div>
+            </div>
+            <div class="ac" onclick="nav('claims')">
+              <div class="ac-ico">
+                <svg width="20" height="20" viewBox="0 0 24 24" stroke="#1C2E6B" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              </div>
+              <div class="ac-title">Submit a claim</div>
+              <div class="ac-desc">We recover what you are owed</div>
+            </div>
+            <div class="ac" onclick="nav('trips')">
+              <div class="ac-ico">
+                <svg width="20" height="20" viewBox="0 0 24 24" stroke="#1C2E6B" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              </div>
+              <div class="ac-title">Plan a trip</div>
+              <div class="ac-desc">Concierge travel service</div>
+            </div>
+            <div class="ac" onclick="nav('shield')">
+              <div class="ac-ico gold">
+                <svg width="20" height="20" viewBox="0 0 24 24" stroke="#C9A84C" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </div>
+              <div class="ac-title">Lolo Shield brief</div>
+              <div class="ac-desc">Destination safety intelligence</div>
+            </div>
+            <div class="ac" onclick="nav('documents')">
+              <div class="ac-ico">
+                <svg width="20" height="20" viewBox="0 0 24 24" stroke="#1C2E6B" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+              </div>
+              <div class="ac-title">My documents</div>
+              <div class="ac-desc">Passport, insurance, visas</div>
+            </div>
+          </div>
+          <div class="div"></div>
+          <div class="slbl">Your status</div>
+          <div class="stat-grid" id="home-stats">
+            <div class="stc navy-acc"><div class="stc-lbl">Active trips</div><div class="stc-val" id="hs-trips">--</div><div class="stc-sub">upcoming travel</div></div>
+            <div class="stc gold-acc"><div class="stc-lbl">Open claims</div><div class="stc-val" id="hs-claims">--</div><div class="stc-sub g" id="hs-claims-sub">filed with Lolo</div></div>
+            <div class="stc green-acc"><div class="stc-lbl">Recovered</div><div class="stc-val" id="hs-recovered">$0</div><div class="stc-sub gr">claims resolved</div></div>
+            <div class="stc navy-acc"><div class="stc-lbl">Documents</div><div class="stc-val" id="hs-docs">--</div><div class="stc-sub">in vault</div></div>
+          </div>
+          <div class="div"></div>
+          <div class="slbl">Recent claims</div>
+          <div id="home-claims"><div class="empty"><div class="empty-tx">No claims on file yet. Submit one above.</div></div></div>
         </div>
       </div>
 
-      <!-- PROTECTION -->
-      <div class="panel" id="p-protection">
-        <div class="ph"><div class="ptag">Coverage</div><h2 class="ph1">My Protection</h2><p class="ph2">Before, during, and after every trip. Lolo is with you at every stage.</p></div>
-        <div class="tl">
-          <div class="tls lit"><div class="tlnum">01</div><div class="tlttl">Pre-Trip Readiness</div><p class="tldesc">Risk assessment, coverage review, destination brief, documentation check, and Lolo Shield briefing before you leave.</p><div class="tlstat"><span class="badge badge-a">Available now</span></div></div>
-          <div class="tls"><div class="tlnum">02</div><div class="tlttl">In-Trip Support</div><p class="tldesc">Real-time advisory, emergency coordination, Lolo Shield active, and access to vetted local contacts 24 hours a day.</p><div class="tlstat"><span class="badge badge-d">Activates on departure</span></div></div>
-          <div class="tls"><div class="tlnum">03</div><div class="tlttl">Post-Trip Recovery</div><p class="tldesc">Lolo manages the full claims process. We do not just file. We manage, escalate, and ensure resolution.</p><div class="tlstat"><span class="badge badge-d">Available after travel</span></div></div>
+      <!-- TRIP PLANNING -->
+      <div class="panel" id="p-trips">
+        <div class="main">
+          <div class="ptag">Travel</div>
+          <div class="ph1">Plan a Trip</div>
+          <div class="ph2">Tell us where you are going and what you need. Your Lolo advisor handles every detail - flights, hotels, transfers, dining, and everything in between.</div>
+          <div class="frow">
+            <div class="ff"><label class="flbl">Destination</label><input class="inp" type="text" id="tr-dest" placeholder="City or country"/></div>
+            <div class="ff"><label class="flbl">Departure Date</label><input class="inp" type="date" id="tr-dep"/></div>
+            <div class="ff"><label class="flbl">Return Date</label><input class="inp" type="date" id="tr-ret"/></div>
+            <div class="ff"><label class="flbl">Number of Travelers</label><select class="sel" id="tr-travelers"><option value="1">1 traveler</option><option value="2">2 travelers</option><option value="3-5">3 to 5 travelers</option><option value="6+">6 or more</option></select></div>
+            <div class="ff"><label class="flbl">Travel Class</label><select class="sel" id="tr-class"><option value="economy">Economy</option><option value="premium">Premium Economy</option><option value="business">Business Class</option><option value="first">First Class</option></select></div>
+            <div class="ff"><label class="flbl">Budget Range</label><select class="sel" id="tr-budget"><option value="">Prefer not to say</option><option value="under5k">Under $5,000</option><option value="5-15k">$5,000 to $15,000</option><option value="15-50k">$15,000 to $50,000</option><option value="50k+">$50,000+</option></select></div>
+          </div>
+          <div class="ff full"><label class="flbl">Special Requirements</label><textarea class="txa" id="tr-notes" placeholder="Dietary needs, accessibility requirements, preferred airlines, hotel preferences, special occasions, anything your advisor should know..."></textarea></div>
+          <div class="ff full"><label class="flbl">Services Needed</label>
+            <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;" id="trip-services">
+              <label style="display:flex;align-items:center;gap:6px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy);cursor:pointer;"><input type="checkbox" value="flights" style="accent-color:var(--navy);"> Flights</label>
+              <label style="display:flex;align-items:center;gap:6px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy);cursor:pointer;"><input type="checkbox" value="hotels" style="accent-color:var(--navy);"> Hotels</label>
+              <label style="display:flex;align-items:center;gap:6px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy);cursor:pointer;"><input type="checkbox" value="transfers" style="accent-color:var(--navy);"> Transfers</label>
+              <label style="display:flex;align-items:center;gap:6px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy);cursor:pointer;"><input type="checkbox" value="dining" style="accent-color:var(--navy);"> Dining</label>
+              <label style="display:flex;align-items:center;gap:6px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy);cursor:pointer;"><input type="checkbox" value="insurance" style="accent-color:var(--navy);"> Travel Insurance</label>
+              <label style="display:flex;align-items:center;gap:6px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy);cursor:pointer;"><input type="checkbox" value="shield" style="accent-color:var(--navy);"> Lolo Shield</label>
+              <label style="display:flex;align-items:center;gap:6px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy);cursor:pointer;"><input type="checkbox" value="shipping" style="accent-color:var(--navy);"> Shipping</label>
+            </div>
+          </div>
+          <button class="sbtn" onclick="submitTripRequest()"><span>Submit Trip Request</span></button>
+          <p style="font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(6,14,26,.35);margin-top:10px;line-height:1.85;">Your Lolo advisor will respond with a full itinerary proposal within one business day.</p>
         </div>
-        <div class="div"></div>
-        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.15rem;color:var(--cream);margin-bottom:16px;">Request a Coverage Review</h3>
-        <div class="frm-row">
-          <div class="ff"><label class="flabel">Destination</label><input class="inp" type="text" placeholder="Where are you traveling?"/></div>
-          <div class="ff"><label class="flabel">Travel Dates</label><input class="inp" type="text" placeholder="Depart and return dates"/></div>
-        </div>
-        <div class="ff"><label class="flabel">What do you need covered?</label><textarea class="txa" placeholder="Medical, cancellation, baggage, delays..."></textarea></div>
-        <button class="sbtn" onclick="submit('coverage-review')"><span>Request Review</span></button>
       </div>
 
-      <!-- CLAIMS -->
-      <div class="panel" id="p-claims">
-        <div class="ph"><div class="ptag">Claims Management</div><h2 class="ph1">My Claims</h2><p class="ph2">We manage the full process from filing to resolution. You pay only on recovery.</p></div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
-          <span style="font-family:var(--fb);font-weight:200;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.42);">Active Claims</span>
-          <button class="sbtn" style="padding:8px 20px;" onclick="nav('newclaim')"><span>File New Claim</span></button>
+      <!-- CONCIERGE -->
+      <div class="panel" id="p-concierge">
+        <div class="main">
+          <div class="ptag">White Glove Service</div>
+          <div class="ph1">Concierge</div>
+          <div class="ph2">From restaurant reservations and private transfers to event tickets and last-minute changes on the ground - Lolo handles it.</div>
+          <div class="ff"><label class="flbl">Request Type</label>
+            <select class="sel" id="conc-type">
+              <option value="">Select request type</option>
+              <option value="dining">Restaurant reservation</option>
+              <option value="transfer">Private transfer or car service</option>
+              <option value="event">Event tickets or experiences</option>
+              <option value="accommodation">Hotel upgrade or special arrangement</option>
+              <option value="emergency">On-trip emergency assistance</option>
+              <option value="shipping">International shipping coordination</option>
+              <option value="sim">Local SIM and connectivity</option>
+              <option value="other">Other concierge request</option>
+            </select>
+          </div>
+          <div class="frow">
+            <div class="ff"><label class="flbl">Location</label><input class="inp" type="text" id="conc-loc" placeholder="City and country"/></div>
+            <div class="ff"><label class="flbl">Date Needed</label><input class="inp" type="date" id="conc-date"/></div>
+          </div>
+          <div class="ff full"><label class="flbl">Request Details</label><textarea class="txa" id="conc-notes" style="min-height:120px;" placeholder="Tell us exactly what you need. The more detail the better - we want to get it right the first time."></textarea></div>
+          <div class="ff"><label class="flbl">How Urgent Is This?</label>
+            <select class="sel" id="conc-urgency">
+              <option value="standard">Standard - response within one business day</option>
+              <option value="urgent">Urgent - needed within 24 hours</option>
+              <option value="emergency">Emergency - needed immediately</option>
+            </select>
+          </div>
+          <button class="sbtn" onclick="submitConcierge()"><span>Submit Concierge Request</span></button>
         </div>
-        <div class="empty"><div class="empty-icon">No open claims.</div><div class="empty-txt">If something went wrong on a trip, file a claim<br>and Lolo handles everything from here.</div></div>
-      </div>
-
-      <!-- NEW CLAIM -->
-      <div class="panel" id="p-newclaim">
-        <div class="ph"><div class="ptag">Submit a Claim</div><h2 class="ph1">File a Claim</h2><p class="ph2">Provide the details below. Lolo builds your case, manages the process, and fights for your recovery.</p></div>
-        <div class="frm-row">
-          <div class="ff"><label class="flabel">Claim Type</label><select class="sel"><option>Trip Cancellation</option><option>Medical Expense</option><option>Baggage Loss or Damage</option><option>Flight Delay or Missed Connection</option><option>Hotel or Accommodation Dispute</option><option>Medical Evacuation</option><option>Emergency Assistance</option><option>Other</option></select></div>
-          <div class="ff"><label class="flabel">Estimated Amount Owed</label><input class="inp" type="text" placeholder="Dollar amount you believe is owed"/></div>
-          <div class="ff"><label class="flabel">Destination</label><input class="inp" type="text" placeholder="Where were you?"/></div>
-          <div class="ff"><label class="flabel">Travel Dates</label><input class="inp" type="text" placeholder="Departure and return"/></div>
-          <div class="ff"><label class="flabel">Insurance Carrier</label><input class="inp" type="text" placeholder="Which insurance company?"/></div>
-          <div class="ff"><label class="flabel">Policy Number</label><input class="inp" type="text" placeholder="If known"/></div>
-        </div>
-        <div class="ff"><label class="flabel">What happened?</label><textarea class="txa" style="min-height:90px;" placeholder="Describe the incident and what you have been told so far..."></textarea></div>
-        <div class="ff"><label class="flabel">Current Status</label><select class="sel"><option>Not yet submitted. Lolo will handle from the start.</option><option>Submitted but no response received</option><option>Denied. I need help appealing.</option><option>Partially paid. Remainder is disputed.</option></select></div>
-        <button class="sbtn" onclick="submit('new-claim')"><span>Submit Claim to Lolo</span></button>
-        <p style="font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--dim);margin-top:11px;line-height:1.85;">Fees are disclosed before work begins. You pay nothing if Lolo does not recover.</p>
       </div>
 
       <!-- SHIELD -->
       <div class="panel" id="p-shield">
-        <div class="ph"><div class="ptag">Safety Intelligence</div><h2 class="ph1">Lolo Shield</h2><p class="ph2">Destination-level safety intelligence, emergency contacts, and real-time guidance. Before you arrive, not after.</p></div>
-        <div class="frm-row" style="margin-bottom:16px;">
-          <div class="ff"><label class="flabel">Destination</label><input class="inp" type="text" id="shield-dest" placeholder="City or country"/></div>
-          <div class="ff" style="display:flex;align-items:flex-end;"><button class="sbtn" style="width:100%;" onclick="shieldCheck()"><span>Check Destination</span></button></div>
-        </div>
-        <div id="shield-result" style="display:none;">
-          <div style="background:rgba(255,255,255,.02);border:var(--bdr);padding:22px;margin-bottom:2px;">
-            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:10px;">
-              <div style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.15rem;color:var(--cream);" id="shield-name"></div>
-              <span class="badge" id="shield-badge"></span>
+        <div class="main">
+          <div class="ptag">Travel Protection</div>
+          <div class="ph1">Lolo Shield</div>
+          <div class="ph2">Destination safety intelligence delivered before you arrive. Know what to expect - not after an incident, but before you board.</div>
+          <div class="shield-hero">
+            <div class="shield-dest" id="sh-dest">Enter a destination below</div>
+            <div class="shield-risk" id="sh-risk" style="display:none;">
+              <div class="shield-risk-dot" id="sh-risk-dot"></div>
+              <div class="shield-risk-lbl" id="sh-risk-lbl"></div>
             </div>
-            <div id="shield-summary" style="font-family:var(--fb);font-weight:200;font-size:.79rem;color:var(--muted);line-height:1.9;margin-bottom:14px;"></div>
-            <div class="shield-grid">
-              <div class="sg-item"><div class="sg-label">Emergency Number</div><div class="sg-val" id="sh-emerg"></div></div>
-              <div class="sg-item"><div class="sg-label">U.S. Embassy</div><div class="sg-val" id="sh-embassy"></div></div>
-              <div class="sg-item"><div class="sg-label">Lolo Emergency</div><div class="sg-val">+1 612-429-4943</div></div>
+            <div class="shield-info-grid" id="sh-info-grid" style="display:none;">
+              <div class="shield-info-card"><div class="sic-lbl">U.S. Embassy</div><div class="sic-val" id="sh-embassy">--</div></div>
+              <div class="shield-info-card"><div class="sic-lbl">Emergency Number</div><div class="sic-val" id="sh-emergency">--</div></div>
+              <div class="shield-info-card"><div class="sic-lbl">Safety Level</div><div class="sic-val" id="sh-safety">--</div></div>
+              <div class="shield-info-card"><div class="sic-lbl">Lolo Fixer Available</div><div class="sic-val" id="sh-fixer">On request</div></div>
             </div>
           </div>
-        </div>
-        <div class="div"></div>
-        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--cream);margin-bottom:12px;">Always Available</h3>
-        <div class="shield-grid">
-          <div class="sg-item"><div class="sg-label">Lolo Emergency</div><div class="sg-val">+1 612-429-4943</div></div>
-          <div class="sg-item"><div class="sg-label">Email</div><div class="sg-val">hello@lolotravels.com</div></div>
-          <div class="sg-item"><div class="sg-label">STEP Program</div><div class="sg-val">travel.state.gov. Register before every trip.</div></div>
-        </div>
-      </div>
-
-      <!-- PACKING LIST -->
-      <div class="panel" id="p-packing">
-        <div class="ph"><div class="ptag">Trip Prep</div><h2 class="ph1">Packing List</h2><p class="ph2">AI-generated by destination, duration, and purpose. Check off as you pack. If luggage is lost, the list pre-populates your claim.</p></div>
-        <div class="frm-row" style="margin-bottom:18px;">
-          <div class="ff"><label class="flabel">Destination</label><input class="inp" type="text" id="pk-dest" placeholder="Where are you going?"/></div>
-          <div class="ff"><label class="flabel">Trip Duration</label><input class="inp" type="text" id="pk-days" placeholder="How many days?"/></div>
-          <div class="ff"><label class="flabel">Trip Purpose</label><select class="sel" id="pk-type"><option>Business</option><option>Leisure</option><option>Bleisure</option><option>Conference</option></select></div>
-          <div class="ff" style="display:flex;align-items:flex-end;"><button class="sbtn" style="width:100%;" onclick="buildPacking()"><span>Generate List</span></button></div>
-        </div>
-        <div id="pk-result" style="display:none;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;">
-            <span style="font-family:var(--fb);font-weight:200;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.42);">Your Packing List</span>
-            <button class="sbtn" style="padding:7px 18px;font-size:.55rem;" onclick="saveList()"><span>Save List</span></button>
-          </div>
-          <div id="pk-lists"></div>
-        </div>
-        <div id="pk-empty" class="empty"><div class="empty-icon">No list yet.</div><div class="empty-txt">Enter your destination and trip details above<br>and Lolo will generate your packing list.</div></div>
-      </div>
-
-      <!-- CONCIERGE SERVICES -->
-      <div class="panel" id="p-services">
-        <div class="ph"><div class="ptag">White-Glove Services</div><h2 class="ph1">Concierge and Services</h2><p class="ph2">Lolo coordinates so you do not have to. Luggage, shipping, retrieval, and anything else your journey requires.</p></div>
-        <div class="sgrid" style="margin-bottom:20px;">
-          <div class="stat" style="cursor:pointer;" onclick="showService('forward')"><div class="slabel">Luggage Forward</div><div class="sval" style="font-size:1rem;">From $175</div><div class="smeta">Domestic. $250 international. $399 round trip.</div></div>
-          <div class="stat" style="cursor:pointer;" onclick="showService('retrieval')"><div class="slabel">Item Retrieval</div><div class="sval" style="font-size:1rem;">From $200</div><div class="smeta">Left something behind? Lolo recovers and ships it.</div></div>
-          <div class="stat" style="cursor:pointer;" onclick="showService('whiteglove')"><div class="slabel">White-Glove Request</div><div class="sval" style="font-size:1rem;">Custom</div><div class="smeta">Anything else your trip requires. Ask and we coordinate.</div></div>
-        </div>
-        <div id="svc-form" style="display:none;">
+          <div class="ff" style="margin-top:16px;"><label class="flbl">Check a Destination</label><input class="inp" type="text" id="sh-search" placeholder="City or country" onkeydown="if(event.key==='Enter')loadShield()"/></div>
+          <button class="sbtn-o" onclick="loadShield()">Get Shield Brief</button>
           <div class="div"></div>
-          <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--cream);margin-bottom:14px;" id="svc-title">Request Service</h3>
-          <div class="frm-row">
-            <div class="ff"><label class="flabel">Pickup Location</label><input class="inp" type="text" placeholder="Address or hotel name"/></div>
-            <div class="ff"><label class="flabel">Delivery Location</label><input class="inp" type="text" placeholder="Destination address"/></div>
-            <div class="ff"><label class="flabel">Requested Date</label><input class="inp" type="text" placeholder="When do you need this?"/></div>
-            <div class="ff"><label class="flabel">Number of Items or Bags</label><input class="inp" type="text" placeholder="How many?"/></div>
+          <div class="iblock">Shield intelligence is updated continuously. For active travel emergencies, tap the Shield status bar at the top of your portal at any time to reach your Lolo advisor directly.</div>
+          <div style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:14px;">Priority destinations covered</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;" id="sh-destinations">
+            <span onclick="setShieldDest('Jamaica')" style="background:var(--white);border:0.5px solid rgba(6,14,26,.1);padding:7px 14px;font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--navy);cursor:pointer;transition:all .18s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(6,14,26,.1)'">Jamaica</span>
+            <span onclick="setShieldDest('Nigeria')" style="background:var(--white);border:0.5px solid rgba(6,14,26,.1);padding:7px 14px;font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--navy);cursor:pointer;transition:all .18s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(6,14,26,.1)'">Nigeria</span>
+            <span onclick="setShieldDest('South Africa')" style="background:var(--white);border:0.5px solid rgba(6,14,26,.1);padding:7px 14px;font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--navy);cursor:pointer;transition:all .18s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(6,14,26,.1)'">South Africa</span>
+            <span onclick="setShieldDest('Ethiopia')" style="background:var(--white);border:0.5px solid rgba(6,14,26,.1);padding:7px 14px;font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--navy);cursor:pointer;transition:all .18s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(6,14,26,.1)'">Ethiopia</span>
+            <span onclick="setShieldDest('Paris')" style="background:var(--white);border:0.5px solid rgba(6,14,26,.1);padding:7px 14px;font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--navy);cursor:pointer;transition:all .18s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(6,14,26,.1)'">Paris</span>
+            <span onclick="setShieldDest('Barcelona')" style="background:var(--white);border:0.5px solid rgba(6,14,26,.1);padding:7px 14px;font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--navy);cursor:pointer;transition:all .18s;" onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='rgba(6,14,26,.1)'">Barcelona</span>
           </div>
-          <div class="ff"><label class="flabel">Special Instructions</label><textarea class="txa" placeholder="Fragile items, specific handling needs, or any other details..."></textarea></div>
-          <button class="sbtn" onclick="submit('concierge-service')"><span>Submit Request</span></button>
         </div>
       </div>
 
-      <!-- ADVISOR -->
-      <div class="panel" id="p-advisor">
-        <div class="ph"><div class="ptag">Your Advisor</div><h2 class="ph1">My Advisor</h2><p class="ph2">Direct access, your personal file, and a relationship that carries through every trip.</p></div>
-        <div class="sgrid" style="margin-bottom:2px;">
-          <div class="stat"><div class="slabel">Your Advisor</div><div class="sval" style="font-size:1rem;">Lolo Travels</div><div class="smeta">Founder, Shana London</div></div>
-          <div class="stat"><div class="slabel">Email</div><div class="sval" style="font-size:.88rem;">hello@lolotravels.com</div><div class="smeta">Response within 24 to 48 hours</div></div>
-          <div class="stat"><div class="slabel">Emergency Line</div><div class="sval" style="font-size:.88rem;">+1 612-429-4943</div><div class="smeta">Active trip emergencies only</div></div>
+      <!-- CLAIMS -->
+      <div class="panel" id="p-claims">
+        <div class="main">
+          <div class="ptag">Claims Recovery</div>
+          <div class="ph1">Claims</div>
+          <div class="ph2">Submit a travel claim and Lolo manages every step - from filing through to resolution. You pay only when we recover.</div>
+          <div class="iblock">Contingency fee: 25% of recovered amount. No recovery, no fee. For claims under $1,000 a flat $75 intake fee applies.</div>
+          <div id="claims-list" style="margin-bottom:20px;"></div>
+          <div class="div"></div>
+          <div style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:14px;">Submit a New Claim</div>
+          <div class="frow">
+            <div class="ff"><label class="flbl">Claim Type</label>
+              <select class="sel" id="cl-type">
+                <option value="">Select claim type</option>
+                <option value="flight_cancellation">Flight Cancellation</option>
+                <option value="flight_delay">Flight Delay (3+ hours)</option>
+                <option value="denied_boarding">Denied Boarding</option>
+                <option value="baggage_lost">Lost Baggage</option>
+                <option value="baggage_damaged">Damaged Baggage</option>
+                <option value="hotel_overbook">Hotel Overbooking</option>
+                <option value="hotel_charges">Unauthorized Hotel Charges</option>
+                <option value="insurance_denied">Insurance Claim Denied</option>
+                <option value="cruise">Cruise Line Dispute</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="ff"><label class="flbl">Responsible Party</label><input class="inp" type="text" id="cl-party" placeholder="Airline, hotel, or insurer name"/></div>
+            <div class="ff"><label class="flbl">Incident Date</label><input class="inp" type="date" id="cl-date"/></div>
+            <div class="ff"><label class="flbl">Amount Claimed (USD)</label><input class="inp" type="text" id="cl-amt" placeholder="Estimated amount"/></div>
+            <div class="ff"><label class="flbl">Booking Reference</label><input class="inp" type="text" id="cl-ref" placeholder="Confirmation number, flight number, etc"/></div>
+            <div class="ff"><label class="flbl">Fee Structure</label>
+              <select class="sel" id="cl-fee">
+                <option value="percentage">25% contingency - no recovery no fee</option>
+                <option value="flat">$75 flat fee (claims under $1,000)</option>
+              </select>
+            </div>
+          </div>
+          <div class="ff full"><label class="flbl">What Happened</label><textarea class="txa" id="cl-desc" style="min-height:110px;" placeholder="Describe what happened. Include what the responsible party told you, what they offered (if anything), and any reference numbers you have."></textarea></div>
+          <div class="ff full">
+            <label class="flbl">Upload Supporting Documents</label>
+            <div class="uzone" onclick="document.getElementById('cl-file').click()">
+              <div class="utxt"><strong>Click to attach files</strong><br>Boarding passes, receipts, correspondence, insurance policy. PDF or image. Max 10 files.</div>
+              <input type="file" id="cl-file" style="display:none;" multiple accept=".pdf,.jpg,.png,.jpeg,.doc,.docx" onchange="onFileSelect(this,'cl-ftxt')"/>
+              <div style="font-family:var(--fb);font-weight:200;font-size:.74rem;color:var(--green);margin-top:5px;" id="cl-ftxt"></div>
+            </div>
+          </div>
+          <button class="sbtn" onclick="submitClaim()"><span>Submit Claim</span></button>
         </div>
-        <div class="div"></div>
-        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--cream);margin-bottom:16px;">Send a Message</h3>
-        <div class="ff"><label class="flabel">Subject</label><input class="inp" type="text" placeholder="What is this regarding?"/></div>
-        <div class="ff"><label class="flabel">Message</label><textarea class="txa" style="min-height:90px;" placeholder="Your message to your advisor..."></textarea></div>
-        <button class="sbtn" onclick="submit('advisor-message')"><span>Send Message</span></button>
+      </div>
+
+      <!-- VOICE NOTES -->
+      <div class="panel" id="p-voice">
+        <div class="main">
+          <div class="ptag">Voice Communication</div>
+          <div class="ph1">Voice Notes</div>
+          <div class="ph2">Speak directly to your Lolo advisor. Record a voice note and it is transcribed and delivered to your Lolo team immediately.</div>
+          <div class="voice-wrap">
+            <div class="voice-inner">
+              <div class="voice-top">
+                <div>
+                  <div class="voice-title">Record a note</div>
+                  <div class="voice-desc">Tap the microphone to start recording. Speak naturally - Lolo transcribes and responds within one business day.</div>
+                </div>
+                <div class="voice-btn" id="voice-btn" onclick="toggleVoice()">
+                  <svg width="20" height="20" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                </div>
+              </div>
+              <div class="voice-status" id="voice-status">Tap the microphone to begin recording.</div>
+              <div id="voice-result" style="display:none;">
+                <div class="voice-transcript" id="voice-text" contenteditable="true"></div>
+                <div style="display:flex;gap:8px;margin-top:12px;">
+                  <button class="abtn" onclick="saveVoiceNote()" style="flex:1;"><span>Send to Lolo</span></button>
+                  <button onclick="clearVoice()" style="background:rgba(255,255,255,.08);border:0.5px solid rgba(255,255,255,.15);color:rgba(247,244,238,.5);padding:10px 18px;font-family:var(--fb);font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;">Clear</button>
+                </div>
+              </div>
+              <div id="voice-notes-list" class="voice-notes-list"></div>
+            </div>
+          </div>
+          <div class="iblock" style="margin-top:16px;">Voice notes are transcribed automatically and delivered to hello@lolotravels.com. Use voice notes for trip updates, special requests, or anything you prefer to speak rather than type. Chrome browser recommended for best transcription quality.</div>
+        </div>
+      </div>
+
+      <!-- SCHEDULE MEETING -->
+      <div class="panel" id="p-meeting">
+        <div class="main">
+          <div class="ptag">Direct Access</div>
+          <div class="ph1">Schedule a Meeting</div>
+          <div class="ph2">Book time directly with your Lolo advisor. Video, phone, or in-person if you are in Minneapolis.</div>
+          <div class="meeting-card">
+            <div class="meeting-top">
+              <div>
+                <div class="meeting-title">Choose a time</div>
+                <div class="meeting-desc">All times in your local timezone. Lolo advisors are available Monday through Friday 8am to 6pm CT, and by appointment on weekends.</div>
+              </div>
+              <div class="meeting-ico">
+                <svg width="24" height="24" viewBox="0 0 24 24" stroke="var(--navy2)" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              </div>
+            </div>
+            <div class="ff"><label class="flbl">Preferred Date</label><input class="inp" type="date" id="mt-date" onchange="renderSlots()"/></div>
+            <div class="slbl" style="margin-bottom:10px;">Available times</div>
+            <div class="slot-grid" id="slot-grid">
+              <div class="slot" data-time="9:00 AM" onclick="selectSlot(this)"><span class="slot-time">9:00 AM</span><span class="slot-lbl">Available</span></div>
+              <div class="slot" data-time="10:00 AM" onclick="selectSlot(this)"><span class="slot-time">10:00 AM</span><span class="slot-lbl">Available</span></div>
+              <div class="slot" data-time="11:00 AM" onclick="selectSlot(this)"><span class="slot-time">11:00 AM</span><span class="slot-lbl">Available</span></div>
+              <div class="slot" data-time="1:00 PM" onclick="selectSlot(this)"><span class="slot-time">1:00 PM</span><span class="slot-lbl">Available</span></div>
+              <div class="slot" data-time="2:00 PM" onclick="selectSlot(this)"><span class="slot-time">2:00 PM</span><span class="slot-lbl">Available</span></div>
+              <div class="slot" data-time="3:00 PM" onclick="selectSlot(this)"><span class="slot-time">3:00 PM</span><span class="slot-lbl">Available</span></div>
+              <div class="slot" data-time="4:00 PM" onclick="selectSlot(this)"><span class="slot-time">4:00 PM</span><span class="slot-lbl">Available</span></div>
+              <div class="slot" data-time="5:00 PM" onclick="selectSlot(this)"><span class="slot-time">5:00 PM</span><span class="slot-lbl">Available</span></div>
+            </div>
+          </div>
+          <div class="frow" style="margin-top:14px;">
+            <div class="ff"><label class="flbl">Meeting Format</label>
+              <select class="sel" id="mt-format">
+                <option value="video">Video call (Zoom or Teams)</option>
+                <option value="phone">Phone call</option>
+                <option value="inperson">In person - Minneapolis office</option>
+              </select>
+            </div>
+            <div class="ff"><label class="flbl">Your Timezone</label>
+              <select class="sel" id="mt-tz">
+                <option value="CT">Central Time (CT)</option>
+                <option value="ET">Eastern Time (ET)</option>
+                <option value="PT">Pacific Time (PT)</option>
+                <option value="GMT">GMT / London</option>
+                <option value="WAT">West Africa Time (WAT)</option>
+                <option value="SAST">South Africa (SAST)</option>
+                <option value="EAT">East Africa (EAT)</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="ff full"><label class="flbl">What Would You Like to Discuss?</label><textarea class="txa" id="mt-notes" placeholder="A brief agenda helps your advisor prepare. Trip planning, claims, insurance, Shield, general inquiry..."></textarea></div>
+          <button class="sbtn" id="mt-btn" onclick="bookMeeting()"><span>Request Meeting</span></button>
+          <p style="font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(6,14,26,.35);margin-top:10px;line-height:1.85;">You will receive a calendar invitation at your email address within one business day confirming the time and meeting link.</p>
+        </div>
+      </div>
+
+      <!-- MESSAGES -->
+      <div class="panel" id="p-messages">
+        <div class="main">
+          <div class="ptag">Direct Communication</div>
+          <div class="ph1">Messages</div>
+          <div class="ph2">Direct correspondence with your Lolo team. All messages are logged and responded to within one business day.</div>
+          <div class="frow">
+            <div class="ff"><label class="flbl">Subject</label><input class="inp" type="text" id="msg-subj" placeholder="What is this about?"/></div>
+            <div class="ff"><label class="flbl">Category</label>
+              <select class="sel" id="msg-cat">
+                <option value="Trip Planning">Trip Planning</option>
+                <option value="Claims">Claims</option>
+                <option value="Shield">Lolo Shield</option>
+                <option value="Concierge">Concierge Request</option>
+                <option value="Insurance">Insurance</option>
+                <option value="Account">Account and Billing</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="ff full"><label class="flbl">Message</label><textarea class="txa" id="msg-body" style="min-height:110px;" placeholder="Write your message to Lolo..."></textarea></div>
+          <button class="sbtn" onclick="sendMessage()"><span>Send Message</span></button>
+          <div class="div"></div>
+          <div style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:14px;">Message History</div>
+          <div id="msg-list"><div class="empty"><div class="empty-tx">No messages yet.</div></div></div>
+        </div>
       </div>
 
       <!-- DOCUMENTS -->
       <div class="panel" id="p-documents">
-        <div class="ph"><div class="ptag">Document Vault</div><h2 class="ph1">My Documents</h2><p class="ph2">Itineraries, insurance policies, booking confirmations, and claim documents, all in one place.</p></div>
-        <div class="empty"><div class="empty-icon">No documents yet.</div><div class="empty-txt">Once Lolo confirms your bookings or protection, documents appear here.<br>You can also request documents by messaging your advisor.</div></div>
-      </div>
-
-      <!-- AI CONCIERGE -->
-      <div class="panel" id="p-concierge">
-        <div class="ph"><div class="ptag">AI Concierge</div><h2 class="ph1">Lolo Concierge</h2><p class="ph2">Ask anything. Destinations, protection, claims, safety, or what to pack.</p></div>
-        <div class="chat-box">
-          <div class="chat-msgs" id="chat-c">
-            <div class="cmsg"><div class="cav cav-ai">LL</div><div class="cbub cbub-ai">Welcome to Lolo Concierge. I can help with destination intelligence, travel protection questions, claim guidance, packing recommendations, and anything your journey requires. What can I assist you with today?</div></div>
+        <div class="main">
+          <div class="ptag">Secure Vault</div>
+          <div class="ph1">Document Vault</div>
+          <div class="ph2">Store your travel documents securely. Expiry dates are tracked and you are alerted before anything lapses. Accessible anywhere, anytime.</div>
+          <div id="doc-list" style="margin-bottom:20px;"></div>
+          <div class="div"></div>
+          <div style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);margin-bottom:14px;">Upload a Document</div>
+          <div class="frow">
+            <div class="ff"><label class="flbl">Document Type</label>
+              <select class="sel" id="doc-type">
+                <option value="">Select type</option>
+                <option value="passport">Passport</option>
+                <option value="visa">Visa</option>
+                <option value="insurance">Insurance Policy</option>
+                <option value="vaccination">Vaccination Record</option>
+                <option value="drivers_license">Driver's License</option>
+                <option value="id_card">National ID</option>
+                <option value="itinerary">Itinerary</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="ff"><label class="flbl">Document Name</label><input class="inp" type="text" id="doc-name" placeholder="e.g. US Passport, Schengen Visa"/></div>
+            <div class="ff"><label class="flbl">Issue Date</label><input class="inp" type="date" id="doc-issue"/></div>
+            <div class="ff"><label class="flbl">Expiry Date</label><input class="inp" type="date" id="doc-expiry"/></div>
           </div>
-          <div class="chat-row">
-            <input class="chat-inp" id="ci-c" placeholder="Ask about protection, destinations, claims, safety..." onkeydown="if(event.key==='Enter')chat('c')"/>
-            <button class="chat-send" onclick="chat('c')">Send</button>
+          <div class="ff full">
+            <label class="flbl">Attach Document</label>
+            <div class="uzone" onclick="document.getElementById('doc-file').click()">
+              <div class="utxt" id="doc-ftxt"><strong>Click to attach file</strong><br>PDF or image. Max 25MB. Encrypted at rest.</div>
+              <input type="file" id="doc-file" style="display:none;" accept=".pdf,.jpg,.png,.jpeg" onchange="onFileSelect(this,'doc-ftxt')"/>
+            </div>
           </div>
+          <button class="sbtn" onclick="uploadDoc()"><span>Add to Vault</span></button>
         </div>
       </div>
 
-      <!-- EMERGENCY SUPPORT -->
-      <div class="panel" id="p-support">
-        <div class="ph"><div class="ptag">Emergency</div><h2 class="ph1">Emergency Support</h2><p class="ph2">For urgent situations while traveling. Lolo responds immediately.</p></div>
-        <button class="emerg-btn" onclick="submit('emergency')">I Need Help Right Now</button>
-        <div class="sgrid" style="margin-bottom:20px;">
-          <div class="stat"><div class="slabel">Lolo Emergency</div><div class="sval" style="font-size:.9rem;">+1 612-429-4943</div><div class="smeta">Call directly for active emergencies</div></div>
-          <div class="stat"><div class="slabel">Email</div><div class="sval" style="font-size:.9rem;">hello@lolotravels.com</div><div class="smeta">For non-urgent support requests</div></div>
-          <div class="stat"><div class="slabel">STEP Program</div><div class="sval" style="font-size:.9rem;">travel.state.gov</div><div class="smeta">Register every trip with the U.S. State Dept.</div></div>
+      <!-- PROFILE -->
+      <div class="panel" id="p-profile">
+        <div class="main">
+          <div class="ptag">Your Account</div>
+          <div class="ph1">My Profile</div>
+          <div class="ph2">Your information on file with Lolo. Keeping this current ensures your concierge and Shield services are always accurate.</div>
+          <div style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--navy);margin-bottom:12px;">Personal Details</div>
+          <div class="frow">
+            <div class="ff"><label class="flbl">First Name</label><input class="inp" type="text" id="pf-fname"/></div>
+            <div class="ff"><label class="flbl">Last Name</label><input class="inp" type="text" id="pf-lname"/></div>
+            <div class="ff"><label class="flbl">Email Address</label><input class="inp" type="email" id="pf-email"/></div>
+            <div class="ff"><label class="flbl">Phone Number</label><input class="inp" type="tel" id="pf-phone"/></div>
+            <div class="ff"><label class="flbl">Country of Residence</label><input class="inp" type="text" id="pf-country"/></div>
+            <div class="ff"><label class="flbl">Nationality</label><input class="inp" type="text" id="pf-nationality"/></div>
+          </div>
+          <div class="div"></div>
+          <div style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--navy);margin-bottom:12px;">Travel Preferences</div>
+          <div class="frow">
+            <div class="ff"><label class="flbl">Preferred Seat</label>
+              <select class="sel" id="pf-seat"><option>Window</option><option>Aisle</option><option>No preference</option></select>
+            </div>
+            <div class="ff"><label class="flbl">Meal Preference</label><input class="inp" type="text" id="pf-meal" placeholder="e.g. vegetarian, halal, gluten-free"/></div>
+            <div class="ff"><label class="flbl">Preferred Hotel Type</label><input class="inp" type="text" id="pf-hotel" placeholder="e.g. boutique, brand name, serviced apartment"/></div>
+            <div class="ff"><label class="flbl">Loyalty Numbers</label><input class="inp" type="text" id="pf-loyalty" placeholder="Airline and hotel loyalty numbers"/></div>
+          </div>
+          <div class="div"></div>
+          <div style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--navy);margin-bottom:12px;">Emergency Contacts</div>
+          <div class="frow">
+            <div class="ff"><label class="flbl">Emergency Contact Name</label><input class="inp" type="text" id="pf-ec-name" placeholder="Full name"/></div>
+            <div class="ff"><label class="flbl">Relationship</label><input class="inp" type="text" id="pf-ec-rel" placeholder="e.g. spouse, parent, sibling"/></div>
+            <div class="ff"><label class="flbl">Emergency Contact Phone</label><input class="inp" type="tel" id="pf-ec-phone" placeholder="International format"/></div>
+            <div class="ff"><label class="flbl">Emergency Contact Email</label><input class="inp" type="email" id="pf-ec-email"/></div>
+          </div>
+          <button class="sbtn" id="pf-btn" onclick="saveProfile()"><span>Save Profile</span></button>
         </div>
-        <div class="div"></div>
-        <h3 style="font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.05rem;color:var(--cream);margin-bottom:14px;">Submit a Support Request</h3>
-        <div class="frm-row">
-          <div class="ff"><label class="flabel">Request Type</label><select class="sel"><option>Emergency. I am currently traveling.</option><option>Pre-trip readiness review</option><option>Claims assistance</option><option>Shipping or retrieval coordination</option><option>Lolo Shield destination briefing</option><option>General question</option></select></div>
-          <div class="ff"><label class="flabel">Best Way to Reach You</label><input class="inp" type="text" placeholder="Email or phone number"/></div>
-        </div>
-        <div class="ff"><label class="flabel">What do you need?</label><textarea class="txa" style="min-height:90px;" placeholder="Be as specific as possible so we can respond quickly..."></textarea></div>
-        <button class="sbtn" onclick="submit('support-request')"><span>Submit Request</span></button>
-      </div>
-
-      <!-- PREFERENCES -->
-      <div class="panel" id="p-prefs">
-        <div class="ph"><div class="ptag">Your Profile</div><h2 class="ph1">Preferences</h2><p class="ph2">Your advisor reads this before every trip. The more we know, the better we serve you.</p></div>
-        <div class="frm-row">
-          <div class="ff"><label class="flabel">Preferred Seat</label><select class="sel"><option>No preference</option><option>Aisle</option><option>Window</option><option>Extra legroom</option></select></div>
-          <div class="ff"><label class="flabel">Preferred Room Type</label><select class="sel"><option>No preference</option><option>King bed</option><option>Two beds</option><option>Suite</option><option>High floor</option></select></div>
-          <div class="ff"><label class="flabel">Dietary Restrictions</label><input class="inp" type="text" placeholder="Allergies, dietary needs, or preferences"/></div>
-          <div class="ff"><label class="flabel">Airline Loyalty Numbers</label><input class="inp" type="text" placeholder="Airline and number. e.g. Delta SkyMiles 123456789"/></div>
-          <div class="ff"><label class="flabel">Hotel Loyalty Numbers</label><input class="inp" type="text" placeholder="Hotel program and number"/></div>
-          <div class="ff"><label class="flabel">Special Occasions</label><input class="inp" type="text" placeholder="Birthdays, anniversaries, milestones during travel"/></div>
-        </div>
-        <div class="ff"><label class="flabel">Anything else your advisor should know?</label><textarea class="txa" placeholder="Travel style, things you love, things to avoid, accessibility needs..."></textarea></div>
-        <button class="sbtn" onclick="submit('preferences')"><span>Save Preferences</span></button>
       </div>
 
     </main>
   </div>
 
-  <div class="portal-foot">
-    <div class="foot-brand">Lolo Travels</div>
-    <div class="foot-links">
-      <a class="foot-link" href="/">Home</a>
-      <a class="foot-link" href="/insurance">Protection</a>
-      <a class="foot-link" href="/contact">Contact</a>
+  <div class="pfoot">
+    <div class="pfoot-brand">Lolo Travels</div>
+    <div style="display:flex;gap:18px;flex-wrap:wrap;">
+      <a href="/" class="pfoot-link">Home</a>
+      <a href="/claims" class="pfoot-link">Submit a Claim</a>
+      <span onclick="nav('shield')" class="pfoot-link">Lolo Shield</span>
     </div>
   </div>
+
+  <div class="bottom-nav">
+    <div class="bn-item" onclick="nav('home')"><div class="bn-ico on" id="bn-home"><svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div><div class="bn-lbl on" id="bnl-home">Home</div></div>
+    <div class="bn-item" onclick="nav('trips')"><div class="bn-ico" id="bn-trips"><svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></div><div class="bn-lbl" id="bnl-trips">Trips</div></div>
+    <div class="bn-item" onclick="nav('claims')"><div class="bn-ico" id="bn-claims"><svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div><div class="bn-lbl" id="bnl-claims">Claims</div></div>
+    <div class="bn-item" onclick="nav('shield')"><div class="bn-ico" id="bn-shield"><svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="bn-lbl" id="bnl-shield">Shield</div></div>
+    <div class="bn-item" onclick="nav('messages')"><div class="bn-ico" id="bn-messages"><svg width="16" height="16" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><div class="bn-lbl" id="bnl-messages">Messages</div></div>
+  </div>
+
 </div>
 
-<form name="lolo-portal" data-netlify="true" style="display:none;">
-  <input type="text" name="type"/>
-  <input type="text" name="details"/>
-  <input type="email" name="user_email"/>
-</form>
-
 <script>
-var SB = 'https://hktntiamtpptcagnohnn.supabase.co';
-var SK = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
-var sb = null;
-var chatHist = {c:[]};
-var currentUser = null;
-var pkItems = [];
+var SB='https://hktntiamtpptcagnohnn.supabase.co';
+var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
+var FSPREE='https://formspree.io/f/xqabpkka';
+var sb=null,cu=null,profile=null,selectedSlot=null,recognition=null,isRecording=false,voiceNotes=[];
 
-(function loadSB(){
-  var s = document.createElement('script');
-  s.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
-  s.onload = function(){
-    sb = supabase.createClient(SB, SK);
-    initSession();
-  };
-  s.onerror = function(){
-    document.getElementById('auth-gate').innerHTML = '<div style="text-align:center;padding:60px 24px;font-family:Jost,sans-serif;font-weight:200;color:rgba(245,240,232,.4);">Connection error. Please refresh the page.</div>';
-  };
+(function(){
+  var s=document.createElement('script');
+  s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+  s.onload=function(){sb=supabase.createClient(SB,SK);checkSession();};
   document.head.appendChild(s);
 })();
 
-async function initSession(){
+async function checkSession(){
   try{
-    var r = await sb.auth.getSession();
-    if(r.data && r.data.session){
-      loadPortal(r.data.session.user);
-    }
+    var r=await sb.auth.getSession();
+    if(r.data&&r.data.session) loadPortal(r.data.session.user);
   }catch(e){}
 }
 
-function showView(v){
-  document.querySelectorAll('.auth-view').forEach(function(el){el.classList.remove('active');});
-  var el = document.getElementById('v-'+v);
-  if(el) el.classList.add('active');
+function showV(v){
+  document.querySelectorAll('.av').forEach(function(el){el.classList.remove('on');});
+  var el=document.getElementById('v-'+v);
+  if(el)el.classList.add('on');
 }
 
 async function signIn(){
-  var email = document.getElementById('si-email').value.trim();
-  var pass = document.getElementById('si-pass').value;
-  var err = document.getElementById('si-err');
-  var btn = document.getElementById('si-btn');
-  err.textContent = '';
-  if(!email || !pass){err.textContent='Please fill in all fields.';return;}
-  btn.disabled = true;
-  btn.querySelector('span').textContent = 'Signing in...';
+  var email=v('si-email'),pass=v('si-pass');
+  var err=document.getElementById('si-err'),btn=document.getElementById('si-btn');
+  err.textContent='';
+  if(!email||!pass){err.textContent='Please fill in all fields.';return;}
+  btn.disabled=true;btn.querySelector('span').textContent='Signing in...';
   try{
-    var r = await sb.auth.signInWithPassword({email:email, password:pass});
-    if(r.error){
-      err.textContent = r.error.message === 'Invalid login credentials' ? 'Email or password is incorrect.' : r.error.message;
-      btn.disabled = false;
-      btn.querySelector('span').textContent = 'Sign In';
-      return;
-    }
-    loadPortal(r.data.user);
-  }catch(e){
-    err.textContent = 'Connection error. Please try again.';
-    btn.disabled = false;
-    btn.querySelector('span').textContent = 'Sign In';
-  }
+    var r=await sb.auth.signInWithPassword({email:email,password:pass});
+    if(r.error){err.textContent=r.error.message.includes('Invalid')?'Email or password is incorrect.':r.error.message;btn.disabled=false;btn.querySelector('span').textContent='Sign In';return;}
+    await loadPortal(r.data.user);
+  }catch(ex){err.textContent='Connection error. Please try again.';btn.disabled=false;btn.querySelector('span').textContent='Sign In';}
 }
 
-async function signUp(){
-  var name = document.getElementById('su-name').value.trim();
-  var email = document.getElementById('su-email').value.trim();
-  var pass = document.getElementById('su-pass').value;
-  var err = document.getElementById('su-err');
-  var btn = document.getElementById('su-btn');
-  err.textContent = '';
-  if(!name || !email || !pass){err.textContent='Please fill in all fields.';return;}
-  if(pass.length < 8){err.textContent='Password must be at least 8 characters.';return;}
-  btn.disabled = true;
-  btn.querySelector('span').textContent = 'Creating account...';
+async function register(){
+  var fname=v('reg-fname'),lname=v('reg-lname'),email=v('reg-email'),pass=v('reg-pass');
+  var err=document.getElementById('reg-err'),btn=document.getElementById('reg-btn');
+  err.textContent='';
+  if(!fname||!lname||!email||!pass){err.textContent='Please fill in all required fields.';return;}
+  if(pass.length<8){err.textContent='Password must be at least 8 characters.';return;}
+  btn.disabled=true;btn.querySelector('span').textContent='Creating account...';
   try{
-    var r = await sb.auth.signUp({email:email, password:pass, options:{data:{full_name:name, account_type:'consumer'}}});
-    if(r.error){
-      err.textContent = r.error.message;
-      btn.disabled = false;
-      btn.querySelector('span').textContent = 'Create Account';
-      return;
+    var r=await sb.auth.signUp({email:email,password:pass,options:{data:{full_name:fname+' '+lname,phone:v('reg-phone'),country:v('reg-country'),account_type:'member'}}});
+    if(r.error){err.textContent=r.error.message;btn.disabled=false;btn.querySelector('span').textContent='Create Account';return;}
+    if(r.data.user){
+      // Create profile
+      await sb.from('profiles').insert({id:r.data.user.id,email:email,full_name:fname+' '+lname,account_type:'member'}).select();
+      await loadPortal(r.data.user);
     }
-    err.className = 'msg msg-ok';
-    err.textContent = 'Account created. Check your email to confirm, then sign in.';
-    btn.disabled = false;
-    btn.querySelector('span').textContent = 'Create Account';
-  }catch(e){
-    err.textContent = 'Connection error. Please try again.';
-    btn.disabled = false;
-    btn.querySelector('span').textContent = 'Create Account';
-  }
+  }catch(ex){err.textContent='Error creating account. Please try again.';btn.disabled=false;btn.querySelector('span').textContent='Create Account';}
 }
 
 async function resetPw(){
-  var email = document.getElementById('re-email').value.trim();
-  var err = document.getElementById('re-err');
-  err.textContent = '';
+  var email=v('re-email'),err=document.getElementById('re-err');
+  err.className='aerr';err.textContent='';
   if(!email){err.textContent='Please enter your email.';return;}
-  try{
-    var r = await sb.auth.resetPasswordForEmail(email, {redirectTo: window.location.origin + '/member'});
-    if(r.error){err.textContent = r.error.message;return;}
-    err.className = 'msg msg-ok';
-    err.textContent = 'Reset link sent. Check your inbox.';
-  }catch(e){err.textContent = 'Connection error.';}
+  var r=await sb.auth.resetPasswordForEmail(email,{redirectTo:'https://lolotravels.com/member'});
+  if(r.error){err.textContent=r.error.message;return;}
+  err.className='aerr aerr-ok';err.textContent='Reset link sent. Check your inbox.';
 }
 
 async function signOut(){
   await sb.auth.signOut();
-  document.getElementById('portal').style.display = 'none';
-  document.getElementById('auth-gate').style.display = 'flex';
-  currentUser = null;
+  document.getElementById('portal').style.display='none';
+  document.getElementById('auth').style.display='flex';
+  cu=null;profile=null;
 }
 
-function loadPortal(user){
-  currentUser = user;
-  document.getElementById('auth-gate').style.display = 'none';
-  document.getElementById('portal').style.display = 'block';
-  var meta = user.user_metadata || {};
-  var name = meta.full_name ? meta.full_name.split(' ')[0] : user.email.split('@')[0];
-  document.getElementById('tb-name').textContent = name;
-  var greet = document.getElementById('dash-greet');
-  if(greet) greet.textContent = 'Good to have you back, ' + name + '.';
-  nav('dash');
+async function loadPortal(user){
+  cu=user;
+  document.getElementById('auth').style.display='none';
+  document.getElementById('portal').style.display='block';
+  var initials=(user.email||'LL').substr(0,2).toUpperCase();
+  var name=user.email.split('@')[0];
+  sh('tb-av',initials);s('tb-uname',name);
+  // Load profile
+  try{
+    var pr=await sb.from('profiles').select('*').eq('id',user.id).single();
+    if(pr.data){
+      profile=pr.data;
+      var fname=(pr.data.full_name||'').split(' ')[0]||name;
+      var hr=new Date().getHours();
+      var greet=hr<12?'Good morning':'hr<17?Good afternoon':'Good evening';
+      if(hr<12)greet='Good morning';
+      else if(hr<17)greet='Good afternoon';
+      else greet='Good evening';
+      sh('hero-greet',greet+', <em>'+e(fname)+'.</em>');
+      s('hero-sub','The world is yours.');
+      var initials2=pr.data.full_name?pr.data.full_name.split(' ').map(function(n){return n[0];}).join('').substr(0,2).toUpperCase():initials;
+      sh('tb-av',initials2);s('tb-uname',pr.data.full_name||name);
+      // Fill profile form
+      var parts=(pr.data.full_name||'').split(' ');
+      sv('pf-fname',parts[0]||'');sv('pf-lname',parts.slice(1).join(' ')||'');
+      sv('pf-email',pr.data.email||'');sv('pf-phone',pr.data.phone||'');
+    }
+  }catch(ex){}
+  loadHomeStats();
+  loadClaims();
+  loadDocs();
+  loadMessages();
+  loadVoiceNotesList();
+  s('shield-status','Your destination safety intelligence is active.');
+  nav('home');
+}
+
+async function loadHomeStats(){
+  if(!cu||!sb)return;
+  try{
+    var cl=await sb.from('claims').select('id,status,amount_claimed,amount_recovered').eq('claimant_email',cu.email);
+    var claims=cl.data||[];
+    s('hs-claims',claims.length);
+    var open=claims.filter(function(c){return c.status!=='resolved'&&c.status!=='closed';});
+    var recovered=claims.reduce(function(a,c){return a+(c.amount_recovered||0);},0);
+    s('hs-recovered',recovered>0?'$'+recovered.toLocaleString():'$0');
+    var docs=await sb.from('member_documents').select('id',{count:'exact'}).eq('user_id',cu.id);
+    s('hs-docs',docs.count||0);
+    s('hs-trips','--');
+  }catch(ex){}
+}
+
+async function loadClaims(){
+  if(!cu||!sb)return;
+  var el=document.getElementById('claims-list');
+  var el2=document.getElementById('home-claims');
+  try{
+    var r=await sb.from('claims').select('*').eq('claimant_email',cu.email).order('created_at',{ascending:false});
+    var claims=r.data||[];
+    if(!claims.length){
+      if(el) el.innerHTML='<div class="empty"><div class="empty-tx">No claims submitted yet.</div></div>';
+      if(el2) el2.innerHTML='<div class="empty"><div class="empty-tx">No claims on file. Submit one from the Claims section.</div></div>';
+      return;
+    }
+    var statusMap={submitted:'s-active',under_review:'s-active',filed:'s-active',in_negotiation:'s-active',resolved:'s-ok',closed:'s-ok',declined:'s-miss'};
+    var html=claims.map(function(c){
+      var sc=statusMap[c.status]||'s-draft';
+      var sl=(c.status||'submitted').replace(/_/g,' ');
+      return '<div class="claim-card'+(c.status==='resolved'||c.status==='closed'?' resolved':'')+'">'+
+        '<div style="flex:1;">'+
+          '<div class="claim-case">Case '+e(c.case_number||c.id.substr(0,8).toUpperCase())+'</div>'+
+          '<div class="claim-info">'+e(c.claim_type||'').replace(/_/g,' ')+(c.responsible_party?' &nbsp;&middot;&nbsp; '+e(c.responsible_party):'')+(c.incident_date?' &nbsp;&middot;&nbsp; '+e(c.incident_date):'')+'</div>'+
+        '</div>'+
+        '<div class="claim-status">'+
+          (c.amount_claimed?'<div class="claim-amt">$'+parseFloat(c.amount_claimed).toLocaleString()+'</div>':'')+ 
+          '<span class="stamp '+sc+'">'+sl+'</span>'+
+          (c.amount_recovered?'<div style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--green);margin-top:3px;">Recovered: $'+parseFloat(c.amount_recovered).toLocaleString()+'</div>':'')+ 
+        '</div>'+
+      '</div>';
+    }).join('');
+    if(el) el.innerHTML=html;
+    if(el2) el2.innerHTML=html.split('</div>').slice(0,3).join('</div>')+'</div>';
+  }catch(ex){}
+}
+
+async function loadDocs(){
+  if(!cu||!sb)return;
+  var el=document.getElementById('doc-list');if(!el)return;
+  try{
+    var r=await sb.from('member_documents').select('*').eq('user_id',cu.id).order('created_at',{ascending:false});
+    var docs=r.data||[];
+    s('hs-docs',docs.length);
+    if(!docs.length){el.innerHTML='<div class="empty"><div class="empty-tx">No documents in your vault yet.</div></div>';return;}
+    el.innerHTML=docs.map(function(d){
+      var ext=(d.file_name||'').split('.').pop().toUpperCase().substr(0,3)||'DOC';
+      var exp=d.expiry_date&&new Date(d.expiry_date)<new Date(Date.now()+30*24*60*60*1000);
+      return '<div class="doc-card">'+
+        '<div class="doc-ico"><svg width="14" height="14" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></div>'+
+        '<div style="flex:1;">'+
+          '<div class="doc-name">'+e(d.doc_name||'')+'</div>'+
+          '<div class="doc-meta">'+(d.doc_type||'').replace(/_/g,' ')+(d.expiry_date?' &nbsp;&middot;&nbsp; Expires: '+e(d.expiry_date):'')+'</div>'+
+          (exp?'<div class="doc-exp">Expiring soon - please renew</div>':'')+
+        '</div>'+
+        (d.file_url?'<a href="'+e(d.file_url)+'" target="_blank" style="font-family:var(--fb);font-weight:200;font-size:.66rem;color:var(--goldk);text-decoration:none;flex-shrink:0;">View</a>':'')+
+      '</div>';
+    }).join('');
+  }catch(ex){}
+}
+
+async function loadMessages(){
+  if(!cu||!sb)return;
+  var el=document.getElementById('msg-list');if(!el)return;
+  try{
+    var r=await sb.from('messages').select('*').eq('sender_id',cu.id).order('created_at',{ascending:false}).limit(20);
+    var msgs=r.data||[];
+    if(!msgs.length){el.innerHTML='<div class="empty"><div class="empty-tx">No messages yet.</div></div>';return;}
+    el.innerHTML=msgs.map(function(m){
+      var dt=new Date(m.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      return '<div class="msg-item"><div class="msg-hd"><span class="msg-from">You</span><span class="msg-dt">'+dt+'</span></div><div class="msg-body">'+e(m.body||'')+'</div></div>';
+    }).join('');
+  }catch(ex){}
+}
+
+async function submitTripRequest(){
+  var btn=document.querySelector('#p-trips .sbtn');
+  if(btn){btn.querySelector('span').textContent='Submitting...';btn.disabled=true;}
+  var services=[];
+  document.querySelectorAll('#trip-services input:checked').forEach(function(cb){services.push(cb.value);});
+  var fd=new FormData();
+  fd.append('type','trip-request');fd.append('email',cu.email);
+  fd.append('destination',v('tr-dest'));fd.append('departure',v('tr-dep'));
+  fd.append('return',v('tr-ret'));fd.append('travelers',v('tr-travelers'));
+  fd.append('class',v('tr-class'));fd.append('budget',v('tr-budget'));
+  fd.append('notes',v('tr-notes'));fd.append('services',services.join(', '));
+  try{
+    await fetch(FSPREE,{method:'POST',body:fd,headers:{Accept:'application/json'}});
+    if(btn){btn.querySelector('span').textContent='Request Submitted';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Submit Trip Request';btn.style.background='';btn.disabled=false;},3000);}
+  }catch(ex){if(btn){btn.querySelector('span').textContent='Submit Trip Request';btn.disabled=false;}}
+}
+
+async function submitConcierge(){
+  var btn=document.querySelector('#p-concierge .sbtn');
+  if(btn){btn.querySelector('span').textContent='Submitting...';btn.disabled=true;}
+  var fd=new FormData();
+  fd.append('type','concierge-request');fd.append('email',cu.email);
+  fd.append('request_type',v('conc-type'));fd.append('location',v('conc-loc'));
+  fd.append('date',v('conc-date'));fd.append('details',v('conc-notes'));
+  fd.append('urgency',v('conc-urgency'));
+  try{
+    await fetch(FSPREE,{method:'POST',body:fd,headers:{Accept:'application/json'}});
+    if(btn){btn.querySelector('span').textContent='Request Submitted';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Submit Concierge Request';btn.style.background='';btn.disabled=false;},3000);}
+    sv('conc-type','');sv('conc-loc','');sv('conc-date','');sv('conc-notes','');
+  }catch(ex){if(btn){btn.querySelector('span').textContent='Submit Concierge Request';btn.disabled=false;}}
+}
+
+var SHIELD_DATA={
+  'jamaica':{risk:'Moderate',color:'#C9A84C',embassy:'94 Half Way Tree Rd, Kingston',emergency:'119',safety:'Level 2 - Exercise Increased Caution'},
+  'nigeria':{risk:'High',color:'var(--red)',embassy:'Plot 1075 Diplomatic Drive, Abuja',emergency:'199',safety:'Level 3 - Reconsider Travel'},
+  'south africa':{risk:'Moderate',color:'#C9A84C',embassy:'877 Pretorius St, Pretoria',emergency:'10111',safety:'Level 2 - Exercise Increased Caution'},
+  'ethiopia':{risk:'Moderate',color:'#C9A84C',embassy:'Entoto St, Addis Ababa',emergency:'911',safety:'Level 2 - Exercise Increased Caution'},
+  'paris':{risk:'Low',color:'var(--green)',embassy:'2 Avenue Gabriel, Paris',emergency:'112',safety:'Level 1 - Exercise Normal Caution'},
+  'france':{risk:'Low',color:'var(--green)',embassy:'2 Avenue Gabriel, Paris',emergency:'112',safety:'Level 1 - Exercise Normal Caution'},
+  'barcelona':{risk:'Low',color:'var(--green)',embassy:'Paseo de la Castellana 52, Madrid',emergency:'112',safety:'Level 1 - Exercise Normal Caution'},
+  'spain':{risk:'Low',color:'var(--green)',embassy:'Paseo de la Castellana 52, Madrid',emergency:'112',safety:'Level 1 - Exercise Normal Caution'},
+  'uruguay':{risk:'Low',color:'var(--green)',embassy:'Lauro Muller 1776, Montevideo',emergency:'911',safety:'Level 1 - Exercise Normal Caution'},
+  'brazil':{risk:'Moderate',color:'#C9A84C',embassy:'SES Avenida das Nacoes, Brasilia',emergency:'190',safety:'Level 2 - Exercise Increased Caution'},
+};
+
+function setShieldDest(dest){sv('sh-search',dest);loadShield();}
+
+function loadShield(){
+  var dest=v('sh-search').trim();
+  if(!dest)return;
+  var key=dest.toLowerCase();
+  var data=SHIELD_DATA[key];
+  s('sh-dest',dest);
+  s('shield-status',dest+' &middot; '+(data?data.risk+' risk':'Intelligence available on request'));
+  document.getElementById('sh-risk').style.display='flex';
+  document.getElementById('sh-info-grid').style.display='grid';
+  if(data){
+    s('sh-risk-lbl',data.risk+' Risk');
+    document.getElementById('sh-risk-dot').style.background=data.color;
+    s('sh-embassy',data.embassy);
+    s('sh-emergency',data.emergency);
+    s('sh-safety',data.safety);
+  } else {
+    s('sh-risk-lbl','Intelligence Available');
+    document.getElementById('sh-risk-dot').style.background='var(--gold)';
+    s('sh-embassy','Contact Lolo for details');
+    s('sh-emergency','Contact Lolo');
+    s('sh-safety','Available on request');
+  }
+}
+
+async function submitClaim(){
+  var type=v('cl-type'),desc=v('cl-desc');
+  if(!type||!desc){alert('Please select a claim type and describe what happened.');return;}
+  var btn=document.querySelector('#p-claims .sbtn');
+  if(btn){btn.querySelector('span').textContent='Submitting...';btn.disabled=true;}
+  var caseNum='LT-'+new Date().getFullYear()+'-'+Math.random().toString(36).substr(2,6).toUpperCase();
+  try{
+    await sb.from('claims').insert({case_number:caseNum,claimant_name:profile?profile.full_name:'',claimant_email:cu.email,claim_type:type,responsible_party:v('cl-party'),incident_date:v('cl-date')||null,amount_claimed:parseFloat(v('cl-amt').replace(/[^0-9.]/g,''))||null,description:desc,fee_structure:v('cl-fee'),status:'submitted',authorized:true,is_member:true,user_id:cu.id});
+    if(btn){btn.querySelector('span').textContent='Submitted - Case '+caseNum;btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Submit Claim';btn.style.background='';btn.disabled=false;},4000);}
+    sv('cl-type','');sv('cl-party','');sv('cl-date','');sv('cl-amt','');sv('cl-desc','');sv('cl-ref','');
+    loadClaims();
+  }catch(ex){if(btn){btn.querySelector('span').textContent='Submit Claim';btn.disabled=false;}alert('Error. Please try again.');}
+}
+
+function toggleVoice(){if(isRecording)stopVoice();else startVoice();}
+
+function startVoice(){
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){s('voice-status','Voice recording not supported in this browser. Please use Chrome.');return;}
+  recognition=new SR();recognition.continuous=true;recognition.interimResults=true;recognition.lang='en-US';
+  var vt=document.getElementById('voice-text');
+  if(vt) vt.textContent='';
+  recognition.onresult=function(evt){
+    var fin='',interim='';
+    for(var i=evt.resultIndex;i<evt.results.length;i++){if(evt.results[i].isFinal)fin+=evt.results[i][0].transcript;else interim+=evt.results[i][0].transcript;}
+    if(fin&&vt)vt.textContent+=(vt.textContent?' ':'')+fin;
+    s('voice-status',interim?'Hearing: "'+interim+'"':'Listening...');
+  };
+  recognition.onerror=function(evt){s('voice-status','Error: '+evt.error+'. Please try again.');stopVoice();};
+  recognition.onend=function(){if(isRecording)recognition.start();};
+  recognition.start();isRecording=true;
+  var btn=document.getElementById('voice-btn');
+  if(btn)btn.classList.add('recording');
+  s('voice-status','Listening... speak your message to Lolo.');
+  document.getElementById('voice-result').style.display='block';
+}
+
+function stopVoice(){
+  if(recognition){recognition.stop();recognition=null;}
+  isRecording=false;
+  var btn=document.getElementById('voice-btn');
+  if(btn)btn.classList.remove('recording');
+  s('voice-status','Recording stopped. Review your note above and tap Send to Lolo.');
+}
+
+function clearVoice(){
+  var vt=document.getElementById('voice-text');
+  if(vt)vt.textContent='';
+  document.getElementById('voice-result').style.display='none';
+  s('voice-status','Tap the microphone to begin recording.');
+}
+
+async function saveVoiceNote(){
+  var vt=document.getElementById('voice-text');
+  var content=vt?vt.textContent.trim():'';
+  if(!content){alert('Nothing to save. Please record a voice note first.');return;}
+  var btn=document.querySelector('#p-voice .abtn');
+  if(btn){btn.querySelector('span').textContent='Sending...';btn.disabled=true;}
+  try{
+    await sb.from('messages').insert({thread_type:'member',thread_id:cu.id,sender_id:cu.id,body:'[VOICE NOTE] '+content,is_read:false});
+    var fd=new FormData();fd.append('type','voice-note');fd.append('email',cu.email);fd.append('message',content);
+    fetch(FSPREE,{method:'POST',body:fd,headers:{Accept:'application/json'}});
+    voiceNotes.unshift({date:new Date().toISOString(),content:content});
+    loadVoiceNotesList();
+    if(vt)vt.textContent='';
+    document.getElementById('voice-result').style.display='none';
+    s('voice-status','Voice note sent to your Lolo advisor.');
+    if(btn){btn.querySelector('span').textContent='Send to Lolo';btn.disabled=false;}
+  }catch(ex){if(btn){btn.querySelector('span').textContent='Send to Lolo';btn.disabled=false;}alert('Error. Please try again.');}
+}
+
+function loadVoiceNotesList(){
+  var el=document.getElementById('voice-notes-list');if(!el)return;
+  if(!voiceNotes.length){el.innerHTML='';return;}
+  el.innerHTML=voiceNotes.slice(0,5).map(function(n){
+    var dt=new Date(n.date).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+    return '<div class="voice-note-item"><div class="vn-date">'+dt+'</div><div class="vn-text">'+e(n.content)+'</div></div>';
+  }).join('');
+}
+
+function selectSlot(el){
+  document.querySelectorAll('.slot').forEach(function(s){s.classList.remove('sel');});
+  el.classList.add('sel');
+  selectedSlot=el.dataset.time;
+}
+
+async function bookMeeting(){
+  if(!selectedSlot&&!v('mt-date')){alert('Please select a date and time slot.');return;}
+  var btn=document.getElementById('mt-btn');
+  if(btn){btn.querySelector('span').textContent='Requesting...';btn.disabled=true;}
+  var fd=new FormData();
+  fd.append('type','meeting-request');fd.append('email',cu.email);
+  fd.append('date',v('mt-date'));fd.append('time',selectedSlot||'');
+  fd.append('format',v('mt-format'));fd.append('timezone',v('mt-tz'));
+  fd.append('agenda',v('mt-notes'));
+  try{
+    await fetch(FSPREE,{method:'POST',body:fd,headers:{Accept:'application/json'}});
+    await sb.from('messages').insert({thread_type:'member',thread_id:cu.id,sender_id:cu.id,body:'[MEETING REQUEST] '+v('mt-date')+' at '+selectedSlot+' ('+v('mt-tz')+') - '+v('mt-format')+'\n\nAgenda: '+v('mt-notes'),is_read:false});
+    if(btn){btn.querySelector('span').textContent='Meeting Requested';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Request Meeting';btn.style.background='';btn.disabled=false;},3500);}
+    sv('mt-date','');sv('mt-notes','');selectedSlot=null;
+    document.querySelectorAll('.slot').forEach(function(s){s.classList.remove('sel');});
+  }catch(ex){if(btn){btn.querySelector('span').textContent='Request Meeting';btn.disabled=false;}alert('Error. Please try again.');}
+}
+
+async function sendMessage(){
+  var subj=v('msg-subj'),body=v('msg-body');
+  if(!subj||!body){alert('Please fill in subject and message.');return;}
+  var btn=document.querySelector('#p-messages .sbtn');
+  if(btn){btn.querySelector('span').textContent='Sending...';btn.disabled=true;}
+  try{
+    await sb.from('messages').insert({thread_type:'member',thread_id:cu.id,sender_id:cu.id,body:'['+v('msg-cat')+'] '+subj+'\n\n'+body,is_read:false});
+    var fd=new FormData();fd.append('type','member-message');fd.append('email',cu.email);fd.append('subject',subj);fd.append('category',v('msg-cat'));fd.append('message',body);
+    fetch(FSPREE,{method:'POST',body:fd,headers:{Accept:'application/json'}});
+    if(btn){btn.querySelector('span').textContent='Message Sent';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Send Message';btn.style.background='';btn.disabled=false;},2500);}
+    sv('msg-subj','');sv('msg-body','');
+    loadMessages();
+  }catch(ex){if(btn){btn.querySelector('span').textContent='Send Message';btn.disabled=false;}alert('Error. Please try again.');}
+}
+
+async function uploadDoc(){
+  var type=v('doc-type'),name=v('doc-name');
+  if(!type||!name){alert('Please select type and enter a name.');return;}
+  var btn=document.querySelector('#p-documents .sbtn');
+  if(btn){btn.querySelector('span').textContent='Uploading...';btn.disabled=true;}
+  try{
+    var fileUrl=null,fileName=null;
+    var fi=document.getElementById('doc-file');
+    if(fi&&fi.files[0]){
+      var f=fi.files[0];fileName=f.name;
+      var path='members/'+cu.id+'/'+Date.now()+'-'+f.name;
+      var ur=await sb.storage.from('documents').upload(path,f,{upsert:true});
+      if(ur.data){var pu=sb.storage.from('documents').getPublicUrl(path);fileUrl=pu.data.publicUrl;}
+    }
+    var exp=v('doc-expiry');
+    await sb.from('member_documents').insert({user_id:cu.id,doc_type:type,doc_name:name,issue_date:v('doc-issue')||null,expiry_date:exp||null,file_url:fileUrl,file_name:fileName});
+    if(btn){btn.querySelector('span').textContent='Added';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Add to Vault';btn.style.background='';btn.disabled=false;},2500);}
+    sv('doc-type','');sv('doc-name','');sv('doc-issue','');sv('doc-expiry','');
+    if(fi)fi.value='';
+    document.getElementById('doc-ftxt').innerHTML='<strong>Click to attach file</strong><br>PDF or image. Max 25MB. Encrypted at rest.';
+    loadDocs();
+  }catch(ex){if(btn){btn.querySelector('span').textContent='Add to Vault';btn.disabled=false;}alert('Upload failed. Please try again.');}
+}
+
+async function saveProfile(){
+  if(!cu||!sb)return;
+  var btn=document.getElementById('pf-btn');
+  btn.querySelector('span').textContent='Saving...';
+  try{
+    await sb.from('profiles').update({full_name:v('pf-fname')+' '+v('pf-lname'),phone:v('pf-phone')}).eq('id',cu.id);
+    btn.querySelector('span').textContent='Saved';btn.style.background='var(--green)';
+    setTimeout(function(){btn.querySelector('span').textContent='Save Profile';btn.style.background='';},2500);
+  }catch(ex){btn.querySelector('span').textContent='Save Profile';alert('Error saving.');}
+}
+
+function onFileSelect(input,fnameId){
+  if(input.files&&input.files.length>0){
+    var names=Array.from(input.files).map(function(f){return f.name;}).join(', ');
+    var el=document.getElementById(fnameId);
+    if(el) el.textContent=names;
+  }
 }
 
 function nav(id){
   document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
-  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('on');});
-  var panel = document.getElementById('p-'+id);
-  var navEl = document.getElementById('nav-'+id);
-  if(panel) panel.classList.add('on');
-  if(navEl) navEl.classList.add('on');
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
+  document.querySelectorAll('.bn-ico,.bn-lbl').forEach(function(n){n.classList.remove('on');});
+  var p=document.getElementById('p-'+id);if(p)p.classList.add('on');
+  var n=document.getElementById('ni-'+id);if(n)n.classList.add('on');
+  var bi=document.getElementById('bn-'+id);if(bi)bi.classList.add('on');
+  var bl=document.getElementById('bnl-'+id);if(bl)bl.classList.add('on');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function submit(type){
-  var active = document.querySelector('.panel.on');
-  var fields = {};
-  if(active){
-    active.querySelectorAll('input,select,textarea').forEach(function(el,i){
-      if(el.value) fields['f'+i] = el.value;
-    });
-  }
-  var email = currentUser ? currentUser.email : '';
-  fetch('/',{
-    method:'POST',
-    headers:{'Content-Type':'application/x-www-form-urlencoded'},
-    body: new URLSearchParams(Object.assign({'form-name':'lolo-portal','type':type,'user_email':email,'details':JSON.stringify(fields)})).toString()
-  });
-  var btn = active ? active.querySelector('.sbtn') : null;
-  if(btn){
-    var orig = btn.innerHTML;
-    btn.innerHTML = '<span>Sent. Lolo will be in touch.</span>';
-    btn.style.background = 'rgba(40,180,100,.8)';
-    setTimeout(function(){btn.innerHTML = orig; btn.style.background='';}, 3500);
-  }
-}
-
-function showService(type){
-  var titles = {forward:'Luggage Forward Request', retrieval:'Item Retrieval Request', whiteglove:'White-Glove Request'};
-  document.getElementById('svc-title').textContent = titles[type] || 'Service Request';
-  document.getElementById('svc-form').style.display = 'block';
-  document.getElementById('svc-form').scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-async function shieldCheck(){
-  var dest = document.getElementById('shield-dest').value.trim();
-  if(!dest) return;
-  document.getElementById('shield-result').style.display = 'none';
-  try{
-    var r = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:350,
-        system:'Return ONLY valid JSON with keys: status (one of: All Clear, Advisory Active, Exercise Caution, High Risk), summary (2 sentences of current safety context), emergency (local emergency number), embassy (US Embassy phone or see travel.state.gov). No other text.',
-        messages:[{role:'user',content:'Destination: ' + dest}]
-      })
-    });
-    var d = await r.json();
-    var txt = d.content && d.content[0] ? d.content[0].text : '{}';
-    var info = JSON.parse(txt.replace(/```json|```/g,'').trim());
-    document.getElementById('shield-name').textContent = dest;
-    document.getElementById('shield-summary').textContent = info.summary || '';
-    document.getElementById('sh-emerg').textContent = info.emergency || 'Check local listings';
-    document.getElementById('sh-embassy').textContent = info.embassy || 'travel.state.gov';
-    var badge = document.getElementById('shield-badge');
-    badge.textContent = info.status || 'Advisory Active';
-    var cls = 'badge-a';
-    if((info.status||'').indexOf('Clear') > -1) cls = 'badge-g';
-    else if((info.status||'').indexOf('High') > -1) cls = 'badge-r';
-    badge.className = 'badge ' + cls;
-    document.getElementById('shield-result').style.display = 'block';
-  }catch(e){
-    document.getElementById('shield-name').textContent = dest;
-    document.getElementById('shield-summary').textContent = 'Intelligence unavailable. Contact Lolo directly for a destination briefing.';
-    document.getElementById('shield-result').style.display = 'block';
-  }
-}
-
-async function buildPacking(){
-  var dest = document.getElementById('pk-dest').value.trim();
-  var days = document.getElementById('pk-days').value.trim();
-  var type = document.getElementById('pk-type').value;
-  if(!dest) return;
-  document.getElementById('pk-empty').style.display = 'none';
-  document.getElementById('pk-result').style.display = 'none';
-  var btn = document.querySelector('#p-packing .sbtn');
-  if(btn){var ob = btn.innerHTML; btn.innerHTML = '<span>Building your list...</span>'; btn.disabled = true;}
-  try{
-    var r = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:800,
-        system:'Return ONLY valid JSON: an object with keys being category names (Documents, Clothing, Tech, Health, Toiletries, Valuables, Misc) and values being arrays of item name strings. Tailor to the destination, duration, and trip type. No other text.',
-        messages:[{role:'user',content:'Destination: ' + dest + '. Duration: ' + days + ' days. Type: ' + type}]
-      })
-    });
-    var d = await r.json();
-    var txt = d.content && d.content[0] ? d.content[0].text : '{}';
-    var lists = JSON.parse(txt.replace(/```json|```/g,'').trim());
-    var html = '';
-    Object.keys(lists).forEach(function(cat){
-      html += '<div class="pk-cat"><div class="pk-cat-title">' + cat + '</div>';
-      (lists[cat]||[]).forEach(function(item, i){
-        var id = 'pk-' + cat.replace(/\s/g,'') + '-' + i;
-        html += '<div class="pk-item" id="pi-'+id+'"><input type="checkbox" class="pk-check" id="'+id+'" onchange="togglePk(\''+id+'\')"/><label class="pk-name" for="'+id+'">'+item+'</label></div>';
-      });
-      html += '</div>';
-    });
-    document.getElementById('pk-lists').innerHTML = html;
-    document.getElementById('pk-result').style.display = 'block';
-  }catch(e){
-    document.getElementById('pk-empty').style.display = 'block';
-    document.getElementById('pk-empty').querySelector('.empty-txt').textContent = 'Could not generate list. Please try again.';
-  }
-  if(btn){btn.innerHTML = ob; btn.disabled = false;}
-}
-
-function togglePk(id){
-  var row = document.getElementById('pi-'+id);
-  var cb = document.getElementById(id);
-  if(row && cb) row.classList.toggle('done', cb.checked);
-}
-
-function saveList(){
-  var btn = document.querySelector('#pk-result .sbtn');
-  if(btn){
-    var ob = btn.innerHTML;
-    btn.innerHTML = '<span>List Saved</span>';
-    btn.style.background = 'rgba(40,180,100,.8)';
-    setTimeout(function(){btn.innerHTML=ob;btn.style.background='';},2500);
-  }
-}
-
-var chatSys = {
-  c: 'You are the Lolo Concierge, a sophisticated and warm travel protection advisor for Lolo Travels LLC. Help with: travel protection questions, coverage before during and after trips, claim guidance, destination safety via Lolo Shield, packing, shipping services, and travel intelligence. You do not book trips. Speak with elegant brevity. Under 160 words. No bullet points.'
-};
-
-async function chat(role){
-  var inp = document.getElementById('ci-'+role);
-  var msgs = document.getElementById('chat-'+role);
-  if(!inp||!msgs) return;
-  var msg = inp.value.trim();
-  if(!msg) return;
-  inp.value = '';
-  msgs.innerHTML += '<div class="cmsg user"><div class="cav cav-u">you</div><div class="cbub cbub-u">'+msg+'</div></div>';
-  var tid = 't'+Date.now();
-  msgs.innerHTML += '<div class="cmsg" id="'+tid+'"><div class="cav cav-ai">LL</div><div class="cbub cbub-ai"><div class="typing-d"><span></span><span></span><span></span></div></div></div>';
-  msgs.scrollTop = msgs.scrollHeight;
-  chatHist[role].push({role:'user',content:msg});
-  try{
-    var resp = await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:1000,
-        system: chatSys[role] || chatSys.c,
-        messages: chatHist[role]
-      })
-    });
-    var data = await resp.json();
-    var reply = data.content && data.content[0] ? data.content[0].text : 'Please try again.';
-    chatHist[role].push({role:'assistant',content:reply});
-    var el = document.getElementById(tid);
-    if(el) el.querySelector('.cbub').textContent = reply;
-  }catch(e){
-    var el = document.getElementById(tid);
-    if(el) el.querySelector('.cbub').textContent = 'Connection issue. Please try again.';
-  }
-  msgs.scrollTop = msgs.scrollHeight;
-}
+function s(id,val){var el=document.getElementById(id);if(el)el.textContent=String(val||'');}
+function sh(id,val){var el=document.getElementById(id);if(el)el.innerHTML=val||'';}
+function v(id){var el=document.getElementById(id);return el?el.value:'';}
+function sv(id,val){var el=document.getElementById(id);if(el)el.value=val||'';}
+function e(str){return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 </script>
 </body>
 </html>
