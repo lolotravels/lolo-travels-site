@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Submit a Claim - Lolo Travels</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#060E1A;--navy-2:#1B2A3A;
+  --gold:#C9A84C;--gold-dk:#A8882C;--gold-pale:rgba(201,168,76,.08);
+  --cream:#F5F0E8;--paper:#E8E3D9;--white:#FFFFFF;
+  --green:#145C32;--green-bg:rgba(20,92,50,.07);--green-bd:rgba(20,92,50,.22);
+  --red:#991818;--red-bg:rgba(153,24,24,.07);--red-bd:rgba(153,24,24,.2);
+  --amber:#7A5808;--amber-bg:rgba(122,88,8,.08);--amber-bd:rgba(122,88,8,.22);
+  --border:1px solid rgba(6,14,26,.12);--border-gold:1px solid rgba(201,168,76,.35);
+  --shadow:0 2px 14px rgba(6,14,26,.08);
+  --fd:'Cormorant Garamond',Georgia,serif;--fb:'Jost',sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+html,body{background:var(--paper);color:var(--navy);font-family:var(--fb);-webkit-font-smoothing:antialiased;}
+
+/* NAV */
+.nav{background:var(--navy);padding:0 40px;height:60px;display:flex;align-items:center;justify-content:space-between;}
+.nav-brand{font-family:var(--fd);font-style:italic;font-size:1.1rem;color:#F5F0E8;text-decoration:none;}
+.nav-links{display:flex;gap:24px;}
+.nav-link{font-family:var(--fb);font-weight:200;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,240,232,.5);text-decoration:none;transition:color .2s;}
+.nav-link:hover{color:var(--gold);}
+
+/* HERO */
+.hero{background:var(--navy);padding:64px 40px 56px;text-align:center;position:relative;overflow:hidden;border-bottom:2px solid rgba(201,168,76,.2);}
+.hero::before{content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);width:600px;height:300px;border-radius:50%;background:radial-gradient(ellipse,rgba(201,168,76,.06) 0%,transparent 70%);}
+.hero-tag{font-family:var(--fb);font-weight:200;font-size:.56rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(201,168,76,.5);margin-bottom:14px;}
+.hero-h1{font-family:var(--fd);font-weight:300;font-size:clamp(2rem,4vw,3rem);color:#F5F0E8;line-height:1.05;margin-bottom:14px;}
+.hero-h1 em{color:var(--gold);font-style:italic;}
+.hero-sub{font-family:var(--fb);font-weight:200;font-size:.88rem;color:rgba(245,240,232,.55);line-height:1.9;max-width:540px;margin:0 auto 28px;}
+.hero-stats{display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;}
+.hero-stat{text-align:center;}
+.hero-stat-val{font-family:var(--fd);font-weight:300;font-size:1.6rem;color:var(--gold);display:block;}
+.hero-stat-label{font-family:var(--fb);font-weight:200;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,240,232,.4);}
+.hero-divider{width:1px;height:40px;background:rgba(255,255,255,.1);}
+
+/* HOW IT WORKS */
+.how{padding:56px 40px;max-width:900px;margin:0 auto;text-align:center;}
+.section-tag{font-family:var(--fb);font-weight:500;font-size:.56rem;letter-spacing:.36em;text-transform:uppercase;color:var(--gold-dk);margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:10px;}
+.section-tag::before,.section-tag::after{content:'';display:block;width:20px;height:1px;background:var(--gold);}
+.section-h2{font-family:var(--fd);font-weight:300;font-size:clamp(1.4rem,3vw,2rem);color:var(--navy);margin-bottom:8px;}
+.section-sub{font-family:var(--fb);font-weight:200;font-size:.84rem;color:var(--navy-2);line-height:1.9;margin-bottom:40px;}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+@media(max-width:640px){.steps{grid-template-columns:1fr;}}
+.step{background:var(--white);border:var(--border);padding:24px 20px;text-align:left;position:relative;}
+.step-num{font-family:var(--fd);font-weight:300;font-size:2.5rem;color:rgba(201,168,76,.2);margin-bottom:12px;line-height:1;}
+.step-title{font-family:var(--fb);font-weight:500;font-size:.84rem;color:var(--navy);margin-bottom:7px;}
+.step-desc{font-family:var(--fb);font-weight:200;font-size:.78rem;color:var(--navy-2);line-height:1.85;}
+
+/* TYPES */
+.types{background:var(--navy);padding:48px 40px;}
+.types-inner{max-width:900px;margin:0 auto;}
+.types-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:32px;}
+@media(max-width:640px){.types-grid{grid-template-columns:1fr;}}
+.type-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);padding:20px;transition:border-color .2s;}
+.type-card:hover{border-color:rgba(201,168,76,.3);}
+.type-icon{width:36px;height:36px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);display:flex;align-items:center;justify-content:center;margin-bottom:12px;font-family:var(--fd);font-size:.9rem;color:var(--gold);}
+.type-name{font-family:var(--fb);font-weight:500;font-size:.82rem;color:#F5F0E8;margin-bottom:6px;}
+.type-desc{font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(245,240,232,.5);line-height:1.8;}
+.types .section-tag{color:rgba(201,168,76,.5);}
+.types .section-tag::before,.types .section-tag::after{background:rgba(201,168,76,.3);}
+.types .section-h2{color:#F5F0E8;}
+.types .section-sub{color:rgba(245,240,232,.5);}
+
+/* FORM */
+.form-wrap{max-width:820px;margin:0 auto;padding:56px 40px;}
+@media(max-width:640px){.form-wrap{padding:36px 20px;}}
+
+/* PROGRESS */
+.progress{display:flex;align-items:center;gap:0;margin-bottom:40px;}
+.prog-step{flex:1;text-align:center;position:relative;}
+.prog-step::after{content:'';position:absolute;top:14px;left:50%;width:100%;height:1px;background:var(--paper);}
+.prog-step:last-child::after{display:none;}
+.prog-dot{width:28px;height:28px;border-radius:50%;border:2px solid var(--paper);background:var(--paper);display:flex;align-items:center;justify-content:center;margin:0 auto 6px;font-family:var(--fb);font-weight:500;font-size:.62rem;color:var(--navy-2);position:relative;z-index:1;transition:all .3s;}
+.prog-step.on .prog-dot{background:var(--navy);border-color:var(--navy);color:var(--gold);}
+.prog-step.done .prog-dot{background:var(--green);border-color:var(--green);color:#fff;}
+.prog-label{font-family:var(--fb);font-weight:200;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--navy-2);}
+.prog-step.on .prog-label{color:var(--navy);font-weight:500;}
+
+/* FORM CARDS */
+.form-step{display:none;}
+.form-step.on{display:block;animation:fadeup .2s ease;}
+@keyframes fadeup{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+.form-card{background:var(--white);border:var(--border);padding:32px;margin-bottom:20px;box-shadow:var(--shadow);}
+.form-card-title{font-family:var(--fd);font-weight:300;font-size:1.3rem;color:var(--navy);margin-bottom:4px;}
+.form-card-sub{font-family:var(--fb);font-weight:200;font-size:.78rem;color:var(--navy-2);margin-bottom:22px;line-height:1.85;}
+
+.frm-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:560px){.frm-row{grid-template-columns:1fr;}}
+.ff{margin-bottom:18px;}
+.ff.full{grid-column:1/-1;}
+.flabel{display:block;font-family:var(--fb);font-weight:500;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:var(--navy);margin-bottom:7px;}
+.flabel .req{color:var(--red);margin-left:2px;}
+.inp,.sel,.txa{width:100%;background:var(--white);border:var(--border);border-bottom:2px solid rgba(6,14,26,.15);color:var(--navy);padding:11px 14px;font-family:var(--fb);font-weight:200;font-size:.88rem;outline:none;transition:border-color .25s;}
+.inp:focus,.sel:focus,.txa:focus{border-bottom-color:var(--gold);}
+.inp::placeholder,.txa::placeholder{color:rgba(6,14,26,.3);}
+.sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(6,14,26,0.4)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;background-color:var(--white);padding-right:32px;cursor:pointer;}
+.sel option{background:var(--white);}
+.txa{resize:vertical;min-height:100px;line-height:1.75;}
+.hint{font-family:var(--fb);font-weight:200;font-size:.7rem;color:var(--navy-2);margin-top:5px;line-height:1.7;}
+
+/* FILE UPLOAD */
+.upload-zone{border:1px dashed rgba(6,14,26,.2);padding:24px;text-align:center;cursor:pointer;background:var(--paper);transition:all .25s;}
+.upload-zone:hover{border-color:var(--gold);background:var(--gold-pale);}
+.upload-txt{font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--navy-2);line-height:1.9;}
+.upload-txt strong{font-weight:500;color:var(--navy);}
+.file-list{margin-top:10px;}
+.file-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:var(--white);border:var(--border);margin-bottom:3px;font-family:var(--fb);font-weight:200;font-size:.76rem;color:var(--navy);}
+.file-remove{cursor:pointer;color:var(--red);font-weight:500;margin-left:auto;}
+
+/* AMOUNT */
+.amount-row{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:end;}
+.currency-sel{background:var(--paper);border:var(--border);padding:11px 14px;font-family:var(--fb);font-weight:200;font-size:.88rem;color:var(--navy);outline:none;}
+
+/* CHECKBOXES */
+.check-group{display:flex;flex-direction:column;gap:8px;}
+.check-item{display:flex;align-items:flex-start;gap:10px;cursor:pointer;}
+.check-item input{margin-top:3px;width:15px;height:15px;accent-color:var(--navy);cursor:pointer;flex-shrink:0;}
+.check-label{font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy-2);line-height:1.7;}
+
+/* BUTTONS */
+.btn-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:8px;}
+.sbtn{padding:13px 36px;font-family:var(--fb);font-weight:500;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;background:var(--navy);color:var(--white);border:none;cursor:pointer;position:relative;overflow:hidden;transition:letter-spacing .3s var(--ease);}
+.sbtn::before{content:'';position:absolute;inset:0;background:var(--gold);transform:translateX(-101%);transition:transform .45s var(--ease);}
+.sbtn:hover{letter-spacing:.26em;color:var(--navy);}
+.sbtn:hover::before{transform:translateX(0);}
+.sbtn span{position:relative;z-index:1;}
+.sbtn:disabled{opacity:.45;cursor:not-allowed;}
+.sbtn:disabled::before{display:none;}
+.back-btn{font-family:var(--fb);font-weight:200;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;color:var(--navy-2);background:none;border:var(--border);padding:11px 22px;cursor:pointer;transition:all .2s;}
+.back-btn:hover{border-color:var(--navy);color:var(--navy);}
+
+/* INFO BLOCKS */
+.info-block{background:var(--gold-pale);border:var(--border-gold);border-left:3px solid var(--gold);padding:14px 18px;margin-bottom:20px;font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--navy-2);line-height:1.85;}
+.success-block{background:var(--green-bg);border:1px solid var(--green-bd);border-left:3px solid var(--green);padding:14px 18px;font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--green);line-height:1.85;}
+
+/* REVIEW */
+.review-group{margin-bottom:20px;}
+.review-label{font-family:var(--fb);font-weight:500;font-size:.56rem;letter-spacing:.22em;text-transform:uppercase;color:rgba(6,14,26,.35);margin-bottom:10px;}
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;border:var(--border);}
+@media(max-width:500px){.review-grid{grid-template-columns:1fr;}}
+.rv{background:var(--white);padding:12px 16px;}
+.rv-k{font-family:var(--fb);font-weight:500;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(6,14,26,.3);margin-bottom:4px;}
+.rv-v{font-family:var(--fb);font-weight:200;font-size:.84rem;color:var(--navy);}
+
+/* SUCCESS */
+.success-screen{display:none;text-align:center;padding:56px 20px;}
+.success-screen.on{display:block;}
+.success-icon{width:64px;height:64px;border-radius:50%;background:var(--green-bg);border:1px solid var(--green-bd);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:1.4rem;}
+.success-h2{font-family:var(--fd);font-weight:300;font-size:1.8rem;color:var(--navy);margin-bottom:8px;}
+.success-sub{font-family:var(--fb);font-weight:200;font-size:.84rem;color:var(--navy-2);line-height:1.9;max-width:480px;margin:0 auto 24px;}
+.case-number{font-family:var(--fb);font-weight:500;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;background:var(--navy);color:var(--gold);padding:10px 24px;display:inline-block;margin-bottom:24px;}
+.next-steps{background:var(--white);border:var(--border);padding:24px;text-align:left;max-width:480px;margin:0 auto;}
+.next-step{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start;}
+.next-step:last-child{margin-bottom:0;}
+.ns-num{width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--gold);font-family:var(--fb);font-weight:500;font-size:.6rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
+.ns-text{font-family:var(--fb);font-weight:200;font-size:.8rem;color:var(--navy-2);line-height:1.8;}
+
+/* FOOTER */
+.footer{background:var(--navy);padding:24px 40px;text-align:center;border-top:1px solid rgba(201,168,76,.1);}
+.footer-brand{font-family:var(--fd);font-style:italic;font-size:1rem;color:var(--gold-dk);margin-bottom:6px;}
+.footer-links{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;}
+.footer-link{font-family:var(--fb);font-weight:200;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,240,232,.25);text-decoration:none;transition:color .2s;}
+.footer-link:hover{color:rgba(245,240,232,.6);}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-brand">Lolo Travels</a>
+  <div class="nav-links">
+    <a href="/" class="nav-link">Home</a>
+    <a href="/member" class="nav-link">My Account</a>
+    <a href="/contact" class="nav-link">Contact</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Claims Recovery</div>
+  <h1 class="hero-h1">We recover what you are <em>owed.</em></h1>
+  <p class="hero-sub">Lolo manages your entire claim from intake through resolution. You provide the details, we handle the carriers, airlines, hotels, and insurers on your behalf.</p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <span class="hero-stat-val">92%</span>
+      <span class="hero-stat-label">Recovery Rate</span>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-val">14</span>
+      <span class="hero-stat-label">Avg Days to Resolution</span>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-stat">
+      <span class="hero-stat-val">Zero</span>
+      <span class="hero-stat-label">Upfront Cost</span>
+    </div>
+  </div>
+</div>
+
+<div class="how">
+  <div class="section-tag">How It Works</div>
+  <h2 class="section-h2">Three steps. You do one of them.</h2>
+  <p class="section-sub">We take on the work of pursuing your claim so you do not have to spend hours on hold with airlines, hotels, or insurance companies.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div class="step-title">Submit Your Claim</div>
+      <div class="step-desc">Fill out this form. Tell us what happened, who owes you, and how much. Upload any documents you have. Takes 10 minutes.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div class="step-title">Lolo Takes Over</div>
+      <div class="step-desc">Our team reviews your case, contacts the responsible party, and manages all correspondence and escalations on your behalf.</div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div class="step-title">You Get Paid</div>
+      <div class="step-desc">When your claim is resolved, you receive the recovered amount minus Lolo's recovery fee. No recovery, no fee.</div>
+    </div>
+  </div>
+</div>
+
+<div class="types">
+  <div class="types-inner">
+    <div class="section-tag">What We Recover</div>
+    <h2 class="section-h2">We handle every type of travel claim.</h2>
+    <p class="section-sub">If a carrier, hotel, or insurer owes you money, Lolo pursues it.</p>
+    <div class="types-grid">
+      <div class="type-card">
+        <div class="type-icon">F</div>
+        <div class="type-name">Flight Disruptions</div>
+        <div class="type-desc">Cancellations, lengthy delays, missed connections, denied boarding, tarmac delays, and rebooking expenses.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon">H</div>
+        <div class="type-name">Hotel and Accommodation</div>
+        <div class="type-desc">Overbooking, early departure fees, unauthorized charges, service failures, and uninhabitable room conditions.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon">B</div>
+        <div class="type-name">Baggage Claims</div>
+        <div class="type-desc">Lost luggage, delayed baggage, damaged items, and out-of-pocket expenses during baggage delays.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon">I</div>
+        <div class="type-name">Travel Insurance</div>
+        <div class="type-desc">Denied or underpaid insurance claims including trip cancellation, medical evacuation, and emergency care.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon">C</div>
+        <div class="type-name">Cruise Line Disputes</div>
+        <div class="type-desc">Itinerary changes, missed ports, service failures, medical incidents, and shore excursion cancellations.</div>
+      </div>
+      <div class="type-card">
+        <div class="type-icon">T</div>
+        <div class="type-name">Tour and Package Claims</div>
+        <div class="type-desc">Tour operator failures, package components not delivered, last-minute changes, and operator insolvency.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap">
+
+  <div class="section-tag" style="margin-bottom:10px;justify-content:flex-start;">Submit Your Claim</div>
+  <h2 class="section-h2" style="text-align:left;margin-bottom:6px;">Tell us what happened.</h2>
+  <p style="font-family:var(--fb);font-weight:200;font-size:.84rem;color:var(--navy-2);margin-bottom:32px;line-height:1.9;">Complete this form as thoroughly as possible. The more detail you provide, the stronger your case. You will receive a case number immediately and a Lolo claims specialist will contact you within one business day.</p>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress">
+    <div class="prog-step on" id="ps-1"><div class="prog-dot">1</div><div class="prog-label">Your Details</div></div>
+    <div class="prog-step" id="ps-2"><div class="prog-dot">2</div><div class="prog-label">The Incident</div></div>
+    <div class="prog-step" id="ps-3"><div class="prog-dot">3</div><div class="prog-label">Documents</div></div>
+    <div class="prog-step" id="ps-4"><div class="prog-dot">4</div><div class="prog-label">Review</div></div>
+  </div>
+
+  <!-- STEP 1: CLAIMANT INFO -->
+  <div class="form-step on" id="step-1">
+    <div class="form-card">
+      <div class="form-card-title">Your Information</div>
+      <div class="form-card-sub">We need your contact details to open your case and keep you informed throughout the process.</div>
+      <div class="frm-row">
+        <div class="ff"><label class="flabel">First Name <span class="req">*</span></label><input class="inp" type="text" id="f-firstname" placeholder="First name"/></div>
+        <div class="ff"><label class="flabel">Last Name <span class="req">*</span></label><input class="inp" type="text" id="f-lastname" placeholder="Last name"/></div>
+        <div class="ff"><label class="flabel">Email Address <span class="req">*</span></label><input class="inp" type="email" id="f-email" placeholder="your@email.com"/></div>
+        <div class="ff"><label class="flabel">Phone Number <span class="req">*</span></label><input class="inp" type="tel" id="f-phone" placeholder="+1 or international format"/></div>
+        <div class="ff"><label class="flabel">Country of Residence</label><input class="inp" type="text" id="f-country" placeholder="Country"/></div>
+        <div class="ff"><label class="flabel">Passport Nationality</label><input class="inp" type="text" id="f-nationality" placeholder="Issuing country"/></div>
+      </div>
+      <div class="ff">
+        <label class="flabel">Are you a Lolo Travels member?</label>
+        <select class="sel" id="f-member">
+          <option value="no">No - new client</option>
+          <option value="yes">Yes - I have a Lolo account</option>
+          <option value="corporate">Yes - through my company's corporate account</option>
+        </select>
+      </div>
+    </div>
+    <div class="btn-row">
+      <span></span>
+      <button class="sbtn" onclick="goStep(2)"><span>Next: The Incident</span></button>
+    </div>
+  </div>
+
+  <!-- STEP 2: INCIDENT DETAILS -->
+  <div class="form-step" id="step-2">
+    <div class="form-card">
+      <div class="form-card-title">What Happened</div>
+      <div class="form-card-sub">Tell us about the incident and who is responsible. Be as specific as possible about dates, amounts, and what the responsible party told you.</div>
+      <div class="frm-row">
+        <div class="ff">
+          <label class="flabel">Claim Type <span class="req">*</span></label>
+          <select class="sel" id="f-claim-type">
+            <option value="">Select claim type</option>
+            <option value="flight_cancellation">Flight Cancellation</option>
+            <option value="flight_delay">Flight Delay (3+ hours)</option>
+            <option value="denied_boarding">Denied Boarding / Bumped</option>
+            <option value="missed_connection">Missed Connection</option>
+            <option value="baggage_lost">Lost Baggage</option>
+            <option value="baggage_delayed">Delayed Baggage</option>
+            <option value="baggage_damaged">Damaged Baggage</option>
+            <option value="hotel_overbook">Hotel Overbooking</option>
+            <option value="hotel_charges">Unauthorized Hotel Charges</option>
+            <option value="insurance_denied">Insurance Claim Denied</option>
+            <option value="insurance_underpaid">Insurance Claim Underpaid</option>
+            <option value="cruise">Cruise Line Dispute</option>
+            <option value="tour">Tour or Package Failure</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="ff">
+          <label class="flabel">Responsible Party <span class="req">*</span></label>
+          <input class="inp" type="text" id="f-responsible" placeholder="e.g. American Airlines, Marriott, Allianz"/>
+        </div>
+        <div class="ff">
+          <label class="flabel">Incident Date <span class="req">*</span></label>
+          <input class="inp" type="date" id="f-incident-date"/>
+        </div>
+        <div class="ff">
+          <label class="flabel">Travel Destination</label>
+          <input class="inp" type="text" id="f-destination" placeholder="Where were you traveling?"/>
+        </div>
+      </div>
+
+      <div class="ff">
+        <label class="flabel">Booking or Confirmation Reference</label>
+        <input class="inp" type="text" id="f-booking-ref" placeholder="Flight number, booking reference, or hotel confirmation"/>
+        <div class="hint">Include any and all reference numbers you have. The more the better.</div>
+      </div>
+
+      <div class="ff">
+        <label class="flabel">Amount You Are Claiming <span class="req">*</span></label>
+        <div class="amount-row">
+          <select class="sel currency-sel" id="f-currency">
+            <option>USD</option><option>EUR</option><option>GBP</option><option>CAD</option>
+            <option>AUD</option><option>JMD</option><option>NGN</option><option>ZAR</option><option>Other</option>
+          </select>
+          <input class="inp" type="text" id="f-amount" placeholder="Amount"/>
+        </div>
+        <div class="hint">Estimate if exact amount is unknown. Include all out-of-pocket expenses caused by this incident.</div>
+      </div>
+
+      <div class="ff">
+        <label class="flabel">What happened - full description <span class="req">*</span></label>
+        <textarea class="txa" id="f-description" style="min-height:130px;" placeholder="Describe what happened in as much detail as possible. Include: what you were told by the responsible party, what they offered (if anything), what you had to do as a result, and any other relevant details."></textarea>
+      </div>
+
+      <div class="ff">
+        <label class="flabel">What the Responsible Party Said or Offered</label>
+        <textarea class="txa" id="f-response" placeholder="What did the airline, hotel, or insurer tell you? Did they offer compensation? If so, how much and was it accepted?"></textarea>
+      </div>
+
+      <div class="ff">
+        <label class="flabel">Have you already filed this claim anywhere?</label>
+        <select class="sel" id="f-filed">
+          <option value="no">No - this is the first submission</option>
+          <option value="airline">Yes - filed with the airline or carrier, unresolved</option>
+          <option value="hotel">Yes - filed with the hotel, unresolved</option>
+          <option value="insurance">Yes - filed with insurance, denied or underpaid</option>
+          <option value="credit_card">Yes - filed a credit card chargeback</option>
+          <option value="multiple">Yes - filed multiple places, all unresolved</option>
+        </select>
+      </div>
+
+      <div class="ff">
+        <label class="flabel">Additional Travelers on This Claim</label>
+        <textarea class="txa" id="f-travelers" style="min-height:60px;" placeholder="Names of other travelers affected, if applicable"></textarea>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="back-btn" onclick="goStep(1)">Back</button>
+      <button class="sbtn" onclick="goStep(3)"><span>Next: Documents</span></button>
+    </div>
+  </div>
+
+  <!-- STEP 3: DOCUMENTS -->
+  <div class="form-step" id="step-3">
+    <div class="form-card">
+      <div class="form-card-title">Supporting Documents</div>
+      <div class="form-card-sub">Upload any documents that support your claim. The more you provide, the stronger the case Lolo can build. Do not worry if you do not have everything - we can often obtain documents on your behalf.</div>
+
+      <div class="info-block">Strong claims typically include: original booking confirmation, boarding passes or hotel receipts, correspondence with the responsible party, expense receipts incurred as a result of the incident, and your insurance policy if applicable.</div>
+
+      <div class="ff">
+        <label class="flabel">Upload Documents</label>
+        <div class="upload-zone" onclick="document.getElementById('f-files').click()">
+          <div class="upload-txt"><strong>Click to attach files</strong><br>PDF, images, Word documents. Up to 10 files, 20MB each.</div>
+          <input type="file" id="f-files" style="display:none;" multiple accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.gif" onchange="handleFiles(this)"/>
+        </div>
+        <div class="file-list" id="file-list"></div>
+      </div>
+
+      <div class="ff">
+        <label class="flabel">Documents You Have</label>
+        <div class="check-group">
+          <label class="check-item"><input type="checkbox" id="doc-booking"/><span class="check-label">Original booking confirmation or ticket</span></label>
+          <label class="check-item"><input type="checkbox" id="doc-boarding"/><span class="check-label">Boarding pass or hotel check-in receipt</span></label>
+          <label class="check-item"><input type="checkbox" id="doc-correspondence"/><span class="check-label">Written correspondence with responsible party</span></label>
+          <label class="check-item"><input type="checkbox" id="doc-receipts"/><span class="check-label">Out-of-pocket expense receipts (meals, hotel, transport)</span></label>
+          <label class="check-item"><input type="checkbox" id="doc-insurance"/><span class="check-label">Travel insurance policy or denial letter</span></label>
+          <label class="check-item"><input type="checkbox" id="doc-photos"/><span class="check-label">Photos or video evidence</span></label>
+          <label class="check-item"><input type="checkbox" id="doc-medical"/><span class="check-label">Medical records or bills (if health-related claim)</span></label>
+        </div>
+      </div>
+
+      <div class="ff">
+        <label class="flabel">Documents You Do Not Have but Know Exist</label>
+        <textarea class="txa" id="f-missing-docs" style="min-height:60px;" placeholder="e.g. The airline sent a voucher instead of a refund. I have the voucher number but not the original booking."></textarea>
+      </div>
+
+      <div class="ff">
+        <label class="flabel">Anything Else We Should Know</label>
+        <textarea class="txa" id="f-other" style="min-height:80px;" placeholder="Any other details, context, or special circumstances relevant to this claim..."></textarea>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="form-card-title">Recovery Terms</div>
+      <div class="form-card-sub">Lolo operates on a contingency basis - you pay only when we recover.</div>
+      <div class="info-block">
+        <strong>Flat-fee option:</strong> For straightforward claims under $1,000, Lolo charges a flat intake fee of $75, regardless of outcome.<br><br>
+        <strong>Percentage option:</strong> For all other claims, Lolo charges 25% of the amount recovered. If we recover nothing, you owe nothing.
+      </div>
+      <div class="ff">
+        <label class="flabel">Preferred Fee Structure</label>
+        <select class="sel" id="f-fee-structure">
+          <option value="percentage">Percentage - 25% of recovered amount, no recovery no fee</option>
+          <option value="flat">Flat fee - $75 intake fee (claims under $1,000 only)</option>
+          <option value="discuss">I would like to discuss this with a Lolo specialist</option>
+        </select>
+      </div>
+      <label class="check-item" style="margin-top:12px;">
+        <input type="checkbox" id="f-agree"/>
+        <span class="check-label">I authorize Lolo Travels LLC to act as my representative in pursuing this claim and to communicate directly with the responsible parties on my behalf. <span class="req">*</span></span>
+      </label>
+    </div>
+
+    <div class="btn-row">
+      <button class="back-btn" onclick="goStep(2)">Back</button>
+      <button class="sbtn" onclick="goStep(4)"><span>Next: Review</span></button>
+    </div>
+  </div>
+
+  <!-- STEP 4: REVIEW -->
+  <div class="form-step" id="step-4">
+    <div class="form-card">
+      <div class="form-card-title">Review Your Claim</div>
+      <div class="form-card-sub">Please review the details below before submitting. Once submitted, a Lolo claims specialist will contact you within one business day.</div>
+
+      <div class="review-group">
+        <div class="review-label">Claimant</div>
+        <div class="review-grid">
+          <div class="rv"><div class="rv-k">Name</div><div class="rv-v" id="rv-name">--</div></div>
+          <div class="rv"><div class="rv-k">Email</div><div class="rv-v" id="rv-email">--</div></div>
+          <div class="rv"><div class="rv-k">Phone</div><div class="rv-v" id="rv-phone">--</div></div>
+          <div class="rv"><div class="rv-k">Country</div><div class="rv-v" id="rv-country">--</div></div>
+        </div>
+      </div>
+      <div class="review-group">
+        <div class="review-label">Claim Details</div>
+        <div class="review-grid">
+          <div class="rv"><div class="rv-k">Claim Type</div><div class="rv-v" id="rv-type">--</div></div>
+          <div class="rv"><div class="rv-k">Responsible Party</div><div class="rv-v" id="rv-party">--</div></div>
+          <div class="rv"><div class="rv-k">Incident Date</div><div class="rv-v" id="rv-date">--</div></div>
+          <div class="rv"><div class="rv-k">Amount Claimed</div><div class="rv-v" id="rv-amount">--</div></div>
+        </div>
+      </div>
+      <div class="review-group">
+        <div class="review-label">Description</div>
+        <div style="background:var(--white);border:var(--border);padding:14px 16px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy-2);line-height:1.85;" id="rv-desc">--</div>
+      </div>
+      <div class="review-group">
+        <div class="review-label">Fee Structure</div>
+        <div style="background:var(--white);border:var(--border);padding:14px 16px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy-2);" id="rv-fee">--</div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="back-btn" onclick="goStep(3)">Back</button>
+      <button class="sbtn" id="submit-btn" onclick="submitClaim()"><span>Submit Claim</span></button>
+    </div>
+    <div class="auth-err auth-err-red" id="submit-err" style="margin-top:10px;text-align:right;font-family:var(--fb);font-weight:200;font-size:.76rem;"></div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">&#10003;</div>
+    <h2 class="success-h2">Claim submitted successfully.</h2>
+    <p class="success-sub">Your case has been opened with Lolo Travels. A claims specialist will contact you within one business day to confirm next steps.</p>
+    <div class="case-number" id="case-number">Case # LT-2026-XXXXX</div>
+    <div class="next-steps">
+      <div class="next-step"><div class="ns-num">1</div><div class="ns-text">Watch your email for a confirmation with your case number and specialist contact.</div></div>
+      <div class="next-step"><div class="ns-num">2</div><div class="ns-text">Your specialist will review your documents and contact the responsible party within 48 hours.</div></div>
+      <div class="next-step"><div class="ns-num">3</div><div class="ns-text">Track your case status anytime at lolotravels.com/member - log in and view Claims.</div></div>
+    </div>
+    <br/>
+    <a href="/" style="font-family:var(--fb);font-weight:200;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--navy);text-decoration:none;">Return to Home</a>
+  </div>
+
+</div>
+
+<footer class="footer">
+  <div class="footer-brand">Lolo Travels</div>
+  <div style="font-family:var(--fb);font-weight:200;font-size:.6rem;color:rgba(245,240,232,.2);margin-bottom:10px;">Travel Management, Protection and Risk Advisory &nbsp;|&nbsp; Licensed Insurance Agency &nbsp;|&nbsp; Federal Prime Contractor</div>
+  <div class="footer-links">
+    <a href="/" class="footer-link">Home</a>
+    <a href="/member" class="footer-link">Member Portal</a>
+    <a href="/business" class="footer-link">Corporate Portal</a>
+    <a href="/contact" class="footer-link">Contact</a>
+  </div>
+</footer>
+
+<script>
+var currentStep=1;
+var uploadedFiles=[];
+var FORMSPREE='https://formspree.io/f/xqabpkka';
+var SB_URL='https://hktntiamtpptcagnohnn.supabase.co';
+var SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
+
+function goStep(n){
+  // Validate before advancing
+  if(n>currentStep){
+    if(currentStep===1&&!validateStep1()) return;
+    if(currentStep===2&&!validateStep2()) return;
+    if(currentStep===3&&!validateStep3()) return;
+  }
+  if(n===4) populateReview();
+  document.getElementById('step-'+currentStep).classList.remove('on');
+  document.getElementById('ps-'+currentStep).classList.remove('on');
+  document.getElementById('ps-'+currentStep).classList.add('done');
+  currentStep=n;
+  document.getElementById('step-'+n).classList.add('on');
+  document.getElementById('ps-'+n).classList.add('on');
+  window.scrollTo({top:document.querySelector('.progress').offsetTop-20,behavior:'smooth'});
+}
+
+function validateStep1(){
+  var req=['f-firstname','f-lastname','f-email','f-phone'];
+  for(var i=0;i<req.length;i++){
+    if(!document.getElementById(req[i]).value.trim()){
+      document.getElementById(req[i]).style.borderBottomColor='var(--red)';
+      document.getElementById(req[i]).focus();
+      return false;
+    }
+  }
+  return true;
+}
+
+function validateStep2(){
+  var req=['f-claim-type','f-responsible','f-incident-date','f-amount','f-description'];
+  for(var i=0;i<req.length;i++){
+    if(!document.getElementById(req[i]).value.trim()){
+      document.getElementById(req[i]).style.borderBottomColor='var(--red)';
+      document.getElementById(req[i]).focus();
+      return false;
+    }
+  }
+  return true;
+}
+
+function validateStep3(){
+  if(!document.getElementById('f-agree').checked){
+    alert('Please authorize Lolo to act on your behalf before proceeding.');
+    return false;
+  }
+  return true;
+}
+
+function populateReview(){
+  document.getElementById('rv-name').textContent=document.getElementById('f-firstname').value+' '+document.getElementById('f-lastname').value;
+  document.getElementById('rv-email').textContent=document.getElementById('f-email').value;
+  document.getElementById('rv-phone').textContent=document.getElementById('f-phone').value;
+  document.getElementById('rv-country').textContent=document.getElementById('f-country').value||'Not provided';
+  var typeEl=document.getElementById('f-claim-type');
+  document.getElementById('rv-type').textContent=typeEl.options[typeEl.selectedIndex].text;
+  document.getElementById('rv-party').textContent=document.getElementById('f-responsible').value;
+  document.getElementById('rv-date').textContent=document.getElementById('f-incident-date').value;
+  document.getElementById('rv-amount').textContent=document.getElementById('f-currency').value+' '+document.getElementById('f-amount').value;
+  document.getElementById('rv-desc').textContent=document.getElementById('f-description').value;
+  var feeEl=document.getElementById('f-fee-structure');
+  document.getElementById('rv-fee').textContent=feeEl.options[feeEl.selectedIndex].text;
+}
+
+function handleFiles(input){
+  var list=document.getElementById('file-list');
+  Array.from(input.files).forEach(function(f){
+    uploadedFiles.push(f);
+    var item=document.createElement('div');
+    item.className='file-item';
+    item.innerHTML='<span>'+f.name+'</span><span style="color:var(--navy-2);font-size:.7rem;">'+(f.size>1048576?(f.size/1048576).toFixed(1)+' MB':(f.size/1024).toFixed(0)+' KB')+'</span><span class="file-remove" onclick="removeFile(this,\''+f.name+'\')">Remove</span>';
+    list.appendChild(item);
+  });
+}
+
+function removeFile(el,name){
+  uploadedFiles=uploadedFiles.filter(function(f){return f.name!==name;});
+  el.parentElement.remove();
+}
+
+async function submitClaim(){
+  var btn=document.getElementById('submit-btn');
+  var err=document.getElementById('submit-err');
+  err.textContent='';
+  btn.disabled=true;
+  btn.querySelector('span').textContent='Submitting...';
+
+  var caseNum='LT-'+new Date().getFullYear()+'-'+Math.random().toString(36).substr(2,6).toUpperCase();
+
+  var fd=new FormData();
+  fd.append('case_number',caseNum);
+  fd.append('first_name',document.getElementById('f-firstname').value);
+  fd.append('last_name',document.getElementById('f-lastname').value);
+  fd.append('email',document.getElementById('f-email').value);
+  fd.append('phone',document.getElementById('f-phone').value);
+  fd.append('country',document.getElementById('f-country').value);
+  fd.append('nationality',document.getElementById('f-nationality').value);
+  fd.append('member_status',document.getElementById('f-member').value);
+  fd.append('claim_type',document.getElementById('f-claim-type').value);
+  fd.append('responsible_party',document.getElementById('f-responsible').value);
+  fd.append('incident_date',document.getElementById('f-incident-date').value);
+  fd.append('destination',document.getElementById('f-destination').value);
+  fd.append('booking_ref',document.getElementById('f-booking-ref').value);
+  fd.append('currency',document.getElementById('f-currency').value);
+  fd.append('amount',document.getElementById('f-amount').value);
+  fd.append('description',document.getElementById('f-description').value);
+  fd.append('response_received',document.getElementById('f-response').value);
+  fd.append('previously_filed',document.getElementById('f-filed').value);
+  fd.append('additional_travelers',document.getElementById('f-travelers').value);
+  fd.append('missing_docs',document.getElementById('f-missing-docs').value);
+  fd.append('other_notes',document.getElementById('f-other').value);
+  fd.append('fee_structure',document.getElementById('f-fee-structure').value);
+  uploadedFiles.forEach(function(f){fd.append('attachments',f);});
+
+  try{
+    // Send to Formspree
+    var r=await fetch(FORMSPREE,{method:'POST',body:fd,headers:{Accept:'application/json'}});
+    // Also save to Supabase
+    try{
+      await fetch(SB_URL+'/rest/v1/claims',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Prefer':'return=minimal'},
+        body:JSON.stringify({
+          case_number:caseNum,
+          claimant_name:document.getElementById('f-firstname').value+' '+document.getElementById('f-lastname').value,
+          claimant_email:document.getElementById('f-email').value,
+          claimant_phone:document.getElementById('f-phone').value,
+          claim_type:document.getElementById('f-claim-type').value,
+          responsible_party:document.getElementById('f-responsible').value,
+          incident_date:document.getElementById('f-incident-date').value,
+          currency:document.getElementById('f-currency').value,
+          amount_claimed:parseFloat(document.getElementById('f-amount').value.replace(/[^0-9.]/g,''))||null,
+          description:document.getElementById('f-description').value,
+          fee_structure:document.getElementById('f-fee-structure').value,
+          status:'submitted',
+          is_member:document.getElementById('f-member').value!=='no'
+        })
+      });
+    }catch(e2){}
+    document.getElementById('step-4').classList.remove('on');
+    document.getElementById('success-screen').classList.add('on');
+    document.getElementById('case-number').textContent='Case # '+caseNum;
+    window.scrollTo({top:0,behavior:'smooth'});
+  }catch(e){
+    err.textContent='Submission failed. Please try again or email hello@lolotravels.com directly.';
+    btn.disabled=false;
+    btn.querySelector('span').textContent='Submit Claim';
+  }
+}
+</script>
+</body>
+</html>
