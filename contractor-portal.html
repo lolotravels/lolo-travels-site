@@ -434,19 +434,29 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);font-s
 <div class="panel" id="p-team">
   <div class="ptag">Team Management</div>
   <div class="ph1">Team Members</div>
-  <div class="ph2">Your team as known to Lolo. Roles determine what each person can access in this portal. Contact Lolo to adjust access levels.</div>
+  <div class="ph2">You control who has access to this portal and at what level. Add a team member to invite them. Change their role at any time. Revoke access immediately when needed. No involvement from Lolo required.</div>
+  <div class="iblock">When you invite a team member, they receive an email with login credentials within minutes. Role changes take effect on their next login. Revoking access prevents them from logging in immediately.</div>
   <div id="team-list" style="margin-bottom:20px;"></div>
+  <div id="pending-invites" style="margin-bottom:16px;"></div>
   <div class="div"></div>
-  <div style="font-family:var(--fd);font-style:italic;font-size:1rem;color:var(--navy);margin-bottom:12px;">Add Team Member</div>
+  <div style="font-family:var(--fd);font-style:italic;font-size:1rem;color:var(--navy);margin-bottom:12px;">Invite a Team Member</div>
   <div class="frow">
     <div class="ff"><label class="flbl">Full Name</label><input class="inp" type="text" id="tm-name" placeholder="Full name"/></div>
+    <div class="ff"><label class="flbl">Work Email</label><input class="inp" type="email" id="tm-email" placeholder="Their work email"/></div>
     <div class="ff"><label class="flbl">Title</label><input class="inp" type="text" id="tm-title" placeholder="Job title"/></div>
-    <div class="ff"><label class="flbl">Email</label><input class="inp" type="email" id="tm-email" placeholder="Work email"/></div>
     <div class="ff"><label class="flbl">Phone</label><input class="inp" type="text" id="tm-phone" placeholder="Direct phone"/></div>
-    <div class="ff"><label class="flbl">Role</label><select class="sel" id="tm-role"><option>Primary Contact</option><option>Account Manager</option><option>Operations</option><option>Finance</option><option>Compliance</option><option>Sales</option><option>Management</option><option>Other</option></select></div>
-    <div class="ff"><label class="flbl">Responsibilities</label><input class="inp" type="text" id="tm-resp" placeholder="What do they handle?"/></div>
+    <div class="ff"><label class="flbl">Access Level</label>
+      <select class="sel" id="tm-role">
+        <option value="manager">Manager - Full access except banking</option>
+        <option value="compliance">Compliance - Solicitations and documents only</option>
+        <option value="finance">Finance - Payments and history only</option>
+        <option value="sales">Sales - Overview, claims, and referrals</option>
+        <option value="operations">Operations - Solicitations and documents</option>
+      </select>
+    </div>
+    <div class="ff"><label class="flbl">Responsibilities</label><input class="inp" type="text" id="tm-resp" placeholder="What does this person handle?"/></div>
   </div>
-  <button class="sbtn" onclick="addTeamMember()"><span>Add Team Member</span></button>
+  <button class="sbtn" onclick="inviteTeamMember()"><span>Invite Team Member</span></button>
 </div>
 
 <!-- PAYMENT -->
@@ -745,19 +755,68 @@ function renderTeam(){
       '<div class="tm-title">'+e(tm.title||tm.role||'')+(tm.email?' &nbsp;|&nbsp; '+e(tm.email):'')+(tm.phone?' &nbsp;|&nbsp; '+e(tm.phone):'')+'</div>'+
       (tm.responsibilities?'<div class="tm-resp">'+e(tm.responsibilities)+'</div>':'')+
       (tm.lolo_notes?'<div style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:var(--navy3);margin-top:5px;">Note: '+e(tm.lolo_notes)+'</div>':'')+
-      (perms.team?'<div style="display:flex;gap:6px;margin-top:8px;"><span class="stamp s-draft" style="cursor:pointer;font-size:.5rem;" data-idx="'+i+'" onclick="editTm(Number(this.dataset.idx))">Edit</span><span class="stamp s-miss" style="cursor:pointer;font-size:.5rem;" data-idx="'+i+'" onclick="removeTm(Number(this.dataset.idx))">Remove</span></div>':'')+
+      (perms.team&&tm.email?'<div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">'+
+        '<select class="sel" style="font-size:.6rem;padding:4px 26px 4px 8px;height:auto;" data-email="'+e(tm.email||'')+'" onchange="changeRole(this.dataset.email,this.value)">'+
+        '<option value="manager"'+(pr==='manager'?' selected':'')+'>Manager</option>'+
+        '<option value="compliance"'+(pr==='compliance'?' selected':'')+'>Compliance</option>'+
+        '<option value="finance"'+(pr==='finance'?' selected':'')+'>Finance</option>'+
+        '<option value="sales"'+(pr==='sales'?' selected':'')+'>Sales</option>'+
+        '<option value="operations"'+(pr==='operations'?' selected':'')+'>Operations</option>'+
+        '</select>'+
+        '<span class="stamp s-miss" style="cursor:pointer;font-size:.5rem;" data-email="'+e(tm.email||'')+'" data-idx="'+i+'" onclick="revokeAccess(this.dataset.email,Number(this.dataset.idx))">Revoke Access</span>'+
+        '</div>':'')+
     '</div>';
   }).join('');
 }
 
-async function addTeamMember(){
-  var name=v('tm-name'),email=v('tm-email');
-  if(!name||!email){alert('Name and email required.');return;}
-  var roleVal=v('tm-role');
-  var prMap={'Primary Contact':'sales','Account Manager':'manager','Operations':'operations','Finance':'finance','Compliance':'compliance','Sales':'sales','Management':'owner','Other':'sales'};
-  teamData.push({name:name,title:v('tm-title'),email:email,phone:v('tm-phone'),role:roleVal,portal_role:prMap[roleVal]||'sales',responsibilities:v('tm-resp')});
-  await saveTeam();
-  sv('tm-name','');sv('tm-title','');sv('tm-email','');sv('tm-phone','');sv('tm-resp','');
+async function inviteTeamMember(){
+  var name=v('tm-name'),email=v('tm-email'),role=v('tm-role');
+  if(!name||!email){alert('Full name and email are required.');return;}
+  var btn=document.querySelector('#p-team .sbtn');
+  if(btn){btn.querySelector('span').textContent='Sending...';btn.disabled=true;}
+  try{
+    await sb.from('team_invitations').insert({company_id:cid,invited_by:cu.id,invitee_email:email,invitee_name:name,portal_role:role,status:'pending',notes:v('tm-resp')});
+    teamData.push({name:name,title:v('tm-title'),email:email,phone:v('tm-phone'),role:role,portal_role:role,responsibilities:v('tm-resp'),invited:true});
+    await saveTeam();
+    if(btn){btn.querySelector('span').textContent='Invitation Sent';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Invite Team Member';btn.style.background='';btn.disabled=false;},3000);}
+    sv('tm-name','');sv('tm-title','');sv('tm-email','');sv('tm-phone','');sv('tm-resp','');
+    loadPendingInvites();
+  }catch(ex){if(btn){btn.querySelector('span').textContent='Invite Team Member';btn.disabled=false;}alert('Error. Please try again.');}
+}
+
+async function addTeamMember(){inviteTeamMember();}
+
+async function revokeAccess(email,idx){
+  if(!confirm('Remove portal access for '+email+'? They will be unable to log in.')){return;}
+  try{
+    await sb.from('team_invitations').update({status:'revoked'}).eq('invitee_email',email).eq('company_id',cid);
+    await sb.from('profiles').update({account_type:'inactive'}).eq('email',email);
+    teamData.splice(idx,1);
+    await saveTeam();
+    loadPendingInvites();
+  }catch(ex){alert('Error revoking access.');}
+}
+
+async function changeRole(email,newRole){
+  if(!email)return;
+  try{
+    await sb.from('profiles').update({portal_role:newRole}).eq('email',email);
+    var tm=teamData.find(function(t){return t.email===email;});
+    if(tm)tm.portal_role=newRole;
+    await saveTeam();
+  }catch(ex){alert('Error updating role.');}
+}
+
+async function loadPendingInvites(){
+  if(!cid||!sb)return;
+  var el=document.getElementById('pending-invites');if(!el)return;
+  try{
+    var r=await sb.from('team_invitations').select('*').eq('company_id',cid).in('status',['pending','sent']).order('created_at',{ascending:false}).limit(10);
+    var invs=r.data||[];
+    if(!invs.length){el.innerHTML='';return;}
+    el.innerHTML='<div style="font-family:var(--fb);font-weight:500;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--navy2);margin-bottom:8px;">Pending Invitations</div>'+
+      invs.map(function(i){return '<div style="background:var(--white);border:var(--bdr);padding:11px 16px;margin-bottom:2px;display:flex;align-items:center;justify-content:space-between;gap:10px;"><div><div style="font-family:var(--fb);font-weight:500;font-size:.86rem;color:var(--navy);">'+e(i.invitee_name||i.invitee_email)+'</div><div style="font-family:var(--fb);font-weight:200;font-size:.74rem;color:var(--navy3);">'+e(i.invitee_email)+' | '+e(i.portal_role)+' access</div></div><span class="stamp '+(i.status==='sent'?'s-ok':'s-exp')+'">'+(i.status==='sent'?'Invitation Sent':'Processing...')+'</span></div>';}).join('');
+  }catch(ex){}
 }
 
 function editTm(i){
@@ -1138,6 +1197,7 @@ function nav(id){
   if(id==='library')loadDocs();
   if(id==='messages')loadMsgs();
   if(id==='referrals')loadRefHistory();
+  if(id==='team')loadPendingInvites();
 }
 
 // Utilities
