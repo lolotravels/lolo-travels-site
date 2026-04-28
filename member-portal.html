@@ -308,6 +308,14 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
     <div class="aerr" id="re-err"></div>
     <button class="abtn" onclick="resetPw()">Send Reset Link</button>
   </div>
+  <div id="v-newpass" class="av">
+    <div class="av-h">Set new password.</div>
+    <div class="av-sub">Choose a new password for your account.</div>
+    <div class="af"><label class="al">New password</label><input class="ai" type="password" id="np-pass" placeholder="At least 8 characters"/></div>
+    <div class="af"><label class="al">Confirm password</label><input class="ai" type="password" id="np-confirm" placeholder="Repeat new password"/></div>
+    <div class="aerr" id="np-err"></div>
+    <button class="abtn" onclick="setNewPass()">Set New Password</button>
+  </div>
   <div class="afoot">Lolo Travels LLC &nbsp;|&nbsp; Travel Management, Protection and Risk Advisory</div>
 </div>
 </div>
@@ -733,8 +741,26 @@ var SHIELD_DATA={
   s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
   s.onload=function(){
     sb=supabase.createClient(SB,SK);
+    // Check for password recovery token in URL hash
+    var hash=window.location.hash;
+    if(hash.includes('type=recovery')){
+      sb.auth.getSession().then(function(r){
+        if(r.data&&r.data.session){
+          showV('newpass');
+          cu=r.data.session.user;
+        }
+      });
+      return;
+    }
     sb.auth.getSession().then(function(r){
       if(r.data&&r.data.session) loadPortal(r.data.session.user);
+    });
+    // Listen for auth state changes (handles email confirmation and recovery)
+    sb.auth.onAuthStateChange(function(event,session){
+      if(event==='PASSWORD_RECOVERY'){showV('newpass');}
+      else if(event==='SIGNED_IN'&&session&&document.getElementById('portal').style.display==='none'){
+        loadPortal(session.user);
+      }
     });
   };
   document.head.appendChild(s);
@@ -767,6 +793,24 @@ async function register(){
     if(r.error){err.textContent=r.error.message;return;}
     err.className='aerr aerr-ok';err.textContent='Account created. Check your email to confirm.';
   }catch(ex){err.textContent='Error creating account. Please try again.';}
+}
+
+async function setNewPass(){
+  var pass=v('np-pass'),conf=v('np-confirm'),err=document.getElementById('np-err');
+  err.textContent='';
+  if(!pass||!conf){err.textContent='Please fill in both fields.';return;}
+  if(pass!==conf){err.textContent='Passwords do not match.';return;}
+  if(pass.length<8){err.textContent='Password must be at least 8 characters.';return;}
+  try{
+    var r=await sb.auth.updateUser({password:pass});
+    if(r.error){err.textContent=r.error.message;return;}
+    err.className='aerr aerr-ok';err.textContent='Password updated. Signing you in...';
+    setTimeout(function(){
+      sb.auth.getSession().then(function(sr){
+        if(sr.data&&sr.data.session) loadPortal(sr.data.session.user);
+      });
+    },1500);
+  }catch(ex){err.textContent='Error updating password. Please try again.';}
 }
 
 async function resetPw(){
