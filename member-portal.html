@@ -275,48 +275,48 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
 <!-- AUTH -->
 <div id="auth" style="display:flex;min-height:100vh;align-items:center;justify-content:center;background-color:#0D1A45;background-image:linear-gradient(160deg,#2A4080 0%,#1E3070 25%,#142050 55%,#0D1A45 100%);">
 <div class="acard">
-  <div class="abrand">
-    <div class="abrand-em">LL</div>
-    <span class="abrand-name">Lolo Travels</span>
-    <span class="abrand-tag">Member Portal</span>
+  <div style="text-align:center;margin-bottom:40px;">
+    <div style="width:52px;height:52px;border-radius:50%;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.07);display:inline-flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-style:italic;font-size:.9rem;color:#C9A84C;margin-bottom:14px;">LL</div>
+    <div style="display:block;font-family:Georgia,serif;font-style:italic;font-size:1.9rem;color:#F7F4EE;margin-bottom:5px;letter-spacing:-.01em;">Lolo Travels</div>
+    <div style="display:block;font-family:sans-serif;font-weight:200;font-size:.52rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(201,168,76,.38);">Member Portal</div>
   </div>
   <div id="v-signin" class="av on">
-    <div class="av-h">Welcome back.</div>
-    <div class="av-sub">Your world is managed from here.</div>
+    <div class="av-h" style="font-family:Georgia,serif;font-style:italic;font-weight:300;font-size:1.9rem;color:#F7F4EE;margin-bottom:4px;">Welcome back.</div>
+    <div class="av-sub" style="font-family:sans-serif;font-weight:200;font-size:.82rem;color:rgba(247,244,238,.38);margin-bottom:26px;line-height:1.85;">Your world is managed from here.</div>
     <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Email address</label><input class="ai" type="email" id="si-email" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="your@email.com" autocomplete="email"/></div>
     <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Password</label><input class="ai" type="password" id="si-pass" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="Your password" onkeydown="if(event.key==='Enter')signIn()"/></div>
-    <div class="aerr" id="si-err"></div>
-    <button class="abtn" id="si-btn" onclick="signIn()">Sign In</button>
-    <div class="alinks"><a onclick="showV('reset')">Forgot password?</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="showV('register')">Create account</a></div>
+    <div class="aerr" style="font-family:sans-serif;font-weight:200;font-size:.76rem;min-height:16px;margin-top:6px;text-align:center;color:rgba(220,80,80,.85);" id="si-err"></div>
+    <button class="abtn" style="width:100%;padding:14px;margin-top:8px;font-family:sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;background:#C9A84C;color:#0D1A45;border:none;cursor:pointer;" id="si-btn" onclick="signIn()">Sign In</button>
+    <div class="alinks" style="margin-top:16px;text-align:center;font-family:sans-serif;font-weight:200;font-size:.78rem;color:rgba(247,244,238,.22);line-height:2.5;"><a onclick="showV('reset')">Forgot password?</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="showV('register')">Create account</a></div>
   </div>
   <div id="v-register" class="av">
-    <button class="aback" onclick="showV('signin')">Back to sign in</button>
-    <div class="av-h">Create account.</div>
-    <div class="av-sub">Join Lolo Travels to manage your journeys.</div>
+    <button class="aback" style="background:none;border:none;color:rgba(247,244,238,.3);font-family:sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;margin-bottom:22px;display:block;padding:0;" onclick="showV('signin')">Back to sign in</button>
+    <div class="av-h" style="font-family:Georgia,serif;font-style:italic;font-weight:300;font-size:1.9rem;color:#F7F4EE;margin-bottom:4px;">Create account.</div>
+    <div class="av-sub" style="font-family:sans-serif;font-weight:200;font-size:.82rem;color:rgba(247,244,238,.38);margin-bottom:26px;line-height:1.85;">Join Lolo Travels to manage your journeys.</div>
     <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Full name</label><input class="ai" type="text" id="rg-name" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="Your full name"/></div>
     <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Email address</label><input class="ai" type="email" id="rg-email" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="your@email.com"/></div>
     <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Password</label><input class="ai" type="password" id="rg-pass" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="Choose a password"/></div>
-    <div class="aerr" id="rg-err"></div>
-    <button class="abtn" onclick="register()">Create Account</button>
-    <div class="alinks"><a onclick="showV('signin')">Already have an account?</a></div>
+    <div class="aerr" style="font-family:sans-serif;font-weight:200;font-size:.76rem;min-height:16px;margin-top:6px;text-align:center;color:rgba(220,80,80,.85);" id="rg-err"></div>
+    <button class="abtn" style="width:100%;padding:14px;margin-top:8px;font-family:sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;background:#C9A84C;color:#0D1A45;border:none;cursor:pointer;" onclick="register()">Create Account</button>
+    <div class="alinks" style="margin-top:16px;text-align:center;font-family:sans-serif;font-weight:200;font-size:.78rem;color:rgba(247,244,238,.22);line-height:2.5;"><a onclick="showV('signin')">Already have an account?</a></div>
   </div>
   <div id="v-reset" class="av">
-    <button class="aback" onclick="showV('signin')">Back to sign in</button>
-    <div class="av-h">Reset password.</div>
-    <div class="av-sub">Enter your email and we will send a reset link.</div>
+    <button class="aback" style="background:none;border:none;color:rgba(247,244,238,.3);font-family:sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;margin-bottom:22px;display:block;padding:0;" onclick="showV('signin')">Back to sign in</button>
+    <div class="av-h" style="font-family:Georgia,serif;font-style:italic;font-weight:300;font-size:1.9rem;color:#F7F4EE;margin-bottom:4px;">Reset password.</div>
+    <div class="av-sub" style="font-family:sans-serif;font-weight:200;font-size:.82rem;color:rgba(247,244,238,.38);margin-bottom:26px;line-height:1.85;">Enter your email and we will send a reset link.</div>
     <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Email address</label><input class="ai" type="email" id="re-email" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="your@email.com"/></div>
-    <div class="aerr" id="re-err"></div>
-    <button class="abtn" onclick="resetPw()">Send Reset Link</button>
+    <div class="aerr" style="font-family:sans-serif;font-weight:200;font-size:.76rem;min-height:16px;margin-top:6px;text-align:center;color:rgba(220,80,80,.85);" id="re-err"></div>
+    <button class="abtn" style="width:100%;padding:14px;margin-top:8px;font-family:sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;background:#C9A84C;color:#0D1A45;border:none;cursor:pointer;" onclick="resetPw()">Send Reset Link</button>
   </div>
   <div id="v-newpass" class="av">
-    <div class="av-h">Set new password.</div>
-    <div class="av-sub">Choose a new password for your account.</div>
+    <div class="av-h" style="font-family:Georgia,serif;font-style:italic;font-weight:300;font-size:1.9rem;color:#F7F4EE;margin-bottom:4px;">Set new password.</div>
+    <div class="av-sub" style="font-family:sans-serif;font-weight:200;font-size:.82rem;color:rgba(247,244,238,.38);margin-bottom:26px;line-height:1.85;">Choose a new password for your account.</div>
     <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">New password</label><input class="ai" type="password" id="np-pass" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="At least 8 characters"/></div>
     <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Confirm password</label><input class="ai" type="password" id="np-confirm" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="Repeat new password"/></div>
-    <div class="aerr" id="np-err"></div>
-    <button class="abtn" onclick="setNewPass()">Set New Password</button>
+    <div class="aerr" style="font-family:sans-serif;font-weight:200;font-size:.76rem;min-height:16px;margin-top:6px;text-align:center;color:rgba(220,80,80,.85);" id="np-err"></div>
+    <button class="abtn" style="width:100%;padding:14px;margin-top:8px;font-family:sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;background:#C9A84C;color:#0D1A45;border:none;cursor:pointer;" onclick="setNewPass()">Set New Password</button>
   </div>
-  <div class="afoot">Lolo Travels LLC &nbsp;|&nbsp; Travel Management, Protection and Risk Advisory</div>
+  <div class="afoot" style="text-align:center;margin-top:40px;font-family:sans-serif;font-weight:200;font-size:.55rem;letter-spacing:.1em;color:rgba(247,244,238,.1);">Lolo Travels LLC &nbsp;|&nbsp; Travel Management, Protection and Risk Advisory</div>
 </div>
 </div>
 
@@ -741,21 +741,30 @@ var SHIELD_DATA={
   s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
   s.onload=function(){
     sb=supabase.createClient(SB,SK);
-    // Check for password recovery token in URL hash
-    if(window.location.hash.includes('type=recovery')||window.location.hash.includes('access_token')){
-      // Supabase processes the token when createClient is called
-      // Get the session immediately then listen for recovery event
-      sb.auth.getSession().then(function(r){
-        if(r.data&&r.data.session){
-          cu=r.data.session.user;
+    // PASSWORD RECOVERY - handle reset link click
+    // Supabase sends type=recovery in hash fragment
+    var hashStr = window.location.hash;
+    var isRecovery = hashStr.includes('type=recovery');
+    if(isRecovery){
+      // Listen FIRST before getSession so we catch the event
+      sb.auth.onAuthStateChange(function(event,session){
+        if(event==='PASSWORD_RECOVERY'&&session){
+          cu=session.user;
+          // Show portal auth area with new password form
+          document.getElementById('auth').style.display='flex';
+          document.getElementById('portal').style.display='none';
           showV('newpass');
         }
       });
-      sb.auth.onAuthStateChange(function(event,session){
-        if(event==='PASSWORD_RECOVERY'||event==='SIGNED_IN'){
-          if(session){cu=session.user;showV('newpass');}
-        }
-      });
+      // Also try getSession in case event already fired
+      setTimeout(function(){
+        sb.auth.getSession().then(function(r){
+          if(r.data&&r.data.session&&document.getElementById('v-newpass').classList.contains('on')===false){
+            cu=r.data.session.user;
+            showV('newpass');
+          }
+        });
+      },500);
       return;
     }
     // On page load - restore existing session (NOT from signIn click)
