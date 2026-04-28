@@ -12,3 +12,7 @@
   from = "/business"
   to = "/business-portal.html"
   status = 200
+[[redirects]]
+  from = "/claims"
+  to = "/claims.html"
+  status = 200
