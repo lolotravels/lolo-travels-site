@@ -804,7 +804,7 @@ async function register(){
   try{
     var check=await sb.from('profiles').select('account_type,company_id').eq('email',email).single();
     if(check.data&&(check.data.account_type==='contractor'||check.data.company_id)){
-      err.textContent='This email is registered as a Lolo partner account. Partners access their portal at lolotravels.com/contractor — member accounts cannot be created with this email.';
+      err.textContent='This email is registered as a Lolo partner account. Partners access their portal at lolotravels.com/contractor - member accounts cannot be created with this email.';
       return;
     }
   }catch(ex){}
