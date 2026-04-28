@@ -32,8 +32,3 @@
   from = "/admin"
   to = "/admin-portal.html"
   status = 200
-
-[[redirects]]
-  from = "/login-test"
-  to = "/login-test.html"
-  status = 200
