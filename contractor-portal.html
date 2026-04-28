@@ -737,16 +737,15 @@ async function loadPortal(user){
   document.getElementById('auth').style.display='none';
   document.getElementById('portal').style.display='block';
   renderNav();
-  loadCompany();
-  loadSolicitations();
-  loadDocLibrary();
-  loadContracts();
-  // Default nav to first permitted section
-  var firstAllowed=['overview','solicitations','library','profile','team','payment','history','claims','referrals','messages'];
-  for(var i=0;i<firstAllowed.length;i++){
-    var sec=firstAllowed[i]==='solicitations'?'overview':firstAllowed[i];
-    if(canAccess(firstAllowed[i])){nav(sec);break;}
-  }
+  // Always show overview first, then let data load
+  nav('overview');
+  // Load all data after showing UI
+  setTimeout(function(){
+    loadCompany();
+    loadSolicitations();
+    loadDocLibrary();
+    loadContracts();
+  }, 200);
 }
 
 async function loadRolePermissions(){
