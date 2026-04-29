@@ -8,115 +8,281 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
---navy:#0D1A45;--royal:#2A4080;--mid:#1E3070;--deep:#142050;
---gold:#C9A84C;--goldk:#A8882C;--goldpale:rgba(201,168,76,.09);
---white:#FFFFFF;--cream:#F7F4EE;--paperdk:#EDE8DE;
---green:#145C32;--greenbg:rgba(20,92,50,.07);--greenbd:rgba(20,92,50,.2);
---red:#991818;--redbg:rgba(153,24,24,.07);--redbd:rgba(153,24,24,.18);
---amber:#7A5808;--amberbg:rgba(122,88,8,.07);--amberbd:rgba(122,88,8,.2);
---ombre:linear-gradient(160deg,#2A4080 0%,#1E3070 25%,#142050 55%,#0D1A45 100%);
---bdr:1px solid rgba(13,26,69,.1);--bdrgold:1px solid rgba(201,168,76,.25);
---fd:'Cormorant Garamond',Georgia,serif;--fb:'Jost',sans-serif;
---shadow:0 2px 16px rgba(13,26,69,.08);}
+  --navy:#0D1A45;--royal:#2A4080;--mid:#1E3070;
+  --gold:#C9A84C;--goldk:#A8882C;--goldpale:rgba(201,168,76,.09);
+  --white:#FFFFFF;--cream:#F7F4EE;--paper:#EDE8DE;
+  --green:#145C32;--greenbg:rgba(20,92,50,.07);--greenbd:rgba(20,92,50,.2);
+  --red:#991818;--redbg:rgba(153,24,24,.06);--redbd:rgba(153,24,24,.18);
+  --amber:#7A5808;--amberbg:rgba(122,88,8,.07);--amberbd:rgba(122,88,8,.2);
+  --ombre:linear-gradient(160deg,#2A4080 0%,#1E3070 25%,#142050 55%,#0D1A45 100%);
+  --bdr:1px solid rgba(13,26,69,.09);--bdrgold:1px solid rgba(201,168,76,.25);
+  --radius:10px;--shadow:0 2px 16px rgba(13,26,69,.07);
+  --fd:'Cormorant Garamond',Georgia,serif;--fb:'Jost','Arial',sans-serif;
+}
+html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webkit-font-smoothing:antialiased;font-size:16px;}
 
-html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webkit-font-smoothing:antialiased;}
-
-/* AUTH */
-#auth{min-height:100vh;display:flex;align-items:center;justify-content:center;background-color:#0D1A45;background-image:linear-gradient(160deg,#2A4080 0%,#1E3070 25%,#142050 55%,#0D1A45 100%);}
-.acard{width:100%;max-width:400px;padding:0 32px;}
-.abrand{text-align:center;margin-bottom:40px;}
-.abrand-em{width:56px;height:56px;border-radius:50%;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.07);display:inline-flex;align-items:center;justify-content:center;font-family:var(--fd);font-size:.95rem;font-style:italic;color:var(--gold);margin-bottom:16px;}
-.abrand-name{display:block;font-family:var(--fd);font-style:italic;font-size:2rem;color:#F7F4EE;margin-bottom:5px;}
-.abrand-tag{display:block;font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(201,168,76,.38);}
+/* --- AUTH -------------------------------- */
+#auth{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background-color:#0D1A45;
+  background-image:linear-gradient(160deg,#2A4080 0%,#1E3070 25%,#142050 55%,#0D1A45 100%);
+}
+.acard{width:100%;max-width:400px;padding:0 28px;}
+.abrand{text-align:center;margin-bottom:38px;}
+.alogo{
+  width:54px;height:54px;border-radius:50%;
+  border:1px solid rgba(201,168,76,.32);background:rgba(201,168,76,.07);
+  display:inline-flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:.95rem;
+  color:#C9A84C;margin-bottom:14px;
+}
+.abrand-name{
+  display:block;font-family:'Cormorant Garamond',Georgia,serif;
+  font-style:italic;font-weight:300;font-size:1.95rem;color:#F7F4EE;margin-bottom:5px;
+}
+.abrand-tag{
+  display:block;font-family:'Jost','Arial',sans-serif;font-weight:200;
+  font-size:.52rem;letter-spacing:.42em;text-transform:uppercase;color:rgba(201,168,76,.38);
+}
 .av{display:none;}.av.on{display:block;}
-.av-h{font-family:var(--fd);font-weight:300;font-style:italic;font-size:2rem;color:#F7F4EE;margin-bottom:4px;}
-.av-sub{font-family:var(--fb);font-weight:200;font-size:.82rem;color:rgba(247,244,238,.38);margin-bottom:26px;line-height:1.85;}
-.aback{background:none;border:none;color:rgba(247,244,238,.3);font-family:var(--fb);font-weight:200;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;margin-bottom:22px;display:block;padding:0;}
-.af{margin-bottom:20px;}
-.al{display:block;font-family:var(--fb);font-weight:200;font-size:.52rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(201,168,76,.48);margin-bottom:8px;}
-.ai{width:100%;background:rgba(255,255,255,.05);border:none;border-bottom:1px solid rgba(201,168,76,.18);color:#F7F4EE;padding:11px 0;font-family:var(--fb);font-weight:200;font-size:.92rem;outline:none;transition:border-color .2s;}
+.av-h{
+  font-family:'Cormorant Garamond',Georgia,serif;font-weight:300;font-style:italic;
+  font-size:1.85rem;color:#F7F4EE;margin-bottom:4px;line-height:1.05;
+}
+.av-sub{
+  font-family:'Jost','Arial',sans-serif;font-weight:200;font-size:.82rem;
+  color:rgba(247,244,238,.36);margin-bottom:26px;line-height:1.85;
+}
+.aback{
+  background:none;border:none;color:rgba(247,244,238,.28);
+  font-family:'Jost','Arial',sans-serif;font-weight:200;font-size:.58rem;
+  letter-spacing:.16em;text-transform:uppercase;cursor:pointer;
+  margin-bottom:20px;display:block;padding:0;
+}
+.aback:hover{color:rgba(201,168,76,.6);}
+.af{margin-bottom:18px;}
+.al{
+  display:block;font-family:'Jost','Arial',sans-serif;font-weight:200;
+  font-size:.52rem;letter-spacing:.24em;text-transform:uppercase;
+  color:rgba(201,168,76,.52);margin-bottom:8px;
+}
+.ai{
+  width:100%;background:rgba(255,255,255,.05);border:none;
+  border-bottom:1px solid rgba(201,168,76,.2);color:#F7F4EE;
+  padding:11px 0;font-family:'Jost','Arial',sans-serif;font-weight:200;
+  font-size:.92rem;outline:none;transition:border-color .2s;
+}
 .ai:focus{border-bottom-color:rgba(201,168,76,.55);}
-.ai::placeholder{color:rgba(247,244,238,.16);}
-.aerr{font-family:var(--fb);font-weight:200;font-size:.76rem;min-height:16px;margin-top:6px;text-align:center;color:rgba(220,80,80,.85);}
-.aerr-ok{color:rgba(80,180,120,.9);}
-.abtn{width:100%;padding:14px;margin-top:8px;font-family:var(--fb);font-weight:400;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;background:var(--gold);color:var(--navy);border:none;cursor:pointer;transition:background .2s;}
+.ai::placeholder{color:rgba(247,244,238,.15);}
+.aerr{
+  font-family:'Jost','Arial',sans-serif;font-weight:200;font-size:.76rem;
+  min-height:16px;margin-top:6px;text-align:center;color:rgba(220,80,80,.88);
+}
+.aerr-ok{color:rgba(60,180,100,.9);}
+.abtn{
+  width:100%;padding:14px;margin-top:8px;
+  font-family:'Jost','Arial',sans-serif;font-weight:400;font-size:.62rem;
+  letter-spacing:.22em;text-transform:uppercase;
+  background:#C9A84C;color:#0D1A45;border:none;cursor:pointer;
+  transition:background .18s;
+}
 .abtn:hover{background:#E2C97E;}
 .abtn:disabled{opacity:.4;cursor:not-allowed;}
-.alinks{margin-top:16px;text-align:center;font-family:var(--fb);font-weight:200;font-size:.78rem;color:rgba(247,244,238,.22);line-height:2.5;}
+.alinks{
+  margin-top:14px;text-align:center;
+  font-family:'Jost','Arial',sans-serif;font-weight:200;font-size:.78rem;
+  color:rgba(247,244,238,.2);line-height:2.6;
+}
 .alinks a{color:rgba(201,168,76,.55);cursor:pointer;text-decoration:none;}
-.afoot{text-align:center;margin-top:40px;font-family:var(--fb);font-weight:200;font-size:.55rem;letter-spacing:.1em;color:rgba(247,244,238,.1);}
+.alinks a:hover{color:rgba(201,168,76,.9);}
+.afoot{
+  text-align:center;margin-top:38px;
+  font-family:'Jost','Arial',sans-serif;font-weight:200;
+  font-size:.55rem;letter-spacing:.1em;color:rgba(247,244,238,.09);
+}
+.mfa-code-input{
+  width:100%;background:rgba(255,255,255,.05);border:none;
+  border-bottom:1px solid rgba(201,168,76,.2);color:#F7F4EE;
+  padding:14px 0;font-family:'Jost','Arial',sans-serif;font-weight:300;
+  font-size:1.6rem;letter-spacing:.35em;text-align:center;outline:none;
+  transition:border-color .2s;
+}
+.mfa-code-input:focus{border-bottom-color:rgba(201,168,76,.55);}
 
-/* PORTAL */
+/* --- PORTAL ------------------------------- */
 #portal{display:none;min-height:100vh;}
 
-/* TOPBAR */
-.topbar{position:sticky;top:0;z-index:100;background:var(--navy);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;border-bottom:1px solid rgba(201,168,76,.1);}
-.tb-l{display:flex;align-items:center;gap:10px;}
-.tb-em{width:28px;height:28px;border-radius:50%;border:1px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:center;font-family:var(--fd);font-style:italic;font-size:.7rem;color:var(--gold);}
-.tb-brand{font-family:var(--fd);font-style:italic;font-size:1rem;color:#F7F4EE;}
-.tb-div{width:1px;height:14px;background:rgba(255,255,255,.1);}
-.tb-lbl{font-family:var(--fb);font-weight:200;font-size:.54rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.25);}
+.topbar{
+  position:sticky;top:0;z-index:100;background:var(--navy);height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 24px;border-bottom:1px solid rgba(201,168,76,.1);
+}
+.tb-l{display:flex;align-items:center;gap:9px;}
+.tb-logo{
+  width:28px;height:28px;border-radius:50%;border:1px solid rgba(201,168,76,.25);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fd);font-style:italic;font-size:.7rem;color:var(--gold);
+  flex-shrink:0;
+}
+.tb-brand{font-family:var(--fd);font-style:italic;font-size:.98rem;color:#F7F4EE;}
+.tb-sep{width:1px;height:13px;background:rgba(255,255,255,.1);}
+.tb-tag{font-family:var(--fb);font-weight:200;font-size:.54rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.24);}
 .tb-r{display:flex;align-items:center;gap:10px;}
-.tb-name{font-family:var(--fb);font-weight:200;font-size:.84rem;color:rgba(247,244,238,.65);}
-.tb-out{font-family:var(--fb);font-weight:200;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.3);padding:5px 12px;cursor:pointer;transition:all .18s;}
-.tb-out:hover{border-color:rgba(201,168,76,.35);color:var(--gold);}
+.tb-name{font-family:var(--fb);font-weight:200;font-size:.84rem;color:rgba(247,244,238,.6);}
+.tb-btn{
+  font-family:var(--fb);font-weight:200;font-size:.56rem;letter-spacing:.14em;
+  text-transform:uppercase;background:none;border:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.28);padding:5px 12px;cursor:pointer;transition:all .18s;
+}
+.tb-btn:hover{border-color:rgba(201,168,76,.35);color:var(--gold);}
 
-/* LAYOUT */
-.layout{display:grid;grid-template-columns:200px 1fr;min-height:calc(100vh - 56px);}
-.sidebar{background:var(--white);border-right:var(--bdr);padding:16px 0;position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;}
-.nsec{font-family:var(--fb);font-weight:500;font-size:.5rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(13,26,69,.2);padding:2px 18px;margin-top:14px;margin-bottom:2px;}
+.layout{display:grid;grid-template-columns:196px 1fr;min-height:calc(100vh - 56px);}
+.sidebar{
+  background:var(--white);border-right:var(--bdr);
+  padding:14px 0;position:sticky;top:56px;
+  height:calc(100vh - 56px);overflow-y:auto;
+}
+.nsec{
+  font-family:var(--fb);font-weight:500;font-size:.5rem;letter-spacing:.3em;
+  text-transform:uppercase;color:rgba(13,26,69,.2);
+  padding:2px 18px;margin:14px 0 2px;
+}
 .nsec:first-child{margin-top:0;}
-.ni{display:flex;align-items:center;gap:8px;padding:9px 18px;cursor:pointer;font-family:var(--fb);font-weight:300;font-size:.88rem;color:rgba(13,26,69,.55);border-left:2px solid transparent;transition:all .15s;}
+.ni{
+  display:flex;align-items:center;gap:9px;padding:9px 18px;cursor:pointer;
+  font-family:var(--fb);font-weight:300;font-size:.87rem;color:rgba(13,26,69,.52);
+  border-left:2px solid transparent;transition:all .14s;
+}
 .ni:hover{color:var(--navy);background:var(--cream);}
 .ni.on{color:var(--navy);background:var(--cream);border-left-color:var(--gold);font-weight:400;}
-.ni svg{flex-shrink:0;opacity:.5;}
-.ni.on svg{opacity:1;}
+.ni svg{flex-shrink:0;opacity:.45;transition:opacity .14s;}
+.ni.on svg,.ni:hover svg{opacity:.85;}
+.nbadge{
+  margin-left:auto;font-family:var(--fb);font-weight:400;font-size:.6rem;
+  background:var(--red);color:#fff;padding:1px 6px;border-radius:10px;
+}
 
-/* MAIN */
-.main{padding:0;overflow:hidden;}
+.main{min-width:0;}
 
-/* HERO - the ombre section */
-.hero{background-color:#0D1A45;background-image:linear-gradient(160deg,#2A4080 0%,#1E3070 25%,#142050 55%,#0D1A45 100%);padding:28px 32px 36px;position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 65%);}
-.hero::after{content:'';position:absolute;bottom:-50px;left:-30px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(42,64,128,.5) 0%,transparent 65%);}
-.hero-brand{font-family:var(--fb);font-weight:200;font-size:.54rem;letter-spacing:.38em;text-transform:uppercase;color:rgba(201,168,76,.45);margin-bottom:18px;position:relative;z-index:1;}
-.hero-greet{font-family:var(--fd);font-weight:300;font-style:italic;font-size:2rem;color:#F7F4EE;line-height:1.05;margin-bottom:4px;position:relative;z-index:1;}
-.hero-greet em{color:var(--gold);font-style:italic;}
-.hero-sub{font-family:var(--fb);font-weight:200;font-size:.82rem;color:rgba(247,244,238,.38);margin-bottom:22px;letter-spacing:.04em;position:relative;z-index:1;}
-.hero-card{background:rgba(255,255,255,.07);border:0.5px solid rgba(255,255,255,.1);border-radius:10px;padding:16px 18px;position:relative;z-index:1;}
-.hero-card::before{content:'';position:absolute;top:0;left:18px;right:18px;height:0.5px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.35),transparent);}
-.hc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
-.hc-dest{font-family:var(--fd);font-weight:300;font-size:1.1rem;color:#F7F4EE;}
-.hc-badge{font-family:var(--fb);font-weight:400;font-size:.56rem;background:rgba(201,168,76,.13);border:0.5px solid rgba(201,168,76,.35);color:var(--gold);padding:3px 8px;border-radius:3px;letter-spacing:.12em;text-transform:uppercase;}
-.hc-meta{font-family:var(--fb);font-weight:200;font-size:.8rem;color:rgba(247,244,238,.36);margin-bottom:14px;}
+/* HERO */
+.hero{
+  background-color:#0D1A45;
+  background-image:linear-gradient(160deg,#2A4080 0%,#1E3070 25%,#142050 55%,#0D1A45 100%);
+  padding:28px 32px 34px;position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-50px;right:-50px;
+  width:220px;height:220px;border-radius:50%;
+  background:radial-gradient(circle,rgba(201,168,76,.07) 0%,transparent 65%);
+}
+.hero-brand{
+  font-family:var(--fb);font-weight:200;font-size:.53rem;
+  letter-spacing:.4em;text-transform:uppercase;color:rgba(201,168,76,.44);
+  margin-bottom:18px;position:relative;z-index:1;
+}
+.hero-greet{
+  font-family:var(--fd);font-weight:300;font-style:italic;
+  font-size:2rem;color:#F7F4EE;line-height:1.05;margin-bottom:4px;
+  position:relative;z-index:1;
+}
+.hero-greet em{color:var(--gold);}
+.hero-sub{
+  font-family:var(--fb);font-weight:200;font-size:.82rem;
+  color:rgba(247,244,238,.38);margin-bottom:22px;letter-spacing:.04em;
+  position:relative;z-index:1;
+}
+.hero-card{
+  background:rgba(255,255,255,.07);border:0.5px solid rgba(255,255,255,.1);
+  border-radius:var(--radius);padding:15px 18px;position:relative;z-index:1;
+}
+.hero-card::before{
+  content:'';position:absolute;top:0;left:16px;right:16px;height:.5px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.35),transparent);
+}
+.hc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;}
+.hc-dest{font-family:var(--fd);font-weight:300;font-size:1.08rem;color:#F7F4EE;}
+.hc-badge{
+  font-family:var(--fb);font-weight:400;font-size:.56rem;
+  background:rgba(201,168,76,.13);border:.5px solid rgba(201,168,76,.35);
+  color:var(--gold);padding:3px 8px;letter-spacing:.1em;text-transform:uppercase;
+  flex-shrink:0;
+}
+.hc-meta{
+  font-family:var(--fb);font-weight:200;font-size:.8rem;
+  color:rgba(247,244,238,.36);margin-bottom:13px;
+}
 .hc-stats{display:flex;}
 .hcs{flex:1;text-align:center;position:relative;}
-.hcs::after{content:'';position:absolute;right:0;top:10%;height:80%;width:0.5px;background:rgba(255,255,255,.09);}
+.hcs::after{
+  content:'';position:absolute;right:0;top:10%;height:80%;width:.5px;
+  background:rgba(255,255,255,.09);
+}
 .hcs:last-child::after{display:none;}
 .hcs-v{font-family:var(--fb);font-weight:400;font-size:1.1rem;color:#F7F4EE;display:block;}
 .hcs-v.g{color:var(--gold);}
-.hcs-l{font-family:var(--fb);font-weight:200;font-size:.72rem;color:rgba(247,244,238,.36);display:block;margin-top:2px;letter-spacing:.04em;}
-.hero-empty{font-family:var(--fd);font-style:italic;font-size:.95rem;color:rgba(247,244,238,.4);padding:12px 0;}
+.hcs-l{font-family:var(--fb);font-weight:200;font-size:.72rem;color:rgba(247,244,238,.35);display:block;margin-top:2px;}
 
-/* SHIELD BAR */
-.shieldbar{background:rgba(10,18,50,.96);border-bottom:0.5px solid rgba(201,168,76,.12);padding:9px 24px;display:flex;align-items:center;gap:9px;}
+.shieldbar{
+  background:rgba(9,16,46,.97);border-bottom:.5px solid rgba(201,168,76,.12);
+  padding:9px 24px;display:flex;align-items:center;gap:8px;cursor:pointer;
+}
+.shieldbar:hover .sb-cta{color:#F7F4EE;}
 .sb-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);opacity:.75;flex-shrink:0;}
-.sb-txt{font-family:var(--fb);font-weight:200;font-size:.8rem;color:rgba(247,244,238,.48);flex:1;letter-spacing:.03em;}
-.sb-cta{font-family:var(--fb);font-weight:400;font-size:.76rem;color:var(--gold);cursor:pointer;letter-spacing:.06em;}
+.sb-txt{font-family:var(--fb);font-weight:200;font-size:.8rem;color:rgba(247,244,238,.46);flex:1;}
+.sb-cta{font-family:var(--fb);font-weight:400;font-size:.78rem;color:var(--gold);transition:color .15s;flex-shrink:0;}
 
-/* PANEL BODY */
 .pbody{padding:24px 32px;background:var(--white);}
+@media(max-width:700px){.pbody{padding:18px;}}.
 
-/* SECTION LABEL */
-.slbl{font-family:var(--fb);font-weight:400;font-size:.56rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(13,26,69,.28);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
-.slbl::after{content:'';flex:1;height:0.5px;background:rgba(13,26,69,.07);}
+/* SECTION LABELS */
+.slbl{
+  font-family:var(--fb);font-weight:400;font-size:.56rem;letter-spacing:.3em;
+  text-transform:uppercase;color:rgba(13,26,69,.27);margin-bottom:12px;
+  display:flex;align-items:center;gap:10px;
+}
+.slbl::after{content:'';flex:1;height:.5px;background:rgba(13,26,69,.07);}
+
+/* PAGE HEADER */
+.ph{padding:24px 32px 0;}
+.ptag{
+  font-family:var(--fb);font-weight:400;font-size:.54rem;
+  letter-spacing:.34em;text-transform:uppercase;color:var(--goldk);
+  margin-bottom:7px;display:flex;align-items:center;gap:8px;
+}
+.ptag::before{content:'';display:block;width:14px;height:.5px;background:var(--gold);}
+.ph1{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.95rem;color:var(--navy);margin-bottom:5px;line-height:1.05;}
+.ph2{font-family:var(--fb);font-weight:200;font-size:.86rem;color:rgba(13,26,69,.5);line-height:1.9;max-width:520px;margin-bottom:20px;}
+
+/* PANELS */
+.panel{display:none;}
+.panel.on{display:block;animation:fin .16s ease;}
+@keyframes fin{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+/* DIVIDER */
+.div{height:.5px;background:rgba(13,26,69,.07);margin:20px 0;position:relative;}
+.div::after{content:'';position:absolute;left:0;top:0;width:28px;height:.5px;background:var(--gold);}
+
+/* STATS */
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:22px;}
+.sc{background:var(--white);border:var(--bdr);border-radius:var(--radius);padding:14px 15px;}
+.sc.bl{border-left:2px solid var(--mid);border-radius:0 var(--radius) var(--radius) 0;}
+.sc.gl{border-left:2px solid var(--gold);border-radius:0 var(--radius) var(--radius) 0;}
+.sc-l{font-family:var(--fb);font-weight:400;font-size:.56rem;color:rgba(13,26,69,.28);text-transform:uppercase;letter-spacing:.15em;margin-bottom:6px;}
+.sc-v{font-family:var(--fd);font-weight:300;font-size:1.45rem;color:var(--navy);}
+.sc-s{font-family:var(--fb);font-weight:200;font-size:.78rem;color:rgba(13,26,69,.36);margin-top:2px;}
+.sc-s.g{color:var(--goldk);}
+.sc-s.gr{color:var(--green);}
 
 /* ACTION GRID */
-.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px;margin-bottom:24px;}
-.acard{background:var(--white);border:var(--bdr);border-radius:10px;padding:16px 15px;display:flex;align-items:flex-start;gap:10px;cursor:pointer;transition:all .18s;}
-.acard:hover{border-color:rgba(13,26,69,.18);box-shadow:var(--shadow);}
-.acard.dark{background:var(--ombre);border:none;}
-.acard.gold{background:linear-gradient(135deg,#1a1400,#0D1A45);border:0.5px solid rgba(201,168,76,.2);}
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:8px;margin-bottom:22px;}
+.acard{
+  background:var(--white);border:var(--bdr);border-radius:var(--radius);
+  padding:15px 14px;display:flex;align-items:flex-start;gap:10px;
+  cursor:pointer;transition:all .16s;
+}
+.acard:hover{border-color:rgba(13,26,69,.16);box-shadow:var(--shadow);}
+.acard.dark{background-image:linear-gradient(145deg,#1E3070,#0D1A45);border:none;}
+.acard.gold-card{background:linear-gradient(135deg,#1a1400,#0D1A45);border:.5px solid rgba(201,168,76,.2);}
 .ac-ico{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .ac-ico.light{background:rgba(13,26,69,.05);}
 .ac-ico.ondark{background:rgba(255,255,255,.08);}
@@ -128,283 +294,316 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
 .ac-sub.w{color:rgba(247,244,238,.38);}
 .ac-sub.g{color:rgba(201,168,76,.45);}
 
-/* DIVIDER */
-.div{height:0.5px;background:rgba(13,26,69,.07);margin:20px 0;position:relative;}
-.div::after{content:'';position:absolute;left:0;top:0;width:28px;height:0.5px;background:var(--gold);}
-
-/* STAT CARDS */
-.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin-bottom:22px;}
-.sc{background:var(--white);border:var(--bdr);border-radius:10px;padding:14px 15px;}
-.sc.bl{border-left:2px solid #1E3070;border-radius:0 10px 10px 0;}
-.sc.gl{border-left:2px solid var(--gold);border-radius:0 10px 10px 0;}
-.sc.rl{border-left:2px solid var(--red);border-radius:0 10px 10px 0;}
-.sc-l{font-family:var(--fb);font-weight:400;font-size:.56rem;color:rgba(13,26,69,.3);text-transform:uppercase;letter-spacing:.15em;margin-bottom:6px;}
-.sc-v{font-family:var(--fd);font-weight:300;font-size:1.4rem;color:var(--navy);}
-.sc-s{font-family:var(--fb);font-weight:200;font-size:.78rem;color:rgba(13,26,69,.38);margin-top:2px;}
-.sc-s.g{color:var(--goldk);}
-.sc-s.gr{color:var(--green);}
-
-/* PANELS */
-.panel{display:none;}
-.panel.on{display:block;animation:fin .18s ease;}
-@keyframes fin{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:none;}}
-
-/* PAGE HEADER */
-.ph{padding:24px 32px 0;}
-.ptag{font-family:var(--fb);font-weight:400;font-size:.54rem;letter-spacing:.34em;text-transform:uppercase;color:var(--goldk);margin-bottom:7px;display:flex;align-items:center;gap:8px;}
-.ptag::before{content:'';display:block;width:14px;height:0.5px;background:var(--gold);}
-.ph1{font-family:var(--fd);font-weight:300;font-style:italic;font-size:2rem;color:var(--navy);margin-bottom:5px;line-height:1.05;}
-.ph2{font-family:var(--fb);font-weight:200;font-size:.86rem;color:rgba(13,26,69,.52);line-height:1.9;max-width:520px;margin-bottom:20px;}
-
 /* FORMS */
 .frow{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-@media(max-width:580px){.frow{grid-template-columns:1fr;}}
+@media(max-width:560px){.frow{grid-template-columns:1fr;}}
 .ff{margin-bottom:16px;}
 .ff.full{grid-column:1/-1;}
-.flbl{display:block;font-family:var(--fb);font-weight:400;font-size:.54rem;letter-spacing:.2em;text-transform:uppercase;color:var(--navy);margin-bottom:6px;}
-.inp,.sel,.txa{width:100%;background:var(--white);border:var(--bdr);border-bottom:2px solid rgba(13,26,69,.1);color:var(--navy);padding:10px 13px;font-family:var(--fb);font-weight:200;font-size:.9rem;outline:none;transition:border-color .2s;border-radius:0;}
+.flbl{
+  display:block;font-family:var(--fb);font-weight:400;font-size:.54rem;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--navy);margin-bottom:6px;
+}
+.inp,.sel,.txa{
+  width:100%;background:var(--white);border:var(--bdr);
+  border-bottom:2px solid rgba(13,26,69,.1);color:var(--navy);
+  padding:10px 12px;font-family:var(--fb);font-weight:200;font-size:.9rem;
+  outline:none;transition:border-color .2s;
+}
 .inp:focus,.sel:focus,.txa:focus{border-bottom-color:var(--gold);}
-.inp::placeholder,.txa::placeholder{color:rgba(13,26,69,.22);}
-.sel{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(13,26,69,0.35)'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-color:var(--white);padding-right:30px;cursor:pointer;}
+.inp::placeholder,.txa::placeholder{color:rgba(13,26,69,.2);}
+.sel{
+  appearance:none;cursor:pointer;padding-right:28px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='rgba(13,26,69,0.3)'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;
+}
 .txa{resize:vertical;min-height:80px;line-height:1.75;}
-.sbtn{padding:12px 32px;font-family:var(--fb);font-weight:400;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;background:var(--navy);color:var(--white);border:none;cursor:pointer;transition:background .18s;}
+.sbtn{
+  padding:12px 32px;font-family:var(--fb);font-weight:400;font-size:.62rem;
+  letter-spacing:.2em;text-transform:uppercase;background:var(--navy);
+  color:var(--white);border:none;cursor:pointer;transition:background .16s;
+}
 .sbtn:hover{background:var(--mid);}
 .sbtn span{position:relative;}
-.sbtn-o{padding:10px 20px;font-family:var(--fb);font-weight:300;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;background:transparent;color:var(--navy);border:var(--bdr);cursor:pointer;transition:all .18s;}
+.sbtn-o{
+  padding:9px 18px;font-family:var(--fb);font-weight:300;font-size:.58rem;
+  letter-spacing:.16em;text-transform:uppercase;background:transparent;
+  color:var(--navy);border:var(--bdr);cursor:pointer;transition:all .16s;
+}
 .sbtn-o:hover{border-color:var(--navy);}
-.iblock{background:var(--goldpale);border:var(--bdrgold);border-left:3px solid var(--gold);padding:12px 16px;margin-bottom:16px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:rgba(13,26,69,.65);line-height:1.85;}
-.ablock{background:var(--redbg);border:1px solid var(--redbd);border-left:3px solid var(--red);padding:12px 16px;margin-bottom:16px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--red);line-height:1.85;}
-.gblock{background:var(--greenbg);border:1px solid var(--greenbd);border-left:3px solid var(--green);padding:12px 16px;margin-bottom:16px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--green);line-height:1.85;}
+.iblock{
+  background:var(--goldpale);border:var(--bdrgold);border-left:3px solid var(--gold);
+  padding:12px 16px;margin-bottom:16px;font-family:var(--fb);font-weight:200;
+  font-size:.82rem;color:rgba(13,26,69,.65);line-height:1.85;
+}
+.ablock{
+  background:var(--redbg);border:1px solid var(--redbd);border-left:3px solid var(--red);
+  padding:12px 16px;margin-bottom:16px;font-family:var(--fb);font-weight:200;
+  font-size:.82rem;color:var(--red);line-height:1.85;
+}
+.gblock{
+  background:var(--greenbg);border:1px solid var(--greenbd);border-left:3px solid var(--green);
+  padding:12px 16px;margin-bottom:16px;font-family:var(--fb);font-weight:200;
+  font-size:.82rem;color:var(--green);line-height:1.85;
+}
 
 /* CARDS */
-.card{background:var(--white);border:var(--bdr);border-radius:10px;padding:16px 18px;margin-bottom:8px;}
+.card{
+  background:var(--white);border:var(--bdr);border-radius:var(--radius);
+  padding:15px 17px;margin-bottom:6px;transition:box-shadow .15s;
+}
 .card:hover{box-shadow:var(--shadow);}
-.card-title{font-family:var(--fb);font-weight:400;font-size:.92rem;color:var(--navy);margin-bottom:3px;}
-.card-meta{font-family:var(--fb);font-weight:200;font-size:.76rem;color:rgba(13,26,69,.45);line-height:1.8;}
+.card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:4px;}
+.card-title{font-family:var(--fb);font-weight:400;font-size:.9rem;color:var(--navy);}
+.card-meta{font-family:var(--fb);font-weight:200;font-size:.78rem;color:rgba(13,26,69,.44);line-height:1.8;}
 
 /* STAMPS */
-.stamp{display:inline-flex;align-items:center;font-family:var(--fb);font-weight:400;font-size:.54rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;}
+.stamp{
+  display:inline-flex;align-items:center;font-family:var(--fb);font-weight:400;
+  font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;
+  flex-shrink:0;
+}
 .s-ok{background:var(--greenbg);color:var(--green);border:1px solid var(--greenbd);}
 .s-miss{background:var(--redbg);color:var(--red);border:1px solid var(--redbd);}
 .s-sub{background:var(--goldpale);color:var(--goldk);border:var(--bdrgold);}
-.s-draft{background:rgba(13,26,69,.04);color:rgba(13,26,69,.5);border:var(--bdr);}
+.s-draft{background:rgba(13,26,69,.04);color:rgba(13,26,69,.45);border:var(--bdr);}
 .s-exp{background:var(--amberbg);color:var(--amber);border:1px solid var(--amberbd);}
 
-/* VOICE */
-.voice-active{background:var(--redbg);border:1px solid var(--redbd);border-radius:10px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:12px;}
-.voice-wave{display:flex;gap:3px;align-items:center;}
-.vw{width:3px;border-radius:2px;background:var(--red);animation:wave 1s ease-in-out infinite;}
-.vw:nth-child(1){height:8px;animation-delay:0s;}
-.vw:nth-child(2){height:16px;animation-delay:.15s;}
-.vw:nth-child(3){height:12px;animation-delay:.3s;}
-.vw:nth-child(4){height:20px;animation-delay:.45s;}
-.vw:nth-child(5){height:10px;animation-delay:.6s;}
-@keyframes wave{0%,100%{transform:scaleY(.6);}50%{transform:scaleY(1);}}
-
-/* SHIELD INTEL */
-.dest-card{background:var(--white);border:var(--bdr);border-radius:10px;overflow:hidden;margin-bottom:10px;}
-.dest-header{padding:14px 18px;border-bottom:var(--bdr);display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.dest-name{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);}
-.dest-body{padding:14px 18px;}
-.risk-bar{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-.risk-track{flex:1;height:4px;background:rgba(13,26,69,.08);border-radius:2px;overflow:hidden;}
-.risk-fill{height:4px;border-radius:2px;}
-.risk-low{background:var(--green);}
-.risk-mod{background:var(--goldk);}
-.risk-high{background:var(--red);}
-.risk-lbl{font-family:var(--fb);font-weight:400;font-size:.72rem;}
-.intel-item{display:flex;gap:10px;padding:8px 0;border-bottom:0.5px solid rgba(13,26,69,.06);}
-.intel-item:last-child{border-bottom:none;}
-.intel-cat{font-family:var(--fb);font-weight:400;font-size:.72rem;color:rgba(13,26,69,.4);min-width:90px;flex-shrink:0;}
-.intel-txt{font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy);line-height:1.75;}
-
-/* MEETING SLOTS */
-.time-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:6px;margin-bottom:16px;}
-.tslot{padding:10px;border:var(--bdr);border-radius:6px;text-align:center;cursor:pointer;transition:all .15s;background:var(--white);}
-.tslot:hover{border-color:var(--gold);background:var(--goldpale);}
-.tslot.on{background:var(--navy);border-color:var(--navy);}
-.tslot-time{font-family:var(--fb);font-weight:400;font-size:.86rem;color:var(--navy);display:block;}
-.tslot.on .tslot-time{color:#F7F4EE;}
-.tslot-tz{font-family:var(--fb);font-weight:200;font-size:.66rem;color:rgba(13,26,69,.35);display:block;margin-top:1px;}
-.tslot.on .tslot-tz{color:rgba(247,244,238,.4);}
-
-/* DOC CARDS */
-.doc-card{background:var(--white);border:var(--bdr);border-radius:8px;padding:12px 15px;margin-bottom:6px;display:flex;align-items:center;gap:12px;}
-.doc-ico{width:34px;height:42px;background:var(--cream);border:var(--bdr);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.doc-name{font-family:var(--fb);font-weight:400;font-size:.88rem;color:var(--navy);margin-bottom:2px;}
-.doc-meta{font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(13,26,69,.38);}
+/* UPLOAD */
+.uzone{
+  border:1px dashed rgba(13,26,69,.14);padding:22px;text-align:center;
+  cursor:pointer;background:var(--white);transition:all .16s;border-radius:6px;
+}
+.uzone:hover{border-color:var(--gold);background:var(--goldpale);}
+.utxt{font-family:var(--fb);font-weight:200;font-size:.84rem;color:rgba(13,26,69,.36);line-height:1.9;}
+.utxt strong{font-weight:400;color:var(--navy);}
 
 /* MESSAGES */
-.msg{background:var(--white);border:var(--bdr);border-left:3px solid rgba(13,26,69,.08);border-radius:0 8px 8px 0;padding:14px 16px;margin-bottom:6px;}
+.msg{
+  background:var(--white);border:var(--bdr);border-left:3px solid rgba(13,26,69,.07);
+  border-radius:0 var(--radius) var(--radius) 0;padding:13px 16px;margin-bottom:5px;
+}
 .msg.lolo{border-left-color:var(--gold);}
 .msg-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
 .msg-from{font-family:var(--fb);font-weight:400;font-size:.78rem;color:var(--navy);}
-.msg-dt{font-family:var(--fb);font-weight:200;font-size:.68rem;color:rgba(13,26,69,.35);}
-.msg-body{font-family:var(--fb);font-weight:200;font-size:.86rem;color:rgba(13,26,69,.65);line-height:1.85;white-space:pre-line;}
+.msg-dt{font-family:var(--fb);font-weight:200;font-size:.68rem;color:rgba(13,26,69,.32);}
+.msg-body{font-family:var(--fb);font-weight:200;font-size:.86rem;color:rgba(13,26,69,.62);line-height:1.85;white-space:pre-line;}
 
-/* PROFILE */
-.pg{display:grid;grid-template-columns:1fr 1fr;gap:0;border:var(--bdr);border-radius:8px;overflow:hidden;}
-@media(max-width:500px){.pg{grid-template-columns:1fr;}}
-.pgc{padding:12px 16px;border-right:var(--bdr);border-bottom:var(--bdr);background:var(--white);}
-.pgc:nth-child(even){border-right:none;}
-.pglbl{font-family:var(--fb);font-weight:400;font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(13,26,69,.28);margin-bottom:3px;}
-.pgval{font-family:var(--fb);font-weight:200;font-size:.88rem;color:var(--navy);}
+/* SHIELD */
+.dest-card{background:var(--white);border:var(--bdr);border-radius:var(--radius);overflow:hidden;margin-bottom:8px;}
+.dest-hd{padding:13px 17px;border-bottom:var(--bdr);display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.dest-name{font-family:var(--fd);font-weight:300;font-style:italic;font-size:1.1rem;color:var(--navy);}
+.dest-body{padding:14px 17px;}
+.risk-row{display:flex;align-items:center;gap:10px;margin-bottom:13px;}
+.risk-track{flex:1;height:3px;background:rgba(13,26,69,.07);border-radius:2px;overflow:hidden;}
+.risk-fill{height:3px;border-radius:2px;}
+.intel-row{display:flex;gap:10px;padding:7px 0;border-bottom:.5px solid rgba(13,26,69,.06);}
+.intel-row:last-child{border-bottom:none;}
+.intel-cat{font-family:var(--fb);font-weight:400;font-size:.72rem;color:rgba(13,26,69,.38);min-width:88px;flex-shrink:0;}
+.intel-txt{font-family:var(--fb);font-weight:200;font-size:.84rem;color:var(--navy);line-height:1.78;}
+
+/* TIME SLOTS */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:6px;margin-bottom:16px;}
+.tslot{
+  padding:10px 6px;border:var(--bdr);border-radius:6px;text-align:center;
+  cursor:pointer;transition:all .14s;background:var(--white);
+}
+.tslot:hover{border-color:var(--gold);background:var(--goldpale);}
+.tslot.on{background:var(--navy);border-color:var(--navy);}
+.tslot-t{font-family:var(--fb);font-weight:400;font-size:.85rem;color:var(--navy);display:block;}
+.tslot.on .tslot-t{color:#F7F4EE;}
+.tslot-z{font-family:var(--fb);font-weight:200;font-size:.66rem;color:rgba(13,26,69,.32);display:block;margin-top:1px;}
+.tslot.on .tslot-z{color:rgba(247,244,238,.38);}
+
+/* VOICE */
+.voice-recording{
+  background:var(--redbg);border:1px solid var(--redbd);border-radius:var(--radius);
+  padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:12px;
+}
+.vwaves{display:flex;gap:3px;align-items:center;}
+.vw{width:3px;border-radius:2px;background:var(--red);animation:vwave 1s ease-in-out infinite;}
+.vw:nth-child(1){height:8px;}.vw:nth-child(2){height:16px;animation-delay:.12s;}
+.vw:nth-child(3){height:11px;animation-delay:.24s;}.vw:nth-child(4){height:20px;animation-delay:.36s;}
+.vw:nth-child(5){height:9px;animation-delay:.48s;}
+@keyframes vwave{0%,100%{transform:scaleY(.5);}50%{transform:scaleY(1);}}
+
+/* DOCS */
+.doc-item{
+  background:var(--white);border:var(--bdr);border-radius:8px;
+  padding:12px 15px;margin-bottom:5px;display:flex;align-items:center;gap:12px;
+}
+.doc-ico{
+  width:32px;height:40px;background:var(--cream);border:var(--bdr);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--fb);font-size:.54rem;font-weight:400;
+  color:rgba(13,26,69,.4);flex-shrink:0;letter-spacing:.05em;
+}
+.doc-name{font-family:var(--fb);font-weight:400;font-size:.88rem;color:var(--navy);margin-bottom:2px;}
+.doc-meta{font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(13,26,69,.38);}
+
+/* MFA */
+.mfa-status{
+  background:var(--white);border:var(--bdr);border-radius:var(--radius);
+  padding:15px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;
+}
+.mfa-lbl{font-family:var(--fb);font-weight:400;font-size:.9rem;color:var(--navy);margin-bottom:3px;}
+.mfa-sub{font-family:var(--fb);font-weight:200;font-size:.8rem;color:rgba(13,26,69,.42);line-height:1.75;}
 
 /* EMPTY */
-.empty{padding:44px 0;text-align:center;}
-.empty-ic{font-family:var(--fd);font-style:italic;font-size:1.2rem;color:rgba(13,26,69,.14);margin-bottom:8px;}
-.empty-tx{font-family:var(--fb);font-weight:200;font-size:.84rem;color:rgba(13,26,69,.3);line-height:1.9;}
-
-/* UPLOAD ZONE */
-.uzone{border:1px dashed rgba(13,26,69,.15);padding:24px;text-align:center;cursor:pointer;background:var(--white);transition:all .18s;border-radius:6px;}
-.uzone:hover{border-color:var(--gold);background:var(--goldpale);}
-.utxt{font-family:var(--fb);font-weight:200;font-size:.84rem;color:rgba(13,26,69,.38);line-height:1.9;}
-.utxt strong{font-weight:400;color:var(--navy);}
+.empty{padding:42px 0;text-align:center;}
+.empty-ic{font-family:var(--fd);font-style:italic;font-size:1.15rem;color:rgba(13,26,69,.13);margin-bottom:8px;}
+.empty-tx{font-family:var(--fb);font-weight:200;font-size:.84rem;color:rgba(13,26,69,.28);line-height:1.9;}
 
 /* FOOTER */
-.pfoot{background:var(--white);border-top:var(--bdr);padding:12px 32px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
-.pfoot-brand{font-family:var(--fd);font-style:italic;font-size:.92rem;color:var(--goldk);}
-.pfoot-link{font-family:var(--fb);font-weight:200;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(13,26,69,.3);text-decoration:none;}
-
-/* NAV ICON HELPER */
-.nii{width:14px;height:14px;}
+.pfoot{
+  background:var(--white);border-top:var(--bdr);padding:12px 32px;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+}
+.pfoot-brand{font-family:var(--fd);font-style:italic;font-size:.9rem;color:var(--goldk);}
+.pfoot-link{
+  font-family:var(--fb);font-weight:200;font-size:.6rem;letter-spacing:.12em;
+  text-transform:uppercase;color:rgba(13,26,69,.28);text-decoration:none;
+}
+.pfoot-link:hover{color:var(--navy);}
 </style>
 </head>
 <body>
 
-<!-- AUTH -->
-<div id="auth" style="display:flex;min-height:100vh;align-items:center;justify-content:center;background-color:#0D1A45;background-image:linear-gradient(160deg,#2A4080 0%,#1E3070 25%,#142050 55%,#0D1A45 100%);">
+<!-- ----------------------- AUTH ----------------------- -->
+<div id="auth">
 <div class="acard">
-  <div style="text-align:center;margin-bottom:40px;">
-    <div style="width:52px;height:52px;border-radius:50%;border:1px solid rgba(201,168,76,.3);background:rgba(201,168,76,.07);display:inline-flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-style:italic;font-size:.9rem;color:#C9A84C;margin-bottom:14px;">LL</div>
-    <div style="display:block;font-family:Georgia,serif;font-style:italic;font-size:1.9rem;color:#F7F4EE;margin-bottom:5px;letter-spacing:-.01em;">Lolo Travels</div>
-    <div style="display:block;font-family:sans-serif;font-weight:200;font-size:.52rem;letter-spacing:.4em;text-transform:uppercase;color:rgba(201,168,76,.38);">Member Portal</div>
+  <div class="abrand">
+    <div class="alogo">LL</div>
+    <span class="abrand-name">Lolo Travels</span>
+    <span class="abrand-tag">Member Portal</span>
   </div>
+
   <div id="v-signin" class="av on">
-    <div class="av-h" style="font-family:Georgia,serif;font-style:italic;font-weight:300;font-size:1.9rem;color:#F7F4EE;margin-bottom:4px;">Welcome back.</div>
-    <div class="av-sub" style="font-family:sans-serif;font-weight:200;font-size:.82rem;color:rgba(247,244,238,.38);margin-bottom:26px;line-height:1.85;">Your world is managed from here.</div>
-    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Email address</label><input class="ai" type="email" id="si-email" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="your@email.com" autocomplete="email"/></div>
-    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Password</label><input class="ai" type="password" id="si-pass" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="Your password" onkeydown="if(event.key==='Enter')signIn()"/></div>
-    <div class="aerr" style="font-family:sans-serif;font-weight:200;font-size:.76rem;min-height:16px;margin-top:6px;text-align:center;color:rgba(220,80,80,.85);" id="si-err"></div>
-    <button class="abtn" style="width:100%;padding:14px;margin-top:8px;font-family:sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;background:#C9A84C;color:#0D1A45;border:none;cursor:pointer;" id="si-btn" onclick="signIn()">Sign In</button>
-    <div class="alinks" style="margin-top:16px;text-align:center;font-family:sans-serif;font-weight:200;font-size:.78rem;color:rgba(247,244,238,.22);line-height:2.5;"><a onclick="showV('reset')">Forgot password?</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a onclick="showV('register')">Create account</a></div>
+    <div class="av-h">Welcome back.</div>
+    <div class="av-sub">Your world is managed from here.</div>
+    <div class="af"><label class="al">Email</label><input class="ai" type="email" id="si-email" placeholder="your@email.com" autocomplete="email"/></div>
+    <div class="af"><label class="al">Password</label><input class="ai" type="password" id="si-pass" placeholder="Your password" onkeydown="if(event.key==='Enter')signIn()"/></div>
+    <div class="aerr" id="si-err"></div>
+    <button class="abtn" id="si-btn" onclick="signIn()">Sign In</button>
+    <div class="alinks"><a onclick="showV('reset')">Forgot password?</a> &nbsp;&nbsp;|&nbsp;&nbsp; <a onclick="showV('register')">Create account</a></div>
   </div>
+
   <div id="v-register" class="av">
-    <button class="aback" style="background:none;border:none;color:rgba(247,244,238,.3);font-family:sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;margin-bottom:22px;display:block;padding:0;" onclick="showV('signin')">Back to sign in</button>
-    <div class="av-h" style="font-family:Georgia,serif;font-style:italic;font-weight:300;font-size:1.9rem;color:#F7F4EE;margin-bottom:4px;">Create account.</div>
-    <div class="av-sub" style="font-family:sans-serif;font-weight:200;font-size:.82rem;color:rgba(247,244,238,.38);margin-bottom:26px;line-height:1.85;">Join Lolo Travels to manage your journeys.</div>
-    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Full name</label><input class="ai" type="text" id="rg-name" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="Your full name"/></div>
-    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Email address</label><input class="ai" type="email" id="rg-email" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="your@email.com"/></div>
-    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Password</label><input class="ai" type="password" id="rg-pass" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="Choose a password"/></div>
-    <div class="aerr" style="font-family:sans-serif;font-weight:200;font-size:.76rem;min-height:16px;margin-top:6px;text-align:center;color:rgba(220,80,80,.85);" id="rg-err"></div>
-    <button class="abtn" style="width:100%;padding:14px;margin-top:8px;font-family:sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;background:#C9A84C;color:#0D1A45;border:none;cursor:pointer;" onclick="register()">Create Account</button>
-    <div class="alinks" style="margin-top:16px;text-align:center;font-family:sans-serif;font-weight:200;font-size:.78rem;color:rgba(247,244,238,.22);line-height:2.5;"><a onclick="showV('signin')">Already have an account?</a></div>
+    <button class="aback" onclick="showV('signin')">Back to sign in</button>
+    <div class="av-h">Create account.</div>
+    <div class="av-sub">Join Lolo Travels to manage your journeys, claims, and protection.</div>
+    <div class="af"><label class="al">Full name</label><input class="ai" type="text" id="rg-name" placeholder="Your full name"/></div>
+    <div class="af"><label class="al">Email</label><input class="ai" type="email" id="rg-email" placeholder="your@email.com"/></div>
+    <div class="af"><label class="al">Password</label><input class="ai" type="password" id="rg-pass" placeholder="At least 8 characters"/></div>
+    <div class="aerr" id="rg-err"></div>
+    <button class="abtn" onclick="register()">Create My Account</button>
+    <div class="alinks"><a onclick="showV('signin')">Already have an account?</a></div>
   </div>
+
   <div id="v-reset" class="av">
-    <button class="aback" style="background:none;border:none;color:rgba(247,244,238,.3);font-family:sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;margin-bottom:22px;display:block;padding:0;" onclick="showV('signin')">Back to sign in</button>
-    <div class="av-h" style="font-family:Georgia,serif;font-style:italic;font-weight:300;font-size:1.9rem;color:#F7F4EE;margin-bottom:4px;">Reset password.</div>
-    <div class="av-sub" style="font-family:sans-serif;font-weight:200;font-size:.82rem;color:rgba(247,244,238,.38);margin-bottom:26px;line-height:1.85;">Enter your email and we will send a reset link.</div>
-    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Email address</label><input class="ai" type="email" id="re-email" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="your@email.com"/></div>
-    <div class="aerr" style="font-family:sans-serif;font-weight:200;font-size:.76rem;min-height:16px;margin-top:6px;text-align:center;color:rgba(220,80,80,.85);" id="re-err"></div>
-    <button class="abtn" style="width:100%;padding:14px;margin-top:8px;font-family:sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;background:#C9A84C;color:#0D1A45;border:none;cursor:pointer;" onclick="resetPw()">Send Reset Link</button>
+    <button class="aback" onclick="showV('signin')">Back to sign in</button>
+    <div class="av-h">Reset password.</div>
+    <div class="av-sub">Enter your email and we will send a reset link.</div>
+    <div class="af"><label class="al">Email</label><input class="ai" type="email" id="re-email" placeholder="your@email.com"/></div>
+    <div class="aerr" id="re-err"></div>
+    <button class="abtn" onclick="resetPw()">Send Reset Link</button>
+    <div class="alinks"><a onclick="showV('signin')">Back to sign in</a></div>
   </div>
+
   <div id="v-newpass" class="av">
-    <div class="av-h" style="font-family:Georgia,serif;font-style:italic;font-weight:300;font-size:1.9rem;color:#F7F4EE;margin-bottom:4px;">Set new password.</div>
-    <div class="av-sub" style="font-family:sans-serif;font-weight:200;font-size:.82rem;color:rgba(247,244,238,.38);margin-bottom:26px;line-height:1.85;">Choose a new password for your account.</div>
-    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">New password</label><input class="ai" type="password" id="np-pass" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="At least 8 characters"/></div>
-    <div class="af"><label class="al" style="color:rgba(201,168,76,.55);">Confirm password</label><input class="ai" type="password" id="np-confirm" style="color:#F7F4EE;background:rgba(255,255,255,.06);border-bottom:1px solid rgba(201,168,76,.25);" placeholder="Repeat new password"/></div>
-    <div class="aerr" style="font-family:sans-serif;font-weight:200;font-size:.76rem;min-height:16px;margin-top:6px;text-align:center;color:rgba(220,80,80,.85);" id="np-err"></div>
-    <button class="abtn" style="width:100%;padding:14px;margin-top:8px;font-family:sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;background:#C9A84C;color:#0D1A45;border:none;cursor:pointer;" onclick="setNewPass()">Set New Password</button>
+    <div class="av-h">Set new password.</div>
+    <div class="av-sub">Choose a new password for your Lolo Travels account.</div>
+    <div class="af"><label class="al">New password</label><input class="ai" type="password" id="np-pass" placeholder="At least 8 characters"/></div>
+    <div class="af"><label class="al">Confirm password</label><input class="ai" type="password" id="np-conf" placeholder="Repeat new password"/></div>
+    <div class="aerr" id="np-err"></div>
+    <button class="abtn" id="np-btn" onclick="setNewPass()">Set New Password</button>
   </div>
+
   <div id="v-mfa" class="av">
-    <div style="font-family:Georgia,serif;font-style:italic;font-weight:300;font-size:1.9rem;color:#F7F4EE;margin-bottom:4px;">Two-step verification.</div>
-    <div style="font-family:sans-serif;font-weight:200;font-size:.82rem;color:rgba(247,244,238,.38);margin-bottom:26px;line-height:1.85;">Open your authenticator app and enter the 6-digit code for Lolo Travels.</div>
-    <div style="margin-bottom:20px;">
-      <label style="display:block;font-family:sans-serif;font-weight:200;font-size:.52rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:8px;">Verification code</label>
-      <input id="mfa-code" type="text" inputmode="numeric" maxlength="6" placeholder="000000" autocomplete="one-time-code"
-        style="width:100%;background:rgba(255,255,255,.06);border:none;border-bottom:1px solid rgba(201,168,76,.25);color:#F7F4EE;padding:11px 0;font-family:sans-serif;font-weight:200;font-size:1.4rem;letter-spacing:.3em;text-align:center;outline:none;"
-        onkeydown="if(event.key==='Enter')verifyMFA()"/>
+    <div class="av-h">Verification required.</div>
+    <div class="av-sub">Open your authenticator app and enter the 6-digit code for Lolo Travels.</div>
+    <div class="af">
+      <label class="al">6-digit code</label>
+      <input class="mfa-code-input" type="text" inputmode="numeric" maxlength="6" id="mfa-code" placeholder="000 000" onkeydown="if(event.key==='Enter')verifyMFA()" autocomplete="one-time-code"/>
     </div>
-    <div class="aerr" id="mfa-err" style="font-family:sans-serif;font-weight:200;font-size:.76rem;min-height:16px;margin-top:6px;text-align:center;color:rgba(220,80,80,.85);"></div>
-    <button onclick="verifyMFA()" style="width:100%;padding:14px;margin-top:8px;font-family:sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;background:#C9A84C;color:#0D1A45;border:none;cursor:pointer;" id="mfa-btn">Verify</button>
-    <div style="margin-top:14px;text-align:center;font-family:sans-serif;font-weight:200;font-size:.78rem;color:rgba(247,244,238,.22);line-height:2.5;">
-      <a onclick="signOut();showV('signin')" style="color:rgba(201,168,76,.55);cursor:pointer;">Use a different account</a>
-    </div>
+    <div class="aerr" id="mfa-err"></div>
+    <button class="abtn" id="mfa-btn" onclick="verifyMFA()">Verify and Sign In</button>
+    <div class="alinks"><a onclick="signOut();showV('signin')">Use a different account</a></div>
   </div>
 
   <div id="v-mfa-setup" class="av">
-    <button class="aback" style="background:none;border:none;color:rgba(247,244,238,.3);font-family:sans-serif;font-weight:200;font-size:.6rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;margin-bottom:22px;display:block;padding:0;" onclick="nav('profile')">Done</button>
-    <div style="font-family:Georgia,serif;font-style:italic;font-weight:300;font-size:1.9rem;color:#F7F4EE;margin-bottom:4px;">Set up two-step verification.</div>
-    <div style="font-family:sans-serif;font-weight:200;font-size:.82rem;color:rgba(247,244,238,.38);margin-bottom:20px;line-height:1.85;">Scan the QR code with Google Authenticator, Authy, or any authenticator app. Then enter the 6-digit code to confirm.</div>
-    <div id="mfa-qr" style="text-align:center;margin-bottom:20px;"></div>
-    <div style="font-family:sans-serif;font-weight:200;font-size:.76rem;color:rgba(247,244,238,.3);text-align:center;margin-bottom:16px;">Or enter this code manually: <span id="mfa-secret" style="color:rgba(201,168,76,.7);letter-spacing:.1em;"></span></div>
-    <div style="margin-bottom:16px;">
-      <label style="display:block;font-family:sans-serif;font-weight:200;font-size:.52rem;letter-spacing:.24em;text-transform:uppercase;color:rgba(201,168,76,.55);margin-bottom:8px;">Enter code from app to confirm</label>
-      <input id="mfa-setup-code" type="text" inputmode="numeric" maxlength="6" placeholder="000000"
-        style="width:100%;background:rgba(255,255,255,.06);border:none;border-bottom:1px solid rgba(201,168,76,.25);color:#F7F4EE;padding:11px 0;font-family:sans-serif;font-weight:200;font-size:1.4rem;letter-spacing:.3em;text-align:center;outline:none;"
-        onkeydown="if(event.key==='Enter')confirmMFASetup()"/>
+    <div class="av-h">Enable two-step verification.</div>
+    <div class="av-sub">Scan the QR code with Google Authenticator, Authy, or any authenticator app.</div>
+    <div id="mfa-qr" style="text-align:center;margin:0 0 14px;"></div>
+    <div style="font-family:var(--fb);font-weight:200;font-size:.76rem;color:rgba(247,244,238,.28);text-align:center;margin-bottom:16px;">Manual code: <span id="mfa-secret" style="color:rgba(201,168,76,.7);letter-spacing:.08em;"></span></div>
+    <div class="af">
+      <label class="al">Enter code from app to confirm</label>
+      <input class="mfa-code-input" type="text" inputmode="numeric" maxlength="6" id="mfa-setup-code" placeholder="000 000" onkeydown="if(event.key==='Enter')confirmMFASetup()"/>
     </div>
-    <div class="aerr" id="mfa-setup-err" style="font-family:sans-serif;font-weight:200;font-size:.76rem;min-height:16px;text-align:center;color:rgba(220,80,80,.85);"></div>
-    <button onclick="confirmMFASetup()" style="width:100%;padding:14px;margin-top:8px;font-family:sans-serif;font-weight:400;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;background:#C9A84C;color:#0D1A45;border:none;cursor:pointer;" id="mfa-setup-btn">Confirm and Enable</button>
+    <div class="aerr" id="mfa-setup-err"></div>
+    <button class="abtn" id="mfa-setup-btn" onclick="confirmMFASetup()">Confirm and Enable</button>
+    <div class="alinks"><a onclick="nav('profile')">Cancel</a></div>
   </div>
-    <div class="afoot" style="text-align:center;margin-top:40px;font-family:sans-serif;font-weight:200;font-size:.55rem;letter-spacing:.1em;color:rgba(247,244,238,.1);">Lolo Travels LLC &nbsp;|&nbsp; Travel Management, Protection and Risk Advisory</div>
+
+  <div class="afoot">Lolo Travels LLC &nbsp;&bull;&nbsp; Travel Management, Protection and Risk Advisory</div>
 </div>
 </div>
 
-<!-- PORTAL -->
-<div id="portal" style="display:none;">
+<!-- ----------------------- PORTAL ----------------------- -->
+<div id="portal">
 <div class="topbar">
   <div class="tb-l">
-    <div class="tb-em" id="tb-em">LL</div>
-    <div class="tb-brand">Lolo Travels</div>
-    <div class="tb-div"></div>
-    <div class="tb-lbl">Member Portal</div>
+    <div class="tb-logo" id="tb-logo">LL</div>
+    <span class="tb-brand">Lolo Travels</span>
+    <div class="tb-sep"></div>
+    <span class="tb-tag">Member Portal</span>
   </div>
   <div class="tb-r">
     <span class="tb-name" id="tb-name"></span>
-    <button class="tb-out" onclick="signOut()">Sign Out</button>
+    <button class="tb-btn" onclick="signOut()">Sign Out</button>
   </div>
 </div>
 
 <div class="layout">
-<aside class="sidebar" id="sidebar">
+<!-- SIDEBAR -->
+<aside class="sidebar">
   <div class="nsec">Home</div>
   <div class="ni on" id="ni-home" onclick="nav('home')">
-    <svg class="nii" viewBox="0 0 14 14" fill="none"><path d="M2 7L7 2l5 5v5H9V9H5v3H2V7z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></svg>Dashboard
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7L7 2l5 5v5H9V9H5v3H2V7z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>Dashboard
   </div>
   <div class="nsec">Travel</div>
   <div class="ni" id="ni-trips" onclick="nav('trips')">
-    <svg class="nii" viewBox="0 0 14 14" fill="none"><path d="M2 9.5L7 2l5 7.5H2z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/><path d="M5 9.5v3h4v-3" stroke="currentColor" stroke-width="1"/></svg>My Trips
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 9.5L7 2l5 7.5H2z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><path d="M5 9.5v3h4v-3" stroke="currentColor" stroke-width="1.1"/></svg>My Trips
   </div>
   <div class="ni" id="ni-concierge" onclick="nav('concierge')">
-    <svg class="nii" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="3" stroke="currentColor" stroke-width="1"/><path d="M1 13c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>Concierge
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="3" stroke="currentColor" stroke-width="1.1"/><path d="M1.5 13c0-3 2.5-5.5 5.5-5.5S12.5 10 12.5 13" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>Concierge
   </div>
   <div class="nsec">Protection</div>
   <div class="ni" id="ni-shield" onclick="nav('shield')">
-    <svg class="nii" viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></svg>Lolo Shield
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>Lolo Shield
   </div>
   <div class="ni" id="ni-claims" onclick="nav('claims')">
-    <svg class="nii" viewBox="0 0 14 14" fill="none"><path d="M2 11L5 8M7 2l5 5-1.5 1.5-5-5L7 2z" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><circle cx="4" cy="10" r="2" stroke="currentColor" stroke-width="1"/></svg>Claims
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 11L5 8M7 2l5 5-1.5 1.5-5-5L7 2z" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><circle cx="4" cy="10" r="2" stroke="currentColor" stroke-width="1.1"/></svg>Claims<span id="claims-badge" class="nbadge" style="display:none;"></span>
   </div>
-  <div class="nsec">Communication</div>
+  <div class="nsec">Communicate</div>
   <div class="ni" id="ni-voice" onclick="nav('voice')">
-    <svg class="nii" viewBox="0 0 14 14" fill="none"><rect x="4.5" y="1" width="5" height="8" rx="2.5" stroke="currentColor" stroke-width="1"/><path d="M2 7.5a5 5 0 0010 0" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><path d="M7 12v2" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>Voice Notes
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="4.5" y="1" width="5" height="8" rx="2.5" stroke="currentColor" stroke-width="1.1"/><path d="M2 7.5a5 5 0 0010 0" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M7 12v2" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>Voice Notes
   </div>
   <div class="ni" id="ni-meeting" onclick="nav('meeting')">
-    <svg class="nii" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1"/><path d="M4 1v3M10 1v3" stroke="currentColor" stroke-width="1" stroke-linecap="round"/><path d="M1 6h12" stroke="currentColor" stroke-width=".8" opacity=".5"/><rect x="4" y="8" width="2" height="2" rx=".4" fill="currentColor"/></svg>Schedule Meeting
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.1"/><path d="M4 1v3M10 1v3" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/><path d="M1 6h12" stroke="currentColor" stroke-width=".8" opacity=".5"/><rect x="4" y="8" width="2" height="2" rx=".4" fill="currentColor"/></svg>Schedule Meeting
   </div>
   <div class="ni" id="ni-messages" onclick="nav('messages')">
-    <svg class="nii" viewBox="0 0 14 14" fill="none"><path d="M1 2h12v8H8l-3 2V10H1V2z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/></svg>Messages
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M1 2h12v8H8l-3 2V10H1V2z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/></svg>Messages<span id="msgs-badge" class="nbadge" style="display:none;"></span>
   </div>
   <div class="nsec">Account</div>
   <div class="ni" id="ni-documents" onclick="nav('documents')">
-    <svg class="nii" viewBox="0 0 14 14" fill="none"><path d="M3 1h6l3 3v9H3V1z" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/><path d="M9 1v3h3" stroke="currentColor" stroke-width=".8" opacity=".6"/><path d="M5 7h4M5 9.5h3" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/></svg>Documents
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M3 1h6l3 3v9H3V1z" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"/><path d="M9 1v3h3" stroke="currentColor" stroke-width=".8" opacity=".5"/><path d="M5 7h4M5 9.5h3" stroke="currentColor" stroke-width=".8" stroke-linecap="round"/></svg>Documents
   </div>
   <div class="ni" id="ni-profile" onclick="nav('profile')">
-    <svg class="nii" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>My Profile
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="4.5" r="2.5" stroke="currentColor" stroke-width="1.1"/><path d="M2 13c0-2.8 2.2-5 5-5s5 2.2 5 5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>My Profile
   </div>
 </aside>
 
+<!-- MAIN -->
 <main id="main-content">
 
 <!-- HOME -->
@@ -412,54 +611,71 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
   <div class="hero">
     <div class="hero-brand">Lolo Travels &nbsp;&middot;&nbsp; Member Portal</div>
     <div class="hero-greet" id="h-greet">The world is <em>yours.</em></div>
-    <div class="hero-sub" id="h-sub">Loading your account...</div>
+    <div class="hero-sub" id="h-sub">Good morning.</div>
     <div id="h-trip-wrap">
       <div class="hero-card" id="h-trip">
-        <div class="hc-top"><div class="hc-dest">No active trip</div><div class="hc-badge">Plan one</div></div>
-        <div class="hc-meta">Request concierge service to plan your next journey.</div>
+        <div class="hc-top">
+          <div class="hc-dest">No active trip on file</div>
+          <div class="hc-badge" onclick="nav('concierge')" style="cursor:pointer;">Plan a trip</div>
+        </div>
+        <div class="hc-meta">Contact your Lolo advisor to plan and manage your next journey.</div>
       </div>
     </div>
   </div>
-  <div class="shieldbar" id="shieldbar">
+  <div class="shieldbar" onclick="nav('shield')">
     <div class="sb-dot"></div>
-    <div class="sb-txt" id="sb-txt">Lolo Shield &nbsp;&middot;&nbsp; Loading destination intelligence...</div>
-    <div class="sb-cta" onclick="nav('shield')" style="cursor:pointer;">View brief &rsaquo;</div>
+    <div class="sb-txt" id="sb-txt">Lolo Shield &nbsp;&middot;&nbsp; Destination intelligence and emergency support</div>
+    <div class="sb-cta">View &rsaquo;</div>
   </div>
   <div class="pbody">
     <div class="slbl">Quick actions</div>
-    <div class="agrid">
+    <div class="agrid" style="margin-bottom:22px;">
       <div class="acard dark" onclick="nav('meeting')">
-        <div class="ac-ico ondark"><svg width="15" height="15" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="10" rx="1.5" stroke="#F7F4EE" stroke-width="1"/><path d="M4 1v3M10 1v3" stroke="#C9A84C" stroke-width="1" stroke-linecap="round"/><path d="M1 6h12" stroke="#F7F4EE" stroke-width=".8" opacity=".4"/><rect x="4" y="8" width="2" height="2" rx=".4" fill="#C9A84C"/></svg></div>
+        <div class="ac-ico ondark">
+          <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="10" rx="1.5" stroke="#F7F4EE" stroke-width="1"/><path d="M4 1v3M10 1v3" stroke="#C9A84C" stroke-width="1" stroke-linecap="round"/><path d="M1 6h12" stroke="#F7F4EE" stroke-width=".8" opacity=".4"/><rect x="4" y="8" width="2" height="2" rx=".4" fill="#C9A84C"/></svg>
+        </div>
         <div><div class="ac-name w">Schedule meeting</div><div class="ac-sub w">Speak with your advisor</div></div>
       </div>
-      <div class="acard gold" onclick="nav('claims')">
-        <div class="ac-ico ongold"><svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M2 11L5 8M7 2l5 5-1.5 1.5-5-5L7 2z" stroke="#A8882C" stroke-width="1" stroke-linecap="round"/><circle cx="4" cy="10" r="2" stroke="#A8882C" stroke-width="1"/></svg></div>
-        <div><div class="ac-name g">Submit a claim</div><div class="ac-sub g">We recover what you're owed</div></div>
+      <div class="acard gold-card" onclick="nav('claims')">
+        <div class="ac-ico ongold">
+          <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M2 11L5 8M7 2l5 5-1.5 1.5-5-5L7 2z" stroke="#A8882C" stroke-width="1" stroke-linecap="round"/><circle cx="4" cy="10" r="2" stroke="#A8882C" stroke-width="1"/></svg>
+        </div>
+        <div><div class="ac-name g">Submit a claim</div><div class="ac-sub g">We recover what you are owed</div></div>
       </div>
       <div class="acard" onclick="nav('concierge')">
-        <div class="ac-ico light"><svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M2 9.5L7 2l5 7.5H2z" stroke="#1E3070" stroke-width="1" stroke-linejoin="round"/><path d="M5 9.5v3h4v-3" stroke="#1E3070" stroke-width="1"/></svg></div>
+        <div class="ac-ico light">
+          <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M2 9.5L7 2l5 7.5H2z" stroke="#1E3070" stroke-width="1" stroke-linejoin="round"/><path d="M5 9.5v3h4v-3" stroke="#1E3070" stroke-width="1"/></svg>
+        </div>
         <div><div class="ac-name">Plan a trip</div><div class="ac-sub">Concierge service</div></div>
       </div>
       <div class="acard" onclick="nav('voice')">
-        <div class="ac-ico light"><svg width="15" height="15" viewBox="0 0 14 14" fill="none"><rect x="4.5" y="1" width="5" height="8" rx="2.5" stroke="#1E3070" stroke-width="1"/><path d="M2 7.5a5 5 0 0010 0" stroke="#1E3070" stroke-width="1" stroke-linecap="round"/><path d="M7 12v2" stroke="#1E3070" stroke-width="1" stroke-linecap="round"/></svg></div>
-        <div><div class="ac-name">Voice note</div><div class="ac-sub">Leave a message for Lolo</div></div>
+        <div class="ac-ico light">
+          <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><rect x="4.5" y="1" width="5" height="8" rx="2.5" stroke="#1E3070" stroke-width="1"/><path d="M2 7.5a5 5 0 0010 0" stroke="#1E3070" stroke-width="1" stroke-linecap="round"/><path d="M7 12v2" stroke="#1E3070" stroke-width="1" stroke-linecap="round"/></svg>
+        </div>
+        <div><div class="ac-name">Voice note</div><div class="ac-sub">Message your advisor</div></div>
       </div>
       <div class="acard" onclick="nav('shield')">
-        <div class="ac-ico light"><svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1z" stroke="#1E3070" stroke-width="1" stroke-linejoin="round"/></svg></div>
+        <div class="ac-ico light">
+          <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M7 1L2 3v4c0 2.8 2.1 5.4 5 6 2.9-.6 5-3.2 5-6V3L7 1z" stroke="#1E3070" stroke-width="1" stroke-linejoin="round"/></svg>
+        </div>
         <div><div class="ac-name">Lolo Shield</div><div class="ac-sub">Destination intelligence</div></div>
       </div>
       <div class="acard" onclick="nav('documents')">
-        <div class="ac-ico light"><svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M3 1h6l3 3v9H3V1z" stroke="#1E3070" stroke-width="1" stroke-linejoin="round"/><path d="M9 1v3h3" stroke="#1E3070" stroke-width=".8" opacity=".6"/></svg></div>
-        <div><div class="ac-name">My documents</div><div class="ac-sub">Passport, visas, insurance</div></div>
+        <div class="ac-ico light">
+          <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M3 1h6l3 3v9H3V1z" stroke="#1E3070" stroke-width="1" stroke-linejoin="round"/><path d="M9 1v3h3" stroke="#1E3070" stroke-width=".8" opacity=".5"/></svg>
+        </div>
+        <div><div class="ac-name">My documents</div><div class="ac-sub">Passport, visa, insurance</div></div>
       </div>
     </div>
     <div class="div"></div>
     <div class="sgrid" id="home-stats">
-      <div class="sc bl"><div class="sc-l">Claims</div><div class="sc-v" id="hs-claims">0</div><div class="sc-s">on file</div></div>
-      <div class="sc gl"><div class="sc-l">Documents</div><div class="sc-v" id="hs-docs">0</div><div class="sc-s g">in vault</div></div>
-      <div class="sc bl"><div class="sc-l">Messages</div><div class="sc-v" id="hs-msgs">0</div><div class="sc-s">unread</div></div>
-      <div class="sc gl"><div class="sc-l">Shield</div><div class="sc-v" style="font-family:var(--fb);font-weight:400;font-size:.9rem;" id="hs-shield">Active</div><div class="sc-s gr">Protected</div></div>
+      <div class="sc bl"><div class="sc-l">Open claims</div><div class="sc-v" id="hs-claims">--</div><div class="sc-s">filed with Lolo</div></div>
+      <div class="sc gl"><div class="sc-l">Documents</div><div class="sc-v" id="hs-docs">--</div><div class="sc-s g">in your vault</div></div>
+      <div class="sc bl"><div class="sc-l">Messages</div><div class="sc-v" id="hs-msgs">--</div><div class="sc-s">from Lolo</div></div>
+      <div class="sc gl"><div class="sc-l">Shield status</div><div class="sc-v" style="font-family:var(--fb);font-weight:400;font-size:.9rem;color:var(--green);">Active</div><div class="sc-s gr">Protected</div></div>
     </div>
+    <div class="slbl">Recent claims</div>
+    <div id="home-claims"></div>
   </div>
 </div>
 
@@ -468,11 +684,14 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
   <div class="ph">
     <div class="ptag">Journey Management</div>
     <div class="ph1">My Trips</div>
-    <div class="ph2">Your active and upcoming travel managed by Lolo. Request a new trip through concierge service.</div>
+    <div class="ph2">Travel managed by Lolo. Every booking, itinerary, and trip detail in one place. Request new travel through concierge service.</div>
   </div>
   <div class="pbody">
-    <div class="empty"><div class="empty-ic">No trips on record.</div><div class="empty-tx">Request concierge service to have Lolo plan and manage your next journey.</div></div>
-    <button class="sbtn" onclick="nav('concierge')" style="margin-top:16px;"><span>Request Concierge Service</span></button>
+    <div id="trips-list"></div>
+    <div class="div"></div>
+    <div class="slbl">Request new travel</div>
+    <div class="iblock">Lolo handles every detail from flights and hotels to ground transport and security arrangements. Submit a concierge request to get started.</div>
+    <button class="sbtn" onclick="nav('concierge')"><span>Request Concierge Service</span></button>
   </div>
 </div>
 
@@ -481,31 +700,33 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
   <div class="ph">
     <div class="ptag">Trip Planning</div>
     <div class="ph1">Concierge Service</div>
-    <div class="ph2">Tell Lolo where you want to go and what you need. A dedicated advisor handles every detail from flights and hotels to ground transport, dining, and security arrangements.</div>
+    <div class="ph2">Tell Lolo where you want to go and what you need. Your dedicated advisor handles flights, hotels, ground transport, dining, and security arrangements.</div>
   </div>
   <div class="pbody">
-    <div class="iblock">Your request goes directly to your Lolo advisor. We respond within one business day with a full itinerary proposal and cost summary.</div>
+    <div class="iblock">Your advisor responds within one business day with a full itinerary proposal and cost summary. All arrangements are made on your behalf.</div>
     <div class="frow">
       <div class="ff"><label class="flbl">Destination</label><input class="inp" type="text" id="cc-dest" placeholder="City, country or region"/></div>
-      <div class="ff"><label class="flbl">Travel dates</label><input class="inp" type="text" id="cc-dates" placeholder="e.g. May 10 - May 18, 2026"/></div>
-      <div class="ff"><label class="flbl">Number of travelers</label><input class="inp" type="text" id="cc-travelers" placeholder="e.g. 2 adults"/></div>
+      <div class="ff"><label class="flbl">Travel dates</label><input class="inp" type="text" id="cc-dates" placeholder="e.g. May 10 to May 18, 2026"/></div>
+      <div class="ff"><label class="flbl">Number of travelers</label><input class="inp" type="text" id="cc-pax" placeholder="e.g. 2 adults, 1 child"/></div>
       <div class="ff"><label class="flbl">Cabin class preference</label>
         <select class="sel" id="cc-cabin">
           <option value="">Select preference</option>
           <option>Economy</option><option>Premium Economy</option>
-          <option>Business Class</option><option>First Class</option>
-          <option>No preference</option>
+          <option>Business Class</option><option>First Class</option><option>No preference</option>
         </select>
       </div>
-      <div class="ff"><label class="flbl">Accommodation preference</label><input class="inp" type="text" id="cc-hotel" placeholder="e.g. Five-star central, boutique"/></div>
-      <div class="ff"><label class="flbl">Budget range (USD)</label><input class="inp" type="text" id="cc-budget" placeholder="e.g. $5,000 - $10,000 per person"/></div>
+      <div class="ff"><label class="flbl">Accommodation type</label><input class="inp" type="text" id="cc-hotel" placeholder="e.g. Five-star central, boutique, serviced apartment"/></div>
+      <div class="ff"><label class="flbl">Budget range (USD)</label><input class="inp" type="text" id="cc-budget" placeholder="e.g. $5,000 to $10,000 per person"/></div>
     </div>
-    <div class="ff full"><label class="flbl">Special requests and requirements</label><textarea class="txa" id="cc-notes" style="min-height:100px;" placeholder="Dietary needs, mobility requirements, security considerations, specific experiences you want included, anything else Lolo should know..."></textarea></div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
-      <label style="display:flex;align-items:center;gap:6px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy);cursor:pointer;"><input type="checkbox" id="cc-shield"/> Include Lolo Shield protection plan</label>
-      <label style="display:flex;align-items:center;gap:6px;font-family:var(--fb);font-weight:200;font-size:.82rem;color:var(--navy);cursor:pointer;"><input type="checkbox" id="cc-insurance"/> Include travel insurance quote</label>
+    <div class="ff full"><label class="flbl">Special requirements</label>
+      <textarea class="txa" id="cc-notes" style="min-height:100px;" placeholder="Dietary needs, mobility requirements, security considerations, specific experiences, anything Lolo should know..."></textarea>
+    </div>
+    <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:18px;">
+      <label style="display:flex;align-items:center;gap:7px;font-family:var(--fb);font-weight:200;font-size:.84rem;color:var(--navy);cursor:pointer;"><input type="checkbox" id="cc-shield" style="accent-color:var(--gold);"/> Include Lolo Shield protection</label>
+      <label style="display:flex;align-items:center;gap:7px;font-family:var(--fb);font-weight:200;font-size:.84rem;color:var(--navy);cursor:pointer;"><input type="checkbox" id="cc-ins" style="accent-color:var(--gold);"/> Include travel insurance quote</label>
     </div>
     <button class="sbtn" onclick="submitConcierge()"><span>Send to My Advisor</span></button>
+    <p style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:rgba(13,26,69,.32);margin-top:10px;line-height:1.85;">Your advisor will contact you within one business day.</p>
   </div>
 </div>
 
@@ -514,19 +735,16 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
   <div class="ph">
     <div class="ptag">Destination Intelligence</div>
     <div class="ph1">Lolo Shield</div>
-    <div class="ph2">Real-time safety intelligence for your destinations. Know before you arrive. Emergency contacts, vetted local fixers, neighborhood-level risk, and embassy details.</div>
+    <div class="ph2">Real-time safety intelligence for your destinations. Know before you arrive. Embassy contacts, vetted local resources, neighborhood-level risk, and emergency support.</div>
   </div>
   <div class="pbody">
-    <div class="iblock">Lolo Shield intelligence is updated continuously. All data is verified by our on-the-ground network. If your destination is not listed, submit a request below and Lolo prepares a bespoke brief within 48 hours.</div>
-    <div class="slbl">Search destination</div>
     <div style="display:flex;gap:8px;margin-bottom:20px;">
-      <input class="inp" type="text" id="sh-dest" placeholder="City or country" style="flex:1;"/>
-      <button class="sbtn" onclick="loadShield(v('sh-dest'))"><span>Search</span></button>
+      <input class="inp" type="text" id="sh-search" placeholder="Search any city or country" style="flex:1;" onkeydown="if(event.key==='Enter')searchShield()"/>
+      <button class="sbtn" onclick="searchShield()"><span>Search</span></button>
     </div>
-    <div id="shield-results"></div>
-    <div class="div"></div>
-    <div class="slbl">Active destinations</div>
-    <div id="shield-list"></div>
+    <div id="sh-result" style="margin-bottom:20px;"></div>
+    <div class="slbl">Lolo monitored destinations</div>
+    <div id="sh-list"></div>
   </div>
 </div>
 
@@ -535,10 +753,10 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
   <div class="ph">
     <div class="ptag">Claims Recovery</div>
     <div class="ph1">Claims</div>
-    <div class="ph2">Lolo manages the entire claims process on your behalf. Airlines, hotels, insurers - we handle all correspondence through to resolution. No recovery, no fee.</div>
+    <div class="ph2">Lolo manages your entire claim from submission through to resolution. Airlines, hotels, insurers. No recovery means no fee to you.</div>
   </div>
   <div class="pbody">
-    <div id="claims-list" style="margin-bottom:20px;"></div>
+    <div id="cl-list" style="margin-bottom:20px;"></div>
     <div class="div"></div>
     <div class="slbl">Submit new claim</div>
     <div class="frow">
@@ -546,30 +764,34 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
         <select class="sel" id="cl-type">
           <option value="">Select type</option>
           <option value="flight_cancellation">Flight Cancellation</option>
-          <option value="flight_delay">Flight Delay</option>
+          <option value="flight_delay">Flight Delay (over 3 hours)</option>
           <option value="denied_boarding">Denied Boarding</option>
           <option value="baggage_lost">Lost Baggage</option>
           <option value="baggage_damaged">Damaged Baggage</option>
           <option value="hotel_overbook">Hotel Overbooking</option>
           <option value="insurance_denied">Insurance Claim Denied</option>
+          <option value="trip_disruption">Trip Disruption</option>
           <option value="other">Other</option>
         </select>
       </div>
       <div class="ff"><label class="flbl">Responsible party</label><input class="inp" type="text" id="cl-party" placeholder="Airline, hotel, or insurer name"/></div>
-      <div class="ff"><label class="flbl">Incident date</label><input class="inp" type="date" id="cl-date"/></div>
-      <div class="ff"><label class="flbl">Amount (USD)</label><input class="inp" type="text" id="cl-amt" placeholder="Estimated claim amount"/></div>
-      <div class="ff"><label class="flbl">Booking reference</label><input class="inp" type="text" id="cl-ref" placeholder="Booking or confirmation number"/></div>
-      <div class="ff"><label class="flbl">Route or location</label><input class="inp" type="text" id="cl-route" placeholder="e.g. JFK to LHR or Hotel name"/></div>
+      <div class="ff"><label class="flbl">Date of incident</label><input class="inp" type="date" id="cl-date"/></div>
+      <div class="ff"><label class="flbl">Estimated amount (USD)</label><input class="inp" type="text" id="cl-amt" placeholder="e.g. 1200"/></div>
+      <div class="ff"><label class="flbl">Booking reference</label><input class="inp" type="text" id="cl-ref" placeholder="Confirmation or PNR number"/></div>
+      <div class="ff"><label class="flbl">Route or location</label><input class="inp" type="text" id="cl-route" placeholder="e.g. JFK to LHR or hotel name and city"/></div>
     </div>
-    <div class="ff full"><label class="flbl">What happened</label><textarea class="txa" id="cl-desc" style="min-height:100px;" placeholder="Describe the incident in detail. Include what the airline or company told you, any documents you have, and what you have already tried..."></textarea></div>
-    <div style="margin-bottom:16px;"><label class="flbl">Supporting documents</label>
+    <div class="ff full"><label class="flbl">What happened</label>
+      <textarea class="txa" id="cl-desc" style="min-height:100px;" placeholder="Describe the incident in detail. Include what the airline or company told you, any reference numbers, and what steps you have already taken..."></textarea>
+    </div>
+    <div style="margin-bottom:16px;">
+      <label class="flbl">Supporting documents (optional)</label>
       <div class="uzone" onclick="document.getElementById('cl-file').click()">
         <div class="utxt" id="cl-ftxt"><strong>Click to attach files</strong><br>Booking confirmation, receipts, correspondence. PDF or image.</div>
         <input type="file" id="cl-file" style="display:none;" multiple accept=".pdf,.jpg,.png,.doc,.docx" onchange="onFile(this,'cl-ftxt')"/>
       </div>
     </div>
     <button class="sbtn" onclick="submitClaim()"><span>Submit Claim to Lolo</span></button>
-    <p style="font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(13,26,69,.35);margin-top:10px;line-height:1.85;">Lolo assigns a case number and responds within one business day. You receive updates at every stage.</p>
+    <p style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:rgba(13,26,69,.32);margin-top:10px;line-height:1.85;">Lolo assigns a case number and responds within one business day with next steps. You receive updates at every stage through to resolution.</p>
   </div>
 </div>
 
@@ -578,30 +800,30 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
   <div class="ph">
     <div class="ptag">Direct Communication</div>
     <div class="ph1">Voice Notes</div>
-    <div class="ph2">Record a message for your Lolo advisor. Faster than typing. Use voice notes for trip preferences, urgent requests, feedback, or anything you want to communicate directly.</div>
+    <div class="ph2">Record a message directly to your Lolo advisor. Faster than typing. Use it for trip preferences, urgent requests, or anything you want to communicate personally.</div>
   </div>
   <div class="pbody">
-    <div id="voice-active" style="display:none;" class="voice-active">
-      <div class="voice-wave"><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div></div>
+    <div id="vn-active" style="display:none;" class="voice-recording">
+      <div class="vwaves"><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div><div class="vw"></div></div>
       <div style="flex:1;">
-        <div style="font-family:var(--fb);font-weight:400;font-size:.88rem;color:var(--red);">Recording in progress</div>
-        <div style="font-family:var(--fb);font-weight:200;font-size:.8rem;color:rgba(153,24,24,.6);margin-top:2px;" id="vn-interim">Listening...</div>
+        <div style="font-family:var(--fb);font-weight:400;font-size:.88rem;color:var(--red);">Recording</div>
+        <div style="font-family:var(--fb);font-weight:200;font-size:.8rem;color:rgba(153,24,24,.55);margin-top:2px;" id="vn-interim">Listening...</div>
       </div>
       <button class="sbtn" style="background:var(--red);" onclick="stopVoice()"><span>Stop</span></button>
     </div>
-    <div id="voice-transcript" style="display:none;margin-bottom:16px;">
+    <div id="vn-transcript" style="display:none;margin-bottom:16px;">
       <label class="flbl">Transcription</label>
       <div id="vn-text" style="background:var(--white);border:var(--bdr);padding:14px 16px;font-family:var(--fb);font-weight:200;font-size:.9rem;color:var(--navy);min-height:70px;line-height:1.85;margin-bottom:10px;border-radius:6px;"></div>
       <div style="display:flex;gap:8px;">
         <button class="sbtn" onclick="saveVoice()"><span>Send to Lolo</span></button>
-        <button class="sbtn-o" onclick="clearVoice()">Clear</button>
+        <button class="sbtn-o" onclick="clearVoice()">Clear and redo</button>
       </div>
     </div>
-    <button class="sbtn" id="vn-start-btn" onclick="startVoice()"><span>Start Recording</span></button>
-    <p style="font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(13,26,69,.35);margin-top:10px;line-height:1.85;">Voice notes are transcribed automatically and sent to your Lolo advisor. Use Chrome for best results.</p>
+    <button class="sbtn" id="vn-start" onclick="startVoice()" style="margin-bottom:6px;"><span>Start Recording</span></button>
+    <p style="font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(13,26,69,.32);margin-bottom:20px;line-height:1.85;">Voice notes are transcribed and sent directly to your advisor. Works best in Chrome.</p>
     <div class="div"></div>
     <div class="slbl">Previous voice notes</div>
-    <div id="vn-history"><div class="empty"><div class="empty-tx">No voice notes yet.</div></div></div>
+    <div id="vn-history"></div>
   </div>
 </div>
 
@@ -610,35 +832,49 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
   <div class="ph">
     <div class="ptag">Advisor Access</div>
     <div class="ph1">Schedule a Meeting</div>
-    <div class="ph2">Book time directly with your Lolo advisor. Choose your preferred format and time. A confirmation with the meeting link is sent immediately.</div>
+    <div class="ph2">Book time directly with your Lolo advisor. Choose your preferred date, time, and format. A calendar invite is sent to your email immediately upon confirmation.</div>
   </div>
   <div class="pbody">
-    <div class="iblock">All times are shown in your local timezone. Video, phone, and in-person options available depending on location.</div>
-    <div class="frow" style="margin-bottom:16px;">
-      <div class="ff"><label class="flbl">Meeting format</label>
+    <div class="iblock">All times shown in Central Daylight Time (CDT, Minneapolis). Your advisor is available Monday to Friday.</div>
+    <div class="frow" style="margin-bottom:18px;">
+      <div class="ff">
+        <label class="flbl">Preferred date</label>
+        <input class="inp" type="date" id="mt-date" min=""/>
+      </div>
+      <div class="ff">
+        <label class="flbl">Meeting format</label>
         <select class="sel" id="mt-format">
-          <option value="video">Video call (Zoom or Teams)</option>
+          <option value="zoom">Zoom video call</option>
+          <option value="teams">Microsoft Teams</option>
           <option value="phone">Phone call</option>
-          <option value="whatsapp">WhatsApp video</option>
+          <option value="whatsapp">WhatsApp</option>
           <option value="inperson">In person (Minneapolis)</option>
         </select>
       </div>
-      <div class="ff"><label class="flbl">Preferred date</label><input class="inp" type="date" id="mt-date"/></div>
     </div>
-    <div class="slbl">Select a time</div>
-    <div class="time-grid" id="time-slots">
-      <div class="tslot" onclick="selectSlot(this,'9:00 AM')"><span class="tslot-time">9:00 AM</span><span class="tslot-tz">CDT</span></div>
-      <div class="tslot" onclick="selectSlot(this,'10:00 AM')"><span class="tslot-time">10:00 AM</span><span class="tslot-tz">CDT</span></div>
-      <div class="tslot" onclick="selectSlot(this,'11:00 AM')"><span class="tslot-time">11:00 AM</span><span class="tslot-tz">CDT</span></div>
-      <div class="tslot" onclick="selectSlot(this,'12:00 PM')"><span class="tslot-time">12:00 PM</span><span class="tslot-tz">CDT</span></div>
-      <div class="tslot" onclick="selectSlot(this,'1:00 PM')"><span class="tslot-time">1:00 PM</span><span class="tslot-tz">CDT</span></div>
-      <div class="tslot" onclick="selectSlot(this,'2:00 PM')"><span class="tslot-time">2:00 PM</span><span class="tslot-tz">CDT</span></div>
-      <div class="tslot" onclick="selectSlot(this,'3:00 PM')"><span class="tslot-time">3:00 PM</span><span class="tslot-tz">CDT</span></div>
-      <div class="tslot" onclick="selectSlot(this,'4:00 PM')"><span class="tslot-time">4:00 PM</span><span class="tslot-tz">CDT</span></div>
+    <div class="slbl">Select a time (CDT)</div>
+    <div class="tgrid" id="time-grid">
+      <div class="tslot" onclick="pickSlot(this,'9:00 AM')"><span class="tslot-t">9:00 AM</span><span class="tslot-z">CDT</span></div>
+      <div class="tslot" onclick="pickSlot(this,'9:30 AM')"><span class="tslot-t">9:30 AM</span><span class="tslot-z">CDT</span></div>
+      <div class="tslot" onclick="pickSlot(this,'10:00 AM')"><span class="tslot-t">10:00 AM</span><span class="tslot-z">CDT</span></div>
+      <div class="tslot" onclick="pickSlot(this,'10:30 AM')"><span class="tslot-t">10:30 AM</span><span class="tslot-z">CDT</span></div>
+      <div class="tslot" onclick="pickSlot(this,'11:00 AM')"><span class="tslot-t">11:00 AM</span><span class="tslot-z">CDT</span></div>
+      <div class="tslot" onclick="pickSlot(this,'11:30 AM')"><span class="tslot-t">11:30 AM</span><span class="tslot-z">CDT</span></div>
+      <div class="tslot" onclick="pickSlot(this,'1:00 PM')"><span class="tslot-t">1:00 PM</span><span class="tslot-z">CDT</span></div>
+      <div class="tslot" onclick="pickSlot(this,'1:30 PM')"><span class="tslot-t">1:30 PM</span><span class="tslot-z">CDT</span></div>
+      <div class="tslot" onclick="pickSlot(this,'2:00 PM')"><span class="tslot-t">2:00 PM</span><span class="tslot-z">CDT</span></div>
+      <div class="tslot" onclick="pickSlot(this,'2:30 PM')"><span class="tslot-t">2:30 PM</span><span class="tslot-z">CDT</span></div>
+      <div class="tslot" onclick="pickSlot(this,'3:00 PM')"><span class="tslot-t">3:00 PM</span><span class="tslot-z">CDT</span></div>
+      <div class="tslot" onclick="pickSlot(this,'3:30 PM')"><span class="tslot-t">3:30 PM</span><span class="tslot-z">CDT</span></div>
     </div>
-    <div class="ff full" style="margin-bottom:16px;"><label class="flbl">What would you like to discuss?</label><textarea class="txa" id="mt-notes" placeholder="Trip planning, claims status, Shield briefing, general questions..."></textarea></div>
-    <button class="sbtn" onclick="submitMeeting()"><span>Request This Time</span></button>
-    <p style="font-family:var(--fb);font-weight:200;font-size:.74rem;color:rgba(13,26,69,.35);margin-top:10px;line-height:1.85;">Lolo confirms within one business hour and sends a calendar invite to your registered email.</p>
+    <div class="ff full"><label class="flbl">What would you like to discuss?</label>
+      <textarea class="txa" id="mt-notes" placeholder="Trip planning, claim status update, Shield briefing, account questions, general advisory..."></textarea>
+    </div>
+    <button class="sbtn" onclick="submitMeeting()"><span>Request This Meeting</span></button>
+    <p style="font-family:var(--fb);font-weight:200;font-size:.72rem;color:rgba(13,26,69,.32);margin-top:10px;line-height:1.85;">Lolo confirms within one business hour and sends a calendar invite to your registered email.</p>
+    <div class="div"></div>
+    <div class="slbl">Upcoming meetings</div>
+    <div id="mt-list"></div>
   </div>
 </div>
 
@@ -647,24 +883,25 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
   <div class="ph">
     <div class="ptag">Direct Communication</div>
     <div class="ph1">Messages</div>
-    <div class="ph2">Direct line to your Lolo advisor. All messages responded to within one business day.</div>
+    <div class="ph2">Your direct line to the Lolo team. All messages are responded to within one business day.</div>
   </div>
   <div class="pbody">
     <div class="frow">
-      <div class="ff"><label class="flbl">Subject</label><input class="inp" type="text" id="msg-subj" placeholder="Brief subject line"/></div>
+      <div class="ff"><label class="flbl">Subject</label><input class="inp" type="text" id="msg-subj" placeholder="Brief subject"/></div>
       <div class="ff"><label class="flbl">Category</label>
         <select class="sel" id="msg-cat">
-          <option>Trip Planning</option><option>Claims</option>
-          <option>Lolo Shield</option><option>Insurance</option>
-          <option>My Account</option><option>Other</option>
+          <option>Trip Planning</option><option>Claims</option><option>Lolo Shield</option>
+          <option>Insurance</option><option>My Account</option><option>Other</option>
         </select>
       </div>
     </div>
-    <div class="ff full"><label class="flbl">Message</label><textarea class="txa" id="msg-body" style="min-height:100px;" placeholder="Write your message..."></textarea></div>
-    <button class="sbtn" onclick="sendMessage()"><span>Send Message</span></button>
+    <div class="ff full"><label class="flbl">Message</label>
+      <textarea class="txa" id="msg-body" style="min-height:100px;" placeholder="Write your message to Lolo..."></textarea>
+    </div>
+    <button class="sbtn" onclick="sendMsg()"><span>Send Message</span></button>
     <div class="div"></div>
     <div class="slbl">Message history</div>
-    <div id="msg-list"><div class="empty"><div class="empty-tx">No messages yet.</div></div></div>
+    <div id="msg-list"></div>
   </div>
 </div>
 
@@ -673,7 +910,7 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
   <div class="ph">
     <div class="ptag">Document Vault</div>
     <div class="ph1">My Documents</div>
-    <div class="ph2">Passport, visas, insurance certificates, travel authorizations. Lolo tracks expiry dates and alerts you before documents lapse.</div>
+    <div class="ph2">Passport, visas, insurance certificates, travel authorizations. Lolo tracks expiry dates and alerts you before any document lapses.</div>
   </div>
   <div class="pbody">
     <div id="doc-list" style="margin-bottom:20px;"></div>
@@ -688,16 +925,16 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
           <option value="travel_insurance">Travel Insurance</option>
           <option value="vaccination">Vaccination Certificate</option>
           <option value="drivers_license">Driver's License</option>
-          <option value="global_entry">Global Entry / TSA Pre</option>
+          <option value="global_entry">Global Entry / TSA PreCheck</option>
           <option value="corporate_id">Corporate ID</option>
           <option value="other">Other</option>
         </select>
       </div>
-      <div class="ff"><label class="flbl">Document name</label><input class="inp" type="text" id="ul-name" placeholder="Descriptive name"/></div>
+      <div class="ff"><label class="flbl">Document name</label><input class="inp" type="text" id="ul-name" placeholder="e.g. US Passport - John Smith"/></div>
       <div class="ff"><label class="flbl">Issue date</label><input class="inp" type="date" id="ul-issue"/></div>
       <div class="ff"><label class="flbl">Expiry date</label><input class="inp" type="date" id="ul-expiry"/></div>
     </div>
-    <div class="ff full" style="margin-bottom:16px;"><label class="flbl">Attach file</label>
+    <div class="ff full" style="margin-bottom:16px;"><label class="flbl">Attach file (optional)</label>
       <div class="uzone" onclick="document.getElementById('ul-file').click()">
         <div class="utxt" id="ul-ftxt"><strong>Click to attach file</strong><br>PDF or image. Max 25MB.</div>
         <input type="file" id="ul-file" style="display:none;" accept=".pdf,.jpg,.png" onchange="onFile(this,'ul-ftxt')"/>
@@ -712,43 +949,47 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
   <div class="ph">
     <div class="ptag">My Account</div>
     <div class="ph1">My Profile</div>
-    <div class="ph2">Personal details and travel preferences on file with Lolo. Keep these current so your advisor can serve you without asking every time.</div>
+    <div class="ph2">Your personal details and travel preferences on file with Lolo. Keep these current so your advisor never has to ask twice.</div>
   </div>
   <div class="pbody">
     <div class="slbl">Personal details</div>
     <div class="frow">
       <div class="ff"><label class="flbl">Full name</label><input class="inp" type="text" id="pr-name" placeholder="Full legal name"/></div>
       <div class="ff"><label class="flbl">Date of birth</label><input class="inp" type="date" id="pr-dob"/></div>
-      <div class="ff"><label class="flbl">Phone</label><input class="inp" type="tel" id="pr-phone" placeholder="Mobile number with country code"/></div>
+      <div class="ff"><label class="flbl">Phone (with country code)</label><input class="inp" type="tel" id="pr-phone" placeholder="+1 612 555 0100"/></div>
       <div class="ff"><label class="flbl">Nationality</label><input class="inp" type="text" id="pr-nat" placeholder="Country of citizenship"/></div>
-      <div class="ff"><label class="flbl">Passport number</label><input class="inp" type="text" id="pr-pass" placeholder="Passport number"/></div>
+      <div class="ff"><label class="flbl">Passport number</label><input class="inp" type="text" id="pr-passno" placeholder="Passport number"/></div>
       <div class="ff"><label class="flbl">Passport expiry</label><input class="inp" type="date" id="pr-pexp"/></div>
     </div>
     <div class="div"></div>
     <div class="slbl">Travel preferences</div>
     <div class="frow">
-      <div class="ff"><label class="flbl">Seat preference</label><select class="sel" id="pr-seat"><option value="">Select</option><option>Window</option><option>Aisle</option><option>No preference</option></select></div>
-      <div class="ff"><label class="flbl">Meal preference</label><select class="sel" id="pr-meal"><option value="">Select</option><option>Standard</option><option>Vegetarian</option><option>Vegan</option><option>Halal</option><option>Kosher</option><option>Gluten Free</option></select></div>
-      <div class="ff"><label class="flbl">Loyalty numbers</label><input class="inp" type="text" id="pr-loyalty" placeholder="e.g. Delta SkyMiles 12345"/></div>
-      <div class="ff"><label class="flbl">Dietary restrictions</label><input class="inp" type="text" id="pr-dietary" placeholder="Any allergies or dietary needs"/></div>
+      <div class="ff"><label class="flbl">Seat preference</label>
+        <select class="sel" id="pr-seat"><option value="">Select</option><option>Window</option><option>Aisle</option><option>No preference</option></select>
+      </div>
+      <div class="ff"><label class="flbl">Meal preference</label>
+        <select class="sel" id="pr-meal"><option value="">Select</option><option>Standard</option><option>Vegetarian</option><option>Vegan</option><option>Halal</option><option>Kosher</option><option>Gluten Free</option></select>
+      </div>
+      <div class="ff"><label class="flbl">Loyalty program numbers</label><input class="inp" type="text" id="pr-loyalty" placeholder="e.g. Delta SkyMiles 123456789"/></div>
+      <div class="ff"><label class="flbl">Dietary restrictions or allergies</label><input class="inp" type="text" id="pr-dietary" placeholder="e.g. Nut allergy, lactose intolerant"/></div>
     </div>
     <div class="div"></div>
     <div class="slbl">Emergency contact</div>
     <div class="frow">
-      <div class="ff"><label class="flbl">Full name</label><input class="inp" type="text" id="pr-ec-name" placeholder="Emergency contact name"/></div>
-      <div class="ff"><label class="flbl">Relationship</label><input class="inp" type="text" id="pr-ec-rel" placeholder="e.g. Spouse, Parent"/></div>
-      <div class="ff"><label class="flbl">Phone</label><input class="inp" type="tel" id="pr-ec-phone" placeholder="Emergency contact phone"/></div>
-      <div class="ff"><label class="flbl">Email</label><input class="inp" type="email" id="pr-ec-email" placeholder="Emergency contact email"/></div>
+      <div class="ff"><label class="flbl">Full name</label><input class="inp" type="text" id="ec-name" placeholder="Emergency contact name"/></div>
+      <div class="ff"><label class="flbl">Relationship</label><input class="inp" type="text" id="ec-rel" placeholder="e.g. Spouse, Parent, Sibling"/></div>
+      <div class="ff"><label class="flbl">Phone</label><input class="inp" type="tel" id="ec-phone" placeholder="Emergency contact phone"/></div>
+      <div class="ff"><label class="flbl">Email</label><input class="inp" type="email" id="ec-email" placeholder="Emergency contact email"/></div>
     </div>
-    <button class="sbtn" onclick="saveProfile()"><span>Save Profile</span></button>
+    <button class="sbtn" id="pr-btn" onclick="saveProfile()"><span>Save Profile</span></button>
     <div class="div"></div>
     <div class="slbl">Two-step verification</div>
-    <div id="mfa-status-block" style="background:var(--white);border:var(--bdr);border-radius:10px;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <div class="mfa-status" id="mfa-status-block">
       <div>
-        <div style="font-family:var(--fb);font-weight:400;font-size:.9rem;color:var(--navy);margin-bottom:3px;" id="mfa-status-lbl">Loading...</div>
-        <div style="font-family:var(--fb);font-weight:200;font-size:.8rem;color:rgba(13,26,69,.45);" id="mfa-status-sub">Two-step verification adds a second layer of security to your account.</div>
+        <div class="mfa-lbl" id="mfa-st-lbl">Loading...</div>
+        <div class="mfa-sub" id="mfa-st-sub">Protect your account with an authenticator app.</div>
       </div>
-      <div id="mfa-action-btn"></div>
+      <div id="mfa-st-btn"></div>
     </div>
   </div>
 </div>
@@ -758,22 +999,25 @@ html,body{background:var(--cream);color:var(--navy);font-family:var(--fb);-webki
 
 <div class="pfoot">
   <div class="pfoot-brand">Lolo Travels</div>
-  <div style="display:flex;gap:16px;"><a href="/" class="pfoot-link">Home</a><a href="/claims" class="pfoot-link">Public Claims</a></div>
+  <div style="display:flex;gap:16px;">
+    <a href="/" class="pfoot-link">Home</a>
+    <a href="/claims" class="pfoot-link">File a Claim</a>
+  </div>
 </div>
 </div>
 
 <script>
 var SB='https://hktntiamtpptcagnohnn.supabase.co';
 var SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
-var sb=null,cu=null,selSlot='',isRec=false,recog=null;
+var sb=null,cu=null,selSlot='',isRec=false,recog=null,mfaFactorId=null,mfaChallengeId=null,mfaEnrollId=null;
 
-var SHIELD_DATA={
-  'Jamaica':{risk:'moderate',summary:'Jamaica remains popular for travel but requires awareness of crime in certain areas, particularly Kingston. Tourist zones are generally well managed.',embassy:'U.S. Embassy Kingston: +1 876 702 6000',police:'Jamaica Constabulary Force: 119',hospital:'University Hospital of West Indies: +1 876 927 1620',notes:'Keep to resort areas after dark. Use hotel-recommended transport only.'},
-  'Nigeria':{risk:'high',summary:'Nigeria carries an elevated risk profile. Abuja is the most managed environment. Lagos requires additional vigilance. Several northern states carry Do Not Travel designations.',embassy:'U.S. Embassy Abuja: +234 9 461 4000',police:'Nigeria Police: 112',hospital:'Cedarcrest Hospital Abuja: +234 9 461 5000',notes:'Use vetted drivers only. Register with your embassy. Avoid public transport.'},
-  'South Africa':{risk:'moderate',summary:'South Africa offers excellent infrastructure but requires awareness of crime, particularly in Johannesburg CBD and township areas. Cape Town and Sandton are more managed.',embassy:'U.S. Embassy Pretoria: +27 12 431 4000',police:'South African Police: 10111',hospital:'Netcare Milpark Johannesburg: +27 11 480 5600',notes:'Do not leave valuables visible in vehicles. Use established transport apps.'},
-  'Ethiopia':{risk:'moderate',summary:'Addis Ababa is the main travel hub and is generally manageable. Some regional areas carry elevated risk. Exercise increased caution.',embassy:'U.S. Embassy Addis Ababa: +251 11 130 6000',police:'Ethiopian Federal Police: 911',hospital:'Landmark General Hospital: +251 11 661 6161',notes:'Avoid large gatherings. Keep embassy contact saved. Monitor local news.'},
-  'France':{risk:'low',summary:'France is generally safe for travelers. Paris requires standard urban precautions. Pickpocketing in tourist areas is the primary concern.',embassy:'U.S. Embassy Paris: +33 1 43 12 22 22',police:'Police Nationale: 17',hospital:'American Hospital of Paris: +33 1 46 41 25 25',notes:'Keep copies of passport. Avoid displaying expensive items on public transport.'},
-  'Spain':{risk:'low',summary:'Spain is a low-risk destination. Barcelona requires attention in La Rambla and tourist areas due to pickpocket activity. Otherwise very well managed.',embassy:'U.S. Embassy Madrid: +34 91 587 2200',police:'Policia Nacional: 091',hospital:'Hospital Clinic Barcelona: +34 93 227 5400',notes:'Use anti-theft bags in crowded areas. Barcelona has improved security in recent years.'}
+var SHIELD={
+  'Jamaica':{risk:'moderate',pct:55,sum:'Jamaica requires awareness of crime, particularly outside resort zones. Tourist areas are generally well managed.',emb:'U.S. Embassy Kingston: +1 876 702 6000',pol:'Jamaica Constabulary: 119',hosp:'University Hospital of the West Indies: +1 876 927 1620',note:'Use hotel-recommended transport after dark. Keep copies of documents.'},
+  'Nigeria':{risk:'high',pct:82,sum:'Nigeria carries an elevated risk profile. Abuja is the most managed environment. Several northern states carry Do Not Travel designations.',emb:'U.S. Embassy Abuja: +234 9 461 4000',pol:'Nigeria Police: 112',hosp:'Cedarcrest Hospital Abuja: +234 9 461 5000',note:'Use vetted drivers only. Register with your embassy before travel.'},
+  'South Africa':{risk:'moderate',pct:58,sum:'South Africa offers excellent infrastructure but requires awareness of crime in certain areas. Sandton and Cape Town Waterfront are well managed.',emb:'U.S. Embassy Pretoria: +27 12 431 4000',pol:'South African Police: 10111',hosp:'Netcare Milpark: +27 11 480 5600',note:'Do not leave valuables visible in vehicles. Use established transport apps.'},
+  'Ethiopia':{risk:'moderate',pct:50,sum:'Addis Ababa is the main hub and generally manageable. Some regional areas carry elevated risk. Exercise increased caution.',emb:'U.S. Embassy Addis Ababa: +251 11 130 6000',pol:'Federal Police: 911',hosp:'Landmark General Hospital: +251 11 661 6161',note:'Avoid large gatherings. Monitor local news. Keep embassy contact saved.'},
+  'France':{risk:'low',pct:22,sum:'France is generally safe for travelers. Standard urban precautions apply. Pickpocketing in tourist areas is the primary concern.',emb:'U.S. Embassy Paris: +33 1 43 12 22 22',pol:'Police: 17',hosp:'American Hospital of Paris: +33 1 46 41 25 25',note:'Keep copies of passport. Avoid displaying expensive items on public transport.'},
+  'Spain':{risk:'low',pct:18,sum:'Spain is low-risk. Barcelona requires attention in La Rambla and tourist areas. Overall very well managed for travelers.',emb:'U.S. Embassy Madrid: +34 91 587 2200',pol:'Policia Nacional: 091',hosp:'Hospital Clinic Barcelona: +34 93 227 5400',note:'Use anti-theft bags in crowded areas. Barcelona has good security measures.'}
 };
 
 (function(){
@@ -781,68 +1025,53 @@ var SHIELD_DATA={
   s.src='https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
   s.onload=function(){
     sb=supabase.createClient(SB,SK);
-    // PASSWORD RECOVERY - handle reset link click
-    // Supabase sends type=recovery in hash fragment
-    var hashStr = window.location.hash;
-    var isRecovery = hashStr.includes('type=recovery');
-    if(isRecovery){
-      // Listen FIRST before getSession so we catch the event
-      sb.auth.onAuthStateChange(function(event,session){
-        if(event==='PASSWORD_RECOVERY'&&session){
-          cu=session.user;
-          // Show portal auth area with new password form
-          document.getElementById('auth').style.display='flex';
-          document.getElementById('portal').style.display='none';
-          showV('newpass');
-        }
+    if(window.location.hash.includes('type=recovery')){
+      sb.auth.onAuthStateChange(function(ev,session){
+        if(ev==='PASSWORD_RECOVERY'&&session){cu=session.user;showV('newpass');}
       });
-      // Also try getSession in case event already fired
       setTimeout(function(){
         sb.auth.getSession().then(function(r){
           if(r.data&&r.data.session&&document.getElementById('v-newpass').classList.contains('on')===false){
-            cu=r.data.session.user;
-            showV('newpass');
+            cu=r.data.session.user;showV('newpass');
           }
         });
-      },500);
+      },600);
       return;
     }
-    // On page load - restore existing session (NOT from signIn click)
-    // Use a flag so signIn's own contractor check runs first
     sb.auth.getSession().then(function(r){
-      if(r.data&&r.data.session) verifyAndLoad(r.data.session.user);
+      if(r.data&&r.data.session) verifyThenLoad(r.data.session.user);
     });
-    // onAuthStateChange only handles PASSWORD_RECOVERY - NOT SIGNED_IN
-    // SIGNED_IN is handled directly by signIn() and register() functions
-    // This prevents the race condition where SIGNED_IN fires before contractor check
-    sb.auth.onAuthStateChange(function(event,session){
-      if(event==='PASSWORD_RECOVERY'){showV('newpass');}
+    sb.auth.onAuthStateChange(function(ev){
+      if(ev==='PASSWORD_RECOVERY') showV('newpass');
     });
+    // Set min date for meeting picker to today
+    var today=new Date().toISOString().split('T')[0];
+    var mtd=document.getElementById('mt-date');
+    if(mtd){mtd.min=today;mtd.value=today;}
   };
   document.head.appendChild(s);
 })();
 
-async function verifyAndLoad(user){
-  // Called on page load session restore - must check account type
-  if(!user||!sb)return;
-  try{
-    var pr=await sb.from('profiles').select('account_type,company_id').eq('id',user.id).single();
-    if(pr.data&&(pr.data.account_type==='contractor'||pr.data.company_id)){
-      // Contractor session found - sign out silently
-      await sb.auth.signOut();
-      return; // Stay on login screen
-    }
-  }catch(ex){}
-  await loadPortal(user);
-}
-
+// AUTH -----------------------------------------------------
 function showV(v){
   document.querySelectorAll('.av').forEach(function(e){e.classList.remove('on');});
   var el=document.getElementById('v-'+v);if(el)el.classList.add('on');
 }
 
+async function verifyThenLoad(user){
+  if(!user||!sb)return;
+  try{
+    var pr=await sb.from('profiles').select('account_type,company_id').eq('id',user.id).single();
+    if(pr.data&&(pr.data.account_type==='contractor'||pr.data.company_id)){
+      await sb.auth.signOut();return;
+    }
+  }catch(e){}
+  await loadPortal(user);
+}
+
 async function signIn(){
-  var email=v('si-email'),pass=v('si-pass'),err=document.getElementById('si-err'),btn=document.getElementById('si-btn');
+  var email=v('si-email'),pass=v('si-pass');
+  var err=document.getElementById('si-err'),btn=document.getElementById('si-btn');
   err.textContent='';
   if(!email||!pass){err.textContent='Please fill in all fields.';return;}
   btn.disabled=true;btn.textContent='Signing in...';
@@ -852,98 +1081,38 @@ async function signIn(){
       err.textContent=r.error.message.includes('Invalid')?'Email or password is incorrect.':r.error.message;
       btn.disabled=false;btn.textContent='Sign In';return;
     }
-    var user=r.data.user;
-    // Check account type BEFORE loading portal
     btn.textContent='Checking account...';
-    var pr=await sb.from('profiles').select('account_type,company_id').eq('id',user.id).single();
+    var pr=await sb.from('profiles').select('account_type,company_id').eq('id',r.data.user.id).single();
     if(pr.data&&(pr.data.account_type==='contractor'||pr.data.company_id)){
       await sb.auth.signOut();
-      err.textContent='This account belongs to a Lolo partner. Partners access their portal at lolotravels.com/contractor';
+      err.textContent='This account belongs to a Lolo partner. Partners sign in at lolotravels.com/contractor';
       btn.disabled=false;btn.textContent='Sign In';return;
     }
-    // Check if MFA is required before loading portal
-    var proceed=await checkMFAOnLogin(user);
-    if(proceed) await loadPortal(user);
-  }catch(ex){
-    err.textContent='Connection error. Please try again.';
-    btn.disabled=false;btn.textContent='Sign In';
-  }
+    var proceed=await checkMFA(r.data.user);
+    if(proceed) await loadPortal(r.data.user);
+  }catch(ex){err.textContent='Connection error. Please try again.';btn.disabled=false;btn.textContent='Sign In';}
 }
 
 async function register(){
-  var name=v('rg-name'),email=v('rg-email'),pass=v('rg-pass'),err=document.getElementById('rg-err');
+  var name=v('rg-name'),email=v('rg-email'),pass=v('rg-pass');
+  var err=document.getElementById('rg-err');
   err.textContent='';
   if(!name||!email||!pass){err.textContent='Please fill in all fields.';return;}
   if(pass.length<8){err.textContent='Password must be at least 8 characters.';return;}
-  // Check if email already exists as a partner/contractor account
   try{
     var check=await sb.from('profiles').select('account_type,company_id').eq('email',email).single();
     if(check.data&&(check.data.account_type==='contractor'||check.data.company_id)){
-      err.textContent='This email is registered as a Lolo partner account. Partners access their portal at lolotravels.com/contractor - member accounts cannot be created with this email.';
-      return;
+      err.textContent='This email is registered as a Lolo partner account. Partners sign in at lolotravels.com/contractor';return;
     }
-  }catch(ex){}
+  }catch(e){}
   try{
     var r=await sb.auth.signUp({email:email,password:pass,options:{data:{full_name:name,account_type:'member'}}});
     if(r.error){
-      // Email already registered - give helpful message
-      if(r.error.message.toLowerCase().includes('already')||r.error.message.toLowerCase().includes('exist')){
-        err.textContent='An account with this email already exists. Try signing in, or use Forgot Password if you need to reset it.';
-      } else {
-        err.textContent=r.error.message;
-      }
-      return;
+      err.textContent=r.error.message.toLowerCase().includes('already')?'An account with this email already exists. Try signing in.':r.error.message;return;
     }
-    // Auto sign in if email confirmation not required
-    if(r.data&&r.data.session){
-      await loadPortal(r.data.user);
-    } else {
-      err.className='aerr aerr-ok';
-      err.textContent='Account created. Please sign in with your new credentials.';
-      setTimeout(function(){showV('signin');sv('si-email',email);},2000);
-    }
+    if(r.data&&r.data.session) await loadPortal(r.data.user);
+    else{err.className='aerr aerr-ok';err.textContent='Account created. Please sign in.';setTimeout(function(){showV('signin');sv('si-email',email);},1800);}
   }catch(ex){err.textContent='Error creating account. Please try again.';}
-}
-
-async function setNewPass(){
-  var pass=v('np-pass'),conf=v('np-confirm'),err=document.getElementById('np-err');
-  err.textContent='';
-  if(!pass||!conf){err.textContent='Please fill in both fields.';return;}
-  if(pass!==conf){err.textContent='Passwords do not match.';return;}
-  if(pass.length<8){err.textContent='Password must be at least 8 characters.';return;}
-  var btn=document.querySelector('#v-newpass .abtn');
-  if(btn){btn.disabled=true;btn.textContent='Updating...';}
-  try{
-    var r=await sb.auth.updateUser({password:pass});
-    if(r.error){
-      err.textContent=r.error.message;
-      if(btn){btn.disabled=false;btn.textContent='Set New Password';}
-      return;
-    }
-    err.className='aerr aerr-ok';
-    err.textContent='Password updated successfully. Taking you to your portal...';
-    // Clear hash from URL so it does not interfere
-    if(window.history&&window.history.replaceState){
-      window.history.replaceState(null,'',window.location.pathname);
-    }
-    setTimeout(async function(){
-      // Use current user if available, else re-authenticate
-      var user=cu||(r.data&&r.data.user);
-      if(user){
-        await verifyAndLoad(user);
-      } else {
-        // Fall back to sign-in screen
-        showV('signin');
-        err.textContent='';
-        var si=document.getElementById('si-err');
-        if(si){si.className='aerr aerr-ok';si.textContent='Password updated. Please sign in.';}
-      }
-      if(btn){btn.disabled=false;btn.textContent='Set New Password';}
-    },1500);
-  }catch(ex){
-    err.textContent='Error updating password. Please try again.';
-    if(btn){btn.disabled=false;btn.textContent='Set New Password';}
-  }
 }
 
 async function resetPw(){
@@ -955,150 +1124,349 @@ async function resetPw(){
   err.className='aerr aerr-ok';err.textContent='Reset link sent. Check your inbox.';
 }
 
-async function signOut(){
-  await sb.auth.signOut();
-  document.getElementById('portal').style.display='none';
-  document.getElementById('auth').style.display='flex';
-  cu=null;
+async function setNewPass(){
+  var pass=v('np-pass'),conf=v('np-conf'),err=document.getElementById('np-err'),btn=document.getElementById('np-btn');
+  err.textContent='';
+  if(!pass||!conf){err.textContent='Please fill in both fields.';return;}
+  if(pass!==conf){err.textContent='Passwords do not match.';return;}
+  if(pass.length<8){err.textContent='Password must be at least 8 characters.';return;}
+  btn.disabled=true;btn.textContent='Updating...';
+  try{
+    var r=await sb.auth.updateUser({password:pass});
+    if(r.error){err.textContent=r.error.message;btn.disabled=false;btn.textContent='Set New Password';return;}
+    err.className='aerr aerr-ok';err.textContent='Password updated. Signing you in...';
+    if(window.history&&window.history.replaceState) window.history.replaceState(null,'',window.location.pathname);
+    setTimeout(async function(){
+      var user=cu||(r.data&&r.data.user);
+      if(user) await loadPortal(user);
+      else showV('signin');
+      btn.disabled=false;btn.textContent='Set New Password';
+    },1500);
+  }catch(ex){err.textContent='Error. Please try again.';btn.disabled=false;btn.textContent='Set New Password';}
 }
 
+async function signOut(){
+  if(sb) await sb.auth.signOut();
+  document.getElementById('portal').style.display='none';
+  document.getElementById('auth').style.display='flex';
+  cu=null;showV('signin');
+}
+
+// MFA ------------------------------------------------------
+async function checkMFA(user){
+  try{
+    var aal=await sb.auth.mfa.getAuthenticatorAssuranceLevel();
+    if(aal.data&&aal.data.nextLevel==='aal2'&&aal.data.nextLevel!==aal.data.currentLevel){
+      var factors=await sb.auth.mfa.listFactors();
+      if(factors.data&&factors.data.totp&&factors.data.totp.length>0){
+        mfaFactorId=factors.data.totp[0].id;
+        var ch=await sb.auth.mfa.challenge({factorId:mfaFactorId});
+        if(ch.data) mfaChallengeId=ch.data.id;
+        showV('mfa');return false;
+      }
+    }
+  }catch(ex){}
+  return true;
+}
+
+async function verifyMFA(){
+  var code=v('mfa-code').replace(/[^0-9]/g,'');
+  var err=document.getElementById('mfa-err'),btn=document.getElementById('mfa-btn');
+  if(code.length!==6){err.textContent='Please enter the 6-digit code.';return;}
+  btn.disabled=true;btn.textContent='Verifying...';
+  try{
+    var r=await sb.auth.mfa.verify({factorId:mfaFactorId,challengeId:mfaChallengeId,code:code});
+    if(r.error){err.textContent='Incorrect code. Please try again.';btn.disabled=false;btn.textContent='Verify and Sign In';return;}
+    var session=await sb.auth.getSession();
+    if(session.data&&session.data.session) await loadPortal(session.data.session.user);
+  }catch(ex){err.textContent='Error. Please try again.';btn.disabled=false;btn.textContent='Verify and Sign In';}
+}
+
+async function startMFASetup(){
+  try{
+    var r=await sb.auth.mfa.enroll({factorType:'totp',friendlyName:'Lolo Travels'});
+    if(r.error){alert('Error: '+r.error.message);return;}
+    mfaEnrollId=r.data.id;
+    var qr=document.getElementById('mfa-qr');
+    if(qr&&r.data.totp&&r.data.totp.qr_code) qr.innerHTML='<img src="'+r.data.totp.qr_code+'" style="width:176px;height:176px;border:3px solid rgba(255,255,255,.08);border-radius:6px;"/>';
+    var sec=document.getElementById('mfa-secret');
+    if(sec&&r.data.totp&&r.data.totp.secret) sec.textContent=r.data.totp.secret;
+    document.getElementById('auth').style.display='flex';
+    document.getElementById('portal').style.display='none';
+    showV('mfa-setup');
+  }catch(ex){alert('Error starting 2FA setup.');}
+}
+
+async function confirmMFASetup(){
+  var code=v('mfa-setup-code').replace(/[^0-9]/g,'');
+  var err=document.getElementById('mfa-setup-err'),btn=document.getElementById('mfa-setup-btn');
+  if(code.length!==6){err.textContent='Please enter the 6-digit code from your app.';return;}
+  btn.disabled=true;btn.textContent='Confirming...';
+  try{
+    var ch=await sb.auth.mfa.challenge({factorId:mfaEnrollId});
+    if(ch.error){err.textContent=ch.error.message;btn.disabled=false;btn.textContent='Confirm and Enable';return;}
+    var vr=await sb.auth.mfa.verify({factorId:mfaEnrollId,challengeId:ch.data.id,code:code});
+    if(vr.error){err.textContent='Incorrect code. Check your app and try again.';btn.disabled=false;btn.textContent='Confirm and Enable';return;}
+    document.getElementById('auth').style.display='none';
+    document.getElementById('portal').style.display='block';
+    nav('profile');loadMFAStatus();
+  }catch(ex){err.textContent='Error. Please try again.';btn.disabled=false;btn.textContent='Confirm and Enable';}
+}
+
+async function loadMFAStatus(){
+  if(!cu||!sb)return;
+  var lbl=document.getElementById('mfa-st-lbl'),sub=document.getElementById('mfa-st-sub'),btn=document.getElementById('mfa-st-btn');
+  if(!lbl)return;
+  try{
+    var factors=await sb.auth.mfa.listFactors();
+    var on=factors.data&&factors.data.totp&&factors.data.totp.length>0;
+    if(on){
+      lbl.textContent='Two-step verification is enabled';lbl.style.color='var(--green)';
+      sub.textContent='Your account requires an authenticator code on each sign-in.';
+      btn.innerHTML='<button onclick="disableMFA()" style="padding:8px 16px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;background:transparent;color:var(--red);border:1px solid var(--redbd);cursor:pointer;">Remove 2FA</button>';
+    } else {
+      lbl.textContent='Two-step verification is not enabled';lbl.style.color='rgba(13,26,69,.45)';
+      sub.textContent='Add an extra layer of security. Required to access sensitive account features.';
+      btn.innerHTML='<button onclick="startMFASetup()" style="padding:8px 16px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;background:var(--navy);color:#F7F4EE;border:none;cursor:pointer;">Enable 2FA</button>';
+    }
+  }catch(ex){}
+}
+
+async function disableMFA(){
+  if(!confirm('Remove two-step verification? Your account will be protected by password only.'))return;
+  try{
+    var f=await sb.auth.mfa.listFactors();
+    if(f.data&&f.data.totp){for(var fac of f.data.totp){await sb.auth.mfa.unenroll({factorId:fac.id});}}
+    loadMFAStatus();
+  }catch(ex){alert('Error removing 2FA.');}
+}
+
+// PORTAL LOAD ----------------------------------------------
 async function loadPortal(user){
   cu=user;
-  // SESSION ISOLATION: check this user belongs on the member portal
+  var initials=(user.email||'LL').substring(0,2).toUpperCase();
+  s('tb-logo',initials);s('tb-name',user.email.split('@')[0]);
+  var hr=new Date().getHours();
+  var greet='Good '+(hr<12?'morning':hr<17?'afternoon':'evening')+'.';
+  s('h-sub',greet);
   try{
     await new Promise(function(r){setTimeout(r,300);});
-    var pr=await sb.from('profiles').select('full_name,account_type,seat_preference,meal_preference,loyalty_numbers').eq('id',user.id).single();
-    // If this is a contractor account, sign them out and show message
-    if(pr.data&&pr.data.account_type==='contractor'){
-      await sb.auth.signOut();
-      var err=document.getElementById('si-err');
-      if(err){err.className='aerr';err.textContent='This portal is for Lolo members. Partners please visit lolotravels.com/contractor';}
-      return;
+    var pr=await sb.from('profiles').select('full_name,account_type,seat_preference,meal_preference,loyalty_numbers,dietary_notes,emergency_contact_name,emergency_contact_phone,emergency_contact_email,emergency_contact_rel').eq('id',user.id).single();
+    if(pr.data){
+      if(pr.data.account_type==='contractor'||(pr.data.company_id)){await sb.auth.signOut();return;}
+      if(pr.data.full_name){
+        var fn=pr.data.full_name.split(' ')[0];
+        s('tb-name',fn);s('tb-logo',pr.data.full_name.substring(0,2).toUpperCase());
+        s('h-sub',greet+' Welcome back, '+fn+'.');
+        s('h-greet','The world is <em>yours.</em>');
+        document.getElementById('h-greet').innerHTML='The world is <em>yours.</em>';
+        sv('pr-name',pr.data.full_name);
+        sv('pr-seat',pr.data.seat_preference||'');sv('pr-meal',pr.data.meal_preference||'');
+        sv('pr-loyalty',pr.data.loyalty_numbers||'');sv('pr-dietary',pr.data.dietary_notes||'');
+        sv('ec-name',pr.data.emergency_contact_name||'');
+        sv('ec-phone',pr.data.emergency_contact_phone||'');
+        sv('ec-email',pr.data.emergency_contact_email||'');
+        sv('ec-rel',pr.data.emergency_contact_rel||'');
+      }
     }
-    if(pr.data&&pr.data.full_name){
-      var fn=pr.data.full_name.split(' ')[0];
-      s('tb-name',fn);
-      s('tb-em',pr.data.full_name.substr(0,2).toUpperCase());
-      sv('pr-name',pr.data.full_name);
-      sv('pr-seat',pr.data.seat_preference||'');
-      sv('pr-meal',pr.data.meal_preference||'');
-    } else {
-      s('tb-name',user.email.split('@')[0]);
-      s('tb-em',(user.email||'LL').substr(0,2).toUpperCase());
-    }
-  }catch(ex){
-    s('tb-name',user.email.split('@')[0]);
-    s('tb-em',(user.email||'LL').substr(0,2).toUpperCase());
-  }
-  var greet='Good '+(new Date().getHours()<12?'morning':new Date().getHours()<17?'afternoon':'evening')+'.';
-  s('h-sub',greet+' Welcome back.');
+  }catch(ex){}
   document.getElementById('auth').style.display='none';
   document.getElementById('portal').style.display='block';
   nav('home');
-  setTimeout(function(){loadStats();loadDocs();loadMsgs();loadVoiceHistory();loadClaims();},300);
+  setTimeout(function(){loadStats();loadDocs();loadMsgs();loadClaims();},400);
 }
 
+// STATS ----------------------------------------------------
 async function loadStats(){
   if(!cu||!sb)return;
   try{
-    var cr=await sb.from('claims').select('id',{count:'exact'}).eq('claimant_email',cu.email);
-    s('hs-claims',cr.count||0);
+    var cr=await sb.from('claims').select('id,status',{count:'exact'}).eq('claimant_email',cu.email);
+    var open=(cr.data||[]).filter(function(c){return c.status!=='resolved'&&c.status!=='closed';}).length;
+    s('hs-claims',open);
+    if(open>0){var cb=document.getElementById('claims-badge');if(cb){cb.textContent=open;cb.style.display='';}}
     var dr=await sb.from('member_documents').select('id',{count:'exact'}).eq('user_id',cu.id);
     s('hs-docs',dr.count||0);
-    var mr=await sb.from('messages').select('id',{count:'exact'}).eq('sender_id',cu.id).eq('is_read',false);
+    var mr=await sb.from('messages').select('id',{count:'exact'}).eq('thread_id',cu.id);
     s('hs-msgs',mr.count||0);
   }catch(ex){}
 }
 
+// CLAIMS ---------------------------------------------------
 async function loadClaims(){
   if(!cu||!sb)return;
-  var el=document.getElementById('claims-list');if(!el)return;
+  var hl=document.getElementById('home-claims'),cl=document.getElementById('cl-list');
   try{
-    var r=await sb.from('claims').select('*').eq('claimant_email',cu.email).order('created_at',{ascending:false}).limit(10);
+    var r=await sb.from('claims').select('*').eq('claimant_email',cu.email).order('created_at',{ascending:false}).limit(20);
     var claims=r.data||[];
-    if(!claims.length){el.innerHTML='<div class="empty"><div class="empty-ic">No claims on file.</div><div class="empty-tx">Submit your first claim below and Lolo manages it through to resolution.</div></div>';return;}
-    el.innerHTML=claims.map(function(c){
-      var sc=c.status==='resolved'?'s-ok':c.status==='submitted'||c.status==='active'?'s-sub':'s-draft';
-      var sl=c.status==='resolved'?'Resolved':c.status==='submitted'?'Submitted':c.status==='active'?'In Progress':'Draft';
-      var dt=new Date(c.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
-      return '<div class="card" style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;">'+
-        '<div><div class="card-title">'+e(c.claim_type.replace(/_/g,' '))+'</div>'+
-        '<div class="card-meta">'+(c.responsible_party||'')+(c.amount_claimed?' &nbsp;|&nbsp; $'+c.amount_claimed.toFixed(2):'')+'<br>'+
-        'Case: '+(c.case_number||'Pending')+(c.incident_date?' &nbsp;|&nbsp; '+e(c.incident_date):'')+'</div></div>'+
-        '<div style="text-align:right;flex-shrink:0;"><span class="stamp '+sc+'">'+sl+'</span>'+
-        '<div style="font-family:var(--fb);font-weight:200;font-size:.68rem;color:rgba(13,26,69,.3);margin-top:4px;">'+dt+'</div></div>'+
-      '</div>';
-    }).join('');
-  }catch(ex){el.innerHTML='';}
+    if(hl){
+      if(!claims.length) hl.innerHTML='<div class="empty"><div class="empty-tx">No claims on file. Submit a claim if you have experienced a travel disruption.</div></div>';
+      else hl.innerHTML=claims.slice(0,3).map(claimCard).join('');
+    }
+    if(cl){
+      if(!claims.length) cl.innerHTML='<div class="empty"><div class="empty-ic">No claims on file.</div><div class="empty-tx">Submit your first claim below. Lolo manages everything through to resolution.</div></div>';
+      else cl.innerHTML=claims.map(claimCard).join('');
+    }
+  }catch(ex){}
+}
+
+function claimCard(c){
+  var sc=c.status==='resolved'?'s-ok':c.status==='active'?'s-sub':c.status==='submitted'?'s-draft':'s-draft';
+  var sl=c.status==='resolved'?'Resolved':c.status==='active'?'In Progress':c.status==='submitted'?'Submitted':'Received';
+  var dt=new Date(c.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+  var type=(c.claim_type||'').replace(/_/g,' ');
+  return '<div class="card"><div class="card-top"><div><div class="card-title">'+e(type.charAt(0).toUpperCase()+type.slice(1))+'</div><div class="card-meta">'+(c.responsible_party?e(c.responsible_party)+' &nbsp;&bull;&nbsp; ':'')+(c.amount_claimed?'$'+parseFloat(c.amount_claimed).toLocaleString()+' &nbsp;&bull;&nbsp; ':'')+'Case: '+(c.case_number||'Pending')+'</div><div class="card-meta">'+dt+'</div></div><span class="stamp '+sc+'">'+sl+'</span></div></div>';
 }
 
 async function submitClaim(){
   if(!cu){alert('Please sign in to submit a claim.');return;}
-  var type=v('cl-type');if(!type){alert('Please select a claim type.');return;}
+  if(!v('cl-type')){alert('Please select a claim type.');return;}
   var btn=document.querySelector('#p-claims .sbtn');
   if(btn){btn.querySelector('span').textContent='Submitting...';btn.disabled=true;}
   var caseNum='LT-'+new Date().getFullYear()+'-'+Math.random().toString(36).substr(2,6).toUpperCase();
   try{
-    await sb.from('claims').insert({case_number:caseNum,claimant_name:v('pr-name')||cu.email,claimant_email:cu.email,claim_type:type,responsible_party:v('cl-party'),incident_date:v('cl-date')||null,amount_claimed:parseFloat(v('cl-amt').replace(/[^0-9.]/g,''))||null,description:v('cl-desc'),booking_reference:v('cl-ref'),route_location:v('cl-route'),status:'submitted',authorized:true,is_member:true});
-    if(btn){btn.querySelector('span').textContent='Case '+caseNum+' filed';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Submit Claim to Lolo';btn.style.background='';btn.disabled=false;},4000);}
-    sv('cl-type','');sv('cl-party','');sv('cl-date','');sv('cl-amt','');sv('cl-ref','');sv('cl-route','');sv('cl-desc','');
+    await sb.from('claims').insert({
+      case_number:caseNum,claimant_name:v('pr-name')||cu.email,claimant_email:cu.email,
+      claim_type:v('cl-type'),responsible_party:v('cl-party'),
+      incident_date:v('cl-date')||null,
+      amount_claimed:parseFloat(v('cl-amt').replace(/[^0-9.]/g,''))||null,
+      description:v('cl-desc'),booking_reference:v('cl-ref'),route_location:v('cl-route'),
+      status:'submitted',authorized:true,is_member:true
+    });
+    if(btn){btn.querySelector('span').textContent='Case '+caseNum+' submitted';btn.style.background='var(--green)';
+      setTimeout(function(){btn.querySelector('span').textContent='Submit Claim to Lolo';btn.style.background='';btn.disabled=false;},4000);}
+    ['cl-type','cl-party','cl-date','cl-amt','cl-ref','cl-route','cl-desc'].forEach(function(id){sv(id,'');});
     loadClaims();loadStats();
   }catch(ex){if(btn){btn.querySelector('span').textContent='Submit Claim to Lolo';btn.disabled=false;}alert('Error. Please try again.');}
 }
 
+// CONCIERGE ------------------------------------------------
 async function submitConcierge(){
   if(!cu){alert('Please sign in.');return;}
-  var dest=v('cc-dest');if(!dest){alert('Please enter a destination.');return;}
+  if(!v('cc-dest')){alert('Please enter a destination.');return;}
   var btn=document.querySelector('#p-concierge .sbtn');
   if(btn){btn.querySelector('span').textContent='Sending...';btn.disabled=true;}
   try{
-    var body='CONCIERGE REQUEST\n\nDestination: '+dest+'\nDates: '+v('cc-dates')+'\nTravelers: '+v('cc-travelers')+'\nCabin: '+v('cc-cabin')+'\nAccommodation: '+v('cc-hotel')+'\nBudget: '+v('cc-budget')+'\nShield: '+(document.getElementById('cc-shield').checked?'Yes':'No')+'\nInsurance: '+(document.getElementById('cc-insurance').checked?'Yes':'No')+'\n\nNotes:\n'+v('cc-notes');
-    await sb.from('messages').insert({thread_type:'member',thread_id:cu.id,sender_id:cu.id,body:body,is_read:false,subject:'Concierge Request: '+dest});
-    if(btn){btn.querySelector('span').textContent='Sent to your advisor';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Send to My Advisor';btn.style.background='';btn.disabled=false;},3000);}
-    sv('cc-dest','');sv('cc-dates','');sv('cc-travelers','');sv('cc-hotel','');sv('cc-budget','');sv('cc-notes','');
+    var body='CONCIERGE REQUEST\n\nDestination: '+v('cc-dest')+'\nDates: '+v('cc-dates')+'\nTravelers: '+v('cc-pax')+'\nCabin: '+v('cc-cabin')+'\nAccommodation: '+v('cc-hotel')+'\nBudget: '+v('cc-budget')+'\nShield: '+(document.getElementById('cc-shield').checked?'Yes':'No')+'\nInsurance: '+(document.getElementById('cc-ins').checked?'Yes':'No')+'\n\nNotes: '+v('cc-notes');
+    await sb.from('messages').insert({thread_type:'member',thread_id:cu.id,sender_id:cu.id,body:body,is_read:false,subject:'Concierge Request: '+v('cc-dest')});
+    if(btn){btn.querySelector('span').textContent='Sent to your advisor';btn.style.background='var(--green)';
+      setTimeout(function(){btn.querySelector('span').textContent='Send to My Advisor';btn.style.background='';btn.disabled=false;},3000);}
+    ['cc-dest','cc-dates','cc-pax','cc-hotel','cc-budget','cc-notes'].forEach(function(id){sv(id,'');});
   }catch(ex){if(btn){btn.querySelector('span').textContent='Send to My Advisor';btn.disabled=false;}alert('Error. Please try again.');}
 }
 
-function loadShield(dest){
-  if(!dest){return;}
-  var results=document.getElementById('shield-results');if(!results)return;
-  var key=Object.keys(SHIELD_DATA).find(function(k){return k.toLowerCase().includes(dest.toLowerCase());});
-  if(!key){
-    results.innerHTML='<div class="ablock">No intelligence brief found for "'+e(dest)+'". Submit a request via Messages and Lolo prepares a bespoke brief within 48 hours.</div>';
-    return;
-  }
-  var d=SHIELD_DATA[key];
-  var riskColor=d.risk==='low'?'var(--green)':d.risk==='high'?'var(--red)':'var(--amber)';
-  var riskClass=d.risk==='low'?'risk-low':d.risk==='high'?'risk-high':'risk-mod';
-  var riskPct=d.risk==='low'?30:d.risk==='high'?85:55;
-  results.innerHTML='<div class="dest-card">'+
-    '<div class="dest-header">'+
-      '<div class="dest-name">'+e(key)+'</div>'+
-      '<span class="stamp '+(d.risk==='low'?'s-ok':d.risk==='high'?'s-miss':'s-exp')+'">'+d.risk.charAt(0).toUpperCase()+d.risk.slice(1)+' risk</span>'+
-    '</div>'+
+// TRIPS ----------------------------------------------------
+function renderTrips(){
+  var el=document.getElementById('trips-list');if(!el)return;
+  el.innerHTML='<div class="empty"><div class="empty-ic">No trips on record.</div><div class="empty-tx">Request concierge service and Lolo will plan and manage your next journey. All bookings and itineraries will appear here.</div></div>';
+}
+
+// SHIELD ---------------------------------------------------
+function shieldCard(name,d){
+  var rc=d.risk==='low'?'s-ok':d.risk==='high'?'s-miss':'s-exp';
+  var fc=d.risk==='low'?'#145C32':d.risk==='high'?'#991818':'#7A5808';
+  var bg=d.risk==='low'?'var(--green)':d.risk==='high'?'var(--red)':'var(--amber)';
+  return '<div class="dest-card">'+
+    '<div class="dest-hd"><div class="dest-name">'+e(name)+'</div><span class="stamp '+rc+'">'+d.risk+' risk</span></div>'+
     '<div class="dest-body">'+
-      '<div class="risk-bar"><div class="risk-track"><div class="risk-fill '+riskClass+'" style="width:'+riskPct+'%;"></div></div><span class="risk-lbl" style="color:'+riskColor+';">'+d.risk.charAt(0).toUpperCase()+d.risk.slice(1)+'</span></div>'+
-      '<div class="intel-item"><div class="intel-cat">Overview</div><div class="intel-txt">'+e(d.summary)+'</div></div>'+
-      '<div class="intel-item"><div class="intel-cat">Embassy</div><div class="intel-txt">'+e(d.embassy)+'</div></div>'+
-      '<div class="intel-item"><div class="intel-cat">Emergency</div><div class="intel-txt">'+e(d.police)+'</div></div>'+
-      '<div class="intel-item"><div class="intel-cat">Medical</div><div class="intel-txt">'+e(d.hospital)+'</div></div>'+
-      '<div class="intel-item"><div class="intel-cat">Lolo Note</div><div class="intel-txt">'+e(d.notes)+'</div></div>'+
-    '</div>'+
-  '</div>';
+      '<div class="risk-row"><div class="risk-track"><div class="risk-fill" style="width:'+d.pct+'%;background:'+bg+';"></div></div><span style="font-family:var(--fb);font-weight:400;font-size:.72rem;color:'+fc+';">'+d.risk.charAt(0).toUpperCase()+d.risk.slice(1)+'</span></div>'+
+      '<div class="intel-row"><div class="intel-cat">Overview</div><div class="intel-txt">'+e(d.sum)+'</div></div>'+
+      '<div class="intel-row"><div class="intel-cat">Embassy</div><div class="intel-txt">'+e(d.emb)+'</div></div>'+
+      '<div class="intel-row"><div class="intel-cat">Emergency</div><div class="intel-txt">'+e(d.pol)+'</div></div>'+
+      '<div class="intel-row"><div class="intel-cat">Medical</div><div class="intel-txt">'+e(d.hosp)+'</div></div>'+
+      '<div class="intel-row"><div class="intel-cat">Lolo Note</div><div class="intel-txt">'+e(d.note)+'</div></div>'+
+    '</div></div>';
 }
 
 function loadShieldList(){
-  var el=document.getElementById('shield-list');if(!el)return;
-  el.innerHTML=Object.keys(SHIELD_DATA).map(function(k){
-    var d=SHIELD_DATA[k];
-    var sc=d.risk==='low'?'s-ok':d.risk==='high'?'s-miss':'s-exp';
-    return '<div class="card" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer;" onclick="loadShield(\''+e(k)+'\');sv(\'sh-dest\',\''+e(k)+'\');">'+
-      '<div class="card-title">'+e(k)+'</div>'+
-      '<span class="stamp '+sc+'">'+d.risk+'</span></div>';
+  var el=document.getElementById('sh-list');if(!el)return;
+  el.innerHTML=Object.keys(SHIELD).map(function(k){
+    var d=SHIELD[k];
+    var rc=d.risk==='low'?'s-ok':d.risk==='high'?'s-miss':'s-exp';
+    return '<div class="card" style="cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;" onclick="document.getElementById(\'sh-search\').value=\''+k+'\';searchShield();">'+
+      '<div class="card-title">'+e(k)+'</div><span class="stamp '+rc+'">'+d.risk+'</span></div>';
   }).join('');
 }
 
-function selectSlot(el,time){
+function searchShield(){
+  var q=v('sh-search').trim();
+  var el=document.getElementById('sh-result');if(!el)return;
+  if(!q){el.innerHTML='';return;}
+  var key=Object.keys(SHIELD).find(function(k){return k.toLowerCase().includes(q.toLowerCase());});
+  if(key) el.innerHTML=shieldCard(key,SHIELD[key]);
+  else el.innerHTML='<div class="ablock">No intelligence brief found for "'+e(q)+'". Submit a request via Messages and Lolo prepares a bespoke brief within 48 hours.</div>';
+}
+
+// VOICE ----------------------------------------------------
+function startVoice(){
+  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){alert('Voice recording requires Chrome or a Chromium browser.');return;}
+  recog=new SR();recog.continuous=true;recog.interimResults=true;recog.lang='en-US';
+  var txt=document.getElementById('vn-text');
+  recog.onresult=function(ev){
+    var fin='',interim='';
+    for(var i=ev.resultIndex;i<ev.results.length;i++){
+      if(ev.results[i].isFinal)fin+=ev.results[i][0].transcript;
+      else interim+=ev.results[i][0].transcript;
+    }
+    if(fin&&txt)txt.textContent+=(txt.textContent?' ':'')+fin;
+    s('vn-interim',interim||'Listening...');
+  };
+  recog.onerror=function(ev){s('vn-interim','Error: '+ev.error);stopVoice();};
+  recog.onend=function(){if(isRec)recog.start();};
+  recog.start();isRec=true;
+  document.getElementById('vn-active').style.display='flex';
+  document.getElementById('vn-transcript').style.display='block';
+  document.getElementById('vn-start').style.display='none';
+}
+
+function stopVoice(){
+  if(recog){recog.stop();recog=null;}
+  isRec=false;
+  document.getElementById('vn-active').style.display='none';
+  document.getElementById('vn-start').style.display='block';
+}
+
+function clearVoice(){
+  var t=document.getElementById('vn-text');if(t)t.textContent='';
+  document.getElementById('vn-transcript').style.display='none';
+  document.getElementById('vn-start').style.display='block';
+}
+
+async function saveVoice(){
+  if(!cu||!sb)return;
+  var txt=document.getElementById('vn-text');
+  var content=txt?txt.textContent.trim():'';
+  if(!content){alert('Nothing to send.');return;}
+  var btn=document.querySelector('#p-voice .sbtn');
+  if(btn){btn.querySelector('span').textContent='Sending...';btn.disabled=true;}
+  try{
+    await sb.from('messages').insert({thread_type:'member',thread_id:cu.id,sender_id:cu.id,body:'[Voice Note]\n\n'+content,is_read:false,subject:'Voice note'});
+    if(btn){btn.querySelector('span').textContent='Sent to Lolo';btn.style.background='var(--green)';
+      setTimeout(function(){btn.querySelector('span').textContent='Send to Lolo';btn.style.background='';btn.disabled=false;},3000);}
+    if(txt)txt.textContent='';
+    document.getElementById('vn-transcript').style.display='none';
+    document.getElementById('vn-start').style.display='block';
+    loadVoiceHistory();
+  }catch(ex){if(btn){btn.querySelector('span').textContent='Send to Lolo';btn.disabled=false;}}
+}
+
+async function loadVoiceHistory(){
+  if(!cu||!sb)return;
+  var el=document.getElementById('vn-history');if(!el)return;
+  try{
+    var r=await sb.from('messages').select('*').eq('sender_id',cu.id).ilike('subject','%Voice note%').order('created_at',{ascending:false}).limit(10);
+    var notes=r.data||[];
+    if(!notes.length){el.innerHTML='<div class="empty"><div class="empty-tx">No voice notes yet. Tap Start Recording to leave a message for your advisor.</div></div>';return;}
+    el.innerHTML=notes.map(function(n){
+      var dt=new Date(n.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      var body=(n.body||'').replace('[Voice Note]\n\n','').substring(0,200);
+      return '<div class="msg"><div class="msg-hd"><span class="msg-from">Voice note to Lolo</span><span class="msg-dt">'+dt+'</span></div><div class="msg-body">'+e(body)+(body.length>=200?'...':'')+'</div></div>';
+    }).join('');
+  }catch(ex){}
+}
+
+// MEETING --------------------------------------------------
+function pickSlot(el,time){
   document.querySelectorAll('.tslot').forEach(function(t){t.classList.remove('on');});
   el.classList.add('on');selSlot=time;
 }
@@ -1110,92 +1478,32 @@ async function submitMeeting(){
   if(btn){btn.querySelector('span').textContent='Requesting...';btn.disabled=true;}
   try{
     var body='MEETING REQUEST\n\nDate: '+v('mt-date')+'\nTime: '+selSlot+' CDT\nFormat: '+v('mt-format')+'\nTopic: '+v('mt-notes');
-    await sb.from('messages').insert({thread_type:'member',thread_id:cu.id,sender_id:cu.id,body:body,is_read:false,subject:'Meeting Request: '+selSlot+' '+v('mt-date')});
-    if(btn){btn.querySelector('span').textContent='Request Sent';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Request This Time';btn.style.background='';btn.disabled=false;},3000);}
-    sv('mt-date','');sv('mt-notes','');
+    await sb.from('messages').insert({thread_type:'member',thread_id:cu.id,sender_id:cu.id,body:body,is_read:false,subject:'Meeting request: '+selSlot+' '+(v('mt-date')||'')});
+    if(btn){btn.querySelector('span').textContent='Request sent';btn.style.background='var(--green)';
+      setTimeout(function(){btn.querySelector('span').textContent='Request This Meeting';btn.style.background='';btn.disabled=false;},3000);}
+    sv('mt-notes','');
     document.querySelectorAll('.tslot').forEach(function(t){t.classList.remove('on');});selSlot='';
-  }catch(ex){if(btn){btn.querySelector('span').textContent='Request This Time';btn.disabled=false;}alert('Error. Please try again.');}
+    loadMeetings();
+  }catch(ex){if(btn){btn.querySelector('span').textContent='Request This Meeting';btn.disabled=false;}alert('Error. Please try again.');}
 }
 
-function startVoice(){
-  var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-  if(!SR){alert('Voice recording requires Chrome or a Chromium browser.');return;}
-  recog=new SR();recog.continuous=true;recog.interimResults=true;recog.lang='en-US';
-  var txt=document.getElementById('vn-text');
-  recog.onresult=function(evt){
-    var fin='',int='';
-    for(var i=evt.resultIndex;i<evt.results.length;i++){if(evt.results[i].isFinal)fin+=evt.results[i][0].transcript;else int+=evt.results[i][0].transcript;}
-    if(fin&&txt)txt.textContent+=(txt.textContent?' ':'')+fin;
-    s('vn-interim',int||'Listening...');
-  };
-  recog.onerror=function(ev){s('vn-interim','Error: '+ev.error);stopVoice();};
-  recog.onend=function(){if(isRec)recog.start();};
-  recog.start();isRec=true;
-  document.getElementById('voice-active').style.display='flex';
-  document.getElementById('voice-transcript').style.display='block';
-  document.getElementById('vn-start-btn').style.display='none';
-}
-
-function stopVoice(){
-  if(recog){recog.stop();recog=null;}
-  isRec=false;
-  document.getElementById('voice-active').style.display='none';
-}
-
-function clearVoice(){
-  var txt=document.getElementById('vn-text');if(txt)txt.textContent='';
-  document.getElementById('voice-transcript').style.display='none';
-  document.getElementById('vn-start-btn').style.display='block';
-}
-
-async function saveVoice(){
-  if(!cu||!sb)return;
-  var txt=document.getElementById('vn-text');
-  var content=txt?txt.textContent.trim():'';
-  if(!content){alert('Nothing to send.');return;}
-  var btn=document.querySelector('#p-voice .sbtn');
-  if(btn){btn.querySelector('span').textContent='Sending...';btn.disabled=true;}
+async function loadMeetings(){
+  var el=document.getElementById('mt-list');if(!el)return;
+  if(!cu||!sb){el.innerHTML='';return;}
   try{
-    await sb.from('messages').insert({thread_type:'member',thread_id:cu.id,sender_id:cu.id,body:'[Voice Note]\n\n'+content,is_read:false,subject:'Voice note from '+cu.email});
-    if(btn){btn.querySelector('span').textContent='Sent to Lolo';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Send to Lolo';btn.style.background='';btn.disabled=false;},3000);}
-    if(txt)txt.textContent='';
-    document.getElementById('voice-transcript').style.display='none';
-    document.getElementById('vn-start-btn').style.display='block';
-    loadVoiceHistory();
-  }catch(ex){if(btn){btn.querySelector('span').textContent='Send to Lolo';btn.disabled=false;}}
-}
-
-async function loadVoiceHistory(){
-  if(!cu||!sb)return;
-  var el=document.getElementById('vn-history');if(!el)return;
-  try{
-    var r=await sb.from('messages').select('*').eq('sender_id',cu.id).ilike('body','%Voice Note%').order('created_at',{ascending:false}).limit(10);
-    var notes=r.data||[];
-    if(!notes.length){el.innerHTML='<div class="empty"><div class="empty-tx">No voice notes yet.</div></div>';return;}
-    el.innerHTML=notes.map(function(n){
-      var dt=new Date(n.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
-      var body=(n.body||'').replace('[Voice Note]\n\n','');
-      return '<div class="msg"><div class="msg-hd"><span class="msg-from">Voice note</span><span class="msg-dt">'+dt+'</span></div><div class="msg-body">'+e(body.substr(0,200))+(body.length>200?'...':'')+'</div></div>';
+    var r=await sb.from('messages').select('*').eq('sender_id',cu.id).ilike('subject','%Meeting request%').order('created_at',{ascending:false}).limit(5);
+    var meetings=r.data||[];
+    if(!meetings.length){el.innerHTML='<div class="empty"><div class="empty-tx">No meetings scheduled yet.</div></div>';return;}
+    el.innerHTML=meetings.map(function(m){
+      var dt=new Date(m.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'});
+      var subj=(m.subject||'').replace('Meeting request: ','');
+      return '<div class="card"><div class="card-top"><div class="card-title">Meeting request &ndash; '+e(subj)+'</div><span class="stamp s-sub">Requested</span></div><div class="card-meta">Submitted '+dt+'</div></div>';
     }).join('');
   }catch(ex){}
 }
 
-async function loadMsgs(){
-  if(!cu||!sb)return;
-  var el=document.getElementById('msg-list');if(!el)return;
-  try{
-    var r=await sb.from('messages').select('*').eq('thread_id',cu.id).order('created_at',{ascending:false}).limit(20);
-    var msgs=r.data||[];
-    if(!msgs.length){el.innerHTML='<div class="empty"><div class="empty-tx">No messages yet.</div></div>';return;}
-    el.innerHTML=msgs.map(function(m){
-      var isLolo=!m.sender_id||m.sender_id===cu.id?false:true;
-      var dt=new Date(m.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
-      return '<div class="msg'+(isLolo?' lolo':'')+'"><div class="msg-hd"><span class="msg-from">'+(isLolo?'Lolo Travels':'You')+'</span><span class="msg-dt">'+dt+'</span></div><div class="msg-body">'+e((m.body||'').substr(0,300))+'</div></div>';
-    }).join('');
-  }catch(ex){}
-}
-
-async function sendMessage(){
+// MESSAGES -------------------------------------------------
+async function sendMsg(){
   if(!cu){alert('Please sign in.');return;}
   var subj=v('msg-subj'),body=v('msg-body');
   if(!subj||!body){alert('Please fill in subject and message.');return;}
@@ -1203,41 +1511,61 @@ async function sendMessage(){
   if(btn){btn.querySelector('span').textContent='Sending...';btn.disabled=true;}
   try{
     await sb.from('messages').insert({thread_type:'member',thread_id:cu.id,sender_id:cu.id,body:'['+v('msg-cat')+'] '+subj+'\n\n'+body,is_read:false,subject:subj});
-    if(btn){btn.querySelector('span').textContent='Sent';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Send Message';btn.style.background='';btn.disabled=false;},2500);}
+    if(btn){btn.querySelector('span').textContent='Message sent';btn.style.background='var(--green)';
+      setTimeout(function(){btn.querySelector('span').textContent='Send Message';btn.style.background='';btn.disabled=false;},2500);}
     sv('msg-subj','');sv('msg-body','');
     loadMsgs();
   }catch(ex){if(btn){btn.querySelector('span').textContent='Send Message';btn.disabled=false;}}
 }
 
+async function loadMsgs(){
+  if(!cu||!sb)return;
+  var el=document.getElementById('msg-list');if(!el)return;
+  try{
+    var r=await sb.from('messages').select('*').eq('thread_id',cu.id).order('created_at',{ascending:false}).limit(30);
+    var msgs=r.data||[];
+    var unread=msgs.filter(function(m){return !m.is_read&&m.sender_id!==cu.id;}).length;
+    if(unread>0){var mb=document.getElementById('msgs-badge');if(mb){mb.textContent=unread;mb.style.display='';}}
+    if(!msgs.length){el.innerHTML='<div class="empty"><div class="empty-tx">No messages yet. Send a message to your Lolo advisor below.</div></div>';return;}
+    el.innerHTML=msgs.map(function(m){
+      var isLolo=m.sender_id&&m.sender_id!==cu.id;
+      var dt=new Date(m.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      return '<div class="msg'+(isLolo?' lolo':'')+'"><div class="msg-hd"><span class="msg-from">'+(isLolo?'Lolo Travels':'You')+'</span><span class="msg-dt">'+dt+'</span></div><div class="msg-body">'+e((m.body||'').substring(0,350))+'</div></div>';
+    }).join('');
+  }catch(ex){}
+}
+
+// DOCUMENTS ------------------------------------------------
 async function loadDocs(){
   if(!cu||!sb)return;
   var el=document.getElementById('doc-list');if(!el)return;
   try{
     var r=await sb.from('member_documents').select('*').eq('user_id',cu.id).order('created_at',{ascending:false});
     var docs=r.data||[];
-    if(!docs.length){el.innerHTML='<div class="empty"><div class="empty-ic">No documents yet.</div><div class="empty-tx">Add your passport, visas, and insurance certificates below. Lolo tracks expiry and alerts you in advance.</div></div>';return;}
+    if(!docs.length){el.innerHTML='<div class="empty"><div class="empty-ic">No documents yet.</div><div class="empty-tx">Add your passport, visas, and insurance certificates. Lolo tracks expiry dates and alerts you before they lapse.</div></div>';return;}
     el.innerHTML=docs.map(function(d){
       var exp=d.expiry_date?new Date(d.expiry_date):null;
-      var expired=exp&&exp<new Date();
-      var expiring=exp&&!expired&&(exp-new Date())<(90*86400000);
+      var now=new Date();
+      var expired=exp&&exp<now;
+      var expiring=exp&&!expired&&(exp-now)<(90*86400000);
       var sc=expired?'s-miss':expiring?'s-exp':'s-ok';
       var sl=expired?'Expired':expiring?'Expiring soon':'Valid';
-      return '<div class="doc-card">'+
-        '<div class="doc-ico"><svg width="12" height="16" viewBox="0 0 12 16" fill="none"><path d="M2 1h6l3 3v11H2V1z" stroke="#1E3070" stroke-width="1" stroke-linejoin="round"/><path d="M8 1v3h3" stroke="#1E3070" stroke-width=".8" opacity=".5"/></svg></div>'+
-        '<div style="flex:1;">'+
-          '<div class="doc-name">'+e(d.doc_name||d.doc_type||'')+'</div>'+
-          '<div class="doc-meta">'+(d.doc_type||'').replace(/_/g,' ')+(d.expiry_date?' &nbsp;|&nbsp; Expires: '+e(d.expiry_date):'')+'</div>'+
-        '</div>'+
-        '<span class="stamp '+sc+'">'+sl+'</span>'+
-      '</div>';
+      var ext=(d.file_name||'.DOC').split('.').pop().toUpperCase().substring(0,3);
+      return '<div class="doc-item">'+
+        '<div class="doc-ico">'+e(ext)+'</div>'+
+        '<div style="flex:1;"><div class="doc-name">'+e(d.doc_name||d.doc_type||'')+'</div>'+
+        '<div class="doc-meta">'+(d.doc_type||'').replace(/_/g,' ')+(d.expiry_date?' &nbsp;&bull;&nbsp; Exp: '+e(d.expiry_date):'')+'</div></div>'+
+        '<div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;">'+
+          '<span class="stamp '+sc+'">'+sl+'</span>'+
+          (d.file_url?'<a href="'+e(d.file_url)+'" target="_blank" style="font-family:var(--fb);font-weight:200;font-size:.62rem;color:var(--goldk);text-decoration:none;">View</a>':'')+
+        '</div></div>';
     }).join('');
   }catch(ex){}
 }
 
 async function uploadDoc(){
   if(!cu){alert('Please sign in.');return;}
-  var type=v('ul-type'),name=v('ul-name');
-  if(!type||!name){alert('Please select type and enter a name.');return;}
+  if(!v('ul-type')||!v('ul-name')){alert('Please select a type and enter a name.');return;}
   var btn=document.querySelector('#p-documents .sbtn');
   if(btn){btn.querySelector('span').textContent='Adding...';btn.disabled=true;}
   try{
@@ -1247,25 +1575,59 @@ async function uploadDoc(){
       var f=fi.files[0];fileName=f.name;
       var path=cu.id+'/'+Date.now()+'-'+f.name;
       var ur=await sb.storage.from('documents').upload(path,f,{upsert:true});
-      if(ur.data){var pu=sb.storage.from('documents').getPublicUrl(path);fileUrl=pu.data.publicUrl;}
+      if(ur.data){fileUrl=sb.storage.from('documents').getPublicUrl(path).data.publicUrl;}
     }
-    await sb.from('member_documents').insert({user_id:cu.id,doc_type:type,doc_name:name,issue_date:v('ul-issue')||null,expiry_date:v('ul-expiry')||null,file_url:fileUrl,file_name:fileName,is_current:true});
-    if(btn){btn.querySelector('span').textContent='Added';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Add to Vault';btn.style.background='';btn.disabled=false;},2500);}
-    sv('ul-type','');sv('ul-name','');sv('ul-issue','');sv('ul-expiry','');
-    if(fi)fi.value='';
-    var ftxt=document.getElementById('ul-ftxt');if(ftxt)ftxt.innerHTML='<strong>Click to attach file</strong><br>PDF or image. Max 25MB.';
+    var exp=v('ul-expiry');
+    await sb.from('member_documents').insert({
+      user_id:cu.id,doc_type:v('ul-type'),doc_name:v('ul-name'),
+      issue_date:v('ul-issue')||null,expiry_date:exp||null,
+      file_url:fileUrl,file_name:fileName,is_current:true
+    });
+    if(btn){btn.querySelector('span').textContent='Added';btn.style.background='var(--green)';
+      setTimeout(function(){btn.querySelector('span').textContent='Add to Vault';btn.style.background='';btn.disabled=false;},2500);}
+    ['ul-type','ul-name','ul-issue','ul-expiry'].forEach(function(id){sv(id,'');});
+    if(fi)fi.value='';var ft=document.getElementById('ul-ftxt');
+    if(ft)ft.innerHTML='<strong>Click to attach file</strong><br>PDF or image. Max 25MB.';
     loadDocs();loadStats();
-  }catch(ex){if(btn){btn.querySelector('span').textContent='Add to Vault';btn.disabled=false;}alert('Error uploading. Please try again.');}
+  }catch(ex){if(btn){btn.querySelector('span').textContent='Add to Vault';btn.disabled=false;}alert('Upload failed.');}
 }
 
+// PROFILE --------------------------------------------------
 async function saveProfile(){
   if(!cu||!sb)return;
-  var btn=document.querySelector('#p-profile .sbtn');
+  var btn=document.getElementById('pr-btn');
   if(btn){btn.querySelector('span').textContent='Saving...';btn.disabled=true;}
   try{
-    await sb.from('profiles').upsert({id:cu.id,email:cu.email,full_name:v('pr-name'),phone:v('pr-phone'),account_type:'member',seat_preference:v('pr-seat'),meal_preference:v('pr-meal'),dietary_notes:v('pr-dietary'),loyalty_numbers:v('pr-loyalty'),emergency_contact_name:v('pr-ec-name'),emergency_contact_phone:v('pr-ec-phone'),emergency_contact_email:v('pr-ec-email'),emergency_contact_rel:v('pr-ec-rel')});
-    if(btn){btn.querySelector('span').textContent='Saved';btn.style.background='var(--green)';setTimeout(function(){btn.querySelector('span').textContent='Save Profile';btn.style.background='';btn.disabled=false;},2500);}
+    await sb.from('profiles').upsert({
+      id:cu.id,email:cu.email,account_type:'member',
+      full_name:v('pr-name'),phone:v('pr-phone'),
+      seat_preference:v('pr-seat'),meal_preference:v('pr-meal'),
+      loyalty_numbers:v('pr-loyalty'),dietary_notes:v('pr-dietary'),
+      emergency_contact_name:v('ec-name'),emergency_contact_phone:v('ec-phone'),
+      emergency_contact_email:v('ec-email'),emergency_contact_rel:v('ec-rel')
+    });
+    if(btn){btn.querySelector('span').textContent='Saved';btn.style.background='var(--green)';
+      setTimeout(function(){btn.querySelector('span').textContent='Save Profile';btn.style.background='';btn.disabled=false;},2500);}
+    // Update name in topbar
+    if(v('pr-name')){var fn=v('pr-name').split(' ')[0];s('tb-name',fn);s('tb-logo',v('pr-name').substring(0,2).toUpperCase());}
   }catch(ex){if(btn){btn.querySelector('span').textContent='Save Profile';btn.disabled=false;}alert('Error saving.');}
+}
+
+// NAV ------------------------------------------------------
+function nav(id){
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
+  var p=document.getElementById('p-'+id);if(p)p.classList.add('on');
+  var n=document.getElementById('ni-'+id);if(n)n.classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(id==='shield'){loadShieldList();}
+  if(id==='messages'){loadMsgs();}
+  if(id==='documents'){loadDocs();}
+  if(id==='claims'){loadClaims();}
+  if(id==='voice'){loadVoiceHistory();}
+  if(id==='profile'){loadMFAStatus();}
+  if(id==='meeting'){loadMeetings();}
+  if(id==='trips'){renderTrips();}
 }
 
 function onFile(input,fnameId){
@@ -1276,137 +1638,8 @@ function onFile(input,fnameId){
   }
 }
 
-// --- MFA FUNCTIONS ----------------------------------------
-var mfaChallengeId=null, mfaFactorId=null, mfaEnrollId=null;
-
-async function checkMFAOnLogin(user){
-  // After password auth, check if MFA is required
-  try{
-    var aal=await sb.auth.mfa.getAuthenticatorAssuranceLevel();
-    if(aal.data&&aal.data.nextLevel==='aal2'&&aal.data.nextLevel!==aal.data.currentLevel){
-      // MFA enrolled and required - show challenge
-      var factors=await sb.auth.mfa.listFactors();
-      if(factors.data&&factors.data.totp&&factors.data.totp.length>0){
-        mfaFactorId=factors.data.totp[0].id;
-        var challenge=await sb.auth.mfa.challenge({factorId:mfaFactorId});
-        if(challenge.data) mfaChallengeId=challenge.data.id;
-        document.getElementById('auth').style.display='flex';
-        document.getElementById('portal').style.display='none';
-        showV('mfa');
-        return false; // don't load portal yet
-      }
-    }
-  }catch(ex){}
-  return true; // no MFA needed, proceed to portal
-}
-
-async function verifyMFA(){
-  var code=document.getElementById('mfa-code').value.replace(/\s/g,'');
-  var err=document.getElementById('mfa-err');
-  var btn=document.getElementById('mfa-btn');
-  err.textContent='';
-  if(code.length!==6){err.textContent='Please enter the 6-digit code.';return;}
-  btn.disabled=true;btn.textContent='Verifying...';
-  try{
-    var r=await sb.auth.mfa.verify({factorId:mfaFactorId,challengeId:mfaChallengeId,code:code});
-    if(r.error){err.textContent='Incorrect code. Please try again.';btn.disabled=false;btn.textContent='Verify';return;}
-    btn.textContent='Verified';
-    var session=await sb.auth.getSession();
-    if(session.data&&session.data.session) await loadPortal(session.data.session.user);
-  }catch(ex){err.textContent='Error. Please try again.';btn.disabled=false;btn.textContent='Verify';}
-}
-
-async function loadMFAStatus(){
-  if(!cu||!sb)return;
-  var lbl=document.getElementById('mfa-status-lbl');
-  var sub=document.getElementById('mfa-status-sub');
-  var btn=document.getElementById('mfa-action-btn');
-  if(!lbl||!btn)return;
-  try{
-    var factors=await sb.auth.mfa.listFactors();
-    var enrolled=factors.data&&factors.data.totp&&factors.data.totp.length>0;
-    if(enrolled){
-      lbl.textContent='Two-step verification is enabled';
-      lbl.style.color='var(--green)';
-      sub.textContent='Your account is protected. You will be asked for a code from your authenticator app on each login.';
-      btn.innerHTML='<button onclick="disableMFA()" style="padding:9px 18px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;background:transparent;color:var(--red);border:1px solid var(--redbd);cursor:pointer;">Remove 2FA</button>';
-    } else {
-      lbl.textContent='Two-step verification is not enabled';
-      lbl.style.color='rgba(13,26,69,.5)';
-      sub.textContent='Add an extra layer of security. You will need your authenticator app each time you sign in.';
-      btn.innerHTML='<button onclick="startMFASetup()" style="padding:9px 18px;font-family:var(--fb);font-weight:400;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;background:var(--navy);color:#F7F4EE;border:none;cursor:pointer;">Enable 2FA</button>';
-    }
-  }catch(ex){}
-}
-
-async function startMFASetup(){
-  if(!cu||!sb)return;
-  try{
-    var r=await sb.auth.mfa.enroll({factorType:'totp',friendlyName:'Lolo Travels'});
-    if(r.error){alert('Error setting up 2FA: '+r.error.message);return;}
-    mfaEnrollId=r.data.id;
-    // Show QR code
-    var qrEl=document.getElementById('mfa-qr');
-    if(qrEl&&r.data.totp&&r.data.totp.qr_code){
-      qrEl.innerHTML='<img src="'+r.data.totp.qr_code+'" style="width:180px;height:180px;border:4px solid rgba(255,255,255,.1);border-radius:8px;" alt="QR code"/>';
-    }
-    var secEl=document.getElementById('mfa-secret');
-    if(secEl&&r.data.totp&&r.data.totp.secret) secEl.textContent=r.data.totp.secret;
-    // Show setup screen in auth area
-    document.getElementById('auth').style.display='flex';
-    document.getElementById('portal').style.display='none';
-    showV('mfa-setup');
-  }catch(ex){alert('Error starting 2FA setup.');}
-}
-
-async function confirmMFASetup(){
-  var code=document.getElementById('mfa-setup-code').value.replace(/\s/g,'');
-  var err=document.getElementById('mfa-setup-err');
-  var btn=document.getElementById('mfa-setup-btn');
-  err.textContent='';
-  if(code.length!==6){err.textContent='Please enter the 6-digit code from your app.';return;}
-  btn.disabled=true;btn.textContent='Confirming...';
-  try{
-    var challenge=await sb.auth.mfa.challenge({factorId:mfaEnrollId});
-    if(challenge.error){err.textContent=challenge.error.message;btn.disabled=false;btn.textContent='Confirm and Enable';return;}
-    var verify=await sb.auth.mfa.verify({factorId:mfaEnrollId,challengeId:challenge.data.id,code:code});
-    if(verify.error){err.textContent='Code incorrect. Check your app and try again.';btn.disabled=false;btn.textContent='Confirm and Enable';return;}
-    // Success
-    document.getElementById('auth').style.display='none';
-    document.getElementById('portal').style.display='block';
-    nav('profile');
-    loadMFAStatus();
-  }catch(ex){err.textContent='Error confirming. Please try again.';btn.disabled=false;btn.textContent='Confirm and Enable';}
-}
-
-async function disableMFA(){
-  if(!confirm('Remove two-step verification? Your account will only be protected by your password.'))return;
-  try{
-    var factors=await sb.auth.mfa.listFactors();
-    if(factors.data&&factors.data.totp){
-      for(var f of factors.data.totp){
-        await sb.auth.mfa.unenroll({factorId:f.id});
-      }
-    }
-    loadMFAStatus();
-  }catch(ex){alert('Error removing 2FA.');}
-}
-
-function nav(id){
-  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
-  document.querySelectorAll('.ni').forEach(function(n){n.classList.remove('on');});
-  var p=document.getElementById('p-'+id);if(p)p.classList.add('on');
-  var n=document.getElementById('ni-'+id);if(n)n.classList.add('on');
-  window.scrollTo({top:0,behavior:'smooth'});
-  if(id==='shield')loadShieldList();
-  if(id==='messages')loadMsgs();
-  if(id==='documents')loadDocs();
-  if(id==='claims')loadClaims();
-  if(id==='voice')loadVoiceHistory();
-  if(id==='profile')loadMFAStatus();
-}
-
-function s(id,val){var el=document.getElementById(id);if(el)el.textContent=val||'';}
+// UTILS ----------------------------------------------------
+function s(id,val){var el=document.getElementById(id);if(el)el.textContent=String(val||'');}
 function sh(id,val){var el=document.getElementById(id);if(el)el.innerHTML=val||'';}
 function v(id){var el=document.getElementById(id);return el?el.value:'';}
 function sv(id,val){var el=document.getElementById(id);if(el)el.value=val||'';}
