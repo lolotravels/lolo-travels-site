@@ -786,10 +786,18 @@ async function verifyMFA(){
 }
 
 async function signOut(){
-  await sb.auth.signOut();
-  document.getElementById('portal').style.display='none';
-  document.getElementById('auth').style.display='flex';
-  currentUser=null;companyId=null;
+  // Best-effort: tell Supabase to invalidate the refresh token server-side.
+  try{ if(sb) await sb.auth.signOut(); }catch(e){}
+  // Wipe in-memory state (defensive — page is about to reload anyway).
+  currentUser=null; companyId=null; activeSolId=null; teamContacts=[];
+  userRole='none'; userPerms={};
+  mfaChallengeId=null; mfaFactorId=null;
+  // Wipe browser storage so nothing carries over for the next user on this device.
+  try{ localStorage.clear(); }catch(e){}
+  try{ sessionStorage.clear(); }catch(e){}
+  // Hard reload to /contractor — this is what actually wipes the rendered DOM,
+  // form fields, and any data that's already painted on screen.
+  window.location.replace('/contractor');
 }
 
 var userRole='sales'; // default to least access until loaded
@@ -797,52 +805,56 @@ var userPerms={}; // loaded from portal_roles
 
 async function loadPortal(user){
   currentUser=user;
-  setText('tb-name', user.email.split('@')[0]);
-  userRole='owner';
-  // Show portal immediately - no blocking
+  // Verify partner identity BEFORE rendering the portal.
+  // Canonical check: profiles row with account_type='contractor' AND non-null company_id.
+  var pr=null;
+  try{
+    pr=await sb.from('profiles').select('company_id,account_type,full_name,portal_role').eq('id',user.id).single();
+  }catch(e){ pr=null; }
+  var ok = pr && pr.data && pr.data.account_type==='contractor' && pr.data.company_id;
+  if(!ok){
+    // Not a verified partner. Sign out, wipe state, show error on the login screen.
+    try{ await sb.auth.signOut(); }catch(e){}
+    currentUser=null; companyId=null; userRole='none'; userPerms={};
+    activeSolId=null; teamContacts=[];
+    document.getElementById('portal').style.display='none';
+    document.getElementById('auth').style.display='flex';
+    showView('signin');
+    var si=document.getElementById('si-err');
+    if(si){
+      si.className='aerr aerr-red';
+      si.textContent='Account not authorized for the partner portal. Contact hello@lolotravels.com.';
+    }
+    return;
+  }
+  // Verified partner — populate state, then load permissions, then render portal.
+  companyId = pr.data.company_id;
+  userRole = pr.data.portal_role || 'sales';  // least-privilege default
+  setText('tb-name', pr.data.full_name ? pr.data.full_name.split(' ')[0] : user.email.split('@')[0]);
+  await loadRolePermissions();
+  renderNav();
   document.getElementById('auth').style.display='none';
   document.getElementById('portal').style.display='block';
   nav('overview');
-  // Load data in background - multiple fallback strategies
-  setTimeout(async function(){
-    try{
-      // Strategy 1: direct profiles lookup
-      var pr=await sb.from('profiles').select('company_id,account_type,full_name,portal_role').eq('id',user.id).single();
-      if(pr.data&&pr.data.company_id){
-        companyId=pr.data.company_id;
-        userRole=pr.data.portal_role||'owner';
-        if(pr.data.full_name) setText('tb-name',pr.data.full_name.split(' ')[0]);
-      }
-    }catch(e1){
-      try{
-        // Strategy 2: find by email in partner_profiles
-        var pp=await sb.from('partner_profiles').select('company_id').eq('office_email',user.email).single();
-        if(pp.data) companyId=pp.data.company_id;
-      }catch(e2){}
-    }
-    await loadRolePermissions();
-    renderNav();
-    loadCompany();
-    loadSolicitations();
-    loadDocLibrary();
-    loadContracts();
-  }, 100);
-  return; // everything else handled in setTimeout above
-  // dummy line to prevent old code from running
-  // Load role permissions
-  await loadRolePermissions();
-  // handled above
+  loadCompany();
+  loadSolicitations();
+  loadDocLibrary();
+  loadContracts();
 }
 
 async function loadRolePermissions(){
   try{
-    // Try company-specific role first, then fall back to default
     var r=await sb.from('portal_roles').select('permissions').eq('role_name',userRole).order('company_id',{ascending:false}).limit(1).single();
-    if(r.data)userPerms=typeof r.data.permissions==='string'?JSON.parse(r.data.permissions):r.data.permissions;
-  }catch(e){
-    // Default fallback if role system not yet set up
-    userPerms={overview:'full',solicitations:'full',documents:'full',profile:'full',team:'full',payments:'full',history:'full',claims:'full',referrals:'full',messages:'full'};
-  }
+    if(r && r.data){
+      userPerms = typeof r.data.permissions==='string' ? JSON.parse(r.data.permissions) : r.data.permissions;
+      return;
+    }
+  }catch(e){}
+  // Fail CLOSED: if the role lookup fails or returns nothing, grant no access.
+  // If a verified partner ends up with no permissions, that means the
+  // portal_roles table is missing a row for their role — fix it in Supabase,
+  // do not fall back to full access here.
+  userPerms = {overview:'none',solicitations:'none',documents:'none',profile:'none',team:'none',payments:'none',history:'none',claims:'none',referrals:'none',messages:'none'};
 }
 
 function canAccess(section){
@@ -1604,6 +1616,29 @@ function setHtml(id,val){var el=document.getElementById(id);if(el)el.innerHTML=v
 function getVal(id){var el=document.getElementById(id);return el?el.value:'';}
 function setVal(id,val){var el=document.getElementById(id);if(el)el.value=val||'';}
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+// Back-button defense: if the browser restores this page from its back-forward
+// cache (bfcache), force a fresh load. Without this, a logged-out user could
+// click Back and see the previously-rendered authenticated page from memory.
+window.addEventListener('pageshow', function(e){
+  if(e.persisted){ window.location.reload(); }
+});
+
+// Stale-session defense: when the tab regains focus, re-check that the
+// Supabase session is still valid. If it expired or was revoked while the
+// tab was hidden, kick the user back to /contractor (login screen).
+document.addEventListener('visibilitychange', async function(){
+  if(document.visibilityState !== 'visible') return;
+  if(!sb || !currentUser) return;
+  try{
+    var r = await sb.auth.getSession();
+    if(!r || !r.data || !r.data.session){
+      window.location.replace('/contractor');
+    }
+  }catch(e){
+    // Network error — don't kick the user out for a transient failure.
+  }
+});
 </script>
 </body>
 </html>
