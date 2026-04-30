@@ -2590,7 +2590,7 @@ const _sb = supabase.createClient(_SB_URL, _SB_KEY);
     <a href="#" onclick="goPage('services');return false;">Services</a>
     <a href="#" onclick="goPage('about');return false;">Our Story</a>
     <a href="#" onclick="goPage('insurance');return false;">Protection</a>
-    <a href="#" onclick="window.location.href='/member';return false;" style="font-family:var(--font-b);font-weight:200;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.65);transition:color .3s;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.65)'">Member Portal</a>
+    <a href="/member" style="font-family:var(--font-b);font-weight:200;font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.65);transition:color .3s;" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.65)'">Member Portal</a>
     <a href="#" class="nav-cta" onclick="goPage('inquiry');return false;"><span>Plan Your Travel</span></a>
   </div>
   <button class="nav-toggle" id="navToggle" onclick="toggleNav()"><span></span><span></span><span></span></button>
@@ -4345,7 +4345,7 @@ function handleGovSubmit(e){
       <h3>Access your partner portal.</h3>
       <p>Existing Lolo partners — sign in to manage your account, access reporting, and submit client protection requests.</p>
     </div>
-    <button class="btn-outline-gold" onclick="window.location.href='/member'" style="white-space:nowrap;"><span>Partner Sign In</span></button>
+    <button class="btn-outline-gold" onclick="window.location.href='/contractor'" style="white-space:nowrap;"><span>Partner Sign In</span></button>
   </div>
 
 </div>
