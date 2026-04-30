@@ -32,3 +32,22 @@
   from = "/admin"
   to = "/admin-portal.html"
   status = 200
+
+# Cache-Control for the partner portal: prevent any caching, including the
+# browser's back-forward cache. Without this, after a partner logs out a
+# return visit (Back button, browser restore, etc.) could show their data
+# from cache. Applied to both the friendly URL (/contractor) and the
+# underlying file (/contractor-portal.html) since either may be requested.
+[[headers]]
+  for = "/contractor"
+  [headers.values]
+    Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
+    Pragma = "no-cache"
+    Expires = "0"
+
+[[headers]]
+  for = "/contractor-portal.html"
+  [headers.values]
+    Cache-Control = "no-store, no-cache, must-revalidate, max-age=0"
+    Pragma = "no-cache"
+    Expires = "0"
