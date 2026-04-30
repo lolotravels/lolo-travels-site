@@ -2,816 +2,225 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>Lolo — Member</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,400;1,500;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lolo Travels — Member Sign In</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Gilda+Display&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-:root{
-  --navy:#0D1A45;--royal:#1E3070;
-  --gold:#C9A84C;--gdk:#A8882C;--glt:rgba(201,168,76,.11);
-  --cream:#F7F4EE;--white:#fff;
-  --ink:#0D1A45;--body:#2A3A6A;--hint:#8A9BB5;
-  --bg:#F7F4EE;--card:#fff;
-  --bd:rgba(13,26,69,.08);--bdm:rgba(13,26,69,.14);
-  --ok:#1A6B3A;--ok-bg:rgba(26,107,58,.1);
-  --sp:cubic-bezier(.16,1,.3,1);
-  --r:14px;--rs:9px;--rl:20px;
-  --serif:'Cormorant Garamond',Georgia,serif;
-  --sans:'Jost',system-ui,sans-serif;
-}
-html,body{height:100%;overflow:hidden;background:var(--navy);font-family:var(--sans);font-weight:400;-webkit-font-smoothing:antialiased;}
-#app{position:fixed;inset:0;display:flex;flex-direction:column;}
+  :root{
+    --navy:#1B2A6B;
+    --gold:#D4A830;
+    --periwinkle:#7B82C9;
+    --cream:#F7F4EE;
+    --black:#0E0E1A;
+    --font-h:'Gilda Display', serif;
+    --font-s:'Cormorant Garamond', serif;
+    --font-b:'Jost', sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:var(--font-b);
+    background:var(--cream);
+    color:var(--black);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
 
-/* HEADER */
-#hdr{flex-shrink:0;background:var(--navy);padding:10px 18px;display:flex;align-items:center;gap:10px;z-index:60;border-bottom:.5px solid rgba(255,255,255,.06);}
-.hdr-logo{font-family:var(--serif);font-style:italic;font-size:1.7rem;font-weight:500;color:var(--cream);flex-shrink:0;}
-.hdr-logo em{color:var(--gold);}
-.hdr-tagline{font-size:.58rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(201,168,76,.4);display:block;margin-top:2px;}
-.hdr-greet{flex:1;font-family:var(--serif);font-style:italic;font-size:1.1rem;font-weight:400;color:rgba(247,244,238,.45);text-align:right;padding-right:4px;}
-.hdr-ava{width:36px;height:36px;border-radius:50%;background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:.95rem;font-weight:500;color:var(--gold);cursor:pointer;flex-shrink:0;transition:border-color .18s;}
-.hdr-ava:hover{border-color:var(--gold);}
+  /* Top bar */
+  header{
+    padding:32px 48px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-bottom:1px solid rgba(27,42,107,.08);
+  }
+  header a.brand{
+    font-family:var(--font-h);
+    font-size:1.4rem;
+    color:var(--navy);
+    text-decoration:none;
+    letter-spacing:.04em;
+  }
 
-/* MIC — ALWAYS VISIBLE TOP BAR */
-#mic-bar{flex-shrink:0;display:flex;align-items:center;gap:10px;padding:8px 18px;background:rgba(13,26,69,.97);border-bottom:.5px solid rgba(255,255,255,.06);}
-.mic-bar-btn{display:flex;align-items:center;gap:8px;background:rgba(201,168,76,.1);border:.5px solid rgba(201,168,76,.25);border-radius:22px;padding:7px 14px;cursor:pointer;transition:all .18s;flex-shrink:0;}
-.mic-bar-btn:hover{background:rgba(201,168,76,.18);border-color:var(--gold);}
-.mic-bar-btn.rec{background:rgba(180,30,30,.2);border-color:rgba(180,30,30,.5);animation:mbpulse .7s ease-in-out infinite;}
-@keyframes mbpulse{0%,100%{box-shadow:0 0 0 0 rgba(180,30,30,.2);}50%{box-shadow:0 0 0 6px rgba(180,30,30,0);}}
-.mic-bar-lbl{font-size:.75rem;font-weight:500;color:rgba(201,168,76,.85);}
-.mic-bar-hint{flex:1;font-size:.74rem;font-weight:400;color:rgba(255,255,255,.28);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.mic-waves{display:none;gap:2px;align-items:center;}
-.mic-bar-btn.rec .mic-waves{display:flex;}
-.mic-bar-btn.rec .mic-bar-lbl{color:rgba(255,255,255,.75);}
-.mw{width:2px;height:10px;border-radius:1px;background:rgba(255,150,150,.8);animation:mwave .7s ease-in-out infinite;}
-.mw:nth-child(2){height:16px;animation-delay:.1s;}
-.mw:nth-child(3){height:11px;animation-delay:.2s;}
-.mw:nth-child(4){height:18px;animation-delay:.3s;}
-.mw:nth-child(5){height:9px;animation-delay:.4s;}
-@keyframes mwave{0%,100%{transform:scaleY(.4);}50%{transform:scaleY(1);}}
+  /* Main */
+  main{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:60px 24px;
+  }
+  .card{
+    width:100%;
+    max-width:440px;
+    background:#fff;
+    border:1px solid rgba(27,42,107,.08);
+    padding:56px 44px;
+    border-radius:2px;
+    box-shadow:0 1px 40px rgba(27,42,107,.04);
+  }
+  .card h1{
+    font-family:var(--font-h);
+    font-weight:400;
+    font-size:2rem;
+    color:var(--navy);
+    text-align:center;
+    margin-bottom:8px;
+    letter-spacing:.02em;
+  }
+  .card .sub{
+    font-family:var(--font-s);
+    font-style:italic;
+    font-size:1rem;
+    color:rgba(27,42,107,.55);
+    text-align:center;
+    margin-bottom:40px;
+  }
 
-/* PAGES */
-#pages{flex:1;position:relative;overflow:hidden;}
-.pg{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;background:var(--bg);transition:transform .36s var(--sp),opacity .28s ease;padding-bottom:76px;}
-.pg.on{transform:none;opacity:1;pointer-events:all;}
-.pg.rt{transform:translateX(26px);opacity:0;pointer-events:none;}
-.pg.lt{transform:translateX(-26px);opacity:0;pointer-events:none;}
+  label{
+    display:block;
+    font-size:.7rem;
+    letter-spacing:.18em;
+    text-transform:uppercase;
+    color:var(--navy);
+    margin-bottom:8px;
+    font-weight:400;
+  }
+  input{
+    width:100%;
+    padding:14px 16px;
+    border:1px solid rgba(27,42,107,.18);
+    background:#fff;
+    font-family:var(--font-b);
+    font-size:.95rem;
+    color:var(--black);
+    margin-bottom:24px;
+    border-radius:2px;
+    transition:border-color .2s;
+  }
+  input:focus{
+    outline:none;
+    border-color:var(--gold);
+  }
 
-/* NAV */
-#nav{flex-shrink:0;height:60px;background:var(--navy);border-top:.5px solid rgba(255,255,255,.06);display:flex;padding-bottom:env(safe-area-inset-bottom,0);}
-.ni{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;padding:6px 2px;position:relative;}
-.ni svg{width:19px;height:19px;color:rgba(247,244,238,.28);transition:color .18s;}
-.ni .lb{font-size:.56rem;font-weight:500;letter-spacing:.07em;text-transform:uppercase;color:rgba(247,244,238,.25);transition:color .18s;}
-.ni.on svg,.ni.on .lb{color:var(--gold);}
-.ni.on::after{content:'';position:absolute;top:-1px;left:50%;transform:translateX(-50%);width:22px;height:2px;background:var(--gold);border-radius:0 0 2px 2px;}
+  .row-between{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:32px;
+    margin-top:-8px;
+  }
+  .remember{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:.78rem;
+    color:rgba(27,42,107,.7);
+  }
+  .remember input{
+    width:auto;
+    margin:0;
+  }
+  .forgot{
+    font-size:.78rem;
+    color:var(--navy);
+    text-decoration:none;
+    letter-spacing:.02em;
+  }
+  .forgot:hover{color:var(--gold);}
 
-/* HOME */
-.hw{background:linear-gradient(148deg,var(--royal),var(--navy) 55%,#060E26 100%);padding:28px 20px 24px;position:relative;overflow:hidden;}
-.hw::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 75% 55% at 65% 18%,rgba(201,168,76,.055),transparent);pointer-events:none;}
-.hw-grain{position:absolute;inset:0;opacity:.018;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
-.hw-hi{font-family:var(--serif);font-style:italic;font-size:clamp(1.9rem,6.5vw,2.7rem);font-weight:500;color:var(--cream);line-height:1.06;margin-bottom:8px;opacity:0;animation:fu .55s .1s var(--sp) forwards;}
-.hw-hi em{color:var(--gold);}
-.hw-sub{font-size:.86rem;font-weight:400;color:rgba(247,244,238,.4);line-height:1.7;margin-bottom:20px;opacity:0;animation:fu .55s .25s var(--sp) forwards;}
-.hw-shield{display:flex;align-items:flex-start;gap:11px;background:rgba(255,255,255,.042);border:.5px solid rgba(201,168,76,.13);border-radius:var(--r);padding:12px 14px;opacity:0;animation:fu .55s .4s var(--sp) forwards;}
-.hw-st{font-size:.8rem;font-weight:400;color:rgba(247,244,238,.44);line-height:1.65;}
-.hw-st strong{color:var(--cream);font-weight:500;}
-.hw-cta{display:inline-block;margin-top:5px;font-size:.7rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--gold);cursor:pointer;border-bottom:.5px solid rgba(201,168,76,.3);padding-bottom:1px;}
-@keyframes fu{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
-.home-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:16px;}
-.hb{background:var(--card);border-radius:var(--r);border:.5px solid var(--bd);padding:15px 13px;cursor:pointer;transition:transform .2s var(--sp),box-shadow .2s,border-color .18s;}
-.hb:hover{transform:translateY(-2px);border-color:rgba(201,168,76,.28);box-shadow:0 4px 16px rgba(13,26,69,.07);}
-.hb:active{transform:scale(.97);}
-.hb-ico{width:30px;height:30px;border-radius:8px;background:var(--glt);border:.5px solid rgba(201,168,76,.16);display:flex;align-items:center;justify-content:center;margin-bottom:9px;}
-.hb-main{font-size:.9rem;font-weight:600;color:var(--ink);margin-bottom:2px;}
-.hb-sub{font-size:.7rem;font-weight:400;color:var(--hint);}
+  button.primary{
+    width:100%;
+    padding:16px;
+    background:var(--navy);
+    color:#fff;
+    border:none;
+    font-family:var(--font-b);
+    font-size:.78rem;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    cursor:pointer;
+    transition:background .25s;
+    border-radius:2px;
+  }
+  button.primary:hover{background:var(--gold);color:var(--navy);}
 
-/* PLAN / CHAT */
-.plan-hero{background:var(--navy);padding:18px 18px 14px;border-bottom:.5px solid rgba(255,255,255,.06);}
-.plan-ttl{font-family:var(--serif);font-style:italic;font-size:1.4rem;font-weight:500;color:var(--cream);}
-.plan-sub{font-size:.76rem;font-weight:400;color:rgba(247,244,238,.38);margin-top:2px;}
-/* dest grid */
-.dest-row{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:12px 16px 0;}
-.dest-row::-webkit-scrollbar{display:none;}
-.dp{flex-shrink:0;width:108px;height:64px;border-radius:12px;overflow:hidden;position:relative;cursor:pointer;transition:transform .2s var(--sp);}
-.dp:hover{transform:scale(1.04);}
-.dp:active{transform:scale(.97);}
-.dp-bg{width:100%;height:100%;}
-.dp::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.62),rgba(0,0,0,.05) 60%);}
-.dp-lbl{position:absolute;bottom:7px;left:0;right:0;text-align:center;font-family:var(--serif);font-style:italic;font-size:.88rem;font-weight:400;color:#fff;z-index:1;}
-/* chat */
-.chat-wrap{display:flex;flex-direction:column;background:var(--white);border-top:.5px solid var(--bd);}
-.msgs{padding:12px 14px 6px;display:flex;flex-direction:column;gap:8px;min-height:140px;max-height:38vh;overflow-y:auto;scroll-behavior:smooth;}
-.mrow{display:flex;gap:7px;align-items:flex-end;}
-.mrow.u{flex-direction:row-reverse;}
-.mava{width:23px;height:23px;border-radius:50%;background:var(--navy);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:.6rem;font-weight:500;color:rgba(201,168,76,.8);flex-shrink:0;border:.5px solid rgba(201,168,76,.18);}
-.bbl{max-width:84%;padding:9px 13px;font-size:.87rem;font-weight:400;line-height:1.65;border-radius:var(--rl) var(--rl) var(--rl) 4px;background:var(--bg);color:var(--ink);border:.5px solid var(--bd);animation:bIn .28s var(--sp) forwards;opacity:0;}
-.bbl.u{background:var(--navy);color:var(--cream);border-color:transparent;border-radius:var(--rl) var(--rl) 4px var(--rl);}
-@keyframes bIn{to{opacity:1;transform:none;}}
-.bbl{transform:translateY(6px) scale(.97);}
-.typing{display:flex;gap:4px;align-items:center;padding:10px 13px;background:var(--bg);border:.5px solid var(--bd);border-radius:var(--rl) var(--rl) var(--rl) 4px;width:fit-content;}
-.td{width:4px;height:4px;border-radius:50%;background:var(--hint);animation:tdot .8s ease-in-out infinite;}
-.td:nth-child(2){animation-delay:.16s;}.td:nth-child(3){animation-delay:.32s;}
-@keyframes tdot{0%,100%{opacity:.3;transform:translateY(0);}50%{opacity:.85;transform:translateY(-3px);}}
-/* chips */
-.chips{padding:6px 12px 8px;display:flex;flex-wrap:wrap;gap:5px;}
-.chip{font-size:.74rem;font-weight:400;padding:5px 11px;border:.5px solid var(--bdm);border-radius:17px;cursor:pointer;color:var(--body);background:var(--card);transition:all .15s var(--sp);}
-.chip:hover{border-color:var(--gold);color:var(--navy);background:var(--glt);}
-.chip.used{opacity:.25;pointer-events:none;}
-.cinp-row{display:flex;gap:7px;align-items:center;padding:9px 13px;border-top:.5px solid var(--bd);}
-.cinp{flex:1;background:var(--bg);border:.5px solid var(--bdm);border-radius:17px;padding:9px 13px;font-family:var(--sans);font-size:.87rem;color:var(--ink);outline:none;transition:border-color .18s;}
-.cinp:focus{border-color:rgba(201,168,76,.38);}
-.cinp::placeholder{color:var(--hint);}
-.sndb{width:33px;height:33px;border-radius:50%;background:var(--navy);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:background .18s;}
-.sndb:hover{background:var(--royal);}
+  .signup{
+    margin-top:32px;
+    text-align:center;
+    font-size:.85rem;
+    color:rgba(27,42,107,.7);
+    font-family:var(--font-s);
+  }
+  .signup a{
+    color:var(--navy);
+    font-weight:500;
+    text-decoration:none;
+    letter-spacing:.02em;
+    margin-left:4px;
+  }
+  .signup a:hover{color:var(--gold);}
 
-/* PACK */
-.pk-hero{background:var(--navy);padding:18px 18px 14px;border-bottom:.5px solid rgba(255,255,255,.06);}
-.pk-ttl{font-family:var(--serif);font-style:italic;font-size:1.4rem;font-weight:500;color:var(--cream);}
-.pk-sub{font-size:.75rem;color:rgba(247,244,238,.38);margin-top:2px;}
-.pk-add-area{background:var(--white);border-bottom:.5px solid var(--bd);padding:14px 16px;}
-.pk-add-lbl{font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);margin-bottom:7px;}
-.pk-desc{font-size:.8rem;color:var(--hint);margin-bottom:10px;line-height:1.55;}
-.pk-row{display:flex;gap:7px;align-items:center;}
-.pk-inp{flex:1;background:var(--bg);border:.5px solid var(--bdm);border-radius:var(--rs);padding:10px 13px;font-family:var(--sans);font-size:.9rem;color:var(--ink);outline:none;transition:border-color .18s;}
-.pk-inp:focus{border-color:rgba(201,168,76,.4);}
-.pk-inp::placeholder{color:var(--hint);}
-.pk-qty{width:56px;background:var(--bg);border:.5px solid var(--bdm);border-radius:var(--rs);padding:10px 8px;font-family:var(--sans);font-size:.9rem;font-weight:500;color:var(--ink);outline:none;text-align:center;}
-.pk-addbtn{width:36px;height:36px;border-radius:50%;background:var(--navy);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:none;}
-.pk-addbtn:hover{background:var(--royal);}
-.pk-quick{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
-.pk-qc{font-size:.72rem;font-weight:500;padding:4px 10px;border:.5px solid var(--bdm);border-radius:12px;cursor:pointer;color:var(--body);transition:all .15s;}
-.pk-qc:hover{border-color:var(--gold);background:var(--glt);}
-.pk-prog{display:flex;align-items:center;gap:9px;padding:8px 16px;background:var(--card);border-bottom:.5px solid var(--bd);}
-.pk-prog-bar{flex:1;height:3px;background:var(--bd);border-radius:2px;}
-.pk-prog-fill{height:100%;background:linear-gradient(90deg,var(--gdk),var(--gold));border-radius:2px;transition:width .3s;}
-.pk-prog-lbl{font-size:.7rem;font-weight:500;color:var(--hint);white-space:nowrap;}
-/* pack list */
-.pk-list{background:var(--white);}
-.pk-item{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:.5px solid rgba(13,26,69,.05);cursor:pointer;user-select:none;}
-.pk-item:hover{background:var(--bg);}
-.pcb{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--bdm);flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .18s;}
-.pcb.on{background:var(--ok);border-color:var(--ok);}
-.pcb.on::after{content:'';display:block;width:9px;height:5.5px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:rotate(-45deg) translate(1px,-1px);}
-.pi-nm{flex:1;font-size:.9rem;font-weight:400;color:var(--ink);line-height:1.4;}
-.pi-nm.on{color:var(--hint);text-decoration:line-through;}
-.pi-qty{font-size:.76rem;font-weight:600;color:var(--body);background:var(--bg);padding:2px 7px;border-radius:5px;border:.5px solid var(--bd);}
-.pi-del{font-size:.85rem;color:var(--hint);padding:2px 6px;opacity:0;transition:opacity .12s;}
-.pk-item:hover .pi-del{opacity:.55;}
-.pk-empty{padding:28px 18px;text-align:center;font-size:.86rem;color:var(--hint);line-height:1.7;}
+  .divider{
+    height:1px;
+    background:rgba(27,42,107,.1);
+    margin:32px 0;
+  }
 
-/* TRIPS */
-.tr-hero{background:linear-gradient(148deg,var(--royal),var(--navy));padding:20px 18px 16px;}
-.tr-ttl{font-family:var(--serif);font-style:italic;font-size:1.45rem;font-weight:500;color:var(--cream);}
-.tr-sub{font-size:.74rem;color:rgba(247,244,238,.38);margin-top:2px;}
-.slbl{font-size:.62rem;font-weight:600;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);padding:14px 18px 7px;}
-.tscr{display:flex;gap:9px;padding:0 18px 4px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-snap-type:x mandatory;}
-.tscr::-webkit-scrollbar{display:none;}
-.tcard{flex-shrink:0;width:236px;border-radius:var(--r);overflow:hidden;border:.5px solid var(--bd);background:var(--card);scroll-snap-align:start;cursor:pointer;transition:transform .2s var(--sp),box-shadow .2s;box-shadow:0 2px 8px rgba(13,26,69,.06);}
-.tcard:hover{transform:translateY(-3px);box-shadow:0 6px 20px rgba(13,26,69,.11);}
-.tc-h{height:104px;position:relative;display:flex;align-items:flex-end;padding:10px;}
-.tc-h::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.68),transparent 50%);}
-.tc-d{font-family:var(--serif);font-style:italic;font-size:1.05rem;font-weight:500;color:#fff;position:relative;z-index:1;}
-.tc-n{font-size:.63rem;color:rgba(255,255,255,.5);position:relative;z-index:1;display:block;margin-top:1px;}
-.tc-b{padding:11px 12px;}
-.tc-dt{font-size:.71rem;color:var(--hint);margin-bottom:6px;}
-.tc-tags{display:flex;flex-wrap:wrap;gap:3px;}
-.tc-tag{font-size:.61rem;font-weight:500;padding:2px 6px;border:.5px solid rgba(201,168,76,.2);border-radius:3px;color:var(--gdk);}
-.tc-st{display:flex;align-items:center;gap:4px;margin-top:7px;padding-top:7px;border-top:.5px solid var(--bd);font-size:.69rem;color:var(--hint);}
-.tc-sd{width:4px;height:4px;border-radius:50%;}
+  footer{
+    padding:24px;
+    text-align:center;
+    font-family:var(--font-s);
+    font-size:.85rem;
+    font-style:italic;
+    color:rgba(27,42,107,.5);
+  }
+  footer a{color:rgba(27,42,107,.7);text-decoration:none;}
+  footer a:hover{color:var(--gold);}
 
-/* PROFILE */
-.pr-hero{background:linear-gradient(148deg,var(--royal),var(--navy));padding:24px 18px 18px;text-align:center;position:relative;overflow:hidden;}
-.pr-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 68% 48% at 50% 0%,rgba(201,168,76,.062),transparent);pointer-events:none;}
-.pr-aw{position:relative;display:inline-block;margin-bottom:11px;}
-.pr-av{width:68px;height:68px;border-radius:50%;background:rgba(30,48,112,.8);border:2px solid rgba(201,168,76,.28);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-style:italic;font-size:1.5rem;font-weight:500;color:var(--gold);}
-.pr-nm{font-family:var(--serif);font-style:italic;font-size:1.35rem;font-weight:500;color:var(--cream);margin-bottom:4px;}
-.pr-tier{display:inline-block;font-size:.61rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;padding:3px 9px;border:.5px solid rgba(201,168,76,.3);border-radius:3px;color:var(--gold);}
-.psec{margin-top:12px;}
-.pslbl{font-size:.62rem;font-weight:600;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);padding:0 18px 6px;}
-.pscard{background:var(--card);border-top:.5px solid var(--bd);border-bottom:.5px solid var(--bd);}
-.prow{display:flex;align-items:flex-start;gap:10px;padding:12px 18px;border-bottom:.5px solid rgba(13,26,69,.06);cursor:pointer;transition:background .13s;}
-.prow:last-child{border-bottom:none;}
-.prow:hover{background:var(--bg);}
-.prl{font-size:.7rem;font-weight:500;color:var(--hint);min-width:108px;flex-shrink:0;padding-top:2px;}
-.prv{font-size:.88rem;font-weight:400;color:var(--ink);flex:1;line-height:1.5;}
-.prv.em{color:var(--hint);font-style:italic;font-size:.84rem;}
-.pre{font-size:.65rem;font-weight:500;color:var(--hint);opacity:0;transition:opacity .13s;padding-top:2px;}
-.prow:hover .pre{opacity:.5;}
-.signout-btn{margin:16px 18px;padding:11px;background:var(--bg);border:1px solid var(--bdm);border-radius:var(--r);font-family:var(--sans);font-size:.84rem;font-weight:400;color:var(--hint);text-align:center;cursor:pointer;transition:all .18s;}
-.signout-btn:hover{border-color:rgba(200,50,50,.3);color:rgba(180,40,40,.8);}
-
-/* SHEET */
-.ov{position:fixed;inset:0;background:rgba(13,26,69,.35);backdrop-filter:blur(3px);z-index:190;opacity:0;pointer-events:none;transition:opacity .25s;}
-.ov.on{opacity:1;pointer-events:all;}
-.sheet{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:.5px solid var(--bd);border-radius:var(--rl) var(--rl) 0 0;padding:18px 18px 44px;transform:translateY(100%);transition:transform .32s var(--sp);z-index:200;}
-.sheet.on{transform:none;}
-.sh-hdl{width:36px;height:3px;border-radius:1.5px;background:var(--bdm);margin:0 auto 15px;}
-.sh-lbl{font-size:.7rem;font-weight:600;color:var(--hint);letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px;}
-.sh-inp{width:100%;background:var(--bg);border:.5px solid var(--bdm);border-radius:var(--rs);padding:11px 13px;font-family:var(--sans);font-size:.9rem;color:var(--ink);outline:none;resize:none;transition:border-color .18s;}
-.sh-inp:focus{border-color:rgba(201,168,76,.38);}
-.sh-sv{width:100%;margin-top:11px;padding:12px;background:var(--navy);border-radius:var(--r);font-family:var(--sans);font-size:.86rem;font-weight:600;color:var(--cream);cursor:pointer;border:none;}
-.sh-sv:hover{background:var(--royal);}
+  @media (max-width:520px){
+    .card{padding:40px 28px;}
+    .card h1{font-size:1.7rem;}
+    header{padding:24px;}
+  }
 </style>
 </head>
 <body>
-<div id="app">
 
-<div id="hdr">
-  <div>
-    <div class="hdr-logo">Lo<em>lo</em></div>
-    <span class="hdr-tagline">Member Portal</span>
-  </div>
-  <div class="hdr-greet" id="hg">Welcome</div>
-  <div class="hdr-ava" id="hava" onclick="go('profile')">?</div>
-</div>
+<header>
+  <a class="brand" href="/">Lolo Travels</a>
+</header>
 
-<!-- MIC ALWAYS VISIBLE -->
-<div id="mic-bar">
-  <div class="mic-bar-btn" id="micbtn" onclick="togMic()">
-    <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="4" y=".5" width="5" height="7.5" rx="2.5" stroke="rgba(201,168,76,.85)" stroke-width="1.2"/><path d="M1.5 7a5 5 0 009.5 0" stroke="rgba(201,168,76,.85)" stroke-width="1.2" stroke-linecap="round"/><path d="M6.5 11.5V13" stroke="rgba(201,168,76,.85)" stroke-width="1.2" stroke-linecap="round"/></svg>
-    <div class="mic-waves"><div class="mw"></div><div class="mw"></div><div class="mw"></div><div class="mw"></div><div class="mw"></div></div>
-    <span class="mic-bar-lbl" id="mic-lbl">Tap to speak</span>
-  </div>
-  <div class="mic-bar-hint" id="mic-hint">Voice works in Chrome &bull; Say anything to start</div>
-</div>
+<main>
+  <div class="card">
+    <h1>Sign In</h1>
+    <p class="sub">Welcome back</p>
 
-<div id="pages">
+    <label for="email">Email</label>
+    <input id="email" type="email" autocomplete="email" placeholder="you@example.com">
 
-<!-- HOME -->
-<div class="pg on" id="pg-home">
-  <div class="hw">
-    <div class="hw-grain"></div>
-    <div class="hw-hi" id="hw-hi">Welcome to <em>Lolo.</em></div>
-    <div class="hw-sub">What can we do for you today?</div>
-    <div class="hw-shield">
-      <svg width="17" height="17" viewBox="0 0 17 17" fill="none" style="flex-shrink:0;margin-top:1px;"><path d="M8.5 1.5L2 4v4.5C2 12 4.8 15.2 8.5 16c3.7-.8 6.5-4 6.5-7.5V4L8.5 1.5z" stroke="rgba(201,168,76,.7)" stroke-width="1.2" stroke-linejoin="round"/><path d="M6 8.5l2 2 3-3" stroke="rgba(201,168,76,.7)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <div>
-        <div class="hw-st"><strong>Lolo Shield is active.</strong> You are covered before, during, and after every trip.</div>
-        <div class="hw-cta" onclick="go('shield')">See what is covered &rarr;</div>
-      </div>
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password" placeholder="••••••••">
+
+    <div class="row-between">
+      <label class="remember"><input type="checkbox"> Remember me</label>
+      <a class="forgot" href="#">Forgot password?</a>
     </div>
+
+    <button class="primary" type="button">Sign In</button>
+
+    <div class="divider"></div>
+
+    <p class="signup">New to Lolo? <a href="#">Create an account</a></p>
   </div>
-  <div class="home-grid">
-    <div class="hb" onclick="go('plan')"><div class="hb-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="var(--gdk)" stroke-width="1.2"/><path d="M7 4.5V7l2 2" stroke="var(--gdk)" stroke-width="1.2" stroke-linecap="round"/></svg></div><div class="hb-main">Start planning</div><div class="hb-sub">Any destination or idea</div></div>
-    <div class="hb" onclick="go('trips')"><div class="hb-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="4.5" width="10" height="8" rx="1.2" stroke="var(--gdk)" stroke-width="1.2"/><path d="M5 4.5V3.5a2 2 0 014 0V4.5" stroke="var(--gdk)" stroke-width="1.2" stroke-linecap="round"/></svg></div><div class="hb-main">My trips</div><div class="hb-sub">Upcoming and past</div></div>
-    <div class="hb" onclick="go('pack')"><div class="hb-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3.5 5.5h7l-1 7H4.5l-1-7z" stroke="var(--gdk)" stroke-width="1.2" stroke-linejoin="round"/><path d="M5.5 5.5V4a1.5 1.5 0 013 0v1.5" stroke="var(--gdk)" stroke-width="1.2" stroke-linecap="round"/></svg></div><div class="hb-main">Packing list</div><div class="hb-sub"><span id="hb-pack-count">Add items</span></div></div>
-    <div class="hb" onclick="go('profile')"><div class="hb-ico"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="5" r="2.5" stroke="var(--gdk)" stroke-width="1.2"/><path d="M2.5 12.5c0-2.8 2-4.5 4.5-4.5s4.5 1.7 4.5 4.5" stroke="var(--gdk)" stroke-width="1.2" stroke-linecap="round"/></svg></div><div class="hb-main">About you</div><div class="hb-sub">Preferences and profile</div></div>
-  </div>
-</div>
+</main>
 
-<!-- PLAN -->
-<div class="pg rt" id="pg-plan">
-  <div class="plan-hero"><div class="plan-ttl">Where are you going?</div><div class="plan-sub">A place, a feeling, an occasion — start anywhere</div></div>
-  <div class="dest-row">
-    <div class="dp" onclick="tapDest('africa')"><div class="dp-bg" style="background:linear-gradient(155deg,#7A4A0A,#C4831A,#3B2008);"></div><div class="dp-lbl">Africa</div></div>
-    <div class="dp" onclick="tapDest('japan')"><div class="dp-bg" style="background:linear-gradient(155deg,#2D1B3D,#6B3F8A,#C4A0C8);"></div><div class="dp-lbl">Japan</div></div>
-    <div class="dp" onclick="tapDest('maldives')"><div class="dp-bg" style="background:linear-gradient(155deg,#0B4C6A,#1A8BAA,#7ECFE0);"></div><div class="dp-lbl">Maldives</div></div>
-    <div class="dp" onclick="tapDest('france')"><div class="dp-bg" style="background:linear-gradient(155deg,#1A3560,#2B6CB0,#E8D88A);"></div><div class="dp-lbl">France</div></div>
-    <div class="dp" onclick="tapDest('morocco')"><div class="dp-bg" style="background:linear-gradient(155deg,#5C2A0A,#A84A12,#E8A050);"></div><div class="dp-lbl">Morocco</div></div>
-    <div class="dp" onclick="tapDest('sa')"><div class="dp-bg" style="background:linear-gradient(155deg,#1A3A0A,#3A7020,#90C048);"></div><div class="dp-lbl">Cape Town</div></div>
-    <div class="dp" onclick="tapDest('cruise')"><div class="dp-bg" style="background:linear-gradient(155deg,#0A2A4A,#0A6080,#40C0E0);"></div><div class="dp-lbl">Cruise</div></div>
-  </div>
-  <div class="chat-wrap">
-    <div class="msgs" id="msgs"></div>
-    <div class="chips" id="chips">
-      <div class="chip" onclick="tapC(this,'Safari in Africa','africa')">Safari in Africa</div>
-      <div class="chip" onclick="tapC(this,'Japan — food and culture','japan')">Japan</div>
-      <div class="chip" onclick="tapC(this,'Something to celebrate on this trip','occasion')">Celebrating something</div>
-      <div class="chip" onclick="tapC(this,'Food and shopping is the whole point','food')">Food and shopping</div>
-      <div class="chip" onclick="tapC(this,'Whole family is coming','family')">Whole family</div>
-      <div class="chip" onclick="tapC(this,'Private aviation is an option','pvt')">Private aviation</div>
-      <div class="chip" onclick="tapC(this,'Cruise or yacht voyage','cruise')">Cruise or yacht</div>
-      <div class="chip" onclick="tapC(this,'I need to completely get away','escape')">Need to escape</div>
-    </div>
-    <div class="cinp-row">
-      <input class="cinp" id="cinp" placeholder="Type anything — destination, occasion, feeling..." onkeydown="if(event.key==='Enter'){sendTxt();event.preventDefault();}"/>
-      <button class="sndb" onclick="sendTxt()"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5h8M5.5 1.5l4 3.5-4 3.5" stroke="rgba(247,244,238,.9)" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    </div>
-  </div>
-</div>
+<footer>
+  <a href="/">Return to lolotravels.com</a>
+</footer>
 
-<!-- PACK -->
-<div class="pg rt" id="pg-pack">
-  <div class="pk-hero"><div class="pk-ttl">Packing list</div><div class="pk-sub">Add exactly what you are taking — specific items and quantities</div></div>
-  <div class="pk-add-area">
-    <div class="pk-add-lbl">Add an item</div>
-    <div class="pk-desc">Be specific: black dress shoes, toothpaste, Arlo food. Speak or type. Say "3 dress shirts" and the quantity fills automatically.</div>
-    <div class="pk-row">
-      <input class="pk-inp" id="pkinp" placeholder="e.g. Black dress shoes, toothpaste, phone charger..." onkeydown="if(event.key==='Enter'){addPkItem();event.preventDefault();}"/>
-      <input class="pk-qty" id="pkqty" type="number" value="1" min="1" max="99"/>
-      <button class="pk-addbtn" onclick="addPkItem()"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg></button>
-    </div>
-    <div class="pk-quick">
-      <span class="pk-qc" onclick="quickPk('Toothpaste')">Toothpaste</span>
-      <span class="pk-qc" onclick="quickPk('Deodorant')">Deodorant</span>
-      <span class="pk-qc" onclick="quickPk('Sunscreen')">Sunscreen</span>
-      <span class="pk-qc" onclick="quickPk('Phone charger')">Phone charger</span>
-      <span class="pk-qc" onclick="quickPk('Travel adapter')">Travel adapter</span>
-      <span class="pk-qc" onclick="quickPk('Passport')">Passport</span>
-      <span class="pk-qc" onclick="quickPk('Medications')">Medications</span>
-      <span class="pk-qc" onclick="quickPk('Laptop')">Laptop</span>
-    </div>
-  </div>
-  <div class="pk-prog"><div class="pk-prog-bar"><div class="pk-prog-fill" id="pk-fill" style="width:0%;"></div></div><div class="pk-prog-lbl" id="pk-lbl">0 items</div></div>
-  <div class="pk-list" id="pk-list">
-    <div class="pk-empty" id="pk-empty">Nothing added yet.<br>Type an item above or tap a quick-add chip.</div>
-  </div>
-</div>
-
-<!-- TRIPS -->
-<div class="pg rt" id="pg-trips">
-  <div class="tr-hero"><div class="tr-ttl">My trips</div><div class="tr-sub">Upcoming and past</div></div>
-  <div class="slbl">Upcoming</div>
-  <div class="tscr">
-    <div class="tcard"><div class="tc-h" style="background:linear-gradient(155deg,#7A4A0A,#C4831A,#3B2008);"><div><div class="tc-d">South Africa</div><span class="tc-n">12 nights · Cape Winelands</span></div></div><div class="tc-b"><div class="tc-dt">May 10 – 22 · Departs in 11 days</div><div class="tc-tags"><span class="tc-tag">Breakfast incl.</span><span class="tc-tag">Shield active</span></div><div class="tc-st"><div class="tc-sd" style="background:#1A6B3A;"></div>Confirmed · Itinerary ready</div></div></div>
-    <div class="tcard"><div class="tc-h" style="background:linear-gradient(155deg,#1A3A0A,#3A7020,#0F2008);"><div><div class="tc-d">Kenya</div><span class="tc-n">8 nights · Masai Mara</span></div></div><div class="tc-b"><div class="tc-dt">August 3 – 11 · 4 months away</div><div class="tc-tags"><span class="tc-tag">Private aviation</span></div><div class="tc-st"><div class="tc-sd" style="background:#C9A84C;"></div>In progress</div></div></div>
-  </div>
-  <div class="slbl" style="margin-top:6px;">Past trips</div>
-  <div class="tscr">
-    <div class="tcard"><div class="tc-h" style="background:linear-gradient(155deg,#0B4C6A,#1A8BAA,#7ECFE0);"><div><div class="tc-d">Maldives</div><span class="tc-n">7 nights · January 2026</span></div></div><div class="tc-b"><div class="tc-dt">Completed · Trip journal received</div><div class="tc-tags"><span class="tc-tag">Private island</span></div><div class="tc-st"><div class="tc-sd" style="background:var(--hint);"></div>View memories</div></div></div>
-    <div class="tcard"><div class="tc-h" style="background:linear-gradient(155deg,#2D1B3D,#6B3F8A,#C4A0C8);"><div><div class="tc-d">Japan</div><span class="tc-n">10 nights · Sept 2025</span></div></div><div class="tc-b"><div class="tc-dt">Completed · Trip journal received</div><div class="tc-tags"><span class="tc-tag">Food-led</span></div><div class="tc-st"><div class="tc-sd" style="background:var(--hint);"></div>View memories</div></div></div>
-  </div>
-  <div style="padding:16px 18px 0;"><div style="display:flex;align-items:center;gap:6px;padding:11px 15px;background:var(--glt);border:.5px solid rgba(201,168,76,.22);border-radius:20px;font-size:.8rem;font-weight:500;color:var(--gdk);cursor:pointer;width:fit-content;" onclick="go('plan')"><svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M5.5 1v9M1 5.5h9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>Plan something new</div></div>
-</div>
-
-<!-- PROFILE -->
-<div class="pg rt" id="pg-profile">
-  <div class="pr-hero">
-    <div class="pr-aw"><div class="pr-av" id="pr-av">?</div></div>
-    <div class="pr-nm" id="pr-nm">Member</div>
-    <div class="pr-tier" id="pr-tier">Passport Member</div>
-  </div>
-  <div class="psec"><div class="pslbl">About you</div><div class="pscard">
-    <div class="prow" onclick="editF('name','Your preferred name')"><div class="prl">Preferred name</div><div class="prv" id="pv-name">—</div><div class="pre">Edit</div></div>
-    <div class="prow" onclick="editF('dietary','Dietary requirements')"><div class="prl">Dietary</div><div class="prv em" id="pv-dietary">Not set</div><div class="pre">Edit</div></div>
-    <div class="prow" onclick="editF('coffee','Your coffee order')"><div class="prl">Coffee order</div><div class="prv em" id="pv-coffee">Not set — this matters</div><div class="pre">Edit</div></div>
-    <div class="prow" onclick="editF('seat','Seat preference')"><div class="prl">Seat preference</div><div class="prv em" id="pv-seat">Not set</div><div class="pre">Edit</div></div>
-    <div class="prow" onclick="editF('temp','Room temperature')"><div class="prl">Room temperature</div><div class="prv em" id="pv-temp">Not set</div><div class="pre">Edit</div></div>
-    <div class="prow" onclick="editF('air','Air travel preference')"><div class="prl">Air travel</div><div class="prv em" id="pv-air">Not set</div><div class="pre">Edit</div></div>
-    <div class="prow" onclick="editF('with','Who travels with you')"><div class="prl">Traveling with</div><div class="prv em" id="pv-with">Not set</div><div class="pre">Edit</div></div>
-    <div class="prow" onclick="editF('know','Notes for Lolo')" style="align-items:flex-start;"><div class="prl" style="padding-top:2px;">Notes</div><div class="prv em" id="pv-know">Anything Lolo should always know</div><div class="pre" style="padding-top:2px;">Edit</div></div>
-  </div></div>
-  <div class="signout-btn" onclick="signOut()">Sign out</div>
-  <div style="height:20px;"></div>
-</div>
-
-<!-- SHIELD -->
-<div class="pg rt" id="pg-shield">
-  <div style="background:linear-gradient(148deg,#0A1830,var(--navy));padding:22px 18px;display:flex;align-items:center;gap:12px;border-bottom:.5px solid rgba(255,255,255,.06);">
-    <div style="width:46px;height:46px;border-radius:50%;background:rgba(201,168,76,.065);border:.5px solid rgba(201,168,76,.18);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L3 5v5c0 4.1 3.1 7.9 7 8.9 3.9-1 7-4.8 7-8.9V5L10 2z" stroke="rgba(201,168,76,.75)" stroke-width="1.2" stroke-linejoin="round"/><path d="M7 10l2.5 2.5L13 8" stroke="rgba(201,168,76,.75)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
-    <div><div style="font-family:var(--serif);font-style:italic;font-size:1.35rem;font-weight:500;color:var(--cream);">Lolo Shield</div><div style="font-size:.74rem;color:rgba(247,244,238,.38);margin-top:2px;">Active on your account</div></div>
-  </div>
-  <div style="padding:14px 18px;border-bottom:.5px solid var(--bd);background:var(--white);">
-    <div style="font-size:.62rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">Before you go</div>
-    <div style="display:flex;flex-direction:column;gap:7px;">
-      <div style="display:flex;gap:9px;padding:10px 12px;background:var(--bg);border-radius:var(--rs);border:.5px solid var(--bd);"><div style="width:6px;height:6px;border-radius:50%;background:#1A6B3A;flex-shrink:0;margin-top:4px;"></div><div><div style="font-size:.84rem;font-weight:600;color:var(--ink);margin-bottom:2px;">Destination intelligence brief</div><div style="font-size:.76rem;color:var(--body);line-height:1.55;">Entry requirements, safety, cultural context, local contacts — delivered 72 hours before departure.</div></div></div>
-      <div style="display:flex;gap:9px;padding:10px 12px;background:var(--bg);border-radius:var(--rs);border:.5px solid var(--bd);"><div style="width:6px;height:6px;border-radius:50%;background:#1A6B3A;flex-shrink:0;margin-top:4px;"></div><div><div style="font-size:.84rem;font-weight:600;color:var(--ink);margin-bottom:2px;">Cyber security brief</div><div style="font-size:.76rem;color:var(--body);line-height:1.55;">Device risks, unsecured networks, digital exposure — included on every international trip automatically.</div></div></div>
-      <div style="display:flex;gap:9px;padding:10px 12px;background:var(--bg);border-radius:var(--rs);border:.5px solid var(--bd);"><div style="width:6px;height:6px;border-radius:50%;background:#1A6B3A;flex-shrink:0;margin-top:4px;"></div><div><div style="font-size:.84rem;font-weight:600;color:var(--ink);margin-bottom:2px;">Passport and visa tracking</div><div style="font-size:.76rem;color:var(--body);line-height:1.55;">Flagged 9 months before expiry. Entry requirements confirmed before any itinerary is committed.</div></div></div>
-    </div>
-  </div>
-  <div style="padding:14px 18px;border-bottom:.5px solid var(--bd);background:var(--white);">
-    <div style="font-size:.62rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">While you are there</div>
-    <div style="display:flex;flex-direction:column;gap:7px;">
-      <div style="display:flex;gap:9px;padding:10px 12px;background:var(--bg);border-radius:var(--rs);border:.5px solid var(--bd);"><div style="width:6px;height:6px;border-radius:50%;background:#C9A84C;flex-shrink:0;margin-top:4px;"></div><div><div style="font-size:.84rem;font-weight:600;color:var(--ink);margin-bottom:2px;">Vetted local contact in your phone</div><div style="font-size:.76rem;color:var(--body);line-height:1.55;">Saved before you land. One call for anything.</div></div></div>
-      <div style="display:flex;gap:9px;padding:10px 12px;background:var(--bg);border-radius:var(--rs);border:.5px solid var(--bd);"><div style="width:6px;height:6px;border-radius:50%;background:#C9A84C;flex-shrink:0;margin-top:4px;"></div><div><div style="font-size:.84rem;font-weight:600;color:var(--ink);margin-bottom:2px;">24-hour Lolo line</div><div style="font-size:.76rem;color:var(--body);line-height:1.55;">One message and we are on it — any hour, any situation.</div></div></div>
-      <div style="display:flex;gap:9px;padding:10px 12px;background:var(--bg);border-radius:var(--rs);border:.5px solid var(--bd);"><div style="width:6px;height:6px;border-radius:50%;background:#C9A84C;flex-shrink:0;margin-top:4px;"></div><div><div style="font-size:.84rem;font-weight:600;color:var(--ink);margin-bottom:2px;">Real-time monitoring</div><div style="font-size:.76rem;color:var(--body);line-height:1.55;">Lolo watches your flights and itinerary. Changes handled before you know they happened.</div></div></div>
-    </div>
-  </div>
-  <div style="padding:14px 18px;background:var(--white);">
-    <div style="font-size:.62rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;">After you return</div>
-    <div style="display:flex;gap:9px;padding:10px 12px;background:var(--bg);border-radius:var(--rs);border:.5px solid var(--bd);"><div style="width:6px;height:6px;border-radius:50%;background:var(--hint);flex-shrink:0;margin-top:4px;"></div><div><div style="font-size:.84rem;font-weight:600;color:var(--ink);margin-bottom:2px;">Claims recovery</div><div style="font-size:.76rem;color:var(--body);line-height:1.55;">Any disruption or shortfall — Lolo manages every claim from submission through resolution. No recovery, no fee.</div></div></div>
-  </div>
-</div>
-
-</div><!-- /pages -->
-
-<div id="nav">
-  <div class="ni on" id="ni-home" onclick="go('home')"><svg viewBox="0 0 20 20" fill="none"><path d="M3 9.5L10 3l7 6.5V18a1 1 0 01-1 1H13v-4.5H7V19H4a1 1 0 01-1-1V9.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg><span class="lb">Home</span></div>
-  <div class="ni" id="ni-plan" onclick="go('plan')"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7.5" stroke="currentColor" stroke-width="1.3"/><path d="M10 7v3l2.5 2.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lb">Discover</span></div>
-  <div class="ni" id="ni-pack" onclick="go('pack')"><svg viewBox="0 0 20 20" fill="none"><path d="M4 8h12l-1.5 9H5.5L4 8z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M7.5 8V5.5a2.5 2.5 0 015 0V8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lb">Pack</span></div>
-  <div class="ni" id="ni-trips" onclick="go('trips')"><svg viewBox="0 0 20 20" fill="none"><rect x="2.5" y="5.5" width="15" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M6.5 5.5V4a2 2 0 014 0v1.5M9.5 5.5V4a2 2 0 014 0v1.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lb">Trips</span></div>
-  <div class="ni" id="ni-profile" onclick="go('profile')"><svg viewBox="0 0 20 20" fill="none"><circle cx="10" cy="7" r="3.5" stroke="currentColor" stroke-width="1.3"/><path d="M3.5 18c0-3.9 3-6.5 6.5-6.5s6.5 2.6 6.5 6.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg><span class="lb">You</span></div>
-  <div class="ni" id="ni-shield" onclick="go('shield')"><svg viewBox="0 0 20 20" fill="none"><path d="M10 2L3 5v5c0 4.1 3.1 7.9 7 8.9 3.9-1 7-4.8 7-8.9V5L10 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg><span class="lb">Shield</span></div>
-</div>
-
-<div class="ov" id="ov" onclick="closeSheet()"></div>
-<div class="sheet" id="sheet"><div class="sh-hdl"></div><div class="sh-lbl" id="shlbl">Edit</div><textarea class="sh-inp" id="shinp" rows="3"></textarea><button class="sh-sv" onclick="saveF()">Save</button></div>
-
-<script>
-// ── AUTH + MEMBER DATA ────────────────────────────────────────────────────
-const auth = localStorage.getItem('lolo_auth');
-if (!auth) { window.location.href = 'member-login.html'; }
-
-const MEMBER = {
-  name: localStorage.getItem('lolo_name') || 'Guest',
-  email: localStorage.getItem('lolo_email') || '',
-  tier: localStorage.getItem('lolo_tier') || 'Guest'
-};
-
-// Load saved profile fields from localStorage
-const FIELDS_KEY = 'lolo_profile_' + (MEMBER.email || 'guest');
-let F = JSON.parse(localStorage.getItem(FIELDS_KEY) || '{}');
-// Defaults
-const FIELD_DEFAULTS = {
-  name: MEMBER.name,
-  dietary:'',coffee:'',seat:'',temp:'',air:'',with:'',know:''
-};
-Object.keys(FIELD_DEFAULTS).forEach(k => { if (!F[k]) F[k] = FIELD_DEFAULTS[k]; });
-if (!F.name) F.name = MEMBER.name;
-
-// Load pack items
-const PACK_KEY = 'lolo_pack_' + (MEMBER.email || 'guest');
-let pkItems = JSON.parse(localStorage.getItem(PACK_KEY) || '[]');
-
-// ── POPULATE HEADER / HERO ───────────────────────────────────────────────
-function populateUI() {
-  const nm = F.name || MEMBER.name || 'there';
-  const init = nm.charAt(0).toUpperCase();
-  const h = new Date().getHours();
-  const g = h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening';
-
-  document.getElementById('hg').textContent = g + ', ' + nm;
-  document.getElementById('hava').textContent = init;
-  document.getElementById('pr-av').textContent = init;
-  document.getElementById('pr-nm').textContent = nm;
-  document.getElementById('pr-tier').textContent = MEMBER.tier;
-
-  // Welcome animation
-  const hhi = document.getElementById('hw-hi');
-  if (hhi) {
-    // First show welcome, then after 2.8s show greeting
-    hhi.innerHTML = nm + ', <em>welcome to Lolo.</em>';
-    hhi.style.opacity = '0';
-    hhi.style.transform = 'translateY(10px)';
-    hhi.style.transition = 'opacity .5s ease, transform .5s ease';
-    setTimeout(() => { hhi.style.opacity = '1'; hhi.style.transform = 'none'; }, 80);
-    setTimeout(() => {
-      hhi.style.opacity = '0';
-      hhi.style.transform = 'translateY(-5px)';
-      setTimeout(() => {
-        hhi.innerHTML = g + ', <em>' + nm + '.</em>';
-        hhi.style.transform = 'translateY(8px)';
-        setTimeout(() => { hhi.style.opacity = '1'; hhi.style.transform = 'none'; }, 40);
-      }, 400);
-    }, 2800);
-  }
-
-  // Populate profile rows
-  const showVal = (id, val, placeholder) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (val && val.trim()) { el.textContent = val; el.classList.remove('em'); }
-    else { el.textContent = placeholder || 'Not set'; el.classList.add('em'); }
-  };
-  showVal('pv-name', F.name, 'Not set');
-  showVal('pv-dietary', F.dietary, 'Not set');
-  showVal('pv-coffee', F.coffee, 'Not set — this matters');
-  showVal('pv-seat', F.seat, 'Not set');
-  showVal('pv-temp', F.temp, 'Not set');
-  showVal('pv-air', F.air, 'Not set');
-  showVal('pv-with', F.with, 'Not set');
-  showVal('pv-know', F.know, 'Anything Lolo should always know');
-
-  renderPack();
-}
-populateUI();
-
-// ── NAVIGATION ────────────────────────────────────────────────────────────
-const PGS = ['home','plan','pack','trips','profile','shield'];
-let curPage = 'home';
-let prevPage = null;
-
-function go(id) {
-  if (id === curPage) return;
-  const cur = document.getElementById('pg-' + curPage);
-  const nxt = document.getElementById('pg-' + id);
-  if (!cur || !nxt) return;
-  const ci = PGS.indexOf(curPage), ni = PGS.indexOf(id);
-  cur.classList.remove('on');
-  cur.classList.add(ni > ci ? 'lt' : 'rt');
-  nxt.classList.remove('lt','rt');
-  // RAF for smooth animation
-  requestAnimationFrame(() => requestAnimationFrame(() => nxt.classList.add('on')));
-  document.querySelectorAll('.ni').forEach(n => n.classList.remove('on'));
-  const nel = document.getElementById('ni-' + id);
-  if (nel) nel.classList.add('on');
-  prevPage = curPage;
-  curPage = id;
-  if (id === 'plan' && document.getElementById('msgs').children.length === 0) initChat();
-}
-
-// Swipe
-let swTx = 0, swTy = 0;
-document.getElementById('pages').addEventListener('touchstart', e => {
-  swTx = e.touches[0].clientX; swTy = e.touches[0].clientY;
-}, {passive: true});
-document.getElementById('pages').addEventListener('touchend', e => {
-  const dx = e.changedTouches[0].clientX - swTx;
-  const dy = e.changedTouches[0].clientY - swTy;
-  if (Math.abs(dx) < 55 || Math.abs(dy) > Math.abs(dx) * .75) return;
-  // Don't swipe from horizontal scroll containers
-  const t = e.target;
-  if (t.closest('.dest-row,.tscr,.chips')) return;
-  const ci = PGS.indexOf(curPage);
-  if (dx < -55 && ci < PGS.length - 1) go(PGS[ci + 1]);
-  if (dx > 55 && ci > 0) go(PGS[ci - 1]);
-}, {passive: true});
-
-// ── CHAT ─────────────────────────────────────────────────────────────────
-const RPLY = {
-  africa: "East Africa is right. Kenya in August catches the dry season perfectly — the Masai Mara at that time of year is extraordinary. Are you thinking of a fly-in safari or would you like a private charter for the last leg into the conservancy? And who is coming on this trip?",
-  japan: "Japan rewards the unhurried traveler. The food alone is worth the flight. Are you drawn to Tokyo's energy, Kyoto's quiet, or both? And would you prefer structure or the feeling of wandering into things?",
-  maldives: "The Maldives earns every cliché. The real question is whether you want complete seclusion — a private island — or a resort with a little more life. Both are extraordinary. Which sounds more like you?",
-  france: "The South of France works in almost any direction. The Riviera for energy, Provence for quiet and depth, the Luberon for the feeling of actually living somewhere for a week. Where is pulling at you?",
-  morocco: "Marrakech is a full sensory experience — most people stay three nights and feel it was a week. Pairing it with two nights in the Sahara is always the right call. A completely different world, 45 minutes apart by air.",
-  sa: "Cape Town is extraordinary. The Winelands are some of the most beautiful country in the world and the food scene has completely transformed in the last five years. Do you want Cape energy and culture, or private wine estate and open countryside?",
-  cruise: "A cruise or yacht is a completely different kind of trip — the vessel is as much the destination as the ports. Are you thinking of an expedition cruise, a river cruise, or a private yacht charter? Private charter is your own itinerary, your own pace.",
-  occasion: "Of course. What is the occasion — and does the other person know about this trip yet? That changes how we build everything.",
-  food: "Good. Where are you pulled toward, or shall we start with what you want to eat and work backwards to the destination? Some of the best trips are built entirely around a table.",
-  family: "How old are the children? That changes everything — the properties, the pace, the shape of every day. And is there a part of the world the family has been wanting to get to?",
-  pvt: "Private aviation changes the arrival entirely — you land on the airstrip, step out, and the trip has already begun. For Africa especially it is often the only way to reach the properties worth reaching. Shall I include charter options?",
-  escape: "Understood. How long do you have and how far do you want to go? Sometimes the right answer is a nonstop flight to something completely different from your last few trips."
-};
-
-function addMsg(html, isU, delay) {
-  return new Promise(res => setTimeout(() => {
-    const msgs = document.getElementById('msgs');
-    const row = document.createElement('div');
-    row.className = 'mrow' + (isU ? ' u' : '');
-    if (!isU) {
-      const av = document.createElement('div');
-      av.className = 'mava'; av.textContent = 'LL';
-      row.appendChild(av);
-    }
-    const b = document.createElement('div');
-    b.className = 'bbl' + (isU ? ' u' : '');
-    b.innerHTML = html;
-    row.appendChild(b);
-    msgs.appendChild(row);
-    msgs.scrollTo({top: msgs.scrollHeight, behavior: 'smooth'});
-    res();
-  }, delay || 0));
-}
-
-function showTyping() {
-  const msgs = document.getElementById('msgs');
-  const row = document.createElement('div'); row.className = 'mrow'; row.id = 'typ';
-  const av = document.createElement('div'); av.className = 'mava'; av.textContent = 'LL';
-  const b = document.createElement('div'); b.className = 'typing';
-  b.innerHTML = '<div class="td"></div><div class="td"></div><div class="td"></div>';
-  row.appendChild(av); row.appendChild(b); msgs.appendChild(row);
-  msgs.scrollTo({top: msgs.scrollHeight, behavior: 'smooth'});
-}
-function hideTyping() { const t = document.getElementById('typ'); if (t) t.remove(); }
-
-function tapDest(key) {
-  go('plan');
-  setTimeout(() => {
-    const names = {africa:'East Africa',japan:'Japan',maldives:'Maldives',france:'South of France',morocco:'Morocco',sa:'Cape Town',cruise:'Cruise or yacht voyage'};
-    addMsg(names[key] || key, true);
-    showTyping();
-    setTimeout(() => { hideTyping(); addMsg(RPLY[key] || 'Tell me more.', false); }, 1000);
-  }, 300);
-}
-
-function tapC(el, txt, key) {
-  el.classList.add('used');
-  addMsg(txt, true);
-  showTyping();
-  setTimeout(() => { hideTyping(); addMsg(RPLY[key] || 'Tell me more. What is on your mind for this trip?', false); }, 900);
-}
-
-function sendTxt() {
-  const inp = document.getElementById('cinp');
-  if (!inp || !inp.value.trim()) return;
-  const txt = inp.value.trim(); inp.value = '';
-  addMsg(txt, true);
-  const l = txt.toLowerCase();
-  let r = 'Tell me more. A destination, an occasion, how long you have, or what matters most on this trip?';
-  if (l.includes('africa') || l.includes('kenya') || l.includes('safari')) r = RPLY.africa;
-  else if (l.includes('japan') || l.includes('tokyo')) r = RPLY.japan;
-  else if (l.includes('maldive')) r = RPLY.maldives;
-  else if (l.includes('morocco') || l.includes('marrakech')) r = RPLY.morocco;
-  else if (l.includes('france') || l.includes('riviera') || l.includes('provence')) r = RPLY.france;
-  else if (l.includes('cape town') || l.includes('south africa') || l.includes('winelands')) r = RPLY.sa;
-  else if (l.includes('cruise') || l.includes('yacht')) r = RPLY.cruise;
-  else if (l.includes('celebrat') || l.includes('honeymoon') || l.includes('anniversary') || l.includes('birthday')) r = RPLY.occasion;
-  else if (l.includes('food') || l.includes('eat') || l.includes('shop')) r = RPLY.food;
-  else if (l.includes('family') || l.includes('kid') || l.includes('children')) r = RPLY.family;
-  else if (l.includes('charter') || l.includes('private jet') || l.includes('private air')) r = RPLY.pvt;
-  else if (l.includes('escape') || l.includes('get away') || l.includes('exhaust') || l.includes('tired')) r = RPLY.escape;
-  showTyping();
-  setTimeout(() => { hideTyping(); addMsg(r, false); }, 800 + Math.random() * 300);
-}
-
-async function initChat() {
-  const nm = F.name || MEMBER.name || 'there';
-  await addMsg('Hi ' + nm + '. Where are you headed?', false, 250);
-  await addMsg('Tell me anything — a destination, a feeling, a celebration. Tap a place above, use a chip, or just type and I will take it from there.', false, 900);
-}
-
-// ── VOICE ─────────────────────────────────────────────────────────────────
-let isRec = false, recog = null;
-
-function togMic() {
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  const btn = document.getElementById('micbtn');
-  const lbl = document.getElementById('mic-lbl');
-  const hint = document.getElementById('mic-hint');
-
-  if (!SR) {
-    hint.textContent = 'Voice requires Chrome on HTTPS — type instead';
-    hint.style.color = 'rgba(255,200,100,.6)';
-    return;
-  }
-  if (isRec) { stopRec(); return; }
-
-  isRec = true;
-  btn.classList.add('rec');
-  lbl.textContent = 'Listening...';
-  hint.textContent = '';
-
-  recog = new SR();
-  recog.continuous = true;
-  recog.interimResults = true;
-  recog.lang = 'en-US';
-  let fin = '';
-
-  recog.onresult = e => {
-    let f = '', it = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) {
-      if (e.results[i].isFinal) f += e.results[i][0].transcript;
-      else it += e.results[i][0].transcript;
-    }
-    if (f) fin += f;
-    const combined = fin + it;
-    hint.textContent = combined || 'Listening...';
-    // Route to active input
-    const ci = document.getElementById('cinp');
-    const pi = document.getElementById('pkinp');
-    if (curPage === 'pack' && pi) pi.value = combined;
-    else if (ci) ci.value = combined;
-  };
-
-  recog.onerror = () => stopRec();
-  recog.onend = () => { if (isRec) recog.start(); };
-  recog.start();
-}
-
-function stopRec() {
-  if (recog) { recog.stop(); recog = null; }
-  isRec = false;
-  const btn = document.getElementById('micbtn');
-  const lbl = document.getElementById('mic-lbl');
-  const hint = document.getElementById('mic-hint');
-  btn.classList.remove('rec');
-  lbl.textContent = 'Tap to speak';
-
-  const ci = document.getElementById('cinp');
-  const pi = document.getElementById('pkinp');
-  if (curPage === 'pack' && pi && pi.value.trim()) {
-    // Parse "3 black dress shirts"
-    const m = pi.value.match(/^(\d+)\s+(.+)$/);
-    if (m) { pi.value = m[2].charAt(0).toUpperCase() + m[2].slice(1); document.getElementById('pkqty').value = parseInt(m[1]); }
-    addPkItem();
-    hint.textContent = 'Item added';
-  } else if (ci && ci.value.trim()) {
-    if (curPage === 'plan') {
-      if (document.getElementById('msgs').children.length === 0) initChat();
-      setTimeout(sendTxt, 150);
-    }
-    hint.textContent = 'Voice works in Chrome on HTTPS';
-  } else {
-    hint.textContent = 'Voice works in Chrome on HTTPS';
-  }
-}
-
-// ── PACKING ───────────────────────────────────────────────────────────────
-function renderPack() {
-  const list = document.getElementById('pk-list');
-  const empty = document.getElementById('pk-empty');
-  const fill = document.getElementById('pk-fill');
-  const lbl = document.getElementById('pk-lbl');
-  const hbCount = document.getElementById('hb-pack-count');
-  if (!list) return;
-
-  // Clear existing items (keep empty message)
-  Array.from(list.querySelectorAll('.pk-item')).forEach(el => el.remove());
-
-  if (pkItems.length === 0) {
-    if (empty) empty.style.display = 'block';
-    if (fill) fill.style.width = '0%';
-    if (lbl) lbl.textContent = '0 items';
-    if (hbCount) hbCount.textContent = 'Add items';
-    return;
-  }
-  if (empty) empty.style.display = 'none';
-
-  const packed = pkItems.filter(i => i.packed).length;
-  const pct = Math.round(packed / pkItems.length * 100);
-  if (fill) fill.style.width = pct + '%';
-  if (lbl) lbl.textContent = packed + ' of ' + pkItems.length + ' packed';
-  if (hbCount) hbCount.textContent = packed + '/' + pkItems.length + ' packed';
-
-  pkItems.forEach(item => {
-    const el = document.createElement('div');
-    el.className = 'pk-item';
-    el.setAttribute('data-id', item.id);
-
-    const cb = document.createElement('div');
-    cb.className = 'pcb' + (item.packed ? ' on' : '');
-    cb.addEventListener('click', (e) => { e.stopPropagation(); togglePk(item.id); });
-
-    const nm = document.createElement('div');
-    nm.className = 'pi-nm' + (item.packed ? ' on' : '');
-    nm.textContent = item.name;
-
-    const qty = document.createElement('div');
-    qty.className = 'pi-qty';
-    qty.textContent = item.qty + 'x';
-
-    const del = document.createElement('div');
-    del.className = 'pi-del';
-    del.textContent = '×';
-    del.addEventListener('click', (e) => { e.stopPropagation(); delPk(item.id); });
-
-    el.appendChild(cb);
-    el.appendChild(nm);
-    el.appendChild(qty);
-    el.appendChild(del);
-    el.addEventListener('click', () => togglePk(item.id));
-    list.appendChild(el);
-  });
-  savePack();
-}
-
-function addPkItem() {
-  const inp = document.getElementById('pkinp');
-  const qtyInp = document.getElementById('pkqty');
-  if (!inp || !inp.value.trim()) return;
-  const name = inp.value.trim();
-  const qty = parseInt(qtyInp.value) || 1;
-  pkItems.push({id: 'pk-' + Date.now() + '-' + Math.random(), name, qty, packed: false});
-  inp.value = ''; qtyInp.value = 1;
-  renderPack();
-}
-
-function quickPk(name) {
-  pkItems.push({id: 'pk-' + Date.now() + '-' + Math.random(), name, qty: 1, packed: false});
-  renderPack();
-}
-
-function togglePk(id) {
-  const item = pkItems.find(i => i.id === id);
-  if (item) { item.packed = !item.packed; renderPack(); }
-}
-
-function delPk(id) {
-  pkItems = pkItems.filter(i => i.id !== id);
-  renderPack();
-}
-
-function savePack() {
-  try { localStorage.setItem(PACK_KEY, JSON.stringify(pkItems)); } catch(e) {}
-}
-
-// ── PROFILE EDIT ──────────────────────────────────────────────────────────
-let editKey = null;
-function editF(key, lbl) {
-  editKey = key;
-  document.getElementById('shlbl').textContent = lbl;
-  document.getElementById('shinp').value = F[key] || '';
-  document.getElementById('sheet').classList.add('on');
-  document.getElementById('ov').classList.add('on');
-  setTimeout(() => document.getElementById('shinp').focus(), 320);
-}
-
-function saveF() {
-  const val = document.getElementById('shinp').value.trim();
-  if (editKey) {
-    F[editKey] = val;
-    if (editKey === 'name' && val) {
-      MEMBER.name = val;
-      localStorage.setItem('lolo_name', val);
-    }
-    try { localStorage.setItem(FIELDS_KEY, JSON.stringify(F)); } catch(e) {}
-    populateUI();
-  }
-  closeSheet();
-}
-
-function closeSheet() {
-  document.getElementById('sheet').classList.remove('on');
-  document.getElementById('ov').classList.remove('on');
-}
-
-function signOut() {
-  localStorage.removeItem('lolo_auth');
-  localStorage.removeItem('lolo_name');
-  localStorage.removeItem('lolo_email');
-  localStorage.removeItem('lolo_tier');
-  window.location.href = 'member-login.html';
-}
-</script>
 </body>
 </html>
