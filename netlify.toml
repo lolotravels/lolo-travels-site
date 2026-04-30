@@ -23,16 +23,6 @@
   to = "/claims.html"
   status = 200
 
-[[redirects]]
-  from = "/advisor"
-  to = "/advisor-portal.html"
-  status = 200
-
-[[redirects]]
-  from = "/admin"
-  to = "/admin-portal.html"
-  status = 200
-
 # Cache-Control for the partner portal: prevent any caching, including the
 # browser's back-forward cache. Without this, after a partner logs out a
 # return visit (Back button, browser restore, etc.) could show their data
