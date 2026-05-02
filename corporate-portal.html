@@ -1,0 +1,1507 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Lolo · Your travel</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Gilda+Display&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ============ THEME PALETTES ============ */
+    :root {
+      --gold: #B89759;
+      --gold-lt: #D4B575;
+      --gold-soft: rgba(184,151,89,0.10);
+      --gold-edge: rgba(184,151,89,0.32);
+      --green: rgba(80,120,80,0.85);
+      --red: rgba(160,75,75,0.85);
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --fb: 'Jost', -apple-system, BlinkMacSystemFont, sans-serif;
+      --fd: 'Cormorant Garamond', Georgia, serif;
+      --fg: 'Gilda Display', Georgia, serif;
+    }
+
+    /* Light theme — paper / ivory canvas, navy ink text */
+    html[data-theme="light"] {
+      --bg: #FBF9F4;
+      --bg-2: #F7F4EE;
+      --bg-3: #EFE9DB;
+      --surface: #FFFFFF;
+      --surface-warm: #FBF9F4;
+      --text: #1a1f2e;
+      --text-soft: rgba(26,31,46,0.82);
+      --text-muted: rgba(26,31,46,0.62);
+      --text-dim: rgba(26,31,46,0.42);
+      --border: rgba(26,31,46,0.10);
+      --border-strong: rgba(26,31,46,0.18);
+      --border-gold: rgba(184,151,89,0.35);
+      --shadow-sm: 0 2px 12px rgba(26,31,46,0.05);
+      --shadow-md: 0 4px 20px rgba(26,31,46,0.08);
+      --shadow-lg: 0 8px 28px rgba(26,31,46,0.12);
+      --topbar-bg: rgba(251,249,244,0.92);
+      --avatar-text: #FBF9F4;
+    }
+
+    /* Dark theme — navy canvas, cream text */
+    html[data-theme="dark"] {
+      --bg: #0a1428;
+      --bg-2: #0f1c33;
+      --bg-3: #142948;
+      --surface: #0f1c33;
+      --surface-warm: #142948;
+      --text: #F5F0E8;
+      --text-soft: rgba(245,240,232,0.82);
+      --text-muted: rgba(245,240,232,0.62);
+      --text-dim: rgba(245,240,232,0.42);
+      --border: rgba(184,151,89,0.18);
+      --border-strong: rgba(184,151,89,0.35);
+      --border-gold: rgba(184,151,89,0.35);
+      --shadow-sm: 0 2px 12px rgba(0,0,0,0.20);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.28);
+      --shadow-lg: 0 8px 28px rgba(0,0,0,0.40);
+      --topbar-bg: rgba(10,20,40,0.90);
+      --avatar-text: #060e1a;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--fb);
+      font-weight: 300;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      transition: background 0.5s var(--ease), color 0.5s var(--ease);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+
+    /* ============ AUTH GUARD / LOADING ============ */
+    .full-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+    .ll-emblem {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--fd);
+      font-size: 1.1rem;
+      color: var(--gold);
+      letter-spacing: 0.18em;
+      margin-bottom: 24px;
+    }
+    .full-screen h1 {
+      font-family: var(--fd);
+      font-weight: 300;
+      font-size: 2rem;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .full-screen p {
+      color: var(--text-muted);
+      max-width: 420px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    /* ============ TOP BAR ============ */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 30;
+      padding: 18px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--topbar-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.5s var(--ease);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-logo {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1.4px solid var(--gold);
+      background: var(--surface-warm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--fd);
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: 0.18em;
+    }
+    .brand-text { line-height: 1; }
+    .brand-text-mark {
+      font-family: var(--fg);
+      font-size: 20px;
+      color: var(--text);
+    }
+    .brand-text-sub {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      font-weight: 600;
+      margin-top: 3px;
+      text-transform: uppercase;
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--gold-soft);
+      border: 1px solid var(--border-gold);
+      padding: 6px 14px 6px 6px;
+      border-radius: 100px;
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+    }
+    .user-pill:hover { border-color: var(--gold); }
+    .user-avatar {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--avatar-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+    .user-name {
+      font-size: 12px;
+      color: var(--text);
+      font-weight: 400;
+    }
+
+    /* ============ EDGE TAB TOGGLE ============ */
+    .edge-toggle {
+      position: fixed;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 64px;
+      background: var(--gold);
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+      z-index: 25;
+      transition: width 0.3s var(--ease), background 0.3s var(--ease);
+      opacity: 0.85;
+    }
+    .edge-toggle::before {
+      content: '';
+      position: absolute;
+      top: 0; right: -14px;
+      width: 14px;
+      height: 100%;
+    }
+    .edge-toggle:hover {
+      width: 10px;
+      background: var(--gold-lt);
+      opacity: 1;
+    }
+    .edge-toggle.open {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .edge-toggle-hint {
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #060e1a;
+      border: 1px solid rgba(184,151,89,0.4);
+      color: var(--gold);
+      padding: 8px 14px;
+      border-radius: 3px;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      font-weight: 600;
+      text-transform: uppercase;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s var(--ease);
+    }
+    .edge-toggle:hover .edge-toggle-hint {
+      opacity: 1;
+    }
+
+    /* ============ SLIDE-OVER PANEL — ALWAYS NAVY ============ */
+    .panel-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(6,14,26,0.55);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 40;
+      transition: opacity 0.4s var(--ease);
+    }
+    .panel-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .side-panel {
+      position: fixed;
+      top: 0; left: 0;
+      bottom: 0;
+      width: 320px;
+      max-width: 90vw;
+      background: #060e1a;
+      border-right: 1px solid rgba(184,151,89,0.35);
+      z-index: 50;
+      transform: translateX(-100%);
+      transition: transform 0.4s var(--ease);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 4px 0 30px rgba(0,0,0,0.30);
+    }
+    .side-panel.open { transform: translateX(0); }
+
+    .panel-header {
+      padding: 22px 24px;
+      border-bottom: 1px solid rgba(184,151,89,0.18);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .panel .brand-text-mark { color: #F5F0E8; }
+    .panel .brand-logo { background: #060e1a; }
+    .panel-close {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 1px solid rgba(184,151,89,0.25);
+      background: transparent;
+      color: rgba(245,240,232,0.55);
+      font-size: 18px;
+      line-height: 1;
+      transition: all 0.2s;
+    }
+    .panel-close:hover {
+      color: #F5F0E8;
+      border-color: var(--gold);
+    }
+    .panel-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 0;
+    }
+    .panel-body::-webkit-scrollbar { width: 5px; }
+    .panel-body::-webkit-scrollbar-track { background: transparent; }
+    .panel-body::-webkit-scrollbar-thumb {
+      background: rgba(184,151,89,0.25);
+      border-radius: 100px;
+    }
+    .panel-section {
+      padding: 14px 0 8px 0;
+    }
+    .panel-section + .panel-section {
+      border-top: 1px solid rgba(184,151,89,0.12);
+      margin-top: 8px;
+    }
+    .panel-section-label {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 0 24px 10px 24px;
+    }
+    .panel-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 24px;
+      font-size: 14px;
+      color: rgba(245,240,232,0.85);
+      font-weight: 300;
+      cursor: pointer;
+      transition: all 0.2s;
+      border-left: 2px solid transparent;
+      background: transparent;
+      border-top: none;
+      border-right: none;
+      border-bottom: none;
+      width: 100%;
+      text-align: left;
+    }
+    .panel-link:hover {
+      background: rgba(184,151,89,0.06);
+      color: #F5F0E8;
+      border-left-color: var(--gold);
+    }
+    .panel-link.danger:hover {
+      background: rgba(180,90,90,0.10);
+      color: #d4a8a8;
+      border-left-color: var(--red);
+    }
+    .panel-link-badge {
+      font-size: 10px;
+      background: rgba(184,151,89,0.15);
+      color: var(--gold);
+      padding: 2px 8px;
+      border-radius: 100px;
+      font-weight: 600;
+    }
+    .panel-foot {
+      padding: 18px 24px;
+      border-top: 1px solid rgba(184,151,89,0.18);
+      font-size: 10px;
+      color: rgba(245,240,232,0.45);
+      letter-spacing: 0.25em;
+      font-weight: 600;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* ============ THEME TOGGLE INSIDE PANEL ============ */
+    .theme-toggle {
+      padding: 12px 24px;
+      border-top: 1px solid rgba(184,151,89,0.12);
+      margin-top: 4px;
+    }
+    .theme-toggle-label {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .theme-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+    .theme-option {
+      padding: 8px 4px;
+      border: 1px solid rgba(184,151,89,0.20);
+      background: transparent;
+      color: rgba(245,240,232,0.65);
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      font-weight: 500;
+      text-transform: uppercase;
+      border-radius: 3px;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .theme-option:hover { color: #F5F0E8; border-color: rgba(184,151,89,0.5); }
+    .theme-option.active {
+      background: var(--gold);
+      color: #060e1a;
+      border-color: var(--gold);
+    }
+
+    /* ============ MAIN CANVAS ============ */
+    .canvas {
+      padding-top: 80px;
+      min-height: 100vh;
+    }
+
+    .hero {
+      position: relative;
+      height: 56vh;
+      min-height: 440px;
+      max-height: 640px;
+      overflow: hidden;
+    }
+    .hero-image {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      will-change: opacity;
+      transition: opacity 1.6s var(--ease);
+    }
+    .hero-image-1 { opacity: 1; }
+    .hero-image-2 { opacity: 0; }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(10,20,40,0.40) 0%, rgba(10,20,40,0.55) 50%, rgba(10,20,40,0.85) 100%);
+    }
+    .hero-content {
+      position: absolute;
+      bottom: 120px;
+      left: 0; right: 0;
+      padding: 0 48px;
+      max-width: 900px;
+    }
+    .hero-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .hero-title {
+      font-family: var(--fd);
+      font-weight: 300;
+      font-size: clamp(36px, 6vw, 72px);
+      color: #F5F0E8;
+      letter-spacing: -1.5px;
+      line-height: 1.05;
+    }
+    .hero-title em { color: var(--gold); font-style: italic; }
+    .hero-meta {
+      margin-top: 22px;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .hero-meta-item { display: flex; flex-direction: column; gap: 4px; }
+    .hero-meta-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .hero-meta-value {
+      font-family: var(--fd);
+      font-size: 18px;
+      color: #F5F0E8;
+      font-weight: 400;
+    }
+
+    .day-pill {
+      position: absolute;
+      top: 100px;
+      right: 48px;
+      background: rgba(10,20,40,0.7);
+      border: 1px solid rgba(184,151,89,0.4);
+      backdrop-filter: blur(12px);
+      padding: 8px 16px;
+      border-radius: 100px;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    /* ============ ACTION CARDS ============ */
+    .actions {
+      max-width: 1280px;
+      margin: -60px auto 0 auto;
+      padding: 0 48px;
+      position: relative;
+      z-index: 5;
+    }
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+    }
+    .action-card {
+      background: var(--surface);
+      border: 1px solid var(--border-gold);
+      border-radius: 4px;
+      padding: 22px 24px;
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+    .action-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+    .action-card-eyebrow {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .action-card-title {
+      font-family: var(--fd);
+      font-size: 22px;
+      color: var(--text);
+      font-weight: 400;
+      letter-spacing: -0.4px;
+      line-height: 1.15;
+    }
+    .action-card-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* ============ SECTIONS ============ */
+    .section {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 60px 48px 0 48px;
+    }
+    .section-h {
+      font-family: var(--fd);
+      font-weight: 400;
+      font-size: 28px;
+      color: var(--text);
+      letter-spacing: -0.4px;
+      margin-bottom: 6px;
+    }
+    .section-h em { color: var(--gold); font-style: italic; }
+    .section-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .section-hint {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 14px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ============ FLIP CARDS ============ */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .flip-card {
+      perspective: 1500px;
+      height: 320px;
+      cursor: pointer;
+    }
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      -webkit-transform-style: preserve-3d;
+      transition: transform 0.7s var(--ease);
+    }
+    .flip-card.flipped .flip-card-inner {
+      transform: rotateY(180deg);
+      -webkit-transform: rotateY(180deg);
+    }
+    @media (hover: hover) {
+      .flip-card:hover .flip-card-inner {
+        transform: rotateY(180deg);
+        -webkit-transform: rotateY(180deg);
+      }
+    }
+    .flip-card-face {
+      position: absolute;
+      inset: 0;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .flip-card:hover .flip-card-face {
+      border-color: var(--border-gold);
+      box-shadow: var(--shadow-md);
+    }
+    .flip-card-back {
+      transform: rotateY(180deg);
+      -webkit-transform: rotateY(180deg);
+      background: var(--surface);
+      padding: 22px 22px 18px 22px;
+    }
+    .flip-card-img {
+      height: 160px;
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+    }
+    .flip-card-body {
+      padding: 18px 20px;
+    }
+    .flip-card-eyebrow {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .flip-card-title {
+      font-family: var(--fd);
+      font-size: 19px;
+      color: var(--text);
+      font-weight: 400;
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+      margin-bottom: 6px;
+    }
+    .flip-card-meta {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .flip-hint {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      font-size: 9px;
+      letter-spacing: 0.2em;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .flip-card:hover .flip-hint { opacity: 1; }
+    .flip-card-back .flip-card-eyebrow {
+      margin-bottom: 6px;
+    }
+    .flip-card-back-title {
+      font-family: var(--fd);
+      font-size: 22px;
+      color: var(--text);
+      font-weight: 400;
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+    .flip-card-back-detail {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0;
+      font-size: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .flip-card-back-detail:last-of-type { border-bottom: none; }
+    .flip-card-back-detail-label {
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+    }
+    .flip-card-back-detail-value {
+      color: var(--text);
+      text-align: right;
+      font-weight: 400;
+    }
+    .flip-card-back-action {
+      margin-top: 14px;
+      padding: 10px;
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      border-radius: 3px;
+      font-family: var(--fb);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      font-weight: 600;
+      text-transform: uppercase;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .flip-card-back-action:hover {
+      background: var(--gold);
+      color: var(--avatar-text);
+    }
+
+    /* ============ EMPTY STATE ============ */
+    .empty-hero {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 24px 48px;
+      text-align: center;
+    }
+    .empty-hero-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .empty-hero-title {
+      font-family: var(--fd);
+      font-weight: 300;
+      font-size: clamp(32px, 5vw, 52px);
+      color: #F5F0E8;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      margin-bottom: 18px;
+    }
+    .empty-hero-title em { color: var(--gold); font-style: italic; }
+    .empty-hero-text {
+      font-size: 16px;
+      line-height: 1.7;
+      color: rgba(245,240,232,0.85);
+    }
+
+    .canvas-foot {
+      padding: 80px 48px 40px 48px;
+      max-width: 1280px;
+      margin: 0 auto;
+      border-top: 1px solid var(--border);
+      margin-top: 80px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+
+    @media (max-width: 700px) {
+      .topbar { padding: 14px 20px; }
+      .hero-content { padding: 0 24px; bottom: 100px; }
+      .day-pill { right: 24px; top: 80px; padding: 6px 12px; font-size: 10px; }
+      .actions { padding: 0 20px; margin-top: -40px; }
+      .section { padding: 40px 20px 0 20px; }
+      .section-h { font-size: 22px; }
+      .canvas-foot { padding: 60px 20px 32px 20px; flex-direction: column; text-align: center; }
+      .empty-hero { padding: 24px 24px; }
+      .side-panel { width: 280px; }
+      .flip-card { height: 280px; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s var(--ease), transform 1s var(--ease);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loading" class="full-screen">
+    <div class="ll-emblem">LL</div>
+    <p>Loading…</p>
+  </div>
+
+  <div id="app" style="display:none;">
+
+    <header class="topbar">
+      <a href="/" class="brand">
+        <div class="brand-logo">LL</div>
+        <div class="brand-text">
+          <div class="brand-text-mark">Lolo</div>
+          <div class="brand-text-sub" id="brand-sub">For Business</div>
+        </div>
+      </a>
+      <button class="user-pill" id="user-pill">
+        <div class="user-avatar" id="user-avatar">—</div>
+        <div class="user-name" id="user-name">—</div>
+      </button>
+    </header>
+
+    <div class="edge-toggle" id="edge-toggle" title="Open menu">
+      <div class="edge-toggle-hint">Open Menu</div>
+    </div>
+
+    <div class="panel-overlay" id="panel-overlay"></div>
+    <aside class="side-panel panel" id="side-panel" aria-label="Navigation menu">
+      <div class="panel-header">
+        <div class="brand">
+          <div class="brand-logo">LL</div>
+          <div class="brand-text">
+            <div class="brand-text-mark">Lolo</div>
+            <div class="brand-text-sub" id="panel-brand-sub">For Business</div>
+          </div>
+        </div>
+        <button class="panel-close" id="panel-close" aria-label="Close menu">×</button>
+      </div>
+      <nav class="panel-body" id="panel-body"></nav>
+
+      <div class="theme-toggle">
+        <div class="theme-toggle-label">Theme</div>
+        <div class="theme-options">
+          <button class="theme-option" data-theme-choice="light">Light</button>
+          <button class="theme-option" data-theme-choice="dark">Dark</button>
+          <button class="theme-option" data-theme-choice="auto">Auto</button>
+        </div>
+      </div>
+
+      <div class="panel-foot">© Lolo Travels LLC</div>
+    </aside>
+
+    <main class="canvas" id="canvas"></main>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // ============ SUPABASE CLIENT ============
+    const SUPABASE_URL = 'https://hktntiamtpptcagnohnn.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ============ STATE ============
+    let user = null;
+    let profile = null;
+    let company = null;
+    let trip = null;
+    let role = 'traveler';
+    let crossfadeInterval = null;
+
+    // ============ THEME ============
+    function systemPrefersDark() {
+      try {
+        return !!(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      } catch (e) { return false; }
+    }
+    function applyTheme(choice) {
+      let actual = choice;
+      if (choice === 'auto') {
+        actual = systemPrefersDark() ? 'dark' : 'light';
+      }
+      document.documentElement.setAttribute('data-theme', actual);
+      try { localStorage.setItem('lolo_theme', choice); } catch(e) {}
+      // Also save to Supabase profile so it persists across devices
+      if (user && user.id && sb) {
+        sb.from('profiles').update({ theme_preference: choice }).eq('id', user.id).then(() => {});
+      }
+      document.querySelectorAll('.theme-option').forEach(b => {
+        b.classList.toggle('active', b.dataset.themeChoice === choice);
+      });
+    }
+    function initTheme() {
+      let stored = 'auto';
+      try { stored = localStorage.getItem('lolo_theme') || 'auto'; } catch(e) {}
+      applyTheme(stored);
+      try {
+        if (window.matchMedia) {
+          const mql = window.matchMedia('(prefers-color-scheme: dark)');
+          if (mql && mql.addEventListener) {
+            mql.addEventListener('change', () => {
+              let cur = 'auto';
+              try { cur = localStorage.getItem('lolo_theme') || 'auto'; } catch(e) {}
+              if (cur === 'auto') applyTheme('auto');
+            });
+          }
+        }
+      } catch (e) { /* fail silently if matchMedia not supported */ }
+    }
+    initTheme();
+
+    // ============ FALLBACK IMAGES ============
+    const LOLO_DEFAULT_IMAGES = [
+      'https://images.unsplash.com/photo-1551918120-9739cb430c6d?w=2400&q=85',
+      'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=2400&q=85',
+      'https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=2400&q=85',
+      'https://images.unsplash.com/photo-1582719508461-905c673771fd?w=2400&q=85'
+    ];
+
+    // ============ INIT — REAL AUTH ============
+    (async function init() {
+      const loadingEl = document.getElementById('loading');
+      const appEl = document.getElementById('app');
+
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) {
+        // Not signed in — send to /business sign-in
+        window.location.href = '/business';
+        return;
+      }
+
+      user = session.user;
+
+      // Fetch profile
+      const { data: p } = await sb
+        .from('profiles')
+        .select('id, full_name, preferred_name, email, account_type, portal_role, company_id, theme_preference')
+        .eq('id', user.id)
+        .maybeSingle();
+      profile = p || {};
+      role = computeRole(profile);
+
+      // If user has a stored theme preference, use it (overrides localStorage on first load)
+      if (profile.theme_preference) {
+        applyTheme(profile.theme_preference);
+      }
+
+      // Fetch company if any
+      if (profile.company_id) {
+        const { data: c } = await sb
+          .from('companies')
+          .select('*')
+          .eq('id', profile.company_id)
+          .maybeSingle();
+        company = c || null;
+      }
+
+      // Fetch most recent trip for this user
+      const { data: trips } = await sb
+        .from('trips')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('depart_date', { ascending: false })
+        .limit(1);
+      trip = (trips && trips[0]) || null;
+
+      renderTopBar();
+      renderPanel();
+      renderCanvas();
+      bindGlobalEvents();
+
+      loadingEl.style.display = 'none';
+      appEl.style.display = 'block';
+    })();
+
+    function computeRole(p) {
+      if (!p) return 'traveler';
+      if (p.account_type === 'admin' && p.portal_role === 'owner') return 'owner';
+      if (p.account_type === 'corporate') {
+        if (p.portal_role === 'owner') return 'owner';
+        if (p.portal_role === 'coordinator') return 'coordinator';
+        return 'traveler';
+      }
+      return 'traveler';
+    }
+
+    function renderTopBar() {
+      const name = profile.preferred_name || profile.full_name || profile.email || 'Guest';
+      document.getElementById('user-avatar').textContent = makeInitials(name);
+      document.getElementById('user-name').textContent = name.split(' ')[0];
+      const sub = company ? (company.tier === 'enterprise' ? 'Enterprise' : (company.tier === 'solo' ? 'Solo' : 'For Business')) : 'For Business';
+      document.getElementById('brand-sub').textContent = sub;
+      document.getElementById('panel-brand-sub').textContent = sub;
+    }
+
+    function makeInitials(name) {
+      if (!name) return '—';
+      const parts = name.trim().split(/\s+/);
+      if (parts.length === 1) return parts[0][0].toUpperCase();
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+    }
+
+    function renderPanel() {
+      const body = document.getElementById('panel-body');
+      const sections = panelSectionsForRole(role);
+      body.innerHTML = '';
+      sections.forEach(sec => {
+        const sectionEl = document.createElement('div');
+        sectionEl.className = 'panel-section';
+        if (sec.label) {
+          const label = document.createElement('div');
+          label.className = 'panel-section-label';
+          label.textContent = sec.label;
+          sectionEl.appendChild(label);
+        }
+        sec.links.forEach(link => {
+          const btn = document.createElement('button');
+          btn.className = 'panel-link' + (link.danger ? ' danger' : '');
+          btn.innerHTML = `
+            <span>${escapeHtml(link.label)}</span>
+            ${link.badge ? `<span class="panel-link-badge">${escapeHtml(String(link.badge))}</span>` : ''}
+          `;
+          btn.addEventListener('click', () => link.action());
+          sectionEl.appendChild(btn);
+        });
+        body.appendChild(sectionEl);
+      });
+    }
+
+    function panelSectionsForRole(r) {
+      const signOut = {
+        label: 'Sign out',
+        danger: true,
+        action: async () => {
+          try { await sb.auth.signOut(); } catch (e) {}
+          window.location.href = '/';
+        }
+      };
+      const personal = [
+        { label: 'Profile', action: () => navTo('profile') },
+        { label: 'My documents', action: () => navTo('documents') },
+        { label: 'Past trips', action: () => navTo('past-trips') },
+        { label: 'Help', action: () => navTo('help') },
+        signOut
+      ];
+      if (r === 'traveler') {
+        return [{ label: 'Your account', links: personal }];
+      }
+      if (r === 'coordinator') {
+        return [
+          { label: 'Operations', links: [
+            { label: 'Travelers', action: () => navTo('travelers') },
+            { label: 'Group trips', action: () => navTo('group-trips') },
+            { label: 'Bleisure', action: () => navTo('bleisure') },
+            { label: 'Claims', action: () => navTo('claims') },
+            { label: 'Reports', action: () => navTo('reports') },
+            { label: 'Duty of care', action: () => navTo('duty-of-care') },
+            { label: 'Concierge requests', action: () => navTo('concierge') }
+          ]},
+          { label: 'Personal', links: personal.slice(0, -1).concat([signOut]) }
+        ];
+      }
+      if (r === 'owner') {
+        return [
+          { label: 'Operations', links: [
+            { label: 'Travelers', action: () => navTo('travelers') },
+            { label: 'Group trips', action: () => navTo('group-trips') },
+            { label: 'Claims', action: () => navTo('claims') },
+            { label: 'Reports', action: () => navTo('reports') },
+            { label: 'Duty of care', action: () => navTo('duty-of-care') }
+          ]},
+          { label: 'Company', links: [
+            { label: 'Settings', action: () => navTo('settings') },
+            { label: 'Brand & imagery', action: () => navTo('brand') },
+            { label: 'Service agreement', action: () => navTo('agreement') },
+            { label: 'Billing & activity', action: () => navTo('billing') },
+            { label: 'Plan & tier', action: () => navTo('tier') },
+            { label: 'Roles & permissions', action: () => navTo('roles') }
+          ]},
+          { label: 'Personal', links: [
+            { label: 'Profile', action: () => navTo('profile') },
+            signOut
+          ]}
+        ];
+      }
+      return [];
+    }
+
+    function navTo(screen) {
+      closePanel();
+      const map = {
+        profile: '/business#profile',
+        documents: '/business#documents',
+        'past-trips': '/business#trips',
+        help: 'mailto:hello@lolotravels.com',
+        travelers: '/business#travelers',
+        'group-trips': '/business#groups',
+        bleisure: '/business#bleisure',
+        claims: '/claims',
+        reports: '/business#reports',
+        'duty-of-care': '/business#duty',
+        concierge: '/business#concierge',
+        settings: '/business#settings',
+        brand: '/business#brand',
+        agreement: '/business#agreement',
+        billing: '/business#billing',
+        tier: '/business#tier',
+        roles: '/business#roles'
+      };
+      const target = map[screen];
+      if (target) window.location.href = target;
+    }
+
+    function renderCanvas() {
+      const canvas = document.getElementById('canvas');
+      if (trip && tripIsActive(trip)) {
+        canvas.innerHTML = renderActiveTrip();
+        startHeroCrossfade(activeTripImage(trip), null, null);
+      } else {
+        const [img1, img2, all] = pickBrandImagery();
+        canvas.innerHTML = renderEmptyState();
+        startHeroCrossfade(img1, img2, all);
+      }
+      bindFlipCards();
+      setTimeout(() => {
+        document.querySelectorAll('.reveal').forEach(el => el.classList.add('visible'));
+      }, 100);
+    }
+
+    function tripIsActive(t) {
+      if (!t) return false;
+      const today = new Date();
+      const depart = new Date(t.depart_date);
+      const ret = new Date(t.return_date);
+      const activeFrom = new Date(depart.getTime() - 3*24*60*60*1000);
+      const activeUntil = new Date(ret.getTime() + 1*24*60*60*1000);
+      return today >= activeFrom && today <= activeUntil;
+    }
+
+    function activeTripImage(t) {
+      if (t.hero_image_url) return t.hero_image_url;
+      const dest = (t.destination || '').toLowerCase();
+      if (dest.includes('singapore')) return 'https://images.unsplash.com/photo-1565967511849-76a60a516170?w=2400&q=85';
+      if (dest.includes('london')) return 'https://images.unsplash.com/photo-1486299267070-83823f5448dd?w=2400&q=85';
+      if (dest.includes('tokyo') || dest.includes('japan')) return 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=2400&q=85';
+      if (dest.includes('dubai')) return 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=2400&q=85';
+      if (dest.includes('paris') || dest.includes('france')) return 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=2400&q=85';
+      if (dest.includes('new york') || dest.includes('nyc')) return 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?w=2400&q=85';
+      return LOLO_DEFAULT_IMAGES[0];
+    }
+
+    function pickBrandImagery() {
+      let images = LOLO_DEFAULT_IMAGES;
+      if (company && Array.isArray(company.brand_image_urls) && company.brand_image_urls.length > 0) {
+        images = company.brand_image_urls;
+      }
+      const img1 = images[0];
+      const img2 = images[1] || images[0];
+      return [img1, img2, images];
+    }
+
+    function startHeroCrossfade(initialImage, secondImage, allImages) {
+      const heroBg1 = document.querySelector('.hero-image-1');
+      const heroBg2 = document.querySelector('.hero-image-2');
+      if (!heroBg1) return;
+      heroBg1.style.backgroundImage = `url(${initialImage})`;
+      if (secondImage) heroBg2.style.backgroundImage = `url(${secondImage})`;
+      if (crossfadeInterval) clearInterval(crossfadeInterval);
+      if (!allImages || allImages.length < 2) return;
+      let idx = 0;
+      let showing = 1;
+      crossfadeInterval = setInterval(() => {
+        idx = (idx + 1) % allImages.length;
+        const next = allImages[idx];
+        if (showing === 1) {
+          heroBg2.style.backgroundImage = `url(${next})`;
+          heroBg2.style.opacity = '1';
+          heroBg1.style.opacity = '0';
+          showing = 2;
+        } else {
+          heroBg1.style.backgroundImage = `url(${next})`;
+          heroBg1.style.opacity = '1';
+          heroBg2.style.opacity = '0';
+          showing = 1;
+        }
+      }, 6000);
+    }
+
+    function renderActiveTrip() {
+      const t = trip;
+      const today = new Date();
+      const depart = new Date(t.depart_date);
+      const ret = new Date(t.return_date);
+      const totalDays = Math.max(1, Math.ceil((ret - depart) / (24*60*60*1000)) + 1);
+      let dayN = Math.ceil((today - depart) / (24*60*60*1000)) + 1;
+      dayN = Math.max(1, Math.min(totalDays, dayN));
+      const greeting = getGreeting();
+      const greetingName = profile.preferred_name || (profile.full_name ? profile.full_name.split(' ')[0] : 'there');
+      const fmtDate = d => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+      const dest = t.destination || '—';
+
+      return `
+        <section class="hero">
+          <div class="hero-image hero-image-1"></div>
+          <div class="hero-image hero-image-2"></div>
+          <div class="hero-overlay"></div>
+          <div class="day-pill">Day ${dayN} of ${totalDays} · ${escapeHtml(dest)}</div>
+          <div class="hero-content reveal">
+            <div class="hero-eyebrow">${greeting}</div>
+            <h1 class="hero-title">${escapeHtml(greetingName)}<em>.</em></h1>
+            <div class="hero-meta">
+              <div class="hero-meta-item">
+                <div class="hero-meta-label">Trip</div>
+                <div class="hero-meta-value">${escapeHtml(t.title || dest)}</div>
+              </div>
+              <div class="hero-meta-item">
+                <div class="hero-meta-label">Dates</div>
+                <div class="hero-meta-value">${fmtDate(depart)} – ${fmtDate(ret)}</div>
+              </div>
+              ${t.client_name ? `
+                <div class="hero-meta-item">
+                  <div class="hero-meta-label">Client</div>
+                  <div class="hero-meta-value">${escapeHtml(t.client_name)}</div>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        </section>
+
+        <section class="actions">
+          <div class="actions-grid">
+            <div class="action-card reveal" onclick="window.location.href='/business#schedule'">
+              <div class="action-card-eyebrow">Today</div>
+              <div class="action-card-title">Schedule</div>
+              <div class="action-card-meta">View itinerary</div>
+            </div>
+            <div class="action-card reveal" onclick="window.location.href='/business#expense'">
+              <div class="action-card-eyebrow">Capture</div>
+              <div class="action-card-title">Receipt</div>
+              <div class="action-card-meta">Snap and code</div>
+            </div>
+            <div class="action-card reveal" onclick="window.location.href='/claims'">
+              <div class="action-card-eyebrow">Recover</div>
+              <div class="action-card-title">File a claim</div>
+              <div class="action-card-meta">Lost luggage, delays, more</div>
+            </div>
+            <div class="action-card reveal" onclick="window.location.href='/business#concierge'">
+              <div class="action-card-eyebrow">Reach</div>
+              <div class="action-card-title">Advisor</div>
+              <div class="action-card-meta">24-hour line</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section reveal">
+          <div class="section-h">Your <em>trip</em> details</div>
+          <div class="section-sub">Everything coordinated for ${escapeHtml(dest)}.</div>
+
+          <div class="detail-grid">
+
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-face">
+                  <div class="flip-card-img" style="background-image:url('https://images.unsplash.com/photo-1582719508461-905c673771fd?w=800&q=85');"></div>
+                  <div class="flip-card-body">
+                    <div class="flip-card-eyebrow">Lodging</div>
+                    <div class="flip-card-title">${escapeHtml(t.hotel_name || 'Marina Bay Sands')}</div>
+                    <div class="flip-card-meta">${fmtDate(depart)} – ${fmtDate(ret)}</div>
+                  </div>
+                  <div class="flip-hint">Tap for details →</div>
+                </div>
+                <div class="flip-card-face flip-card-back">
+                  <div class="flip-card-eyebrow">Lodging</div>
+                  <div class="flip-card-back-title">Suite reservation</div>
+                  <div class="flip-card-back-detail">
+                    <span class="flip-card-back-detail-label">Check-in</span>
+                    <span class="flip-card-back-detail-value">${fmtDate(depart)} · 3:00 PM</span>
+                  </div>
+                  <div class="flip-card-back-detail">
+                    <span class="flip-card-back-detail-label">Check-out</span>
+                    <span class="flip-card-back-detail-value">${fmtDate(ret)} · 11:00 AM</span>
+                  </div>
+                  <div class="flip-card-back-detail">
+                    <span class="flip-card-back-detail-label">Suite type</span>
+                    <span class="flip-card-back-detail-value">Premier Bay View</span>
+                  </div>
+                  <div class="flip-card-back-detail">
+                    <span class="flip-card-back-detail-label">Preferences</span>
+                    <span class="flip-card-back-detail-value">66°F · Blackout</span>
+                  </div>
+                  <div class="flip-card-back-detail">
+                    <span class="flip-card-back-detail-label">Confirmation</span>
+                    <span class="flip-card-back-detail-value">MBS-7842XK</span>
+                  </div>
+                  <button class="flip-card-back-action" onclick="event.stopPropagation();window.location.href='/business#lodging';">View full confirmation</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-face">
+                  <div class="flip-card-img" style="background-image:url('https://images.unsplash.com/photo-1559339352-11d035aa65de?w=800&q=85');"></div>
+                  <div class="flip-card-body">
+                    <div class="flip-card-eyebrow">Dining</div>
+                    <div class="flip-card-title">Reservations</div>
+                    <div class="flip-card-meta">Curated for your stay</div>
+                  </div>
+                  <div class="flip-hint">Tap for details →</div>
+                </div>
+                <div class="flip-card-face flip-card-back">
+                  <div class="flip-card-eyebrow">Dining</div>
+                  <div class="flip-card-back-title">Curated for you</div>
+                  <div class="flip-card-back-detail">
+                    <span class="flip-card-back-detail-label">Tonight</span>
+                    <span class="flip-card-back-detail-value">Odette · 7:30 PM</span>
+                  </div>
+                  <div class="flip-card-back-detail">
+                    <span class="flip-card-back-detail-label">Tomorrow</span>
+                    <span class="flip-card-back-detail-value">Burnt Ends · 8:00 PM</span>
+                  </div>
+                  <div class="flip-card-back-detail">
+                    <span class="flip-card-back-detail-label">Day 3</span>
+                    <span class="flip-card-back-detail-value">Open</span>
+                  </div>
+                  <div class="flip-card-back-detail">
+                    <span class="flip-card-back-detail-label">Dietary</span>
+                    <span class="flip-card-back-detail-value">Pescatarian noted</span>
+                  </div>
+                  <button class="flip-card-back-action" onclick="event.stopPropagation();window.location.href='/business#dining';">Manage reservations</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-face">
+                  <div class="flip-card-img" style="background-image:url('https://images.unsplash.com/photo-1556388158-158ea5ccacbd?w=800&q=85');"></div>
+                  <div class="flip-card-body">
+                    <div class="flip-card-eyebrow">Transit</div>
+                    <div class="flip-card-title">Driver coordinated</div>
+                    <div class="flip-card-meta">Marcus · all 3 days</div>
+                  </div>
+                  <div class="flip-hint">Tap for details →</div>
+                </div>
+                <div class="flip-card-face flip-card-back">
+                  <div class="flip-card-eyebrow">Transit</div>
+                  <div class="flip-card-back-title">Marcus, your driver</div>
+                  <div class="flip-card-back-detail">
+                    <span class="flip-card-back-detail-label">Vehicle</span>
+                    <span class="flip-card-back-detail-value">Mercedes S-Class</span>
+                  </div>
+                  <div class="flip-card-back-detail">
+                    <span class="flip-card-back-detail-label">Languages</span>
+                    <span class="flip-card-back-detail-value">English · Mandarin</span>
+                  </div>
+                  <div class="flip-card-back-detail">
+                    <span class="flip-card-back-detail-label">Direct line</span>
+                    <span class="flip-card-back-detail-value">+65 9123 ••••</span>
+                  </div>
+                  <div class="flip-card-back-detail">
+                    <span class="flip-card-back-detail-label">First pickup</span>
+                    <span class="flip-card-back-detail-value">Today · 6:30 PM</span>
+                  </div>
+                  <button class="flip-card-back-action" onclick="event.stopPropagation();window.location.href='tel:+6591230000';">Call Marcus</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="section-hint">Tap any card to flip and see details.</div>
+        </section>
+
+        <footer class="canvas-foot">
+          <div>© Lolo Travels LLC</div>
+          <div>Travel Management, Protection &amp; Risk Advisory</div>
+        </footer>
+      `;
+    }
+
+    function renderEmptyState() {
+      const name = profile.preferred_name || (profile.full_name ? profile.full_name.split(' ')[0] : 'there');
+      const greeting = getGreeting();
+      let body;
+      if (role === 'coordinator') {
+        body = `
+          <div class="empty-hero-eyebrow">${greeting}</div>
+          <h1 class="empty-hero-title">Your <em>team</em> is not currently traveling.</h1>
+          <p class="empty-hero-text">Open the menu to manage travelers, plan a group trip, or review claims.</p>
+        `;
+      } else if (role === 'owner') {
+        body = `
+          <div class="empty-hero-eyebrow">${greeting}</div>
+          <h1 class="empty-hero-title">Welcome back, <em>${escapeHtml(name)}.</em></h1>
+          <p class="empty-hero-text">No active trips for your team right now. Open the menu to manage your account, review billing, or upload imagery for your travelers.</p>
+        `;
+      } else {
+        body = `
+          <div class="empty-hero-eyebrow">${greeting}</div>
+          <h1 class="empty-hero-title">Welcome back, <em>${escapeHtml(name)}.</em></h1>
+          <p class="empty-hero-text">No upcoming trips on your calendar. Your next trip will appear here once your coordinator finalizes it.</p>
+        `;
+      }
+      return `
+        <section class="hero">
+          <div class="hero-image hero-image-1"></div>
+          <div class="hero-image hero-image-2"></div>
+          <div class="hero-overlay"></div>
+          <div class="hero-content reveal" style="bottom: auto; top: 50%; transform: translateY(-50%);">
+            <div class="empty-hero">${body}</div>
+          </div>
+        </section>
+        <section class="actions">
+          <div class="actions-grid">
+            <div class="action-card reveal" onclick="window.location.href='/business#trips'">
+              <div class="action-card-eyebrow">Past</div>
+              <div class="action-card-title">Trip history</div>
+              <div class="action-card-meta">Your travel record</div>
+            </div>
+            <div class="action-card reveal" onclick="window.location.href='/business#expense'">
+              <div class="action-card-eyebrow">Capture</div>
+              <div class="action-card-title">Receipt</div>
+              <div class="action-card-meta">Even between trips</div>
+            </div>
+            <div class="action-card reveal" onclick="window.location.href='/claims'">
+              <div class="action-card-eyebrow">Recover</div>
+              <div class="action-card-title">File a claim</div>
+              <div class="action-card-meta">Lost luggage, delays</div>
+            </div>
+            <div class="action-card reveal" onclick="window.location.href='mailto:hello@lolotravels.com'">
+              <div class="action-card-eyebrow">Reach</div>
+              <div class="action-card-title">Advisor</div>
+              <div class="action-card-meta">Anytime</div>
+            </div>
+          </div>
+        </section>
+        <footer class="canvas-foot">
+          <div>© Lolo Travels LLC</div>
+          <div>Travel Management, Protection &amp; Risk Advisory</div>
+        </footer>
+      `;
+    }
+
+    function getGreeting() {
+      const h = new Date().getHours();
+      if (h < 12) return 'Good morning';
+      if (h < 17) return 'Good afternoon';
+      return 'Good evening';
+    }
+
+    function bindFlipCards() {
+      document.querySelectorAll('.flip-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+          // Don't flip if user clicked the action button
+          if (e.target.closest('.flip-card-back-action')) return;
+          card.classList.toggle('flipped');
+        });
+      });
+    }
+
+    function openPanel() {
+      document.getElementById('side-panel').classList.add('open');
+      document.getElementById('panel-overlay').classList.add('open');
+      document.getElementById('edge-toggle').classList.add('open');
+    }
+    function closePanel() {
+      document.getElementById('side-panel').classList.remove('open');
+      document.getElementById('panel-overlay').classList.remove('open');
+      document.getElementById('edge-toggle').classList.remove('open');
+    }
+
+    function bindGlobalEvents() {
+      document.getElementById('edge-toggle').addEventListener('click', openPanel);
+      document.getElementById('panel-close').addEventListener('click', closePanel);
+      document.getElementById('panel-overlay').addEventListener('click', closePanel);
+      document.getElementById('user-pill').addEventListener('click', openPanel);
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePanel(); });
+      document.querySelectorAll('.theme-option').forEach(btn => {
+        btn.addEventListener('click', () => applyTheme(btn.dataset.themeChoice));
+      });
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+  </script>
+
+</body>
+</html>
