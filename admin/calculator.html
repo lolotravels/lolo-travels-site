@@ -1,0 +1,1824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Lolo · Internal Calculator</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Gilda+Display&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --navy: #060E1A;
+      --navy-2: #0a1428;
+      --navy-3: #0f1c33;
+      --gold: #B89759;
+      --gold-lt: #D4B575;
+      --gold-soft: rgba(184,151,89,0.15);
+      --cream: #F5F0E8;
+      --dim: rgba(245,240,232,0.55);
+      --muted: rgba(245,240,232,0.75);
+      --border: rgba(184,151,89,0.20);
+      --border-strong: rgba(184,151,89,0.40);
+      --green: rgba(110,160,110,0.85);
+      --red: rgba(180,90,90,0.85);
+      --fb: 'Jost', sans-serif;
+      --fd: 'Cormorant Garamond', serif;
+      --fg: 'Gilda Display', serif;
+    }
+    body {
+      font-family: var(--fb);
+      background: var(--navy);
+      color: var(--cream);
+      font-weight: 300;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* TOP BAR */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 32px;
+      border-bottom: 1px solid var(--border);
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(20px);
+    }
+    .brand { display: flex; align-items: center; gap: 14px; }
+    .brand-logo {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--fd);
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      font-size: 14px;
+    }
+    .brand-mark { font-family: var(--fg); font-size: 22px; color: var(--cream); line-height: 1; }
+    .brand-sub { font-size: 9px; letter-spacing: 0.25em; color: var(--gold); margin-top: 3px; font-weight: 600; text-transform: uppercase; }
+
+    .topbar-right { display: flex; align-items: center; gap: 16px; }
+    .pill {
+      background: rgba(180,90,90,0.12);
+      border: 1px solid rgba(180,90,90,0.4);
+      color: #d4a8a8;
+      padding: 5px 12px;
+      border-radius: 100px;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .user-name { color: var(--muted); font-size: 13px; }
+
+    /* MAIN LAYOUT */
+    main {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 32px;
+    }
+
+    .page-h1 {
+      font-family: var(--fd);
+      font-weight: 300;
+      font-size: 2.4rem;
+      letter-spacing: -0.5px;
+      margin-bottom: 4px;
+    }
+    .page-h1 em { color: var(--gold); font-style: italic; }
+    .page-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 32px;
+    }
+
+    /* TABS */
+    .tabs {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px;
+      overflow-x: auto;
+    }
+    .tab {
+      padding: 14px 20px;
+      font-family: var(--fb);
+      font-weight: 400;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
+      color: var(--dim);
+      background: none;
+      border: none;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      text-transform: uppercase;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab:hover { color: var(--muted); }
+    .tab.active { color: var(--gold); border-bottom-color: var(--gold); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from {opacity:0; transform:translateY(8px);} to {opacity:1; transform:translateY(0);} }
+
+    /* CARDS */
+    .card {
+      background: var(--navy-2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+    .card-h {
+      font-family: var(--fd);
+      font-weight: 400;
+      font-size: 1.4rem;
+      color: var(--cream);
+      margin-bottom: 4px;
+      letter-spacing: -0.3px;
+    }
+    .card-h em { color: var(--gold); font-style: italic; }
+    .card-sub {
+      color: var(--dim);
+      font-size: 0.85rem;
+      margin-bottom: 22px;
+    }
+
+    /* FORM */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+    .field { display: flex; flex-direction: column; gap: 7px; }
+    .label {
+      font-size: 0.7rem;
+      letter-spacing: 0.16em;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .label-help {
+      font-size: 0.78rem;
+      color: var(--dim);
+      font-weight: 300;
+      line-height: 1.5;
+      margin-top: -4px;
+      margin-bottom: 2px;
+    }
+    .input, .select, .textarea {
+      width: 100%;
+      padding: 11px 14px;
+      background: var(--navy);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      color: var(--cream);
+      font-family: var(--fb);
+      font-size: 0.95rem;
+      font-weight: 400;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .input:focus, .select:focus, .textarea:focus { border-color: var(--gold); }
+    .input::placeholder { color: rgba(245,240,232,0.3); font-weight: 300; }
+    .input.with-prefix { padding-left: 28px; }
+    .field-with-prefix { position: relative; }
+    .prefix {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      font-size: 0.95rem;
+      pointer-events: none;
+    }
+
+    /* FIXED COSTS LINE ITEMS */
+    .cost-line {
+      display: grid;
+      grid-template-columns: 1fr 200px 40px;
+      gap: 12px;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+    .cost-line .input { padding: 9px 12px; font-size: 0.9rem; }
+    .cost-line .icon-btn {
+      background: none;
+      border: 1px solid var(--border);
+      color: var(--dim);
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+      border-radius: 3px;
+      transition: all 0.2s;
+      font-size: 1.2rem;
+    }
+    .cost-line .icon-btn:hover { color: var(--red); border-color: rgba(180,90,90,0.5); }
+    .add-line-btn {
+      margin-top: 12px;
+      background: none;
+      color: var(--gold);
+      border: 1px dashed var(--border-strong);
+      padding: 9px 16px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-family: var(--fb);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      transition: all 0.2s;
+    }
+    .add-line-btn:hover { border-color: var(--gold); border-style: solid; }
+
+    /* SECTION SPLITS */
+    .split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .split-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    @media (max-width: 700px) {
+      .split-grid, .split-grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* OUTPUT BOXES */
+    .output-box {
+      background: linear-gradient(135deg, var(--navy-2) 0%, var(--navy-3) 100%);
+      border: 1px solid var(--border-strong);
+      border-radius: 4px;
+      padding: 22px;
+    }
+    .output-box.gold-accent { border-left: 3px solid var(--gold); }
+    .output-box.green-accent { border-left: 3px solid var(--green); }
+    .output-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .output-value {
+      font-family: var(--fd);
+      font-weight: 300;
+      font-size: 2rem;
+      color: var(--cream);
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+    .output-value-sm {
+      font-family: var(--fd);
+      font-weight: 400;
+      font-size: 1.4rem;
+      color: var(--cream);
+      letter-spacing: -0.3px;
+    }
+    .output-detail { color: var(--dim); font-size: 0.85rem; margin-top: 6px; }
+
+    /* TABLE */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    th {
+      text-align: left;
+      padding: 12px 14px;
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--border);
+    }
+    td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-weight: 300;
+    }
+    td.amount { text-align: right; font-family: var(--fd); font-size: 1rem; color: var(--cream); }
+    tr:last-child td { border-bottom: none; }
+
+    /* BUTTONS */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 24px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      background: transparent;
+      border-radius: 3px;
+      cursor: pointer;
+      font-family: var(--fb);
+      font-size: 0.85rem;
+      letter-spacing: 0.16em;
+      font-weight: 600;
+      text-transform: uppercase;
+      transition: all 0.3s;
+      text-decoration: none;
+    }
+    .btn:hover { background: var(--gold); color: var(--navy); }
+    .btn.solid { background: var(--gold); color: var(--navy); }
+    .btn.solid:hover { background: var(--gold-lt); }
+    .btn.ghost { border-color: var(--border-strong); color: var(--muted); }
+    .btn.ghost:hover { border-color: var(--gold); color: var(--gold); background: transparent; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+
+    /* MESSAGES */
+    .msg { 
+      padding: 12px 16px;
+      border-radius: 3px;
+      font-size: 0.85rem;
+      margin-top: 14px;
+      display: none;
+    }
+    .msg.show { display: block; }
+    .msg.ok { background: rgba(110,160,110,0.1); border: 1px solid rgba(110,160,110,0.3); color: #a8c8a8; }
+    .msg.err { background: rgba(180,90,90,0.1); border: 1px solid rgba(180,90,90,0.3); color: #d4a8a8; }
+    .msg.info { background: rgba(184,151,89,0.06); border: 1px solid var(--border); color: var(--muted); }
+
+    /* APP TIER PICKER */
+    .tiers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    @media (max-width: 700px) { .tiers { grid-template-columns: 1fr; } }
+    .tier-card {
+      border: 1px solid var(--border);
+      padding: 18px;
+      cursor: pointer;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .tier-card:hover { border-color: var(--border-strong); }
+    .tier-card.selected { border-color: var(--gold); background: var(--gold-soft); }
+    .tier-name { font-family: var(--fd); font-size: 1.2rem; color: var(--cream); margin-bottom: 4px; }
+    .tier-price { font-family: var(--fd); font-size: 1.6rem; color: var(--gold); margin-bottom: 4px; }
+    .tier-detail { font-size: 0.78rem; color: var(--dim); }
+
+    /* CADENCE TOGGLE */
+    .cadence-toggle {
+      display: inline-flex;
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .cadence-toggle button {
+      padding: 8px 18px;
+      background: none;
+      border: none;
+      color: var(--dim);
+      cursor: pointer;
+      font-family: var(--fb);
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .cadence-toggle button.active { background: var(--gold); color: var(--navy); }
+
+    /* PROPOSALS LIST */
+    .proposals-list { display: flex; flex-direction: column; gap: 10px; }
+    .proposal-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 18px;
+      background: var(--navy-2);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .proposal-row:hover { border-color: var(--border-strong); background: var(--navy-3); }
+    .proposal-name { color: var(--cream); font-weight: 400; }
+    .proposal-company { color: var(--dim); font-size: 0.85rem; }
+    .proposal-amount { font-family: var(--fd); color: var(--gold); font-size: 1.1rem; }
+    .proposal-status {
+      font-size: 0.7rem;
+      letter-spacing: 0.14em;
+      padding: 4px 10px;
+      border-radius: 100px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .proposal-status.draft { background: var(--border); color: var(--muted); }
+    .proposal-status.sent { background: rgba(184,151,89,0.15); color: var(--gold); }
+    .proposal-status.signed { background: rgba(110,160,110,0.15); color: var(--green); }
+    .proposal-date { color: var(--dim); font-size: 0.78rem; }
+
+    /* EMPTY STATE */
+    .empty {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--dim);
+    }
+    .empty-icon {
+      font-family: var(--fd);
+      font-size: 3rem;
+      color: var(--gold);
+      opacity: 0.3;
+      margin-bottom: 12px;
+      font-style: italic;
+    }
+    .empty-text { font-size: 0.95rem; line-height: 1.7; }
+
+    /* GUARD SCREEN */
+    .guard {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      padding: 24px;
+      text-align: center;
+    }
+    .guard h1 { font-family: var(--fd); font-weight: 300; font-size: 2.2rem; margin-bottom: 12px; }
+    .guard p { color: var(--muted); margin-bottom: 24px; max-width: 460px; line-height: 1.7; }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================== 
+       AUTH GUARD — runs before anything renders
+       ========================================================== -->
+  <div id="guard" class="guard" style="display:none;">
+    <div class="brand-logo" style="width:60px;height:60px;font-size:18px;margin-bottom:24px;">LL</div>
+    <h1>Restricted</h1>
+    <p>This calculator is internal to Lolo Travels and accessible only to authorized accountants and the founder. If you reached this page in error, please return to the main site.</p>
+    <a class="btn" href="/">Return Home</a>
+  </div>
+
+  <div id="loading" class="guard">
+    <div class="brand-logo" style="width:60px;height:60px;font-size:18px;margin-bottom:24px;">LL</div>
+    <p>Loading…</p>
+  </div>
+
+  <!-- ==========================================================
+       MAIN APP — only shown after auth check passes
+       ========================================================== -->
+  <div id="app" style="display:none;">
+    <div class="topbar">
+      <a href="/" class="brand" style="text-decoration:none;color:inherit;">
+        <div class="brand-logo">LL</div>
+        <div>
+          <div class="brand-mark">Lolo</div>
+          <div class="brand-sub">Internal Calculator</div>
+        </div>
+      </a>
+      <div class="topbar-right">
+        <span class="pill">Confidential</span>
+        <span class="user-name" id="user-name"></span>
+        <button class="btn ghost" id="signout-btn" style="padding:7px 14px;font-size:0.7rem;">Sign Out</button>
+      </div>
+    </div>
+
+    <main>
+      <div class="page-h1"><em>Discovery &amp; pricing</em> calculator</div>
+      <div class="page-sub">Internal use only · all figures confidential to Lolo Travels</div>
+
+      <!-- TABS -->
+      <div class="tabs">
+        <button class="tab active" data-tab="discovery">New Discovery Call</button>
+        <button class="tab" data-tab="proposals">Saved Proposals</button>
+        <button class="tab" data-tab="config">Annual Base Config</button>
+        <button class="tab" data-tab="margins">Margin Assumptions</button>
+        <button class="tab" data-tab="tiers">App Tiers</button>
+      </div>
+
+      <!-- ============ TAB 1: NEW DISCOVERY CALL ============ -->
+      <div class="tab-panel active" data-panel="discovery">
+
+        <!-- PROSPECT INFO -->
+        <div class="card">
+          <div class="card-h"><em>Prospect</em> details</div>
+          <div class="card-sub">Who are you preparing this for?</div>
+          <div class="form-grid">
+            <div class="field">
+              <label class="label">Contact name</label>
+              <input class="input" id="p-name" placeholder="Jordan Park" />
+            </div>
+            <div class="field">
+              <label class="label">Company</label>
+              <input class="input" id="p-company" placeholder="Park & Co." />
+            </div>
+            <div class="field">
+              <label class="label">Email</label>
+              <input class="input" id="p-email" type="email" placeholder="jordan@parkco.com" />
+            </div>
+            <div class="field">
+              <label class="label">Phone</label>
+              <input class="input" id="p-phone" placeholder="+1 …" />
+            </div>
+          </div>
+        </div>
+
+        <!-- DISCOVERY INPUTS -->
+        <div class="card">
+          <div class="card-h"><em>Discovery</em> inputs</div>
+          <div class="card-sub">The eight numbers you gather on the call. Math updates live.</div>
+          <div class="form-grid">
+            <div class="field">
+              <label class="label">Active travelers</label>
+              <div class="label-help">People who travel 2+ times/year</div>
+              <input class="input" type="number" id="i-travelers" min="0" value="0" />
+            </div>
+            <div class="field">
+              <label class="label">Annual trip count</label>
+              <div class="label-help">Total trips across the company per year</div>
+              <input class="input" type="number" id="i-trips" min="0" value="0" />
+            </div>
+            <div class="field">
+              <label class="label">Group events / yr</label>
+              <div class="label-help">Retreats, trade shows, M&amp;A, offsites</div>
+              <input class="input" type="number" id="i-events" min="0" value="0" />
+            </div>
+          </div>
+
+          <div style="margin-top:24px;margin-bottom:8px;font-size:0.78rem;letter-spacing:.12em;color:var(--gold);font-weight:600;text-transform:uppercase;">Trip mix · destinations</div>
+          <div class="split-grid-3">
+            <div class="field">
+              <label class="label">% Domestic</label>
+              <input class="input" type="number" id="i-pct-dom" min="0" max="100" value="50" />
+            </div>
+            <div class="field">
+              <label class="label">% Int'l Standard</label>
+              <input class="input" type="number" id="i-pct-intl-std" min="0" max="100" value="35" />
+            </div>
+            <div class="field">
+              <label class="label">% Int'l Complex</label>
+              <input class="input" type="number" id="i-pct-intl-cpx" min="0" max="100" value="15" />
+            </div>
+          </div>
+          <div class="label-help" style="margin-top:6px;">Should sum to 100. Complex = acquisitions, multi-stop, group, security-sensitive.</div>
+
+          <div style="margin-top:24px;margin-bottom:8px;font-size:0.78rem;letter-spacing:.12em;color:var(--gold);font-weight:600;text-transform:uppercase;">Trip mix · components</div>
+          <div class="split-grid-3">
+            <div class="field">
+              <label class="label">% Air only</label>
+              <input class="input" type="number" id="i-pct-air" min="0" max="100" value="20" />
+            </div>
+            <div class="field">
+              <label class="label">% Hotel only</label>
+              <input class="input" type="number" id="i-pct-hotel" min="0" max="100" value="20" />
+            </div>
+            <div class="field">
+              <label class="label">% Full package</label>
+              <input class="input" type="number" id="i-pct-full" min="0" max="100" value="60" />
+            </div>
+          </div>
+          <div class="label-help" style="margin-top:6px;">Full package = air + hotel + ground + insurance + concierge.</div>
+
+          <div style="margin-top:24px;" class="form-grid">
+            <div class="field">
+              <label class="label">24-hour line</label>
+              <select class="select" id="i-24hr">
+                <option value="true" selected>Yes — included</option>
+                <option value="false">No</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="label">Concierge depth</label>
+              <select class="select" id="i-concierge">
+                <option value="none">None</option>
+                <option value="occasional" selected>Occasional</option>
+                <option value="always_on">Always-on</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="label">Compliance burden</label>
+              <select class="select" id="i-compliance">
+                <option value="standard" selected>Standard</option>
+                <option value="gdpr">GDPR / Multi-currency</option>
+                <option value="federal">Federal / Audit-heavy</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- TRIP VALUE ASSUMPTIONS -->
+        <div class="card">
+          <div class="card-h"><em>Average trip values</em></div>
+          <div class="card-sub">Used to project bookable revenue. Adjust if you have client-specific numbers.</div>
+          <div class="split-grid-3">
+            <div class="field">
+              <label class="label">Domestic avg</label>
+              <div class="field-with-prefix">
+                <span class="prefix">$</span>
+                <input class="input with-prefix" type="number" id="t-dom" value="1800" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Int'l Standard avg</label>
+              <div class="field-with-prefix">
+                <span class="prefix">$</span>
+                <input class="input with-prefix" type="number" id="t-intl-std" value="4500" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Int'l Complex avg</label>
+              <div class="field-with-prefix">
+                <span class="prefix">$</span>
+                <input class="input with-prefix" type="number" id="t-intl-cpx" value="12000" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- APP TIER -->
+        <div class="card">
+          <div class="card-h"><em>Lolo App</em> tier</div>
+          <div class="card-sub">Recommended fit, billed monthly or annually.</div>
+          <div style="margin-bottom:14px;">
+            <span class="cadence-toggle">
+              <button id="cad-monthly" class="active" type="button">Monthly</button>
+              <button id="cad-annual" type="button">Annual (16% off)</button>
+            </span>
+          </div>
+          <div class="tiers" id="tier-picker">
+            <!-- Dynamically rendered -->
+          </div>
+        </div>
+
+        <!-- ============ LIVE OUTPUTS ============ -->
+        <div class="card" style="border-left:3px solid var(--gold);">
+          <div class="card-h"><em>Lolo's projection</em> · internal view</div>
+          <div class="card-sub">Never shown to client. This is the math behind your proposal.</div>
+
+          <div class="split-grid-3" style="margin-top:18px;">
+            <div class="output-box gold-accent">
+              <div class="output-label">Monthly retainer floor</div>
+              <div class="output-value" id="o-retainer">$0</div>
+              <div class="output-detail">Below this = losing money on this client</div>
+            </div>
+            <div class="output-box gold-accent">
+              <div class="output-label">Variable revenue (yr)</div>
+              <div class="output-value" id="o-variable">$0</div>
+              <div class="output-detail">Wholesale margins + commissions</div>
+            </div>
+            <div class="output-box gold-accent">
+              <div class="output-label">App fee (yr)</div>
+              <div class="output-value-sm" id="o-app">$0</div>
+              <div class="output-detail" id="o-app-detail">—</div>
+            </div>
+          </div>
+
+          <div class="split-grid-3" style="margin-top:14px;">
+            <div class="output-box green-accent">
+              <div class="output-label">Total annual revenue</div>
+              <div class="output-value" id="o-total-revenue">$0</div>
+            </div>
+            <div class="output-box">
+              <div class="output-label">Estimated annual cost</div>
+              <div class="output-value-sm" id="o-total-cost">$0</div>
+              <div class="output-detail">Labor + direct + overhead allocation</div>
+            </div>
+            <div class="output-box green-accent">
+              <div class="output-label">Net margin</div>
+              <div class="output-value" id="o-margin">$0</div>
+              <div class="output-detail" id="o-margin-pct">— net %</div>
+            </div>
+          </div>
+
+          <div style="margin-top:24px;">
+            <div style="font-size:0.78rem;letter-spacing:.12em;color:var(--gold);font-weight:600;text-transform:uppercase;margin-bottom:10px;">Revenue breakdown</div>
+            <table id="revenue-breakdown">
+              <tr><th>Source</th><th style="text-align:right;">Annual</th></tr>
+            </table>
+          </div>
+        </div>
+
+        <!-- PROPOSED PRICING TO CLIENT -->
+        <div class="card">
+          <div class="card-h"><em>Proposed to client</em></div>
+          <div class="card-sub">This goes on the proposal PDF. Wholesale rates and your margin do NOT.</div>
+          <div class="form-grid">
+            <div class="field">
+              <label class="label">Proposed monthly retainer</label>
+              <div class="label-help">Editable. Default = floor + small buffer. Negotiate up.</div>
+              <div class="field-with-prefix">
+                <span class="prefix">$</span>
+                <input class="input with-prefix" type="number" id="p-proposed-retainer" min="0" value="0" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Notes for proposal</label>
+              <input class="input" id="p-notes" placeholder="Brief framing for this engagement" />
+            </div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn solid" id="btn-save">Save Draft</button>
+            <button class="btn" id="btn-pdf">Generate Proposal PDF</button>
+            <button class="btn" id="btn-excel">Excel Export</button>
+            <button class="btn ghost" id="btn-reset">Clear Form</button>
+          </div>
+          <div class="msg" id="discovery-msg"></div>
+        </div>
+      </div>
+
+      <!-- ============ TAB 2: SAVED PROPOSALS ============ -->
+      <div class="tab-panel" data-panel="proposals">
+        <div class="card">
+          <div class="card-h">Saved <em>proposals</em></div>
+          <div class="card-sub">Drafts and signed agreements. Click to load into the calculator.</div>
+          <div class="proposals-list" id="proposals-list">
+            <div class="empty">
+              <div class="empty-icon">—</div>
+              <div class="empty-text">No proposals yet. Fill in a discovery call and click Save Draft.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============ TAB 3: ANNUAL BASE CONFIG ============ -->
+      <div class="tab-panel" data-panel="config">
+        <div class="card">
+          <div class="card-h">Lolo's <em>annual base rate</em></div>
+          <div class="card-sub">Configured once, refreshed yearly. Drives the monthly retainer floor for all proposals.</div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label class="label">Config year</label>
+              <input class="input" type="number" id="c-year" />
+            </div>
+            <div class="field">
+              <label class="label">Total annual salaries</label>
+              <div class="label-help">All Lolo staff combined</div>
+              <div class="field-with-prefix">
+                <span class="prefix">$</span>
+                <input class="input with-prefix" type="number" id="c-salaries" />
+              </div>
+            </div>
+            <div class="field">
+              <label class="label">Benefits multiplier</label>
+              <div class="label-help">1.30 = 30% benefits/taxes load</div>
+              <input class="input" type="number" step="0.01" id="c-benefits" />
+            </div>
+            <div class="field">
+              <label class="label">Target client count</label>
+              <div class="label-help">Capacity at full load</div>
+              <input class="input" type="number" id="c-clients" />
+            </div>
+            <div class="field">
+              <label class="label">Growth buffer (%)</label>
+              <div class="label-help">Reinvested in expansion</div>
+              <input class="input" type="number" step="0.1" id="c-growth" />
+            </div>
+            <div class="field">
+              <label class="label">5-year reserve (%)</label>
+              <div class="label-help">Saved as runway/reserve</div>
+              <input class="input" type="number" step="0.1" id="c-reserve" />
+            </div>
+            <div class="field">
+              <label class="label">Target margin floor (%)</label>
+              <div class="label-help">Minimum net profit %</div>
+              <input class="input" type="number" step="0.1" id="c-margin" />
+            </div>
+            <div class="field">
+              <label class="label">Hourly rate (loaded)</label>
+              <div class="label-help">$200 anchor (boutique benchmark $150-300)</div>
+              <div class="field-with-prefix">
+                <span class="prefix">$</span>
+                <input class="input with-prefix" type="number" id="c-hourly" />
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top:28px;margin-bottom:10px;font-size:0.78rem;letter-spacing:.12em;color:var(--gold);font-weight:600;text-transform:uppercase;">Fixed costs · annual line items</div>
+          <div id="cost-lines"></div>
+          <button class="add-line-btn" id="btn-add-cost-line" type="button">+ Add line item</button>
+
+          <div class="output-box gold-accent" style="margin-top:28px;">
+            <div class="output-label">Computed: Annual base rate per client</div>
+            <div class="output-value" id="c-output">$0</div>
+            <div class="output-detail" id="c-output-detail">— monthly retainer floor</div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn solid" id="btn-save-config">Save Configuration</button>
+          </div>
+          <div class="msg" id="config-msg"></div>
+        </div>
+      </div>
+
+      <!-- ============ TAB 4: MARGIN ASSUMPTIONS ============ -->
+      <div class="tab-panel" data-panel="margins">
+        <div class="card">
+          <div class="card-h">Wholesale <em>margin assumptions</em></div>
+          <div class="card-sub">Conservative defaults per category. Adjust as supplier relationships evolve.</div>
+          <table id="margins-table"></table>
+          <div class="btn-row">
+            <button class="btn solid" id="btn-save-margins">Save Margins</button>
+          </div>
+          <div class="msg" id="margins-msg"></div>
+        </div>
+      </div>
+
+      <!-- ============ TAB 5: APP TIERS ============ -->
+      <div class="tab-panel" data-panel="tiers">
+        <div class="card">
+          <div class="card-h">Lolo App <em>pricing tiers</em></div>
+          <div class="card-sub">Flat fee per company. Annual commit gets a 16% discount.</div>
+          <div id="tiers-editor"></div>
+          <div class="btn-row">
+            <button class="btn solid" id="btn-save-tiers">Save Tiers</button>
+          </div>
+          <div class="msg" id="tiers-msg"></div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    // ============ CONFIG ============
+    const SUPABASE_URL = 'https://hktntiamtpptcagnohnn.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ============ STATE ============
+    let user = null;
+    let profile = null;
+    let baseConfig = null;
+    let margins = [];      // array of margin assumptions
+    let appTiers = [];     // array of tiers
+    let proposals = [];    // saved drafts
+    let currentProposalId = null;
+
+    // ============ AUTH GUARD ============
+    (async function init() {
+      const loadingEl = document.getElementById('loading');
+      const guardEl = document.getElementById('guard');
+      const appEl = document.getElementById('app');
+
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) {
+        loadingEl.style.display = 'none';
+        guardEl.style.display = 'flex';
+        // Redirect to sign-in after a beat
+        setTimeout(() => { window.location.href = '/business'; }, 1800);
+        return;
+      }
+
+      user = session.user;
+
+      // Fetch profile + verify access
+      const { data: p, error } = await sb
+        .from('profiles')
+        .select('id, full_name, email, account_type, portal_role')
+        .eq('id', user.id)
+        .maybeSingle();
+
+      if (error || !p) {
+        loadingEl.style.display = 'none';
+        guardEl.style.display = 'flex';
+        return;
+      }
+
+      const allowed = (p.account_type === 'admin') &&
+                      (p.portal_role === 'owner' || p.portal_role === 'accountant');
+
+      if (!allowed) {
+        loadingEl.style.display = 'none';
+        guardEl.style.display = 'flex';
+        return;
+      }
+
+      profile = p;
+      document.getElementById('user-name').textContent = profile.full_name || profile.email;
+
+      // Load all data in parallel
+      try {
+        await Promise.all([
+          loadBaseConfig(),
+          loadMargins(),
+          loadAppTiers(),
+          loadProposals()
+        ]);
+      } catch (e) {
+        console.error(e);
+      }
+
+      loadingEl.style.display = 'none';
+      appEl.style.display = 'block';
+      bindEvents();
+      renderTierPicker();
+      renderConfigForm();
+      renderMarginsTable();
+      renderTiersEditor();
+      renderProposalsList();
+      compute();
+    })();
+
+    // ============ DATA LOAD ============
+    async function loadBaseConfig() {
+      const { data } = await sb.from('lolo_base_config').select('*').limit(1).maybeSingle();
+      baseConfig = data || null;
+    }
+    async function loadMargins() {
+      const { data } = await sb.from('lolo_margin_assumptions').select('*').order('display_name');
+      margins = data || [];
+    }
+    async function loadAppTiers() {
+      const { data } = await sb.from('lolo_app_tiers').select('*').eq('is_active', true).order('sort_order');
+      appTiers = data || [];
+    }
+    async function loadProposals() {
+      const { data } = await sb.from('calculator_proposals').select('*').order('updated_at', { ascending: false }).limit(50);
+      proposals = data || [];
+    }
+
+    // ============ TAB SWITCH ============
+    function bindEvents() {
+      document.querySelectorAll('.tab').forEach(t => {
+        t.addEventListener('click', () => {
+          const target = t.dataset.tab;
+          document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x === t));
+          document.querySelectorAll('.tab-panel').forEach(p => {
+            p.classList.toggle('active', p.dataset.panel === target);
+          });
+        });
+      });
+
+      // All discovery inputs trigger compute()
+      const inputIds = [
+        'i-travelers','i-trips','i-events',
+        'i-pct-dom','i-pct-intl-std','i-pct-intl-cpx',
+        'i-pct-air','i-pct-hotel','i-pct-full',
+        'i-24hr','i-concierge','i-compliance',
+        't-dom','t-intl-std','t-intl-cpx'
+      ];
+      inputIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', compute);
+      });
+
+      // Cadence toggle
+      document.getElementById('cad-monthly').addEventListener('click', () => setCadence('monthly'));
+      document.getElementById('cad-annual').addEventListener('click', () => setCadence('annual'));
+
+      // Buttons
+      document.getElementById('btn-save').addEventListener('click', saveProposal);
+      document.getElementById('btn-pdf').addEventListener('click', generatePDF);
+      document.getElementById('btn-excel').addEventListener('click', generateExcel);
+      document.getElementById('btn-reset').addEventListener('click', resetForm);
+      document.getElementById('btn-save-config').addEventListener('click', saveBaseConfig);
+      document.getElementById('btn-add-cost-line').addEventListener('click', addCostLine);
+      document.getElementById('btn-save-margins').addEventListener('click', saveMargins);
+      document.getElementById('btn-save-tiers').addEventListener('click', saveAppTiers);
+      document.getElementById('signout-btn').addEventListener('click', async () => {
+        await sb.auth.signOut();
+        window.location.href = '/';
+      });
+    }
+
+    // ============ APP TIER PICKER ============
+    let selectedTier = 'mid';
+    let cadence = 'monthly';
+    function setCadence(c) {
+      cadence = c;
+      document.getElementById('cad-monthly').classList.toggle('active', c === 'monthly');
+      document.getElementById('cad-annual').classList.toggle('active', c === 'annual');
+      renderTierPicker();
+      compute();
+    }
+    function renderTierPicker() {
+      const c = document.getElementById('tier-picker');
+      c.innerHTML = '';
+      appTiers.forEach(t => {
+        const annualPrice = t.annual_price * (1 - (t.annual_discount_pct/100));
+        const price = cadence === 'monthly' ? t.monthly_price : annualPrice;
+        const cadenceLabel = cadence === 'monthly' ? '/month' : '/year';
+        const card = document.createElement('div');
+        card.className = 'tier-card' + (selectedTier === t.tier_name ? ' selected' : '');
+        card.innerHTML = `
+          <div class="tier-name">${t.display_name}</div>
+          <div class="tier-price">$${Math.round(price).toLocaleString()}<span style="font-size:0.7rem;color:var(--dim);"> ${cadenceLabel}</span></div>
+          <div class="tier-detail">${t.max_travelers ? 'Up to ' + t.max_travelers + ' travelers' : 'Unlimited travelers'}</div>
+        `;
+        card.addEventListener('click', () => {
+          selectedTier = t.tier_name;
+          renderTierPicker();
+          compute();
+        });
+        c.appendChild(card);
+      });
+    }
+
+    // ============ COMPUTE — the math ============
+    function compute() {
+      // Read inputs
+      const travelers = num('i-travelers');
+      const trips = num('i-trips');
+      const events = num('i-events');
+      const pctDom = num('i-pct-dom') / 100;
+      const pctIntlStd = num('i-pct-intl-std') / 100;
+      const pctIntlCpx = num('i-pct-intl-cpx') / 100;
+      const pctAir = num('i-pct-air') / 100;
+      const pctHotel = num('i-pct-hotel') / 100;
+      const pctFull = num('i-pct-full') / 100;
+      const has24hr = document.getElementById('i-24hr').value === 'true';
+      const conciergeDepth = document.getElementById('i-concierge').value;
+      const compliance = document.getElementById('i-compliance').value;
+      const tDom = num('t-dom');
+      const tIntlStd = num('t-intl-std');
+      const tIntlCpx = num('t-intl-cpx');
+
+      // 1. Total bookable spend
+      const tripsByType = {
+        dom: trips * pctDom,
+        intlStd: trips * pctIntlStd,
+        intlCpx: trips * pctIntlCpx,
+      };
+      const totalBookableSpend = (tripsByType.dom * tDom) + (tripsByType.intlStd * tIntlStd) + (tripsByType.intlCpx * tIntlCpx);
+
+      // 2. Component allocation across spend
+      // Air-only = mostly air revenue. Hotel-only = mostly hotel. Full = mix.
+      // Approximations: 
+      //   air-only trips: 100% air component
+      //   hotel-only trips: 100% hotel component
+      //   full trips: 35% air, 35% hotel, 10% ground, 10% tour, 10% insurance
+      const airSpend = totalBookableSpend * (pctAir * 1.0 + pctFull * 0.35);
+      const hotelSpend = totalBookableSpend * (pctHotel * 1.0 + pctFull * 0.35);
+      const groundSpend = totalBookableSpend * pctFull * 0.10;
+      const tourSpend = totalBookableSpend * pctFull * 0.10;
+      const insurSpend = totalBookableSpend * pctFull * 0.10;
+
+      // 3. Apply margin assumptions
+      const m = (cat, fallback) => {
+        const found = margins.find(x => x.category === cat);
+        return (found ? found.default_use : fallback) / 100;
+      };
+      // For complex international, assume luxury hotel pricing
+      const luxFraction = pctIntlCpx; // cpx trips lean luxury
+      const hotelMargin = m('hotel_wholesale', 25) * (1 - luxFraction) + m('hotel_luxury', 35) * luxFraction;
+      const airMargin = m('air_consolidator', 12);
+      const groundMargin = m('ground_transport', 20);
+      const tourMargin = m('tour_standard', 18) * (1 - luxFraction) + m('tour_private', 30) * luxFraction;
+      const insMargin = m('insurance_travel', 25);
+      const concMargin = m('concierge_service', 80);
+
+      // Concierge revenue depends on depth (flat fee per trip estimated)
+      const conciergeFeePerTrip = conciergeDepth === 'always_on' ? 250 : (conciergeDepth === 'occasional' ? 75 : 0);
+      const conciergeRevenue = trips * conciergeFeePerTrip * concMargin;
+
+      // 4. Variable revenue
+      const hotelRev = hotelSpend * hotelMargin;
+      const airRev = airSpend * airMargin;
+      const groundRev = groundSpend * groundMargin;
+      const tourRev = tourSpend * tourMargin;
+      const insRev = insurSpend * insMargin;
+
+      // 5. Group events bonus (high margin coordination work)
+      const eventRevenue = events * 4500; // $4500 avg coordination fee per event
+
+      const variableRevenue = hotelRev + airRev + groundRev + tourRev + insRev + conciergeRevenue + eventRevenue;
+
+      // 6. Monthly retainer floor — from base config
+      let monthlyFloor = 0;
+      if (baseConfig) {
+        const annualLabor = baseConfig.total_annual_salaries * baseConfig.benefits_multiplier;
+        const fixedTotal = (baseConfig.fixed_costs || []).reduce((s, l) => s + (Number(l.annual_amount) || 0), 0);
+        const baseTotal = annualLabor + fixedTotal;
+        const targetClients = Math.max(1, baseConfig.target_client_count);
+        const buffers = (baseConfig.growth_rate_pct + baseConfig.reserve_rate_pct) / 100;
+        const annualPerClient = (baseTotal / targetClients) * (1 + buffers);
+        monthlyFloor = annualPerClient / 12;
+      }
+
+      // 7. App fee
+      const tier = appTiers.find(t => t.tier_name === selectedTier) || appTiers[1] || null;
+      let appAnnual = 0;
+      let appCadenceLabel = '—';
+      if (tier) {
+        if (cadence === 'monthly') {
+          appAnnual = tier.monthly_price * 12;
+          appCadenceLabel = `$${tier.monthly_price.toLocaleString()}/mo`;
+        } else {
+          appAnnual = tier.annual_price * (1 - tier.annual_discount_pct / 100);
+          appCadenceLabel = `$${Math.round(appAnnual).toLocaleString()}/yr`;
+        }
+      }
+
+      // 8. Total revenue
+      const annualRetainer = monthlyFloor * 12;
+      const totalRevenue = annualRetainer + variableRevenue + appAnnual;
+
+      // 9. Estimated cost
+      // Rough labor hours per trip (conservative)
+      const hoursPerTrip = pctDom * 2.5 + pctIntlStd * 6 + pctIntlCpx * 18;
+      const totalLaborHours = (trips * hoursPerTrip) + (events * 60) + (travelers * 6); // +6h/traveler onboarding + ongoing
+      const hourlyRate = baseConfig ? baseConfig.fully_loaded_hourly_rate : 200;
+      const directLaborCost = totalLaborHours * hourlyRate;
+
+      // Direct cash costs (small percentage of bookable)
+      const directCashCost = totalBookableSpend * 0.005; // GDS, OCR, infra
+      // Compliance overhead
+      const complianceLoad = compliance === 'federal' ? 0.10 : (compliance === 'gdpr' ? 0.05 : 0);
+      const complianceCost = directLaborCost * complianceLoad;
+
+      const totalCost = directLaborCost + directCashCost + complianceCost;
+
+      // 10. Margin
+      const netMargin = totalRevenue - totalCost;
+      const netMarginPct = totalRevenue > 0 ? (netMargin / totalRevenue) * 100 : 0;
+
+      // 11. Render outputs
+      const fmt = n => '$' + Math.round(n).toLocaleString();
+      document.getElementById('o-retainer').textContent = fmt(monthlyFloor);
+      document.getElementById('o-variable').textContent = fmt(variableRevenue);
+      document.getElementById('o-app').textContent = fmt(appAnnual);
+      document.getElementById('o-app-detail').textContent = appCadenceLabel + ' · ' + (tier?.display_name || '');
+      document.getElementById('o-total-revenue').textContent = fmt(totalRevenue);
+      document.getElementById('o-total-cost').textContent = fmt(totalCost);
+      document.getElementById('o-margin').textContent = fmt(netMargin);
+      document.getElementById('o-margin-pct').textContent = netMarginPct.toFixed(1) + '% net';
+
+      // Revenue breakdown table
+      const breakdown = document.getElementById('revenue-breakdown');
+      breakdown.innerHTML = `
+        <tr><th>Source</th><th style="text-align:right;">Annual</th></tr>
+        <tr><td>Monthly retainer × 12</td><td class="amount">${fmt(annualRetainer)}</td></tr>
+        <tr><td>Hotel — wholesale margins</td><td class="amount">${fmt(hotelRev)}</td></tr>
+        <tr><td>Air — consolidator margins</td><td class="amount">${fmt(airRev)}</td></tr>
+        <tr><td>Ground transport</td><td class="amount">${fmt(groundRev)}</td></tr>
+        <tr><td>Tours / experiences</td><td class="amount">${fmt(tourRev)}</td></tr>
+        <tr><td>Insurance commissions</td><td class="amount">${fmt(insRev)}</td></tr>
+        <tr><td>Concierge fees</td><td class="amount">${fmt(conciergeRevenue)}</td></tr>
+        <tr><td>Group events / coordination</td><td class="amount">${fmt(eventRevenue)}</td></tr>
+        <tr><td>Lolo App (${appCadenceLabel})</td><td class="amount">${fmt(appAnnual)}</td></tr>
+        <tr><td style="color:var(--gold);font-weight:500;">Total annual</td><td class="amount" style="color:var(--gold);font-weight:500;">${fmt(totalRevenue)}</td></tr>
+      `;
+
+      // Default proposed retainer to floor + 10% buffer
+      const proposedEl = document.getElementById('p-proposed-retainer');
+      if (proposedEl && (!proposedEl.value || proposedEl.value === '0')) {
+        proposedEl.value = Math.round(monthlyFloor * 1.10);
+      }
+
+      // Stash for later (PDF/Excel)
+      window._lastComputed = {
+        monthlyFloor, annualRetainer, variableRevenue, appAnnual, totalRevenue,
+        totalCost, netMargin, netMarginPct, totalLaborHours,
+        breakdown: { hotelRev, airRev, groundRev, tourRev, insRev, conciergeRevenue, eventRevenue }
+      };
+    }
+
+    function num(id) {
+      const v = parseFloat(document.getElementById(id)?.value || '0');
+      return isNaN(v) ? 0 : v;
+    }
+
+    // ============ BASE CONFIG TAB ============
+    function renderConfigForm() {
+      if (!baseConfig) return;
+      document.getElementById('c-year').value = baseConfig.config_year;
+      document.getElementById('c-salaries').value = baseConfig.total_annual_salaries;
+      document.getElementById('c-benefits').value = baseConfig.benefits_multiplier;
+      document.getElementById('c-clients').value = baseConfig.target_client_count;
+      document.getElementById('c-growth').value = baseConfig.growth_rate_pct;
+      document.getElementById('c-reserve').value = baseConfig.reserve_rate_pct;
+      document.getElementById('c-margin').value = baseConfig.target_margin_pct;
+      document.getElementById('c-hourly').value = baseConfig.fully_loaded_hourly_rate;
+      renderCostLines(baseConfig.fixed_costs || []);
+      computeBaseRate();
+      ['c-year','c-salaries','c-benefits','c-clients','c-growth','c-reserve','c-margin','c-hourly'].forEach(id => {
+        document.getElementById(id).addEventListener('input', computeBaseRate);
+      });
+    }
+    function renderCostLines(lines) {
+      const c = document.getElementById('cost-lines');
+      c.innerHTML = '';
+      lines.forEach((l, idx) => {
+        const row = document.createElement('div');
+        row.className = 'cost-line';
+        row.innerHTML = `
+          <input class="input cost-label" type="text" placeholder="Label" value="${escapeHtml(l.label || '')}" />
+          <div class="field-with-prefix">
+            <span class="prefix">$</span>
+            <input class="input with-prefix cost-amount" type="number" placeholder="0" value="${l.annual_amount || 0}" />
+          </div>
+          <button class="icon-btn" data-idx="${idx}" type="button">×</button>
+        `;
+        c.appendChild(row);
+      });
+      c.querySelectorAll('.cost-label, .cost-amount').forEach(el => el.addEventListener('input', computeBaseRate));
+      c.querySelectorAll('.icon-btn').forEach(btn => btn.addEventListener('click', e => {
+        const i = parseInt(e.target.dataset.idx);
+        const arr = readCostLines();
+        arr.splice(i, 1);
+        renderCostLines(arr);
+        computeBaseRate();
+      }));
+    }
+    function readCostLines() {
+      const rows = document.querySelectorAll('#cost-lines .cost-line');
+      return Array.from(rows).map(r => ({
+        label: r.querySelector('.cost-label').value,
+        annual_amount: parseFloat(r.querySelector('.cost-amount').value || 0) || 0
+      }));
+    }
+    function addCostLine() {
+      const arr = readCostLines();
+      arr.push({ label: '', annual_amount: 0 });
+      renderCostLines(arr);
+    }
+    function computeBaseRate() {
+      const salaries = parseFloat(document.getElementById('c-salaries').value || 0);
+      const benefits = parseFloat(document.getElementById('c-benefits').value || 1.30);
+      const clients = Math.max(1, parseFloat(document.getElementById('c-clients').value || 1));
+      const growth = parseFloat(document.getElementById('c-growth').value || 0) / 100;
+      const reserve = parseFloat(document.getElementById('c-reserve').value || 0) / 100;
+      const lines = readCostLines();
+      const fixed = lines.reduce((s, l) => s + (Number(l.annual_amount) || 0), 0);
+      const annualLabor = salaries * benefits;
+      const baseTotal = annualLabor + fixed;
+      const annualPerClient = (baseTotal / clients) * (1 + growth + reserve);
+      const monthly = annualPerClient / 12;
+      document.getElementById('c-output').textContent = '$' + Math.round(annualPerClient).toLocaleString() + '/yr';
+      document.getElementById('c-output-detail').textContent = '$' + Math.round(monthly).toLocaleString() + ' monthly retainer floor per client';
+    }
+
+    async function saveBaseConfig() {
+      const id = baseConfig?.id;
+      const payload = {
+        config_year: parseInt(document.getElementById('c-year').value) || (new Date()).getFullYear(),
+        total_annual_salaries: parseFloat(document.getElementById('c-salaries').value) || 0,
+        benefits_multiplier: parseFloat(document.getElementById('c-benefits').value) || 1.30,
+        target_client_count: parseInt(document.getElementById('c-clients').value) || 12,
+        growth_rate_pct: parseFloat(document.getElementById('c-growth').value) || 0,
+        reserve_rate_pct: parseFloat(document.getElementById('c-reserve').value) || 0,
+        target_margin_pct: parseFloat(document.getElementById('c-margin').value) || 35,
+        fully_loaded_hourly_rate: parseFloat(document.getElementById('c-hourly').value) || 200,
+        fixed_costs: readCostLines(),
+        updated_by: user.id
+      };
+      try {
+        let res;
+        if (id) {
+          res = await sb.from('lolo_base_config').update(payload).eq('id', id);
+        } else {
+          res = await sb.from('lolo_base_config').insert(payload);
+        }
+        if (res.error) throw res.error;
+        await loadBaseConfig();
+        compute();
+        showMsg('config-msg', 'ok', 'Base config saved.');
+      } catch (e) {
+        showMsg('config-msg', 'err', e.message || 'Save failed.');
+      }
+    }
+
+    // ============ MARGINS TAB ============
+    function renderMarginsTable() {
+      const t = document.getElementById('margins-table');
+      let html = '<tr><th>Category</th><th>Default %</th><th>Range</th><th>Notes</th></tr>';
+      margins.forEach((m, i) => {
+        html += `
+          <tr>
+            <td>${escapeHtml(m.display_name)}</td>
+            <td><input class="input" data-idx="${i}" data-field="default_use" type="number" step="0.5" value="${m.default_use}" style="max-width:100px;padding:6px 10px;" /></td>
+            <td style="color:var(--dim);font-size:0.85rem;">${m.margin_pct_low}–${m.margin_pct_high}%</td>
+            <td style="color:var(--dim);font-size:0.85rem;">${escapeHtml(m.notes || '')}</td>
+          </tr>
+        `;
+      });
+      t.innerHTML = html;
+    }
+    async function saveMargins() {
+      try {
+        const inputs = document.querySelectorAll('#margins-table input');
+        for (const inp of inputs) {
+          const i = parseInt(inp.dataset.idx);
+          const newVal = parseFloat(inp.value);
+          if (margins[i] && !isNaN(newVal)) {
+            await sb.from('lolo_margin_assumptions').update({ default_use: newVal }).eq('id', margins[i].id);
+            margins[i].default_use = newVal;
+          }
+        }
+        compute();
+        showMsg('margins-msg', 'ok', 'Margin assumptions saved.');
+      } catch (e) {
+        showMsg('margins-msg', 'err', e.message || 'Save failed.');
+      }
+    }
+
+    // ============ APP TIERS TAB ============
+    function renderTiersEditor() {
+      const c = document.getElementById('tiers-editor');
+      let html = '<table><tr><th>Tier</th><th>Monthly</th><th>Annual (pre-discount)</th><th>Discount %</th><th>Max travelers</th></tr>';
+      appTiers.forEach((t, i) => {
+        html += `
+          <tr>
+            <td>${escapeHtml(t.display_name)}</td>
+            <td><input class="input" data-idx="${i}" data-field="monthly_price" type="number" value="${t.monthly_price}" style="max-width:120px;padding:6px 10px;" /></td>
+            <td><input class="input" data-idx="${i}" data-field="annual_price" type="number" value="${t.annual_price}" style="max-width:140px;padding:6px 10px;" /></td>
+            <td><input class="input" data-idx="${i}" data-field="annual_discount_pct" type="number" step="0.5" value="${t.annual_discount_pct}" style="max-width:100px;padding:6px 10px;" /></td>
+            <td><input class="input" data-idx="${i}" data-field="max_travelers" type="number" value="${t.max_travelers || ''}" placeholder="∞" style="max-width:120px;padding:6px 10px;" /></td>
+          </tr>
+        `;
+      });
+      html += '</table>';
+      c.innerHTML = html;
+    }
+    async function saveAppTiers() {
+      try {
+        const inputs = document.querySelectorAll('#tiers-editor input');
+        const updates = {};
+        inputs.forEach(inp => {
+          const i = parseInt(inp.dataset.idx);
+          const field = inp.dataset.field;
+          if (!updates[i]) updates[i] = {};
+          let val = inp.value === '' ? null : parseFloat(inp.value);
+          updates[i][field] = val;
+        });
+        for (const [i, fields] of Object.entries(updates)) {
+          await sb.from('lolo_app_tiers').update(fields).eq('id', appTiers[i].id);
+          Object.assign(appTiers[i], fields);
+        }
+        renderTierPicker();
+        compute();
+        showMsg('tiers-msg', 'ok', 'App tiers saved.');
+      } catch (e) {
+        showMsg('tiers-msg', 'err', e.message || 'Save failed.');
+      }
+    }
+
+    // ============ SAVE PROPOSAL ============
+    async function saveProposal() {
+      const c = window._lastComputed || {};
+      const payload = {
+        prospect_name: document.getElementById('p-name').value || 'Unnamed',
+        prospect_company: document.getElementById('p-company').value || 'Unnamed',
+        prospect_email: document.getElementById('p-email').value || null,
+        prospect_phone: document.getElementById('p-phone').value || null,
+        active_travelers: parseInt(num('i-travelers')),
+        annual_trip_count: parseInt(num('i-trips')),
+        pct_domestic: num('i-pct-dom'),
+        pct_intl_standard: num('i-pct-intl-std'),
+        pct_intl_complex: num('i-pct-intl-cpx'),
+        pct_air_only: num('i-pct-air'),
+        pct_hotel_only: num('i-pct-hotel'),
+        pct_full_package: num('i-pct-full'),
+        has_24hr_line: document.getElementById('i-24hr').value === 'true',
+        concierge_depth: document.getElementById('i-concierge').value,
+        group_events_per_year: parseInt(num('i-events')),
+        compliance_burden: document.getElementById('i-compliance').value,
+        avg_trip_value_domestic: num('t-dom'),
+        avg_trip_value_intl_standard: num('t-intl-std'),
+        avg_trip_value_intl_complex: num('t-intl-cpx'),
+        app_tier: selectedTier,
+        app_billing_cadence: cadence,
+        proposed_monthly_retainer: num('p-proposed-retainer'),
+        notes: document.getElementById('p-notes').value || null,
+        computed: c,
+        status: 'draft',
+        created_by: user.id
+      };
+      try {
+        let res;
+        if (currentProposalId) {
+          res = await sb.from('calculator_proposals').update(payload).eq('id', currentProposalId).select().single();
+        } else {
+          res = await sb.from('calculator_proposals').insert(payload).select().single();
+        }
+        if (res.error) throw res.error;
+        currentProposalId = res.data.id;
+        await loadProposals();
+        renderProposalsList();
+        showMsg('discovery-msg', 'ok', 'Proposal saved as draft.');
+      } catch (e) {
+        showMsg('discovery-msg', 'err', e.message || 'Save failed.');
+      }
+    }
+
+    function renderProposalsList() {
+      const c = document.getElementById('proposals-list');
+      if (!proposals.length) {
+        c.innerHTML = `<div class="empty"><div class="empty-icon">—</div><div class="empty-text">No proposals yet. Fill in a discovery call and click Save Draft.</div></div>`;
+        return;
+      }
+      c.innerHTML = '';
+      proposals.forEach(p => {
+        const row = document.createElement('div');
+        row.className = 'proposal-row';
+        const date = new Date(p.updated_at).toLocaleDateString();
+        const amt = p.proposed_monthly_retainer ? '$' + Math.round(p.proposed_monthly_retainer).toLocaleString() + '/mo' : '—';
+        row.innerHTML = `
+          <div>
+            <div class="proposal-name">${escapeHtml(p.prospect_name)}</div>
+            <div class="proposal-company">${escapeHtml(p.prospect_company)}</div>
+          </div>
+          <div class="proposal-amount">${amt}</div>
+          <div class="proposal-status ${p.status}">${p.status}</div>
+          <div class="proposal-date">${date}</div>
+        `;
+        row.addEventListener('click', () => loadProposalIntoForm(p.id));
+        c.appendChild(row);
+      });
+    }
+    async function loadProposalIntoForm(id) {
+      const p = proposals.find(x => x.id === id);
+      if (!p) return;
+      currentProposalId = p.id;
+      document.getElementById('p-name').value = p.prospect_name || '';
+      document.getElementById('p-company').value = p.prospect_company || '';
+      document.getElementById('p-email').value = p.prospect_email || '';
+      document.getElementById('p-phone').value = p.prospect_phone || '';
+      document.getElementById('i-travelers').value = p.active_travelers || 0;
+      document.getElementById('i-trips').value = p.annual_trip_count || 0;
+      document.getElementById('i-events').value = p.group_events_per_year || 0;
+      document.getElementById('i-pct-dom').value = p.pct_domestic;
+      document.getElementById('i-pct-intl-std').value = p.pct_intl_standard;
+      document.getElementById('i-pct-intl-cpx').value = p.pct_intl_complex;
+      document.getElementById('i-pct-air').value = p.pct_air_only;
+      document.getElementById('i-pct-hotel').value = p.pct_hotel_only;
+      document.getElementById('i-pct-full').value = p.pct_full_package;
+      document.getElementById('i-24hr').value = p.has_24hr_line ? 'true' : 'false';
+      document.getElementById('i-concierge').value = p.concierge_depth;
+      document.getElementById('i-compliance').value = p.compliance_burden;
+      document.getElementById('t-dom').value = p.avg_trip_value_domestic;
+      document.getElementById('t-intl-std').value = p.avg_trip_value_intl_standard;
+      document.getElementById('t-intl-cpx').value = p.avg_trip_value_intl_complex;
+      document.getElementById('p-proposed-retainer').value = p.proposed_monthly_retainer || 0;
+      document.getElementById('p-notes').value = p.notes || '';
+      selectedTier = p.app_tier || 'mid';
+      setCadence(p.app_billing_cadence || 'monthly');
+      // Switch to discovery tab
+      document.querySelector('.tab[data-tab="discovery"]').click();
+      compute();
+      showMsg('discovery-msg', 'info', 'Loaded "' + p.prospect_company + '".');
+    }
+
+    function resetForm() {
+      currentProposalId = null;
+      document.querySelectorAll('#tab-panel-discovery input').forEach(i => {
+        if (i.type === 'number') i.value = i.defaultValue || 0;
+        if (i.type === 'text' || i.type === 'email') i.value = '';
+      });
+      ['p-name','p-company','p-email','p-phone','p-notes'].forEach(id => document.getElementById(id).value = '');
+      ['i-travelers','i-trips','i-events','p-proposed-retainer'].forEach(id => document.getElementById(id).value = 0);
+      document.getElementById('i-pct-dom').value = 50;
+      document.getElementById('i-pct-intl-std').value = 35;
+      document.getElementById('i-pct-intl-cpx').value = 15;
+      document.getElementById('i-pct-air').value = 20;
+      document.getElementById('i-pct-hotel').value = 20;
+      document.getElementById('i-pct-full').value = 60;
+      document.getElementById('t-dom').value = 1800;
+      document.getElementById('t-intl-std').value = 4500;
+      document.getElementById('t-intl-cpx').value = 12000;
+      compute();
+      showMsg('discovery-msg', 'info', 'Form reset.');
+    }
+
+    // ============ PDF PROPOSAL ============
+    function generatePDF() {
+      const c = window._lastComputed || {};
+      const proposed = num('p-proposed-retainer');
+      const tier = appTiers.find(t => t.tier_name === selectedTier);
+      const tierPrice = cadence === 'monthly' ? tier?.monthly_price : tier?.annual_price * (1 - tier?.annual_discount_pct/100);
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: 'pt', format: 'letter' });
+      const W = doc.internal.pageSize.getWidth();
+      const M = 60; // margin
+
+      // Header bar (navy)
+      doc.setFillColor(6, 14, 26);
+      doc.rect(0, 0, W, 100, 'F');
+      // Gold accent line
+      doc.setDrawColor(184, 151, 89);
+      doc.setLineWidth(0.5);
+      doc.line(M, 100, W - M, 100);
+
+      // LL emblem
+      doc.setDrawColor(184, 151, 89);
+      doc.setLineWidth(1.2);
+      doc.circle(M + 25, 50, 22, 'D');
+      doc.setTextColor(184, 151, 89);
+      doc.setFont('times', 'normal');
+      doc.setFontSize(13);
+      doc.text('LL', M + 25, 56, { align: 'center' });
+
+      doc.setTextColor(245, 240, 232);
+      doc.setFont('times', 'normal');
+      doc.setFontSize(22);
+      doc.text('Lolo', M + 65, 48);
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(8);
+      doc.setTextColor(184, 151, 89);
+      doc.text('FOR BUSINESS', M + 65, 62);
+
+      doc.setTextColor(245, 240, 232);
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.text('Service Proposal · Confidential', W - M, 50, { align: 'right' });
+      doc.text(new Date().toLocaleDateString('en-US', {year:'numeric',month:'long',day:'numeric'}), W - M, 64, { align: 'right' });
+
+      // Body — white background from here on
+      let y = 150;
+      doc.setTextColor(20, 20, 30);
+      doc.setFont('times', 'normal');
+      doc.setFontSize(28);
+      doc.text('A travel program', M, y);
+      y += 32;
+      doc.setFont('times', 'italic');
+      doc.text('built around your team.', M, y);
+      y += 50;
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(10);
+      doc.setTextColor(80, 80, 90);
+      const intro = 'This proposal outlines a Lolo for Business engagement designed for ' +
+        (document.getElementById('p-company').value || 'your organization') +
+        '. It reflects the conversation regarding your travel volume, complexity, and the level of advisory support your team requires.';
+      const lines = doc.splitTextToSize(intro, W - 2*M);
+      doc.text(lines, M, y);
+      y += lines.length * 14 + 30;
+
+      // Section: Engagement summary
+      doc.setFontSize(8);
+      doc.setTextColor(184, 151, 89);
+      doc.setFont('helvetica', 'bold');
+      doc.text('ENGAGEMENT  ·  SUMMARY', M, y);
+      y += 18;
+
+      doc.setFontSize(11);
+      doc.setTextColor(20, 20, 30);
+      doc.setFont('helvetica', 'normal');
+      const summaryRows = [
+        ['Active travelers', num('i-travelers').toLocaleString()],
+        ['Annual trips (estimated)', num('i-trips').toLocaleString()],
+        ['Group events per year', num('i-events').toLocaleString()],
+        ['24-hour advisor line', document.getElementById('i-24hr').value === 'true' ? 'Included' : 'Not included'],
+        ['Concierge depth', titleCase(document.getElementById('i-concierge').value.replace('_',' '))],
+        ['Compliance level', titleCase(document.getElementById('i-compliance').value)],
+      ];
+      summaryRows.forEach(([k,v]) => {
+        doc.setTextColor(120, 120, 130);
+        doc.text(k, M, y);
+        doc.setTextColor(20, 20, 30);
+        doc.text(v, W - M, y, { align: 'right' });
+        y += 18;
+      });
+      y += 18;
+
+      // Section: Investment
+      doc.setFontSize(8);
+      doc.setTextColor(184, 151, 89);
+      doc.setFont('helvetica', 'bold');
+      doc.text('INVESTMENT', M, y);
+      y += 18;
+
+      doc.setDrawColor(220, 215, 205);
+      doc.setLineWidth(0.5);
+      doc.line(M, y, W - M, y);
+      y += 22;
+
+      doc.setFontSize(11);
+      doc.setTextColor(20, 20, 30);
+      doc.setFont('helvetica', 'normal');
+
+      const lineRow = (label, amount) => {
+        doc.setTextColor(60, 60, 70);
+        doc.text(label, M, y);
+        doc.setTextColor(20, 20, 30);
+        doc.setFont('helvetica', 'bold');
+        doc.text(amount, W - M, y, { align: 'right' });
+        doc.setFont('helvetica', 'normal');
+        y += 22;
+      };
+
+      lineRow('Monthly advisory retainer', '$' + Math.round(proposed).toLocaleString() + '/mo');
+      lineRow('Lolo App · ' + (tier?.display_name || 'Mid-Size') + ' (' + cadence + ')',
+              cadence === 'monthly'
+                ? '$' + Math.round(tier?.monthly_price || 0).toLocaleString() + '/mo'
+                : '$' + Math.round(tierPrice || 0).toLocaleString() + '/yr');
+      lineRow('Travel bookings & coordination', 'Included');
+      lineRow('Insurance protection (Lolo licensed agency)', 'Per-policy commission applies');
+      lineRow('Concierge add-ons (out of scope)', 'Authorized by client');
+
+      y += 6;
+      doc.setDrawColor(184, 151, 89);
+      doc.setLineWidth(0.8);
+      doc.line(M, y, W - M, y);
+      y += 24;
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(11);
+      doc.setTextColor(184, 151, 89);
+      doc.text('Estimated annual investment', M, y);
+      const annualInvestment = (proposed * 12) + (cadence === 'monthly' ? (tier?.monthly_price || 0) * 12 : (tierPrice || 0));
+      doc.text('$' + Math.round(annualInvestment).toLocaleString() + '/yr', W - M, y, { align: 'right' });
+      y += 30;
+
+      doc.setFont('helvetica', 'italic');
+      doc.setFontSize(9);
+      doc.setTextColor(120, 120, 130);
+      const note = 'Travel bookings (air, lodging, ground, insurance, tours) are billed at competitive rates negotiated through Lolo\'s wholesale supplier network. Net savings versus retail pricing are reported quarterly. Out-of-scope concierge work requires written authorization before commencement.';
+      const noteLines = doc.splitTextToSize(note, W - 2*M);
+      doc.text(noteLines, M, y);
+      y += noteLines.length * 12 + 28;
+
+      // Section: What's included
+      doc.setFontSize(8);
+      doc.setTextColor(184, 151, 89);
+      doc.setFont('helvetica', 'bold');
+      doc.text('WHAT\'S INCLUDED', M, y);
+      y += 18;
+
+      doc.setFontSize(10);
+      doc.setTextColor(60, 60, 70);
+      doc.setFont('helvetica', 'normal');
+      const included = [
+        'Dedicated travel advisor and account manager',
+        'Air, lodging, and ground transportation booking',
+        '24-hour advisor line for travel emergencies and changes',
+        'Real-time flight monitoring and proactive rebooking',
+        'Receipt capture, expense coding, and accounting export',
+        'Claims pursuit and recovery on travel-related disruptions',
+        'Quarterly business reviews and savings reports',
+        'Duty-of-care documentation and traveler tracking',
+      ];
+      included.forEach(item => {
+        doc.setTextColor(184, 151, 89);
+        doc.text('—', M, y);
+        doc.setTextColor(60, 60, 70);
+        doc.text(item, M + 14, y);
+        y += 16;
+      });
+      y += 24;
+
+      // Footer
+      doc.setDrawColor(220, 215, 205);
+      doc.setLineWidth(0.5);
+      doc.line(M, y, W - M, y);
+      y += 14;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.setTextColor(140, 140, 150);
+      doc.text('Lolo Travels LLC  ·  Travel Management, Protection & Risk Advisory  ·  Licensed Insurance Agency', M, y);
+      doc.text('hello@lolotravels.com  ·  Confidential proposal — for the named recipient only', M, y + 12);
+
+      const filename = (document.getElementById('p-company').value || 'proposal').replace(/[^a-z0-9]+/gi, '_') + '_Lolo_Proposal_' + new Date().toISOString().slice(0,10) + '.pdf';
+      doc.save(filename);
+      showMsg('discovery-msg', 'ok', 'Proposal PDF generated.');
+    }
+
+    // ============ EXCEL EXPORT ============
+    function generateExcel() {
+      const c = window._lastComputed || {};
+      const proposed = num('p-proposed-retainer');
+      const tier = appTiers.find(t => t.tier_name === selectedTier);
+      const tierAnnual = cadence === 'monthly' ? (tier?.monthly_price * 12) : (tier?.annual_price * (1 - tier?.annual_discount_pct/100));
+
+      const wb = XLSX.utils.book_new();
+
+      // Tab 1: Summary
+      const summary = [
+        ['Lolo Internal Calculator — Proposal Summary'],
+        ['Generated', new Date().toISOString().slice(0,10)],
+        ['Prepared by', profile.full_name || profile.email],
+        [],
+        ['PROSPECT'],
+        ['Contact', document.getElementById('p-name').value],
+        ['Company', document.getElementById('p-company').value],
+        ['Email', document.getElementById('p-email').value],
+        ['Phone', document.getElementById('p-phone').value],
+        [],
+        ['DISCOVERY INPUTS'],
+        ['Active travelers', num('i-travelers')],
+        ['Annual trips', num('i-trips')],
+        ['Group events / yr', num('i-events')],
+        ['% Domestic', num('i-pct-dom')],
+        ['% Int\'l Standard', num('i-pct-intl-std')],
+        ['% Int\'l Complex', num('i-pct-intl-cpx')],
+        ['% Air-only', num('i-pct-air')],
+        ['% Hotel-only', num('i-pct-hotel')],
+        ['% Full package', num('i-pct-full')],
+        ['24-hour line', document.getElementById('i-24hr').value === 'true' ? 'Yes' : 'No'],
+        ['Concierge depth', document.getElementById('i-concierge').value],
+        ['Compliance', document.getElementById('i-compliance').value],
+        [],
+        ['PROJECTED ANNUAL FIGURES'],
+        ['Monthly retainer floor', c.monthlyFloor || 0],
+        ['Annual retainer (proposed)', proposed * 12],
+        ['Variable revenue', c.variableRevenue || 0],
+        ['App fee (annual equivalent)', tierAnnual || 0],
+        ['Total revenue', c.totalRevenue || 0],
+        ['Total cost', c.totalCost || 0],
+        ['Net margin ($)', c.netMargin || 0],
+        ['Net margin (%)', (c.netMarginPct || 0).toFixed(1) + '%'],
+      ];
+      const ws1 = XLSX.utils.aoa_to_sheet(summary);
+      ws1['!cols'] = [{wch: 32}, {wch: 22}];
+      XLSX.utils.book_append_sheet(wb, ws1, 'Summary');
+
+      // Tab 2: Costs
+      const hourly = baseConfig?.fully_loaded_hourly_rate || 200;
+      const costs = [
+        ['Cost Category', 'Annual'],
+        ['Direct labor (loaded)', Math.round((c.totalLaborHours || 0) * hourly)],
+        ['Direct cash costs (GDS, OCR, infra)', Math.round((num('i-trips') * (num('t-dom')*num('i-pct-dom')/100 + num('t-intl-std')*num('i-pct-intl-std')/100 + num('t-intl-cpx')*num('i-pct-intl-cpx')/100)) * 0.005)],
+        ['Compliance overhead', Math.max(0, Math.round((c.totalCost || 0) - ((c.totalLaborHours || 0) * hourly)))],
+        ['Total cost', Math.round(c.totalCost || 0)]
+      ];
+      const ws2 = XLSX.utils.aoa_to_sheet(costs);
+      ws2['!cols'] = [{wch: 36}, {wch: 16}];
+      XLSX.utils.book_append_sheet(wb, ws2, 'Costs');
+
+      // Tab 3: Revenue breakdown
+      const b = c.breakdown || {};
+      const revenue = [
+        ['Revenue Source', 'Annual'],
+        ['Monthly retainer × 12', Math.round((proposed || c.monthlyFloor || 0) * 12)],
+        ['Hotel — wholesale margins', Math.round(b.hotelRev || 0)],
+        ['Air — consolidator margins', Math.round(b.airRev || 0)],
+        ['Ground transport', Math.round(b.groundRev || 0)],
+        ['Tours / experiences', Math.round(b.tourRev || 0)],
+        ['Insurance commissions', Math.round(b.insRev || 0)],
+        ['Concierge fees', Math.round(b.conciergeRevenue || 0)],
+        ['Group events', Math.round(b.eventRevenue || 0)],
+        ['Lolo App (' + cadence + ')', Math.round(tierAnnual || 0)],
+        ['Total annual revenue', Math.round(c.totalRevenue || 0)]
+      ];
+      const ws3 = XLSX.utils.aoa_to_sheet(revenue);
+      ws3['!cols'] = [{wch: 36}, {wch: 16}];
+      XLSX.utils.book_append_sheet(wb, ws3, 'Revenue');
+
+      // Tab 4: Margin
+      const margin = [
+        ['Item', 'Amount'],
+        ['Total revenue', Math.round(c.totalRevenue || 0)],
+        ['Total cost', Math.round(c.totalCost || 0)],
+        ['Net margin', Math.round(c.netMargin || 0)],
+        ['Net margin %', (c.netMarginPct || 0).toFixed(1) + '%']
+      ];
+      const ws4 = XLSX.utils.aoa_to_sheet(margin);
+      ws4['!cols'] = [{wch: 24}, {wch: 16}];
+      XLSX.utils.book_append_sheet(wb, ws4, 'Margin');
+
+      // Tab 5: 12-month cashflow
+      const monthlyRevenue = (c.totalRevenue || 0) / 12;
+      const monthlyCost = (c.totalCost || 0) / 12;
+      const cashflow = [['Month','Revenue','Cost','Net','Cumulative']];
+      let cum = 0;
+      for (let i = 1; i <= 12; i++) {
+        const net = monthlyRevenue - monthlyCost;
+        cum += net;
+        cashflow.push([
+          'Month ' + i,
+          Math.round(monthlyRevenue),
+          Math.round(monthlyCost),
+          Math.round(net),
+          Math.round(cum)
+        ]);
+      }
+      const ws5 = XLSX.utils.aoa_to_sheet(cashflow);
+      ws5['!cols'] = [{wch: 12}, {wch: 14}, {wch: 14}, {wch: 14}, {wch: 16}];
+      XLSX.utils.book_append_sheet(wb, ws5, 'Cashflow');
+
+      const filename = (document.getElementById('p-company').value || 'proposal').replace(/[^a-z0-9]+/gi, '_') + '_Lolo_Calculator_' + new Date().toISOString().slice(0,10) + '.xlsx';
+      XLSX.writeFile(wb, filename);
+      showMsg('discovery-msg', 'ok', 'Excel exported.');
+    }
+
+    // ============ HELPERS ============
+    function showMsg(id, type, text) {
+      const el = document.getElementById(id);
+      el.className = 'msg show ' + type;
+      el.textContent = text;
+      setTimeout(() => el.classList.remove('show'), 4500);
+    }
+    function escapeHtml(s) {
+      return String(s || '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    }
+    function titleCase(s) {
+      return String(s).replace(/\b\w/g, c => c.toUpperCase());
+    }
+  </script>
+
+</body>
+</html>
