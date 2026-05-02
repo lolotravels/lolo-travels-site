@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <title>Lolo · Brand &amp; Imagery</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Gilda+Display&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* THEME — light/dark */
+    :root {
+      --bg: #FBF9F4;
+      --bg-2: #F7F4EE;
+      --surface: #FFFFFF;
+      --surface-2: #F4EFE5;
+      --text: #1a1f2e;
+      --text-soft: rgba(26,31,46,0.82);
+      --text-muted: rgba(26,31,46,0.62);
+      --text-dim: rgba(26,31,46,0.42);
+      --border: rgba(26,31,46,0.12);
+      --border-strong: rgba(26,31,46,0.20);
+      --shadow-sm: 0 2px 12px rgba(26,31,46,0.06);
+      --shadow-md: 0 4px 20px rgba(26,31,46,0.10);
+      --shadow-lg: 0 8px 28px rgba(26,31,46,0.14);
+      --gold: #B89759;
+      --gold-lt: #D4B575;
+      --gold-soft: rgba(184,151,89,0.10);
+      --border-gold: rgba(184,151,89,0.40);
+      --green: #588a58;
+      --green-soft: rgba(88,138,88,0.10);
+      --red: #a04b4b;
+      --red-soft: rgba(160,75,75,0.10);
+    }
+    html[data-theme="dark"] {
+      --bg: #0a1428;
+      --bg-2: #060e1a;
+      --surface: #0f1c33;
+      --surface-2: #142948;
+      --text: #F5F0E8;
+      --text-soft: rgba(245,240,232,0.85);
+      --text-muted: rgba(245,240,232,0.62);
+      --text-dim: rgba(245,240,232,0.42);
+      --border: rgba(184,151,89,0.18);
+      --border-strong: rgba(184,151,89,0.40);
+      --shadow-sm: 0 2px 12px rgba(0,0,0,0.20);
+      --shadow-md: 0 4px 20px rgba(0,0,0,0.30);
+      --shadow-lg: 0 8px 28px rgba(0,0,0,0.40);
+      --gold: #B89759;
+      --gold-lt: #D4B575;
+      --gold-soft: rgba(184,151,89,0.10);
+      --border-gold: rgba(184,151,89,0.40);
+      --green: #88c188;
+      --green-soft: rgba(110,160,110,0.15);
+      --red: #d4a8a8;
+      --red-soft: rgba(180,90,90,0.15);
+    }
+    :root {
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --fb: 'Jost', -apple-system, BlinkMacSystemFont, sans-serif;
+      --fd: 'Cormorant Garamond', Georgia, serif;
+      --fg: 'Gilda Display', Georgia, serif;
+    }
+
+    html, body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--fb);
+      font-weight: 300;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      transition: background 0.4s var(--ease), color 0.4s var(--ease);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+
+    /* GUARD / LOADING */
+    .full-screen {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+    .ll-emblem {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 1.5px solid var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--fd);
+      font-size: 1.1rem;
+      color: var(--gold);
+      letter-spacing: 0.18em;
+      margin-bottom: 24px;
+    }
+    .full-screen h1 {
+      font-family: var(--fd);
+      font-weight: 300;
+      font-size: 2rem;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .full-screen p {
+      color: var(--text-soft);
+      max-width: 420px;
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+    .btn-link {
+      color: var(--gold);
+      border: 1px solid var(--gold);
+      padding: 10px 24px;
+      border-radius: 3px;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      font-weight: 600;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    .btn-link:hover { background: var(--gold); color: var(--bg); }
+
+    /* TOP BAR */
+    .topbar {
+      padding: 18px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-logo {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      border: 1.4px solid var(--gold);
+      background: var(--surface-2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--fd);
+      color: var(--gold);
+      font-size: 13px;
+      letter-spacing: 0.18em;
+    }
+    .brand-text { line-height: 1; }
+    .brand-text-mark { font-family: var(--fg); font-size: 20px; color: var(--text); }
+    .brand-text-sub {
+      font-size: 9px;
+      letter-spacing: 0.25em;
+      color: var(--gold);
+      font-weight: 600;
+      margin-top: 3px;
+      text-transform: uppercase;
+    }
+    .topbar-right { display: flex; gap: 12px; align-items: center; }
+    .ghost-link {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      font-weight: 500;
+      text-transform: uppercase;
+      padding: 6px 12px;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .ghost-link:hover { color: var(--gold); }
+
+    /* MAIN */
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 32px 80px 32px;
+    }
+
+    .h1 {
+      font-family: var(--fd);
+      font-weight: 300;
+      font-size: clamp(36px, 5vw, 52px);
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 12px;
+    }
+    .h1 em { color: var(--gold); font-style: italic; }
+    .lede {
+      font-size: 16px;
+      color: var(--text-soft);
+      max-width: 680px;
+      margin-bottom: 48px;
+      line-height: 1.7;
+    }
+
+    .eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    /* SECTION */
+    .section { margin-bottom: 60px; }
+    .section-h {
+      font-family: var(--fd);
+      font-weight: 400;
+      font-size: 26px;
+      color: var(--text);
+      letter-spacing: -0.4px;
+      margin-bottom: 6px;
+    }
+    .section-h em { color: var(--gold); font-style: italic; }
+    .section-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 22px;
+    }
+
+    /* DROP ZONE */
+    .drop-zone {
+      background: var(--surface);
+      border: 2px dashed var(--border-gold);
+      border-radius: 6px;
+      padding: 60px 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s var(--ease);
+    }
+    .drop-zone:hover, .drop-zone.dragover {
+      border-color: var(--gold);
+      background: var(--gold-soft);
+      transform: translateY(-2px);
+    }
+    .drop-zone-emblem {
+      width: 48px; height: 48px;
+      border: 1.5px solid var(--gold);
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--fd);
+      font-size: 18px;
+      font-style: italic;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+    .drop-zone-title {
+      font-family: var(--fd);
+      font-size: 22px;
+      color: var(--text);
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+    }
+    .drop-zone-sub {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    .drop-zone-hint {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 16px;
+      letter-spacing: 0.05em;
+    }
+    #file-input { display: none; }
+
+    /* GALLERY */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px;
+    }
+    .gallery-item {
+      position: relative;
+      aspect-ratio: 16/10;
+      border-radius: 4px;
+      overflow: hidden;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      cursor: move;
+      transition: all 0.2s;
+    }
+    .gallery-item.dragging { opacity: 0.4; transform: scale(0.95); }
+    .gallery-item:hover { border-color: var(--border-gold); box-shadow: var(--shadow-md); }
+    .gallery-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .gallery-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(6,14,26,0.75) 100%);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+    .gallery-label {
+      position: absolute;
+      bottom: 10px;
+      left: 12px;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      color: #F5F0E8;
+      font-weight: 600;
+      text-transform: uppercase;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .gallery-item:hover .gallery-label { opacity: 1; }
+    .gallery-actions {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      display: flex;
+      gap: 6px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .gallery-item:hover .gallery-actions { opacity: 1; }
+    .gallery-btn {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: rgba(6,14,26,0.85);
+      color: #F5F0E8;
+      border: 1px solid rgba(184,151,89,0.40);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      transition: all 0.2s;
+    }
+    .gallery-btn:hover { background: var(--red); }
+    .gallery-order {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: #060e1a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: var(--fd);
+    }
+
+    /* UPLOAD QUEUE */
+    .upload-queue {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .upload-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      font-size: 13px;
+    }
+    .upload-bar {
+      height: 4px;
+      background: var(--surface-2);
+      border-radius: 100px;
+      overflow: hidden;
+      margin-top: 6px;
+    }
+    .upload-bar-fill {
+      height: 100%;
+      background: var(--gold);
+      transition: width 0.2s;
+    }
+    .upload-row.done .upload-bar-fill { background: var(--green); }
+    .upload-row.error .upload-bar-fill { background: var(--red); }
+    .upload-status {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .upload-row.done .upload-status { color: var(--green); }
+    .upload-row.error .upload-status { color: var(--red); }
+
+    /* PREVIEW */
+    .preview {
+      position: relative;
+      height: 380px;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border-gold);
+      box-shadow: var(--shadow-md);
+    }
+    .preview-img {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: opacity 1.6s var(--ease);
+    }
+    .preview-img-1 { opacity: 1; }
+    .preview-img-2 { opacity: 0; }
+    .preview-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(6,14,26,0.30) 0%, rgba(6,14,26,0.55) 60%, rgba(6,14,26,0.85) 100%);
+    }
+    .preview-content {
+      position: absolute;
+      bottom: 32px;
+      left: 32px;
+      right: 32px;
+    }
+    .preview-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      color: var(--gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .preview-title {
+      font-family: var(--fd);
+      font-style: italic;
+      font-weight: 300;
+      font-size: 36px;
+      color: #F5F0E8;
+      letter-spacing: -0.5px;
+      line-height: 1.1;
+    }
+    .preview-meta {
+      margin-top: 14px;
+      font-size: 13px;
+      color: rgba(245,240,232,0.78);
+    }
+    .preview-empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      flex-direction: column;
+      gap: 12px;
+      color: var(--text-muted);
+      background: var(--surface-2);
+    }
+    .preview-empty .ll-emblem {
+      margin-bottom: 0;
+      width: 44px; height: 44px;
+      font-size: 0.95rem;
+    }
+
+    /* MESSAGES */
+    .msg {
+      padding: 12px 16px;
+      border-radius: 3px;
+      font-size: 13px;
+      margin-top: 14px;
+      display: none;
+    }
+    .msg.show { display: block; }
+    .msg.ok { background: var(--green-soft); color: var(--green); border: 1px solid var(--green); }
+    .msg.err { background: var(--red-soft); color: var(--red); border: 1px solid var(--red); }
+    .msg.info { background: var(--gold-soft); color: var(--gold); border: 1px solid var(--border-gold); }
+
+    /* EMPTY */
+    .gallery-empty {
+      padding: 60px 32px;
+      text-align: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+    }
+    .gallery-empty-text {
+      font-family: var(--fd);
+      font-style: italic;
+      font-size: 18px;
+      color: var(--text-muted);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 32px;
+      border-top: 1px solid var(--border);
+      font-size: 10px;
+      color: var(--text-muted);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      font-weight: 500;
+      text-align: center;
+      margin-top: 80px;
+    }
+
+    @media (max-width: 700px) {
+      .topbar { padding: 14px 20px; }
+      main { padding: 32px 20px 60px 20px; }
+      .preview { height: 280px; }
+      .preview-content { left: 20px; right: 20px; bottom: 24px; }
+      .preview-title { font-size: 26px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading -->
+  <div id="loading" class="full-screen">
+    <div class="ll-emblem">LL</div>
+    <p>Loading…</p>
+  </div>
+
+  <!-- Restricted -->
+  <div id="guard" class="full-screen" style="display:none;">
+    <div class="ll-emblem">LL</div>
+    <h1>Owner <em style="color:var(--gold);font-style:italic;">access only.</em></h1>
+    <p>Brand &amp; Imagery management is available only to the company Owner. If you should have access, please contact your company's primary administrator or reach Lolo at <a href="mailto:hello@lolotravels.com" style="color:var(--gold);">hello@lolotravels.com</a>.</p>
+    <a href="/portal" class="btn-link">Return to Portal</a>
+  </div>
+
+  <!-- App -->
+  <div id="app" style="display:none;">
+    <header class="topbar">
+      <a href="/portal" class="brand">
+        <div class="brand-logo">LL</div>
+        <div class="brand-text">
+          <div class="brand-text-mark">Lolo</div>
+          <div class="brand-text-sub" id="brand-sub">For Business</div>
+        </div>
+      </a>
+      <div class="topbar-right">
+        <a href="/portal" class="ghost-link">Back to Portal</a>
+        <a href="#" class="ghost-link" id="signout">Sign Out</a>
+      </div>
+    </header>
+
+    <main>
+      <div class="eyebrow">Brand &amp; Imagery</div>
+      <h1 class="h1">The faces your <em>team sees.</em></h1>
+      <p class="lede">
+        Upload images that represent your company. These will appear on the dashboard for every traveler in your organization between trips — a moment of your culture before they head out into the world.
+      </p>
+
+      <!-- UPLOAD -->
+      <section class="section">
+        <div class="section-h">Upload <em>imagery</em></div>
+        <div class="section-sub">JPG, PNG, or WEBP. Max 10MB per image. Landscape orientation works best (recommend 2400×1600 or larger).</div>
+
+        <label for="file-input" class="drop-zone" id="drop-zone">
+          <div class="drop-zone-emblem">+</div>
+          <div class="drop-zone-title">Drop images here</div>
+          <div class="drop-zone-sub">Or click to browse your computer</div>
+          <div class="drop-zone-hint">Recommend 4–8 images for the best dashboard rotation</div>
+        </label>
+        <input type="file" id="file-input" accept="image/jpeg,image/png,image/webp" multiple />
+
+        <div class="upload-queue" id="upload-queue"></div>
+        <div class="msg" id="upload-msg"></div>
+      </section>
+
+      <!-- GALLERY -->
+      <section class="section">
+        <div class="section-h">Your <em>library</em></div>
+        <div class="section-sub" id="gallery-sub">Hover any image to remove it. Drag to reorder — the order shown here is the order travelers see.</div>
+        <div id="gallery-container">
+          <div class="gallery-empty">
+            <div class="gallery-empty-text">No images yet. Upload above to begin.</div>
+          </div>
+        </div>
+        <div class="msg" id="gallery-msg"></div>
+      </section>
+
+      <!-- PREVIEW -->
+      <section class="section">
+        <div class="section-h"><em>Traveler</em> preview</div>
+        <div class="section-sub">This is what your team sees on their dashboard between trips. Images crossfade every 6 seconds.</div>
+        <div class="preview" id="preview">
+          <div class="preview-empty">
+            <div class="ll-emblem">LL</div>
+            <div>Upload at least one image to see the preview</div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      © Lolo Travels LLC · Travel Management, Protection &amp; Risk Advisory
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://hktntiamtpptcagnohnn.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const BUCKET = 'company-brand-images';
+
+    let user = null;
+    let profile = null;
+    let company = null;
+    let images = []; // ordered list of public URLs
+    let crossfadeInterval = null;
+
+    // Theme
+    function applyTheme(choice) {
+      let actual = choice;
+      if (choice === 'auto') {
+        try { actual = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light'; }
+        catch(e) { actual = 'light'; }
+      }
+      document.documentElement.setAttribute('data-theme', actual);
+    }
+    try {
+      applyTheme(localStorage.getItem('lolo_theme') || 'auto');
+    } catch(e) { applyTheme('light'); }
+
+    /* ============ INIT ============ */
+    (async function init() {
+      const loadingEl = document.getElementById('loading');
+      const guardEl = document.getElementById('guard');
+      const appEl = document.getElementById('app');
+
+      const { data: { session } } = await sb.auth.getSession();
+      if (!session) {
+        window.location.href = '/business';
+        return;
+      }
+      user = session.user;
+
+      const { data: p } = await sb.from('profiles')
+        .select('id, full_name, preferred_name, account_type, portal_role, company_id')
+        .eq('id', user.id).maybeSingle();
+      profile = p || {};
+
+      // Owner gate (admin/owner OR corporate/owner)
+      const isOwner = (profile.account_type === 'corporate' && profile.portal_role === 'owner')
+                   || (profile.account_type === 'admin' && profile.portal_role === 'owner');
+
+      if (!isOwner || !profile.company_id) {
+        loadingEl.style.display = 'none';
+        guardEl.style.display = 'flex';
+        return;
+      }
+
+      // Fetch company
+      const { data: c } = await sb.from('companies')
+        .select('*').eq('id', profile.company_id).maybeSingle();
+      company = c || null;
+
+      if (company) {
+        document.getElementById('brand-sub').textContent =
+          (company.tier === 'enterprise' ? 'Enterprise' : (company.tier === 'solo' ? 'Solo' : 'For Business'));
+        // Populate images from saved brand_image_urls
+        images = Array.isArray(company.brand_image_urls) ? [...company.brand_image_urls] : [];
+      }
+
+      renderGallery();
+      renderPreview();
+      bindEvents();
+
+      loadingEl.style.display = 'none';
+      appEl.style.display = 'block';
+    })();
+
+    /* ============ EVENTS ============ */
+    function bindEvents() {
+      const dropZone = document.getElementById('drop-zone');
+      const fileInput = document.getElementById('file-input');
+
+      dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+      });
+      dropZone.addEventListener('dragleave', () => {
+        dropZone.classList.remove('dragover');
+      });
+      dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        const files = Array.from(e.dataTransfer.files).filter(f => f.type.startsWith('image/'));
+        if (files.length) handleFiles(files);
+      });
+
+      fileInput.addEventListener('change', () => {
+        const files = Array.from(fileInput.files);
+        if (files.length) handleFiles(files);
+        fileInput.value = '';
+      });
+
+      document.getElementById('signout').addEventListener('click', async (e) => {
+        e.preventDefault();
+        try { await sb.auth.signOut(); } catch (err) {}
+        window.location.href = '/';
+      });
+    }
+
+    /* ============ UPLOAD ============ */
+    async function handleFiles(files) {
+      const queueEl = document.getElementById('upload-queue');
+
+      for (const file of files) {
+        if (file.size > 10485760) {
+          showMsg('upload-msg', 'err', `${file.name} exceeds 10MB limit.`);
+          continue;
+        }
+
+        const row = document.createElement('div');
+        row.className = 'upload-row';
+        row.innerHTML = `
+          <div>
+            <div>${escapeHtml(file.name)}</div>
+            <div class="upload-bar"><div class="upload-bar-fill" style="width:0%"></div></div>
+          </div>
+          <div class="upload-status">Uploading…</div>
+        `;
+        queueEl.appendChild(row);
+        const fill = row.querySelector('.upload-bar-fill');
+        const status = row.querySelector('.upload-status');
+
+        try {
+          // Generate unique filename: {company_id}/{timestamp}_{slug}.ext
+          const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+          const stamp = Date.now() + '_' + Math.random().toString(36).substring(2, 8);
+          const safeName = file.name.replace(/[^a-z0-9.-]/gi, '_').toLowerCase();
+          const path = `${profile.company_id}/${stamp}_${safeName}`;
+
+          // Show fake progress while upload runs (Supabase JS doesn't expose progress events)
+          let progress = 0;
+          const progressTimer = setInterval(() => {
+            progress = Math.min(progress + 8, 90);
+            fill.style.width = progress + '%';
+          }, 200);
+
+          const { data, error } = await sb.storage.from(BUCKET).upload(path, file, {
+            contentType: file.type,
+            cacheControl: '3600',
+            upsert: false
+          });
+
+          clearInterval(progressTimer);
+
+          if (error) throw error;
+
+          // Get public URL
+          const { data: urlData } = sb.storage.from(BUCKET).getPublicUrl(path);
+          const publicUrl = urlData.publicUrl;
+
+          fill.style.width = '100%';
+          row.classList.add('done');
+          status.textContent = 'Done';
+
+          // Add to images list and persist
+          images.push(publicUrl);
+          await persistImages();
+          renderGallery();
+          renderPreview();
+
+          // Remove row after 2s
+          setTimeout(() => row.remove(), 2000);
+        } catch (err) {
+          row.classList.add('error');
+          status.textContent = 'Failed';
+          fill.style.width = '100%';
+          showMsg('upload-msg', 'err', `Failed to upload ${file.name}: ${err.message || 'unknown error'}`);
+        }
+      }
+    }
+
+    /* ============ GALLERY ============ */
+    function renderGallery() {
+      const c = document.getElementById('gallery-container');
+      if (!images.length) {
+        c.innerHTML = `<div class="gallery-empty"><div class="gallery-empty-text">No images yet. Upload above to begin.</div></div>`;
+        return;
+      }
+      c.innerHTML = `<div class="gallery-grid" id="gallery-grid"></div>`;
+      const grid = document.getElementById('gallery-grid');
+
+      images.forEach((url, idx) => {
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.draggable = true;
+        item.dataset.idx = idx;
+        item.innerHTML = `
+          <img src="${escapeAttr(url)}" alt="Brand image ${idx + 1}" class="gallery-img" loading="lazy" />
+          <div class="gallery-overlay"></div>
+          <div class="gallery-order">${idx + 1}</div>
+          <div class="gallery-actions">
+            <button class="gallery-btn" data-action="delete" title="Remove">×</button>
+          </div>
+          <div class="gallery-label">Image ${idx + 1} of ${images.length}</div>
+        `;
+        grid.appendChild(item);
+      });
+
+      // Wire delete
+      grid.querySelectorAll('[data-action="delete"]').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const item = btn.closest('.gallery-item');
+          const idx = parseInt(item.dataset.idx);
+          await deleteImage(idx);
+        });
+      });
+
+      // Drag-and-drop reordering
+      let dragSource = null;
+      grid.querySelectorAll('.gallery-item').forEach(item => {
+        item.addEventListener('dragstart', (e) => {
+          dragSource = item;
+          item.classList.add('dragging');
+        });
+        item.addEventListener('dragend', () => {
+          item.classList.remove('dragging');
+          dragSource = null;
+        });
+        item.addEventListener('dragover', (e) => { e.preventDefault(); });
+        item.addEventListener('drop', async (e) => {
+          e.preventDefault();
+          if (!dragSource || dragSource === item) return;
+          const fromIdx = parseInt(dragSource.dataset.idx);
+          const toIdx = parseInt(item.dataset.idx);
+          // Reorder array
+          const [moved] = images.splice(fromIdx, 1);
+          images.splice(toIdx, 0, moved);
+          await persistImages();
+          renderGallery();
+          renderPreview();
+        });
+      });
+    }
+
+    async function deleteImage(idx) {
+      if (!confirm('Remove this image from your library? Your travelers will no longer see it.')) return;
+      const url = images[idx];
+      // Try to delete from storage too
+      try {
+        // Extract path from URL: .../company-brand-images/{path}
+        const marker = `/${BUCKET}/`;
+        const i = url.indexOf(marker);
+        if (i >= 0) {
+          const path = url.substring(i + marker.length);
+          await sb.storage.from(BUCKET).remove([path]);
+        }
+      } catch (e) { /* fail silently — we still remove from list */ }
+
+      images.splice(idx, 1);
+      await persistImages();
+      renderGallery();
+      renderPreview();
+      showMsg('gallery-msg', 'ok', 'Image removed.');
+    }
+
+    async function persistImages() {
+      const { error } = await sb.from('companies')
+        .update({ brand_image_urls: images })
+        .eq('id', profile.company_id);
+      if (error) {
+        showMsg('gallery-msg', 'err', 'Could not save order: ' + error.message);
+      }
+    }
+
+    /* ============ PREVIEW ============ */
+    function renderPreview() {
+      const p = document.getElementById('preview');
+      if (!images.length) {
+        p.innerHTML = `
+          <div class="preview-empty">
+            <div class="ll-emblem">LL</div>
+            <div>Upload at least one image to see the preview</div>
+          </div>
+        `;
+        if (crossfadeInterval) { clearInterval(crossfadeInterval); crossfadeInterval = null; }
+        return;
+      }
+
+      const greeting = (() => {
+        const h = new Date().getHours();
+        if (h < 12) return 'Good morning';
+        if (h < 17) return 'Good afternoon';
+        return 'Good evening';
+      })();
+      const name = profile.preferred_name || (profile.full_name ? profile.full_name.split(' ')[0] : 'Mr. Park');
+
+      p.innerHTML = `
+        <div class="preview-img preview-img-1" style="background-image:url('${escapeAttr(images[0])}');"></div>
+        <div class="preview-img preview-img-2"></div>
+        <div class="preview-overlay"></div>
+        <div class="preview-content">
+          <div class="preview-eyebrow">${greeting}</div>
+          <div class="preview-title">${escapeHtml(name)}.</div>
+          <div class="preview-meta">No upcoming trips · Your dashboard</div>
+        </div>
+      `;
+
+      // Crossfade
+      if (crossfadeInterval) clearInterval(crossfadeInterval);
+      if (images.length < 2) return;
+      let idx = 0;
+      let showing = 1;
+      const img1 = p.querySelector('.preview-img-1');
+      const img2 = p.querySelector('.preview-img-2');
+      crossfadeInterval = setInterval(() => {
+        idx = (idx + 1) % images.length;
+        const next = images[idx];
+        if (showing === 1) {
+          img2.style.backgroundImage = `url(${next})`;
+          img2.style.opacity = '1';
+          img1.style.opacity = '0';
+          showing = 2;
+        } else {
+          img1.style.backgroundImage = `url(${next})`;
+          img1.style.opacity = '1';
+          img2.style.opacity = '0';
+          showing = 1;
+        }
+      }, 6000);
+    }
+
+    /* ============ HELPERS ============ */
+    function showMsg(id, type, text) {
+      const el = document.getElementById(id);
+      el.className = 'msg show ' + type;
+      el.textContent = text;
+      setTimeout(() => el.classList.remove('show'), 4500);
+    }
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+    function escapeAttr(s) { return escapeHtml(s); }
+  </script>
+
+</body>
+</html>
