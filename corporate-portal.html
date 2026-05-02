@@ -1116,11 +1116,11 @@
         'duty-of-care': '/business#duty',
         concierge: '/business#concierge',
         settings: '/business#settings',
-        brand: '/business#brand',
+        brand: '/admin/brand',
         agreement: '/business#agreement',
         billing: '/business#billing',
         tier: '/business#tier',
-        roles: '/business#roles'
+        roles: '/admin/invite'
       };
       const target = map[screen];
       if (target) window.location.href = target;
@@ -1254,7 +1254,7 @@
               <div class="action-card-title">Receipt</div>
               <div class="action-card-meta">Snap and code</div>
             </div>
-            <div class="action-card reveal" onclick="window.location.href='/claims'">
+            <div class="action-card reveal" onclick="window.location.href='/claims?trip=${t.id}'">
               <div class="action-card-eyebrow">Recover</div>
               <div class="action-card-title">File a claim</div>
               <div class="action-card-meta">Lost luggage, delays, more</div>
