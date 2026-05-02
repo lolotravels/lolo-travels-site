@@ -539,12 +539,88 @@ html,body{background:var(--paper);color:var(--navy);font-family:var(--fb);-webki
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 var currentStep=1;
 var uploadedFiles=[];
 var FORMSPREE='https://formspree.io/f/xqabpkka';
 var SB_URL='https://hktntiamtpptcagnohnn.supabase.co';
 var SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhrdG50aWFtdHBwdGNhZ25vaG5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2Mjg0NDYsImV4cCI6MjA5MjIwNDQ0Nn0.6CwpJ7aM8cokmeZ7vBtoWCxpIr0PS4A_2sAHNQvspJI';
+
+// === Corporate context auto-detection (for /claims?trip=xxx&corp=1 launches) ===
+var loloContext = { user_id: null, company_id: null, trip_id: null };
+var sbClient = null;
+try {
+  sbClient = supabase.createClient(SB_URL, SB_KEY);
+} catch(e) {}
+
+(async function detectContext(){
+  if (!sbClient) return;
+  try {
+    var url = new URL(window.location.href);
+    var qsTripId = url.searchParams.get('trip');
+    if (qsTripId) loloContext.trip_id = qsTripId;
+
+    var session = (await sbClient.auth.getSession()).data.session;
+    if (!session) return;
+
+    loloContext.user_id = session.user.id;
+
+    // Pull profile
+    var prof = await sbClient.from('profiles')
+      .select('id, full_name, email, phone, company_id, nationality')
+      .eq('id', session.user.id).maybeSingle();
+
+    if (prof.data) {
+      loloContext.company_id = prof.data.company_id || null;
+
+      // Prefill personal info if fields are empty
+      var fname='', lname='';
+      if (prof.data.full_name) {
+        var parts = prof.data.full_name.trim().split(/\s+/);
+        fname = parts[0] || '';
+        lname = parts.slice(1).join(' ') || '';
+      }
+      var emailVal = prof.data.email || session.user.email || '';
+      var phoneVal = prof.data.phone || '';
+      var natVal = prof.data.nationality || '';
+
+      function setIfEmpty(id, val) {
+        var el = document.getElementById(id);
+        if (el && !el.value && val) el.value = val;
+      }
+      setIfEmpty('f-firstname', fname);
+      setIfEmpty('f-lastname', lname);
+      setIfEmpty('f-email', emailVal);
+      setIfEmpty('f-phone', phoneVal);
+      setIfEmpty('f-nationality', natVal);
+
+      // If member of a corporate company, mark as member
+      if (prof.data.company_id) {
+        var memSel = document.getElementById('f-member');
+        if (memSel && memSel.value === '') memSel.value = 'corporate';
+      }
+    }
+
+    // If trip_id present, fetch trip details
+    if (loloContext.trip_id) {
+      var tr = await sbClient.from('trips')
+        .select('id, destination, hotel_name, depart_date')
+        .eq('id', loloContext.trip_id).maybeSingle();
+
+      if (tr.data) {
+        function setIfEmpty(id, val) {
+          var el = document.getElementById(id);
+          if (el && !el.value && val) el.value = val;
+        }
+        setIfEmpty('f-destination', tr.data.destination || '');
+      }
+    }
+  } catch (e) {
+    // Silent fail — page works fine without context
+    console.warn('Context detection failed:', e);
+  }
+})();
 
 function goStep(n){
   // Validate before advancing
@@ -681,7 +757,13 @@ async function submitClaim(){
           description:document.getElementById('f-description').value,
           fee_structure:document.getElementById('f-fee-structure').value,
           status:'submitted',
-          is_member:document.getElementById('f-member').value!=='no'
+          is_member:document.getElementById('f-member').value!=='no',
+          user_id: loloContext.user_id,
+          company_id: loloContext.company_id,
+          trip_id: loloContext.trip_id,
+          destination: document.getElementById('f-destination').value || null,
+          booking_ref: document.getElementById('f-booking-ref').value || null,
+          claimant_country: document.getElementById('f-country').value || null
         })
       });
     }catch(e2){}
