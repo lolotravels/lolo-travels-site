@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lolo for Business — Travel that runs without surprises</title>
+  <meta name="description" content="A luxury hospitality brand for the modern executive. Lolo manages every detail of business travel — conferences, client meetings, retreats, acquisitions — with one dedicated advisor." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Gilda+Display&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Jost', -apple-system, sans-serif;
+      background: #060E1A;
+      color: #F5F0E8;
+      letter-spacing: 0.2px;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ============ NAV ============ */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.4s ease;
+    }
+    .nav.scrolled {
+      background: rgba(6,14,26,0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      padding: 14px 48px;
+      border-bottom: 1px solid rgba(184,151,89,0.12);
+    }
+    .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+    .ll-logo { width: 40px; height: 40px; flex-shrink: 0; }
+    .ll-logo .ring { fill: transparent; stroke: #B89759; stroke-width: 1.2; }
+    .ll-logo .bg { fill: #060E1A; }
+    .ll-logo text {
+      fill: #B89759;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 2.5px;
+    }
+    .lolo-mark {
+      font-family: 'Gilda Display', serif;
+      font-size: 22px;
+      color: #FFFFFF;
+      letter-spacing: 0.5px;
+      line-height: 1;
+    }
+    .lolo-sub {
+      font-size: 9px;
+      letter-spacing: 2.5px;
+      color: #B89759;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-link {
+      font-size: 11px;
+      letter-spacing: 1.8px;
+      color: rgba(245,240,232,0.65);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.25s;
+      text-transform: uppercase;
+    }
+    .nav-link:hover { color: #B89759; }
+    .nav-cta {
+      padding: 9px 20px;
+      border: 1px solid #B89759;
+      color: #B89759;
+      border-radius: 2px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+      text-transform: uppercase;
+    }
+    .nav-cta:hover { background: #B89759; color: #060E1A; }
+
+    /* ============ HERO ============ */
+    .hero {
+      height: 100vh;
+      min-height: 720px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1551918120-9739cb430c6d?w=2400&q=90');
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.05);
+      will-change: transform;
+      transition: transform 0.05s linear;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(6,14,26,0.55) 0%, rgba(6,14,26,0.45) 40%, rgba(6,14,26,0.85) 100%);
+    }
+    .hero-vignette {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, transparent 30%, rgba(6,14,26,0.6) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 940px;
+      text-align: center;
+      padding: 0 32px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 1.4s ease 0.3s forwards;
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow {
+      font-size: 10px;
+      letter-spacing: 5px;
+      color: #B89759;
+      font-weight: 600;
+      text-transform: uppercase;
+      margin-bottom: 28px;
+    }
+    .hero-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(48px, 8vw, 92px);
+      font-weight: 300;
+      color: #FFFFFF;
+      line-height: 1.0;
+      letter-spacing: -2px;
+      margin-bottom: 32px;
+    }
+    .hero-headline em { color: #B89759; font-style: italic; font-weight: 300; }
+    .hero-lede {
+      font-size: 17px;
+      line-height: 1.7;
+      color: rgba(245,240,232,0.8);
+      max-width: 580px;
+      margin: 0 auto 48px;
+      font-weight: 300;
+      letter-spacing: 0.3px;
+    }
+    .hero-cta { display: inline-block; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 16px 36px;
+      background: transparent;
+      color: #F5F0E8;
+      border: 1px solid #B89759;
+      border-radius: 2px;
+      font-size: 11px;
+      letter-spacing: 2.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.4s;
+      text-transform: uppercase;
+      cursor: pointer;
+      font-family: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #B89759 0%, #9A7B3F 100%);
+      transform: translateX(-101%);
+      transition: transform 0.4s ease;
+      z-index: -1;
+    }
+    .btn:hover { color: #060E1A; border-color: #B89759; }
+    .btn:hover::before { transform: translateX(0); }
+    .btn-arrow { transition: transform 0.4s; }
+    .btn:hover .btn-arrow { transform: translateX(4px); }
+
+    .hero-scroll-cue {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      font-size: 9px;
+      letter-spacing: 3px;
+      color: rgba(245,240,232,0.5);
+      font-weight: 600;
+      animation: bob 2.4s ease-in-out infinite;
+    }
+    @keyframes bob {
+      0%, 100% { transform: translate(-50%, 0); }
+      50% { transform: translate(-50%, 6px); }
+    }
+    .scroll-line {
+      width: 1px;
+      height: 28px;
+      background: linear-gradient(180deg, transparent, #B89759);
+      margin: 8px auto 0;
+    }
+
+    /* ============ INTRO STATEMENT ============ */
+    .intro {
+      padding: 160px 32px;
+      background: #060E1A;
+      text-align: center;
+      position: relative;
+    }
+    .intro-quote {
+      max-width: 820px;
+      margin: 0 auto;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(28px, 4vw, 44px);
+      font-weight: 300;
+      line-height: 1.3;
+      color: rgba(245,240,232,0.95);
+      letter-spacing: -0.5px;
+    }
+    .intro-quote em { color: #B89759; font-style: italic; }
+    .intro-divider {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(180deg, transparent, #B89759, transparent);
+      margin: 60px auto 0;
+    }
+
+    /* ============ MOMENTS (the 6 categories) ============ */
+    .moments {
+      background: #060E1A;
+      padding: 80px 0 0;
+    }
+    .moments-eyebrow-row {
+      max-width: 1280px;
+      margin: 0 auto 80px;
+      padding: 0 48px;
+      text-align: center;
+    }
+    .moments-eyebrow {
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: #B89759;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .moments-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 300;
+      color: #FFFFFF;
+      line-height: 1.1;
+      letter-spacing: -0.8px;
+      margin-top: 16px;
+      max-width: 720px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .moments-headline em { color: #B89759; font-style: italic; }
+
+    /* Each moment alternates: image left/right */
+    .moment {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 60px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .moment.reverse { direction: rtl; }
+    .moment.reverse > * { direction: ltr; }
+    .moment-img-wrap {
+      position: relative;
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      border-radius: 2px;
+    }
+    .moment-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1);
+      transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
+    }
+    .moment:hover .moment-img { transform: scale(1.04); }
+    .moment-img-wrap::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 60%, rgba(6,14,26,0.4) 100%);
+      pointer-events: none;
+    }
+    .moment-content { padding: 0 20px; }
+    .moment-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 14px;
+      color: #B89759;
+      letter-spacing: 4px;
+      font-weight: 400;
+      margin-bottom: 14px;
+    }
+    .moment-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 3.5vw, 44px);
+      font-weight: 300;
+      color: #FFFFFF;
+      line-height: 1.05;
+      letter-spacing: -0.8px;
+      margin-bottom: 20px;
+    }
+    .moment-title em { color: #B89759; font-style: italic; }
+    .moment-text {
+      font-size: 15px;
+      line-height: 1.8;
+      color: rgba(245,240,232,0.7);
+      font-weight: 400;
+      max-width: 480px;
+    }
+
+    /* ============ FULL-BLEED CTA BREAK ============ */
+    .full-bleed {
+      height: 70vh;
+      min-height: 520px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 80px;
+    }
+    .full-bleed-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1540541338287-41700207dee6?w=2400&q=90');
+      background-size: cover;
+      background-position: center;
+      will-change: transform;
+    }
+    .full-bleed-overlay {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(6,14,26,0.5) 0%, rgba(6,14,26,0.65) 100%);
+    }
+    .full-bleed-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      max-width: 720px;
+      padding: 0 32px;
+    }
+    .full-bleed-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(32px, 4.5vw, 52px);
+      font-weight: 300;
+      color: #FFFFFF;
+      line-height: 1.2;
+      letter-spacing: -0.6px;
+    }
+    .full-bleed-text em { color: #B89759; font-style: italic; }
+
+    /* ============ SERVICES STRIP ============ */
+    .services {
+      background: #060E1A;
+      padding: 140px 48px;
+    }
+    .services-inner { max-width: 1280px; margin: 0 auto; }
+    .services-head {
+      text-align: center;
+      margin-bottom: 80px;
+    }
+    .services-eyebrow {
+      font-size: 11px;
+      letter-spacing: 4px;
+      color: #B89759;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .services-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 5vw, 52px);
+      font-weight: 300;
+      color: #FFFFFF;
+      line-height: 1.1;
+      letter-spacing: -0.8px;
+      margin-top: 16px;
+    }
+    .services-headline em { color: #B89759; font-style: italic; }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(184,151,89,0.18);
+      border: 1px solid rgba(184,151,89,0.18);
+    }
+    .service {
+      padding: 56px 36px;
+      background: #060E1A;
+      transition: background 0.4s;
+    }
+    .service:hover { background: rgba(184,151,89,0.04); }
+    .service-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      letter-spacing: 3px;
+      color: #B89759;
+      font-weight: 400;
+      margin-bottom: 22px;
+    }
+    .service-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px;
+      color: #FFFFFF;
+      font-weight: 300;
+      margin-bottom: 16px;
+      letter-spacing: -0.4px;
+    }
+    .service-text {
+      font-size: 13px;
+      line-height: 1.75;
+      color: rgba(245,240,232,0.65);
+      font-weight: 400;
+    }
+
+    /* ============ FINAL CTA ============ */
+    .final {
+      padding: 180px 32px 140px;
+      text-align: center;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(184,151,89,0.15) 0%, transparent 60%),
+        linear-gradient(180deg, #021833 0%, #060E1A 100%);
+      position: relative;
+    }
+    .final::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 30%; right: 30%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(184,151,89,0.6), transparent);
+    }
+    .final-headline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 6vw, 72px);
+      font-weight: 300;
+      color: #FFFFFF;
+      line-height: 1.05;
+      letter-spacing: -1.2px;
+      margin-bottom: 28px;
+    }
+    .final-headline em { color: #B89759; font-style: italic; }
+    .final-lede {
+      font-size: 16px;
+      line-height: 1.75;
+      color: rgba(245,240,232,0.7);
+      max-width: 540px;
+      margin: 0 auto 44px;
+      font-weight: 400;
+    }
+
+    /* ============ FOOTER ============ */
+    footer {
+      padding: 40px 48px;
+      border-top: 1px solid rgba(184,151,89,0.15);
+      background: #060E1A;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: rgba(245,240,232,0.4);
+      text-transform: uppercase;
+      font-weight: 500;
+    }
+    footer a { color: rgba(245,240,232,0.6); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: #B89759; }
+
+    /* ============ FADE-IN-ON-SCROLL ============ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 1000px) {
+      .nav { padding: 16px 28px; }
+      .nav.scrolled { padding: 12px 28px; }
+      .nav-link:not(.nav-cta) { display: none; }
+      .moment {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 40px 28px;
+      }
+      .moment.reverse { direction: ltr; }
+      .moment-img-wrap { aspect-ratio: 16/10; }
+      .moment-content { padding: 0; }
+      .services-grid { grid-template-columns: 1fr; }
+      .services { padding: 100px 28px; }
+    }
+    @media (max-width: 600px) {
+      .nav { padding: 14px 20px; }
+      .lolo-sub { font-size: 8px; letter-spacing: 2px; }
+      .hero { padding: 0 16px; min-height: 640px; }
+      .hero-content { padding: 0 8px; }
+      .intro { padding: 100px 24px; }
+      .moments-eyebrow-row { padding: 0 24px; margin-bottom: 50px; }
+      .full-bleed { height: 50vh; min-height: 400px; }
+      .final { padding: 120px 24px 100px; }
+      footer {
+        flex-direction: column;
+        text-align: center;
+        padding: 28px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav" id="nav">
+    <a href="/corporate.html" class="nav-brand">
+      <svg class="ll-logo" viewBox="0 0 40 40">
+        <circle class="bg" cx="20" cy="20" r="19" />
+        <circle class="ring" cx="20" cy="20" r="18.5" />
+        <text x="20" y="26" text-anchor="middle">LL</text>
+      </svg>
+      <div>
+        <div class="lolo-mark">Lolo</div>
+        <div class="lolo-sub">FOR BUSINESS</div>
+      </div>
+    </a>
+    <div class="nav-links">
+      <a href="#moments" class="nav-link">Moments</a>
+      <a href="#services" class="nav-link">Services</a>
+      <a href="/" class="nav-link">Travelers</a>
+      <a href="/corporate-signin.html" class="nav-cta">Sign In</a>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="hero-bg" id="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-vignette"></div>
+
+    <div class="hero-content">
+      <div class="hero-eyebrow">A Hospitality Brand for Business</div>
+      <h1 class="hero-headline">Travel that runs <em>without surprises.</em></h1>
+      <p class="hero-lede">Conferences, client dinners, retreats, acquisitions. Every detail handled by a single advisor who knows how you move and what you require.</p>
+      <a href="/corporate-signin.html" class="btn">
+        <span>Request Access</span>
+        <span class="btn-arrow">→</span>
+      </a>
+    </div>
+
+    <div class="hero-scroll-cue">
+      <div>SCROLL</div>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ============ INTRO ============ -->
+  <section class="intro">
+    <div class="reveal">
+      <p class="intro-quote">A trip is <em>never just a trip.</em> It's a board meeting. A relationship. A signing. A retreat that decides the next year. Lolo is the <em>one number</em> you call.</p>
+      <div class="intro-divider"></div>
+    </div>
+  </section>
+
+  <!-- ============ MOMENTS ============ -->
+  <section class="moments" id="moments">
+    <div class="moments-eyebrow-row reveal">
+      <div class="moments-eyebrow">For Every Moment That Matters</div>
+      <h2 class="moments-headline">Six trips your business can't <em>get wrong.</em></h2>
+    </div>
+
+    <!-- 1: CONFERENCES & TRADE SHOWS -->
+    <div class="moment reveal">
+      <div class="moment-img-wrap">
+        <img class="moment-img" src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?w=1600&q=90" alt="Conference badge and leather portfolio on a marble table" loading="lazy" />
+      </div>
+      <div class="moment-content">
+        <div class="moment-num">01</div>
+        <h3 class="moment-title">The <em>conference</em> &amp; trade show.</h3>
+        <p class="moment-text">Your team arrives prepared, rested, and seated where they need to be. Lolo handles the registration window, the booth crew lodging, the keynote travel, and the before-and-after. You walk in. You shake the hands. You leave with the deal.</p>
+      </div>
+    </div>
+
+    <!-- 2: CLIENT MEETING / DINNER -->
+    <div class="moment reverse reveal">
+      <div class="moment-img-wrap">
+        <img class="moment-img" src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=1600&q=90" alt="Candlelit fine dining table set for service" loading="lazy" />
+      </div>
+      <div class="moment-content">
+        <div class="moment-num">02</div>
+        <h3 class="moment-title">The <em>client</em> dinner.</h3>
+        <p class="moment-text">Forty-five minutes before the meeting that matters most, you should be eating, not navigating. We book the table that makes the impression, the car that arrives early, the suite that lets you change in peace. The relationship is yours. The logistics are ours.</p>
+      </div>
+    </div>
+
+    <!-- 3: TEAM RETREAT -->
+    <div class="moment reveal">
+      <div class="moment-img-wrap">
+        <img class="moment-img" src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=1600&q=90" alt="Pool at dusk at a luxury retreat" loading="lazy" />
+      </div>
+      <div class="moment-content">
+        <div class="moment-num">03</div>
+        <h3 class="moment-title">The <em>retreat</em> that resets the year.</h3>
+        <p class="moment-text">Costa Rica, the Cotswolds, Marrakech, Tulum. We have walked through them. We know which villa sleeps eighteen and which sleeps eight beautifully. We coordinate flights from four cities, the chef on Wednesday, the boat on Friday, and the team that comes home different than they left.</p>
+      </div>
+    </div>
+
+    <!-- 4: ACQUISITION -->
+    <div class="moment reverse reveal">
+      <div class="moment-img-wrap">
+        <img class="moment-img" src="https://images.unsplash.com/photo-1554469384-e58fac16e23a?w=1600&q=90" alt="City skyline through floor-to-ceiling windows" loading="lazy" />
+      </div>
+      <div class="moment-content">
+        <div class="moment-num">04</div>
+        <h3 class="moment-title">The <em>acquisition</em>.</h3>
+        <p class="moment-text">High-stakes, low-volume, no margin for error. Last-minute schedule changes. NDAs. Discreet venues. Counsel travelling separately from principals. We have run these. Itineraries are encrypted. Names appear nowhere they shouldn't. The deal closes in the room you booked.</p>
+      </div>
+    </div>
+
+    <!-- 5: BLEISURE -->
+    <div class="moment reveal">
+      <div class="moment-img-wrap">
+        <img class="moment-img" src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=1600&q=90" alt="Quiet hotel terrace at golden hour" loading="lazy" />
+      </div>
+      <div class="moment-content">
+        <div class="moment-num">05</div>
+        <h3 class="moment-title">The <em>two days after</em> you didn't plan to take.</h3>
+        <p class="moment-text">Meetings ended Thursday. The flight isn't until Sunday. We extend the room at the negotiated rate, hold the table at the restaurant the locals booked first, leave the morning open. Your finance team sees a clean line between business and personal. You see a Friday morning that finally feels like yours.</p>
+      </div>
+    </div>
+
+    <!-- 6: BOARD / EXECUTIVE OFFSITE -->
+    <div class="moment reverse reveal">
+      <div class="moment-img-wrap">
+        <img class="moment-img" src="https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=1600&q=90" alt="Empty conference room set for a private executive meeting" loading="lazy" />
+      </div>
+      <div class="moment-content">
+        <div class="moment-num">06</div>
+        <h3 class="moment-title">The <em>executive</em> offsite.</h3>
+        <p class="moment-text">Three days. Six leaders. One agenda. The right property is private, the right service staff are vetted, the right room is set with the materials at exactly the right time. Phones go away. Decisions get made. You leave aligned. We make sure that's what you remember.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FULL-BLEED CTA BREAK ============ -->
+  <section class="full-bleed">
+    <div class="full-bleed-bg" id="bleed-bg"></div>
+    <div class="full-bleed-overlay"></div>
+    <div class="full-bleed-content reveal">
+      <p class="full-bleed-text">When the trip matters more than usual, the <em>details matter more than usual.</em></p>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES ============ -->
+  <section class="services" id="services">
+    <div class="services-inner">
+      <div class="services-head reveal">
+        <div class="services-eyebrow">What's Included</div>
+        <h2 class="services-headline">One advisor. <em>Everything that follows.</em></h2>
+      </div>
+      <div class="services-grid">
+        <div class="service reveal">
+          <div class="service-num">01 — Booking</div>
+          <h3 class="service-title">Air, lodging, ground.</h3>
+          <p class="service-text">Premium cabin, suites with the right view, drivers who know the city. Bookings honor your loyalty programs and your taste.</p>
+        </div>
+        <div class="service reveal">
+          <div class="service-num">02 — The Day Of</div>
+          <h3 class="service-title">Live monitoring.</h3>
+          <p class="service-text">Flights watched, weather forecast, schedules adjusted before disruption reaches you. We move first. You hear from us only when you need to.</p>
+        </div>
+        <div class="service reveal">
+          <div class="service-num">03 — Expense</div>
+          <h3 class="service-title">Receipts, coded.</h3>
+          <p class="service-text">Snap. We code the vendor, project, GL, and routes to your finance team. No spreadsheets, no Sunday-night reconstruction.</p>
+        </div>
+        <div class="service reveal">
+          <div class="service-num">04 — Recovery</div>
+          <h3 class="service-title">Claims, pursued.</h3>
+          <p class="service-text">Lost luggage. Cancelled flights. Hotel charges that shouldn't be there. We file, we follow up, we recover. You see the credit, not the calls.</p>
+        </div>
+        <div class="service reveal">
+          <div class="service-num">05 — Concierge</div>
+          <h3 class="service-title">The 4&nbsp;a.m.&nbsp;line.</h3>
+          <p class="service-text">A reservation that fell through, a passport problem, a driver who didn't show. One message. We are on it. Around the clock, without exception.</p>
+        </div>
+        <div class="service reveal">
+          <div class="service-num">06 — Visibility</div>
+          <h3 class="service-title">Manager dashboard.</h3>
+          <p class="service-text">Your finance and ops teams see every traveler in one view. Live budgets, billable splits, policy compliance. Visibility without surveillance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="final">
+    <div class="reveal">
+      <h2 class="final-headline">A different kind of <em>travel partner.</em></h2>
+      <p class="final-lede">Lolo for Business is by invitation. Request access and a member of our team will be in touch personally to set up your account.</p>
+      <a href="/corporate-signin.html" class="btn">
+        <span>Request Access</span>
+        <span class="btn-arrow">→</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div>© Lolo Travels LLC</div>
+    <div>
+      <a href="/">Lolo for Travelers</a> &nbsp;·&nbsp;
+      <a href="mailto:hello@lolotravels.com">hello@lolotravels.com</a>
+    </div>
+  </footer>
+
+  <script>
+    // ============ NAV STYLE ON SCROLL ============
+    const nav = document.getElementById('nav');
+    let lastScroll = 0;
+    function onScroll() {
+      const y = window.scrollY;
+      nav.classList.toggle('scrolled', y > 60);
+
+      // Hero parallax
+      const heroBg = document.getElementById('hero-bg');
+      if (heroBg && y < window.innerHeight) {
+        heroBg.style.transform = `scale(1.05) translateY(${y * 0.3}px)`;
+      }
+
+      // Full-bleed parallax
+      const bleedBg = document.getElementById('bleed-bg');
+      if (bleedBg) {
+        const rect = bleedBg.parentElement.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          const offset = (rect.top - window.innerHeight) * 0.15;
+          bleedBg.style.transform = `translateY(${offset}px) scale(1.1)`;
+        }
+      }
+      lastScroll = y;
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    // ============ REVEAL ON SCROLL ============
+    const revealEls = document.querySelectorAll('.reveal');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -10% 0px' });
+    revealEls.forEach(el => io.observe(el));
+  </script>
+
+</body>
+</html>
